@@ -1,0 +1,28 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background-c: #D9E2EC;
+  --modal-background-c: #F0F4F8;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    
+  }
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  height:100%;
+  width:100%;
+  background-color: var(--background-c);
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
