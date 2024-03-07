@@ -36,22 +36,22 @@ export default function RegisterPage () {
             </span>
             <div>
             <label htmlFor='username'>Username</label>
-            <input {...register('username')} autoComplete='off' maxLength={20}></input>
+            <input {...register('username')} id='username' autoComplete='off' maxLength={20}></input>
             <p>{errors.username?.message}</p>
             </div>
             <div>
             <label htmlFor='email'>Email</label>
-            <input {...register('email')} autoComplete='off' type='email'></input>
+            <input {...register('email')} id='email' autoComplete='off' type='email'></input>
             <p>{errors.email?.message}</p>
             </div>
             <div>
             <label htmlFor='password'>Password</label>
-            <input {...register('password')} type='password' maxLength={20} autoComplete='off'></input>
+            <input {...register('password')} type='password' maxLength={20} autoComplete='off' id='password'></input>
             <p>{errors.password?.message}</p>
             </div>
             <div>
             <label htmlFor='confirmPassword'>Confirm password</label>
-            <input {...register('confirmPassword')} autoComplete='off' maxLength={20} type='password'></input>
+            <input {...register('confirmPassword')} autoComplete='off' maxLength={20} id='confirmPassword' type='password'></input>
             <p>{errors.confirmPassword?.message}</p>
             </div>
             <div>

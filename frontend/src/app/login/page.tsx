@@ -33,13 +33,13 @@ export default function LoginPage () {
             </span>
             <div>
             <label htmlFor='username'>Username</label>
-            <input {...register('username')} autoComplete='off' maxLength={20}></input>
+            <input {...register('username')} id='username' autoComplete='off' maxLength={20}></input>
             <p>{errors.username?.message}</p>
             </div>
             
             <div>
             <label htmlFor='password'>Password</label>
-            <input {...register('password')} type='password' maxLength={20} autoComplete='off'></input>
+            <input {...register('password')} type='password' maxLength={20} autoComplete='off' id='password'></input>
             <p>{errors.password?.message}</p>
             </div>
             
