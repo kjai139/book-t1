@@ -12,3 +12,17 @@
 
     background-color: var(--modal-background-c);
 }
+
+.container > li {
+    width: 100%;
+}
+
+
+.button {
+    width: 100%;
+    text-align: left;
+}
+
+.button:hover {
+ background-color: blue;
+}

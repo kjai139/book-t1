@@ -1,0 +1,39 @@
+
+
+.form {
+    background-color: var(--modal-background-c);
+    color: var(--modal-txt-c);
+    width: 90%;
+    max-width: 400px;
+}
+
+.form > div {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+
+.form > div > p {
+    font-size: var(--txt-xs);
+    color: var(--txt-red);
+    left: 0;
+    top: 100%;
+    min-height: 18px;
+}
+
+
+.form > div > input:focus {
+    outline: none;
+
+}
+
+.submitBtn {
+   
+   background-color: var(--modal-btn-bg);
+   color: var(--btn-txt-light);
+}
+
+.link {
+    color: var(--txt-link);
+}

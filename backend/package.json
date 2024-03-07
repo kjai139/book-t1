@@ -4,13 +4,23 @@
   "description": "book-t1 backend",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node api/server.js",
+    "serverstart": "DEBUG=book-test:* nodemon api/server.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
+    "debug": "^4.3.4",
+    "dotenv": "^16.4.5",
     "express": "^4.18.3",
+    "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.2.1",
-    "nodemon": "^3.1.0"
+    "nodemon": "^3.1.0",
+    "passport": "^0.7.0",
+    "passport-jwt": "^4.0.1",
+    "passport-local": "^1.0.0"
   }
 }

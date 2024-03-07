@@ -4,6 +4,7 @@ import './_styles/globals.css'
 
 const inter = Inter({ subsets: ["latin"] });
 
+
 export const metadata: Metadata = {
   title: "Goated M",
   description: "Archive of fun",
