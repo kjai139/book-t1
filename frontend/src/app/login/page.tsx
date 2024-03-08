@@ -4,6 +4,7 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { useForm } from 'react-hook-form'
 import { useRouter } from 'next/navigation'
 import styles from '../_styles/register.module.css'
+import apiUrl from '../_utils/apiEndpoint'
 
 const schema = yup.object({
     username: yup.string().required('A username is required'),
@@ -22,7 +23,34 @@ export default function LoginPage () {
         resolver: yupResolver(schema)
     })
 
-    const onSubmit = (data) => console.log(data)
+    const onSubmit = async (data) => {
+        try {
+            const response = await fetch(apiUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    username: data.username,
+                    password: data.password,
+                    confirmPassword: data.confirmPassword
+
+                }),
+                cache: 'no-store'
+            })
+
+            if (response.ok) {
+                const responseData = await response.json()
+                console.log(responseData)
+            } else {
+                console.error('Error message:', response.statusText)
+                console.error('Error status:', response.status )
+            }
+
+        } catch (err) {
+            console.error(err)
+        }
+    }
 
 
     return (
