@@ -4,6 +4,9 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { useForm } from 'react-hook-form'
 import styles from '../_styles/register.module.css'
 import { useRouter } from 'next/navigation'
+import apiUrl from '../_utils/apiEndpoint'
+import { useEffect, useState } from 'react'
+import ResultModal from '../_components/modals/resultModal'
 
 const schema = yup.object({
     username: yup.string().required('A username is required'),
@@ -16,52 +19,105 @@ const schema = yup.object({
 export default function RegisterPage () {
 
     const router = useRouter()
+    const [isLoading, setIsLoading] = useState(false)
+    const [resultMsg, setResultMsg] = useState('')
+    const [modalTitle, setModalTitle] = useState('')
 
     const {
         register,
         handleSubmit,
-        formState: { errors },
+        reset,
+        formState,
+        formState: { errors, isSubmitSuccessful },
     } = useForm({
         resolver: yupResolver(schema)
     })
 
-    const onSubmit = (data) => console.log(data)
+    const onSubmit = async (data) => {
+        try {
+            const response = await fetch(`${apiUrl}/api/user/create`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    username: data.username,
+                    password: data.password,
+                    email: data.email,
+                    confirmPassword: data.confirmPassword
+
+                }),
+                cache: 'no-store'
+            })
+
+            if (response.ok) {
+                const responseData = await response.json()
+                setModalTitle('Account Created')
+                setResultMsg('Registration successful.')
+                console.log(responseData)
+            } else {
+                console.error('Error message:', response.statusText)
+                console.error('Error status:', response.status )
+                const responseData = await response.json()
+                setModalTitle('Error')
+                setResultMsg('An error has occured.')
+                console.log('response data:', responseData)
+            }
+
+        } catch (err) {
+            console.error(err)
+            setModalTitle('Error')
+            setResultMsg('An error has occured.')
+        }
+    }
+
+    useEffect(() => {
+        if (formState.isSubmitSuccessful) {
+            reset({
+                username:'',
+                email: '',
+                password: '',
+                confirmPassword: ''
+            })
+        }
+    }, [formState, reset])
 
 
     return (
         <div className='h-screen items-center justify-center flex'>
-        <form onSubmit={handleSubmit(onSubmit)} className={`flex flex-col p-2 gap-1 rounded shadow ${styles.form}`}>
+        <form onSubmit={handleSubmit(onSubmit)} className={`flex flex-col p-2 gap-1 rounded shadow border-divider border-2 ${styles.form}`}>
             <span className='text-center text-lg font-bold'>
                 Sign up
             </span>
             <div>
             <label htmlFor='username'>Username</label>
             <input {...register('username')} id='username' autoComplete='off' maxLength={20}></input>
-            <p>{errors.username?.message}</p>
+            <p className='text-warning'>{errors.username?.message}</p>
             </div>
             <div>
             <label htmlFor='email'>Email</label>
             <input {...register('email')} id='email' autoComplete='off' type='email'></input>
-            <p>{errors.email?.message}</p>
+            <p className='text-warning'>{errors.email?.message}</p>
             </div>
             <div>
             <label htmlFor='password'>Password</label>
             <input {...register('password')} type='password' maxLength={20} autoComplete='off' id='password'></input>
-            <p>{errors.password?.message}</p>
+            <p className='text-warning'>{errors.password?.message}</p>
             </div>
             <div>
             <label htmlFor='confirmPassword'>Confirm password</label>
             <input {...register('confirmPassword')} autoComplete='off' maxLength={20} id='confirmPassword' type='password'></input>
-            <p>{errors.confirmPassword?.message}</p>
+            <p className='text-warning'>{errors.confirmPassword?.message}</p>
             </div>
             <div>
-            <button type='submit' className={`${styles.submitBtn}`}>SIGN UP</button>
+            <button type='submit' className={`${styles.submitBtn} bg-primary rounded`}>SIGN UP</button>
             </div>
             <span>
-            <button onClick={() => router.push('/login')} className={`${styles.link} text-sm`}>Already registered?</button>
+            <button onClick={(e) => {e.preventDefault(); router.push('/login')}} className={`${styles.link} text-sm`}>Already registered?</button>
             </span>
             {/* For some reason, using link gets spam warnings for preload bs */}
         </form>
+        {resultMsg && <ResultModal isOpen={true} message={resultMsg} title={modalTitle} redirectUrl='/login' actionName='Log in' handleClose={() => setResultMsg('')} ></ResultModal>}
         </div>
     )
 }

@@ -10,7 +10,7 @@
     align-items: center;
     z-index: 10;
 
-    background-color: var(--modal-background-c);
+    /* background-color: var(--modal-background-c); */
 }
 
 .container > li {

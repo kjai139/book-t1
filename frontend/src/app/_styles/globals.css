@@ -30,7 +30,7 @@ body {
   flex-direction: column;
   height:100%;
   width:100%;
-  background-color: var(--background-c);
+  /* background-color: var(--background-c); */
 }
 
 @layer utilities {

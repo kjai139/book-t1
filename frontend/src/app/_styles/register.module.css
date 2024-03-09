@@ -1,8 +1,6 @@
 
 
 .form {
-    background-color: var(--modal-background-c);
-    color: var(--modal-txt-c);
     width: 90%;
     max-width: 400px;
 }
@@ -16,9 +14,6 @@
 
 .form > div > p {
     font-size: var(--txt-xs);
-    color: var(--txt-red);
-    left: 0;
-    top: 100%;
     min-height: 18px;
 }
 
@@ -28,11 +23,6 @@
 
 }
 
-.submitBtn {
-   
-   background-color: var(--modal-btn-bg);
-   color: var(--btn-txt-light);
-}
 
 .link {
     color: var(--txt-link);

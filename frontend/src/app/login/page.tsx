@@ -5,6 +5,7 @@ import { useForm } from 'react-hook-form'
 import { useRouter } from 'next/navigation'
 import styles from '../_styles/register.module.css'
 import apiUrl from '../_utils/apiEndpoint'
+import { useState } from 'react'
 
 const schema = yup.object({
     username: yup.string().required('A username is required'),
@@ -15,6 +16,10 @@ const schema = yup.object({
 
 
 export default function LoginPage () {
+
+    const router = useRouter()
+    const [resultMSg, setResultMsg] = useState('')
+    
     const {
         register,
         handleSubmit,
@@ -25,7 +30,7 @@ export default function LoginPage () {
 
     const onSubmit = async (data) => {
         try {
-            const response = await fetch(apiUrl, {
+            const response = await fetch(`${apiUrl}/api/user/login`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -33,7 +38,6 @@ export default function LoginPage () {
                 body: JSON.stringify({
                     username: data.username,
                     password: data.password,
-                    confirmPassword: data.confirmPassword
 
                 }),
                 cache: 'no-store'
@@ -42,6 +46,7 @@ export default function LoginPage () {
             if (response.ok) {
                 const responseData = await response.json()
                 console.log(responseData)
+                
             } else {
                 console.error('Error message:', response.statusText)
                 console.error('Error status:', response.status )
@@ -55,7 +60,7 @@ export default function LoginPage () {
 
     return (
         <div className='h-screen items-center justify-center flex'>
-        <form onSubmit={handleSubmit(onSubmit)} className={`flex flex-col p-2 gap-1 rounded shadow ${styles.form}`}>
+        <form onSubmit={handleSubmit(onSubmit)} className={`flex flex-col p-2 gap-1 rounded shadow border-divider border-2 ${styles.form}`}>
             <span className='text-center text-lg font-bold'>
                 SIGN IN
             </span>
@@ -72,7 +77,7 @@ export default function LoginPage () {
             </div>
             
             <div>
-            <button type='submit' className={`${styles.submitBtn}`}>LOG IN</button>
+            <button type='submit' className={`${styles.submitBtn} p-1 bg-primary rounded`}>LOG IN</button>
             </div>
            
         </form>
