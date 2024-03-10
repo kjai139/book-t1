@@ -101,24 +101,26 @@ exports.user_login_post = [
                 res.status(400).json({
                     message: 'Incorrect credentials'
                 })
+            } else {
+                const pwMatch = await bcrypt.compare(password, theUser.password)
+                if (pwMatch) {
+                    const token = jwt.sign({
+                        _id: theUser._id
+                    }, process.env.JWT_SECRET, {
+                        expiresIn: '1h'
+                    })
+    
+                    res.cookie('jwt', token, {
+                        httpOnly: true,
+                        secure: process.env.NODE_ENV === 'production'
+                    })
+    
+                    res.json({
+                        message: 'Login successful.'
+                    })
+                }
             }
-            const pwMatch = await bcrypt.compare(password, theUser.password)
-            if (pwMatch) {
-                const token = jwt.sign({
-                    _id: theUser._id
-                }, process.env.JWT_SECRET, {
-                    expiresIn: '1h'
-                })
-
-                res.cookie('jwt', token, {
-                    httpOnly: true,
-                    secure: process.env.NODE_ENV === 'production'
-                })
-
-                res.json({
-                    message: 'Login successful.'
-                })
-            }
+           
         }
     
 }]

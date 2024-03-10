@@ -6,8 +6,8 @@ interface resultModalProps {
     isOpen: boolean,
     message: string,
     title: string,
-    redirectUrl: string,
-    actionName: string,
+    redirectUrl?: string,
+    actionName?: string,
     handleClose: () => void
 }
 
@@ -27,9 +27,10 @@ export default function ResultModal({isOpen, message, title, handleClose, action
                 <Button color="danger" variant="light" onPress={handleClose}>
                   Close
                 </Button>
-                <Button color="primary" onPress={() => router.push(redirectUrl)}>
+                { actionName && redirectUrl &&
+                  <Button color="primary" onPress={() => router.push(redirectUrl)}>
                   {actionName}
-                </Button>
+                </Button>}
               </ModalFooter>
           
         </ModalContent>

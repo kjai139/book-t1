@@ -12,6 +12,10 @@ export default function MainHeaderNav () {
             name:"Sign up",
             url: '/register'
         },
+        {
+          name: 'Log in',
+          url: '/login'
+        }
       ];
     
       return (
