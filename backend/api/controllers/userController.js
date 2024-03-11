@@ -105,7 +105,8 @@ exports.user_login_post = [
                 const pwMatch = await bcrypt.compare(password, theUser.password)
                 if (pwMatch) {
                     const token = jwt.sign({
-                        _id: theUser._id
+                        _id: theUser._id,
+                        name: theUser.name
                     }, process.env.JWT_SECRET, {
                         expiresIn: '1h'
                     })
@@ -124,3 +125,16 @@ exports.user_login_post = [
         }
     
 }]
+
+exports.user_logout_post = (req, res) => {
+    try {
+        res.cookie('jwt', '', {
+        httpOnly: true,
+        expires: new Date(0)
+    }).send()
+    } catch(err) {
+        res.status(500).json({
+            message: err
+        })
+    }
+}

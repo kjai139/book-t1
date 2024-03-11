@@ -32,7 +32,7 @@ const config: Config = {
             DEFAULT: '#54D1D8'
           },
           warning: {
-            DEFAULT: 'DE911D'
+            DEFAULT: '#DE911D'
           },
           danger: {
             DEFAULT: '#E66A6A'
@@ -42,7 +42,7 @@ const config: Config = {
           },
           primary: {
             50: "#DCEEFB",
-            100: "#B6EOFE",
+            100: "#B6E0FE",
             200: "#84C5F4",
             300: "#62B0E8",
             400: "#4098D7",

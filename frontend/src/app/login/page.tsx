@@ -52,6 +52,7 @@ export default function LoginPage () {
                 setIsLoading(false)
                 const responseData = await response.json()
                 console.log(responseData)
+                router.back()
                 
             } else {
                 setIsLoading(false)

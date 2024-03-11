@@ -1,22 +1,64 @@
 'use client'
 
-import { useState } from "react"
-import {Navbar, NavbarBrand, NavbarContent, NavbarItem, NavbarMenuToggle, NavbarMenu, NavbarMenuItem, Link, Button} from "@nextui-org/react";
+import { useEffect, useState } from "react"
+import {Navbar, NavbarBrand, NavbarContent, NavbarItem, NavbarMenuToggle, NavbarMenu, NavbarMenuItem, Link, Button, Divider} from "@nextui-org/react";
+import { useAuth } from "../_contexts/authContext";
+
+interface MenuItems {
+  name: string,
+  url?: string,
+  type: string,
+  func?: () => Promise<void>
+}
 
 export default function MainHeaderNav () {
 
     const [isMenuOpen, setIsMenuOpen] = useState(false)
+    const [menuItems, setMenuItems] = useState<MenuItems[]>([])
+    const { user, authCheck, logUserOut } = useAuth()
 
-    const menuItems = [
-        {
-            name:"Sign up",
-            url: '/register'
-        },
-        {
-          name: 'Log in',
-          url: '/login'
+    const loggedInMenu = [
+      {
+        name: 'Dashboard',
+        type: 'link',
+        url: '/dashboard'
+      },
+      {
+        name: 'Sign Out',
+        type: 'button',
+        func: logUserOut
+
+      }
+    ]
+
+    const publicMenu = [
+      {
+        name: 'Create Account',
+        type: 'link',
+        url: '/register'
+      },
+      {
+        name: 'Log In',
+        type: 'link',
+        url: '/login'
+      }
+    ]
+
+    
+
+      useEffect(() => {
+        authCheck()
+      }, [])
+
+      useEffect(() => {
+        if (user) {
+          setMenuItems(loggedInMenu)
+
+        } else {
+          setMenuItems(publicMenu)
         }
-      ];
+        
+      }, [user])
     
       return (
         <Navbar disableAnimation={true} isBordered onMenuOpenChange={setIsMenuOpen} isMenuOpen={isMenuOpen}>
@@ -65,9 +107,12 @@ export default function MainHeaderNav () {
           </NavbarContent>
     
           <NavbarMenu>
-            {menuItems.map((item, index) => (
+            {menuItems.map((item, index) => {
+             
+              
+              return (
               <NavbarMenuItem key={`${item}-${index}`}>
-                <Link
+                {item.type === 'link' ? <Link
                   className="w-full"
                   color={
                     index === 2 ? "warning" : index === menuItems.length - 1 ? "danger" : "foreground"
@@ -76,9 +121,17 @@ export default function MainHeaderNav () {
                   size="lg"
                 >
                   {item.name}
-                </Link>
+                </Link> :
+                <>
+                <Divider className="my-4" />
+                <Button className="w-full" size="md" color={`${item.name === 'Sign Out' ? 'danger' : 'primary'}`} onPress={item?.func}>
+                {item.name}
+                </Button>
+                </>
+                
+                }
               </NavbarMenuItem>
-            ))}
+            )})}
           </NavbarMenu>
         </Navbar>
       );

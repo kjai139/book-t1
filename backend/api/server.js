@@ -7,6 +7,7 @@ const cors = require('cors')
 const mongoose = require('mongoose')
 const apiRouter = require('./routes/api')
 const allowedOrigins = ['http://localhost:3000']
+const cookieParser = require('cookie-parser')
 
 
 const main = async () => {
@@ -25,6 +26,7 @@ app.use(cors({
     origin: allowedOrigins,
     credentials: true
 }))
+app.use(cookieParser())
 app.use(express.json())
 app.use('/api', apiRouter)
 
