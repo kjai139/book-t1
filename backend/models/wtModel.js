@@ -23,8 +23,41 @@ const WTSchema = new Schema({
     about: {
         type:String,
         required: true
-    }
+    },
+    author: {
+        type: [String],
+
+    },
+    artist: {
+        type:[String]
+    },
+    altName: {
+        type: String,
+    },
+    status: {
+        type:String,
+        enum: ['Ongoing', 'Finished', 'Hiatus']
+    },
+    releasedYear: {
+        type:String,
+
+    },
+    serialization: {
+        type:String
+    },
+    updatedOn: {
+        type:Date,
+
+    },
     
 })
+
+/* WTSchema.pre('save', function(next) {
+    if (this.isModified('chapters')) {
+        this.updatedOn = new Date()
+    }
+
+    next()
+}) */
 
 module.exports = mongoose.model('WT', WTSchema)

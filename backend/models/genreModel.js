@@ -4,8 +4,14 @@ const Schema = mongoose.Schema
 const GenreSchema = new Schema({
     name: {
         type:String,
-        required: true
+        required: true,
+        
     },
+    lcname: {
+        type:String,
+        required: true,
+        unique: true
+    }
 
 })
 
