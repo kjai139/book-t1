@@ -1,3 +1,5 @@
+import Image from "next/image"
+import { useCallback } from "react"
 import { useDropzone } from "react-dropzone"
 
 interface ImageUploaderProps {
@@ -7,23 +9,48 @@ interface ImageUploaderProps {
 
 
 export default function ImageUploader ({setImageArr}: ImageUploaderProps) {
+
+    const onDrop = useCallback((acceptedFiles:File[]) => {
+        setImageArr(acceptedFiles)
+    }, [])
     const {
         acceptedFiles,
         fileRejections,
         getRootProps,
         getInputProps
     } = useDropzone({
+        onDrop,
         accept: {
             'image/jpeg': [],
             'image/png': []
-        }
+        },
+        
     })
 
-    const acceptedFileItems = acceptedFiles.map(file => (
+    
+
+    const acceptedFileItems = acceptedFiles.map((file) => {
+        let imgURL = URL.createObjectURL(file)     
+    return (
         <li key={file.path}>
-          {file.path} - {file.size} bytes
+          <p>{file.path} - {file.size} bytes</p>
         </li>
-    ));
+    )
+    })
+
+    const acceptedFilesPreview = acceptedFiles.map((file) => {
+        let imgURL = URL.createObjectURL(file)     
+    return (
+        <li key={file.path}>
+          <div className="flex flex-col">
+          <Image src={imgURL} alt="preview" sizes="100vw" width={720} height={4000} style={{
+            width:'100%',
+            height:'auto'
+          }}></Image>
+          </div>
+        </li>
+    )
+    })
     
     const fileRejectionItems = fileRejections.map(({ file, errors }) => (
     <li key={file.path}>
@@ -41,7 +68,7 @@ export default function ImageUploader ({setImageArr}: ImageUploaderProps) {
         <section className="container">
         <div {...getRootProps({ className: 'dropzone' })}>
           <input {...getInputProps()} />
-          <p>Drag 'n' drop some files here, or click to select files</p>
+          <p>Drag 'n' drop images here, or click to select some</p>
           <em>(Only jpeg and png)</em>
         </div>
         <aside>
@@ -49,6 +76,7 @@ export default function ImageUploader ({setImageArr}: ImageUploaderProps) {
           <ul>{acceptedFileItems}</ul>
           <h4>Rejected files</h4>
           <ul>{fileRejectionItems}</ul>
+          <ul>{acceptedFilesPreview}</ul>
         </aside>
       </section>
     )

@@ -25,11 +25,11 @@ const WTSchema = new Schema({
         required: true
     },
     author: {
-        type: [String],
+        type: String,
 
     },
     artist: {
-        type:[String]
+        type:String
     },
     altName: {
         type: String,

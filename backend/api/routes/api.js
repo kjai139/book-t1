@@ -5,6 +5,27 @@ const { auth_check_get } = require('../controllers/authController')
 const { genres_get } = require('../controllers/genreController')
 const { wt_get_all } = require('../controllers/wtController')
 const router = express.Router()
+const multer = require('multer')
+const multerS3 = require('multer-s3')
+const s3 = require('../../s3Client')
+require('dotenv').config()
+
+const upload = multer({
+    storage: multerS3({
+        s3: s3,
+        bucket: process.env.S3_BUCKET,
+        metadata: function(req, file, cb) {
+            cb(null, {
+                fieldName: file.fieldname
+            })
+        },
+        key: function(req, file, cb) {
+            cb(null, `img/pub/${Date.now().toString()}${file.originalname}`)
+        },
+        contentType: multerS3.AUTO_CONTENT_TYPE
+
+    })
+})
 
 
 router.post('/user/create', user_createUser_post)
