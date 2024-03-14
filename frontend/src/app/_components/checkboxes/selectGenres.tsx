@@ -9,8 +9,6 @@ export default function SelectGenres ({value, setValue}) {
 
     const [defaultItems, setDefaultItems] = useState()
 
-    const [select, setSelected] = useState([])
-    
 
     const getGenres = async () => {
         try {

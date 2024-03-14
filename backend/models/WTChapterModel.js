@@ -8,7 +8,7 @@ const WTChapterSchema = new Schema({
         required: true,
         
     },
-    parentRef: {
+    wtRef: {
         type:Schema.Types.ObjectId,
         ref: 'WT'
     },
@@ -18,7 +18,8 @@ const WTChapterSchema = new Schema({
     },
     chapterNumber: {
         type:Number,
-        required: true
+        required: true,
+        unique: true
     },
     images: {
         type: [String],

@@ -41,7 +41,7 @@ export default function SelectWtcTitle ({value, setValue}) {
              { defaultItems &&
              <>
              <Autocomplete
-            label="WT's title"
+            label="parentRef"
             variant="bordered"
             defaultItems={defaultItems}
             placeholder="Search a title"

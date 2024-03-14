@@ -12,6 +12,7 @@ export default function ImageUploader ({setImageArr}: ImageUploaderProps) {
 
     const onDrop = useCallback((acceptedFiles:File[]) => {
         setImageArr(acceptedFiles)
+        console.log(acceptedFiles)
     }, [])
     const {
         acceptedFiles,
@@ -39,13 +40,21 @@ export default function ImageUploader ({setImageArr}: ImageUploaderProps) {
     })
 
     const acceptedFilesPreview = acceptedFiles.map((file) => {
-        let imgURL = URL.createObjectURL(file)     
+        let imgURL = URL.createObjectURL(file)   
+        
+        let naturalWidth
+        let img = new window.Image()
+        img.src = imgURL;
+        
+      
+        
+       
     return (
         <li key={file.path}>
           <div className="flex flex-col">
-          <Image src={imgURL} alt="preview" sizes="100vw" width={720} height={4000} style={{
+          <Image src={imgURL} alt="preview" width={720} sizes="100vw" height={4000} style={{
             width:'100%',
-            height:'auto'
+            height:'auto',
           }}></Image>
           </div>
         </li>
