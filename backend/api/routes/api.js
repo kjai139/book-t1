@@ -16,11 +16,13 @@ const upload = multer({
         bucket: process.env.S3_BUCKET,
         metadata: function(req, file, cb) {
             cb(null, {
-                fieldName: file.fieldname
+                fieldName: file.fieldname,
+
             })
         },
         key: function(req, file, cb) {
-            cb(null, `img/pub/${Date.now().toString()}-${file.originalname}`)
+            
+            cb(null, `img/pub/${req.headers['directory-name']}/${Date.now().toString()}-${file.originalname}`)
         },
         contentType: multerS3.AUTO_CONTENT_TYPE
 

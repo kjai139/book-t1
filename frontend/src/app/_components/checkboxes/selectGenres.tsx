@@ -49,6 +49,7 @@ export default function SelectGenres ({value, setValue}) {
              color="primary"
              value={value}
              onValueChange={setValue}
+             orientation="horizontal"
              >
                 {defaultItems.map((node, idx) => {
                 return (

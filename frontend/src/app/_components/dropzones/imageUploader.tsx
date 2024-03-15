@@ -3,16 +3,36 @@ import { useCallback } from "react"
 import { useDropzone } from "react-dropzone"
 
 interface ImageUploaderProps {
-    setImageArr: React.Dispatch<React.SetStateAction<File[]>>
+    setImageArr: any,
+    imageArr: any
 }
 
 
 
-export default function ImageUploader ({setImageArr}: ImageUploaderProps) {
+export default function ImageUploader ({setImageArr, imageArr}: ImageUploaderProps) {
 
     const onDrop = useCallback((acceptedFiles:File[]) => {
-        setImageArr(acceptedFiles)
+        setImageArr([])
+        acceptedFiles.forEach((file) => {
+            const reader = new FileReader()
+            reader.onload = () => {
+                const img = new window.Image()
+                img.onload = () => {
+                    setImageArr((prev) => [
+                        ...prev, 
+                        { file, width:img.naturalWidth, height: img.naturalHeight }
+                    ])
+
+                }
+                img.src = reader.result as string
+            }
+            reader.onerror = (error) => {
+                console.error('error in filereader', error)
+            }
+            reader.readAsDataURL(file)
+        })
         console.log(acceptedFiles)
+        
     }, [])
     const {
         acceptedFiles,
@@ -30,36 +50,9 @@ export default function ImageUploader ({setImageArr}: ImageUploaderProps) {
 
     
 
-    const acceptedFileItems = acceptedFiles.map((file) => {
-        let imgURL = URL.createObjectURL(file)     
-    return (
-        <li key={file.path}>
-          <p>{file.path} - {file.size} bytes</p>
-        </li>
-    )
-    })
+    
 
-    const acceptedFilesPreview = acceptedFiles.map((file) => {
-        let imgURL = URL.createObjectURL(file)   
-        
-        let naturalWidth
-        let img = new window.Image()
-        img.src = imgURL;
-        
-      
-        
-       
-    return (
-        <li key={file.path}>
-          <div className="flex flex-col">
-          <Image src={imgURL} alt="preview" width={720} sizes="100vw" height={4000} style={{
-            width:'100%',
-            height:'auto',
-          }}></Image>
-          </div>
-        </li>
-    )
-    })
+    
     
     const fileRejectionItems = fileRejections.map(({ file, errors }) => (
     <li key={file.path}>
@@ -82,10 +75,39 @@ export default function ImageUploader ({setImageArr}: ImageUploaderProps) {
         </div>
         <aside>
           <h4>Accepted files</h4>
-          <ul>{acceptedFileItems}</ul>
+          <ul>{imageArr &&
+
+            imageArr.map((file) => {    
+            return (
+                <li key={file.file.path}>
+                <p>{file.file.path} - {file.file.size} bytes</p>
+                </li>
+            )
+            })
+          }</ul>
           <h4>Rejected files</h4>
           <ul>{fileRejectionItems}</ul>
-          <ul>{acceptedFilesPreview}</ul>
+          <ul>{imageArr && imageArr.length > 0 &&
+            imageArr.map((file) => {
+                let imgURL = URL.createObjectURL(file.file)   
+                
+                
+              
+                
+               
+            return (
+                <li key={file.file.path}>
+                  <div className="flex flex-col">
+                  <Image src={imgURL} alt="preview" width={file.width} sizes="100vw" height={file.height} style={{
+                    width:'100%',
+                    height:'auto',
+                  }}></Image>
+                  </div>
+                </li>
+            )
+            })
+
+          }</ul>
         </aside>
       </section>
     )

@@ -21,10 +21,6 @@ const WTChapterSchema = new Schema({
         required: true,
         unique: true
     },
-    images: {
-        type: [String],
-        required: true
-    },
     releasedAt: {
         type:Date,
         default:Date.now
