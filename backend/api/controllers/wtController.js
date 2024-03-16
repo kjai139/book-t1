@@ -3,7 +3,7 @@ const Wtc = require('../../models/WTChapterModel')
 require('dotenv').config()
 const debug = require('debug')('book-test:wtController')
 const WtPage = require('../../models/WtPageModel')
-const sharp = require('sharp')
+
 
 exports.wt_get_all = async (req, res) => {
     try {
@@ -116,12 +116,25 @@ exports.wtc_create = async (req, res) => {
 exports.wt_updates_get = async (req, res) => {
     const sevendaysAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000)
 
+    const page = Number(req.query.page)
+    const limit = 50
+
     try {
         const updates = await Wt.aggregate([
             {
                 $match: {
                     updatedOn: { $gte: sevendaysAgo }
                 }
+            },
+            {
+                $sort: { updatedOn: -1}
+            },
+            {
+                $skip: (page - 1) * limit
+
+            },
+            {
+                $limit: limit
             },
             {
                 $lookup: {
@@ -152,11 +165,29 @@ exports.wt_updates_get = async (req, res) => {
                     book: 1,
                     chapters: { $slice: ['$chapters', 2]}
                 }
+            },
+            {
+                $unset: "book.chapters"
+            },
+            {
+                $sort: {
+                    "book.updatedOn": -1
+                }
             }
         ])
 
+        debug('HOME RESULTS:', updates)
+        debug('CHAPTERS:', updates.chapters )
+
+        const totalCount = await Wt.countDocuments({
+            updatedOn: { $gte: sevendaysAgo }
+        })
+
+        const totalPages = Math.ceil(totalCount / limit)
+
         res.json({
-            updates: updates
+            updates: updates,
+            totalPages: totalPages
         })
 
     } catch (err) {

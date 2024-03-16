@@ -19,7 +19,6 @@ const WTChapterSchema = new Schema({
     chapterNumber: {
         type:Number,
         required: true,
-        unique: true
     },
     releasedAt: {
         type:Date,
