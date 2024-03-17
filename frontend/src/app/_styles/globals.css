@@ -62,7 +62,22 @@ main {
 
 .cg {
   display:grid;
-  grid-template-rows: 3fr 1fr;
+  grid-template-rows: auto 1fr auto;
+}
+
+.card-txt {
+  font-size: .95em;
+  margin: 8px 0;
+  margin-bottom: 5px;
+  font-weight: 500;
+  text-align: left;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.ch-btns {
+  display: flex;
+  flex-direction: column;
 }
 
 @layer utilities {

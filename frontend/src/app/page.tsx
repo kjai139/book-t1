@@ -1,4 +1,4 @@
-import { Card, CardBody, CardFooter, CardHeader, Divider, Image } from "@nextui-org/react"
+import { Button, Card, CardBody, CardFooter, CardHeader, Divider, Image } from "@nextui-org/react"
 import MainHeaderNav from "./_components/mainHeaderNav"
 import NextImage from "next/image"
 import apiUrl from "./_utils/apiEndpoint"
@@ -65,17 +65,28 @@ export default async function Home() {
           <div key={node.book._id} className="cg">
            
               
-            
+            <div>
               <Image radius="lg" alt={`Cover image of ${node.book.name}`} src={node.book.image} isZoomed>
 
               </Image>
+            </div>
             
               
 
-        
-            <span>
-              <h4>{node.book.name}</h4>
-              </span>
+            <span className="card-txt">
+            <h4>{node.book.name}</h4>
+            </span>
+              
+              <div className="ch-btns gap-1">
+              {node.chapters.map((node) => {
+                return (
+                  <Button key={node._id} color="primary" radius="full" size="sm">
+                    <span>{`Chapter ${node.chapterNumber}`}</span>
+                  </Button>
+                )
+              })}
+              </div>
+              
           </div>
         )
       })}

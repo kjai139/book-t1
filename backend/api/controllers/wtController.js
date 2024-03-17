@@ -24,7 +24,7 @@ exports.wt_get_all = async (req, res) => {
 exports.wt_create = async (req, res) => {
     try {
         console.log(req.file)
-        const { name, genres, about, author, status, altName, releasedYr, artist} = req.body
+        const { name, genres, about, author, status, altName, releasedYr, artist, tlGroup} = req.body
         const bucketName = process.env.S3_BUCKET
         const s3Url = `https://${bucketName}.s3.us-east-2.amazonaws.com/${req.file.key}`
         const genresJSON = JSON.parse(genres)
@@ -42,7 +42,8 @@ exports.wt_create = async (req, res) => {
             altName: altName,
             releasedYear: releasedYr,
             artist: artist,
-            image: s3Url
+            image: s3Url,
+            tlGroup: tlGroup
 
 
 
@@ -75,16 +76,20 @@ exports.wtc_create = async (req, res) => {
             chapterNumber: Number(chapterNumber),
             wtRef: parentRef
         })
-        
+
         await newChapter.save()
-        for (const file of req.files) {
-            let idx = file.originalname.split('.')[0]
-            let pageNum = Number(file.originalname.split('.')[0])
+        
+        
+        for (let i = 0; i < req.files.length; i++) {
+            /* let idx = file[i].originalname.split('.')[0] */
+            /* let pageNum = Number(file.originalname.split('.')[0]) */
+            let idx = i
+            let pageNum = i + 1
             let height = Number(req.body[`heights-${idx}`])
             let width = Number(req.body[`widths-${idx}`])
             let newPage = new WtPage({
                 pageNum: pageNum,
-                url: file.location,
+                url: req.files[i].location,
                 chapterRef: newChapter._id,
                 imgHeight: height,
                 imgWidth: width
@@ -93,6 +98,7 @@ exports.wtc_create = async (req, res) => {
 
             await newPage.save()
         }
+        
 
         const updatedParentWT = await Wt.findByIdAndUpdate(parentRef, {
             updatedOn: Date.now()

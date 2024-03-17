@@ -23,6 +23,7 @@ export default function UploadTabs () {
     const [artist, setArtist] = useState('')
     const [wtStatus, setWtStatus] = useState('')
     const [wtCover, setWtCover] = useState<File[]>([])
+    const [tlGroup, setTlGroup] = useState('')
 
 
     //wtc states
@@ -41,6 +42,7 @@ export default function UploadTabs () {
         setArtist('')
         setWtStatus('')
         setWtCover([])
+        setTlGroup('')
         
     }
 
@@ -61,6 +63,7 @@ export default function UploadTabs () {
             formData.append('altName', altName)
             formData.append('releasedYr', releasedYr)
             formData.append('artist', artist)
+            formData.append('tlGroup', tlGroup)
             
             const response = await fetch(`${apiUrl}/api/wt/create`, {
                 method: 'POST',
@@ -86,8 +89,8 @@ export default function UploadTabs () {
     const uploadWtc = async () => {
         try {
             const formData = new FormData()
-            wtcImages.forEach((file) => {
-                const idx = file.file.name.split('.')[0].toString()
+            wtcImages.forEach((file, idx) => {
+                /* const idx = file.file.name.split('.')[0].toString() */
                 formData.append('images', file.file)
                 formData.append(`heights-${idx}`, file.height )
                 formData.append(`widths-${idx}`, file.width)
@@ -145,7 +148,7 @@ export default function UploadTabs () {
                             </Textarea>
                             <Input label='Author' type='text' value={wtAuthor} onValueChange={setWtAuthor}>
                             </Input>
-                            {/* <Input label='Status' type='text' value={wtStatus} onValueChange={setWtStatus}> */}
+                            <Input label='tlGroup' type='text' value={tlGroup} onValueChange={setTlGroup}></Input>
                                 <SelectWtStatus value={wtStatus} setValue={setWtStatus}>
 
                                 </SelectWtStatus>

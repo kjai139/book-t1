@@ -49,6 +49,10 @@ const WTSchema = new Schema({
         type:Date,
 
     },
+    tlGroup: {
+        type:String,
+        default: ''
+    }
     
 })
 

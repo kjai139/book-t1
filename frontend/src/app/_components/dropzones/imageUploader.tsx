@@ -13,15 +13,23 @@ export default function ImageUploader ({setImageArr, imageArr}: ImageUploaderPro
 
     const onDrop = useCallback((acceptedFiles:File[]) => {
         setImageArr([])
+        let loadedImages = []
         acceptedFiles.forEach((file) => {
             const reader = new FileReader()
             reader.onload = () => {
                 const img = new window.Image()
                 img.onload = () => {
-                    setImageArr((prev) => [
+                    loadedImages.push( { file, width:img.naturalWidth, height: img.naturalHeight })
+                    /* setImageArr((prev) => [
                         ...prev, 
                         { file, width:img.naturalWidth, height: img.naturalHeight }
-                    ])
+                    ]) */
+                    if (loadedImages.length === acceptedFiles.length){
+                        const sortedFiles = loadedImages.sort((a, b) => {
+                            return acceptedFiles.indexOf(a.file) - acceptedFiles.indexOf(b.file)
+                        })
+                        setImageArr(loadedImages)
+                    }
 
                 }
                 img.src = reader.result as string
