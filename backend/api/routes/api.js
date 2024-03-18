@@ -3,7 +3,7 @@ const { user_createUser_post, user_login_post, user_logout_post } = require('../
 const { checkJwt } = require('../middleware/checkJwt')
 const { auth_check_get } = require('../controllers/authController')
 const { genres_get } = require('../controllers/genreController')
-const { wt_get_all, wt_create, wtc_create, wt_updates_get } = require('../controllers/wtController')
+const { wt_get_all, wt_create, wtc_create, wt_updates_get, wt_getOne } = require('../controllers/wtController')
 const router = express.Router()
 const multer = require('multer')
 const multerS3 = require('multer-s3')
@@ -48,5 +48,8 @@ router.post('/wtc/create', upload.array('images'), wtc_create)
 
 router.get('/wt/updates/get', wt_updates_get)
 
+router.get('/wt/all/getParams', wt_get_all)
+
+router.get('/wt/one/get', wt_getOne)
 
 module.exports = router

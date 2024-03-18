@@ -1,6 +1,7 @@
 import { Button, Card, CardBody, CardFooter, CardHeader, Divider, Image } from "@nextui-org/react"
 import MainHeaderNav from "./_components/mainHeaderNav"
 import NextImage from "next/image"
+import { formatDateDMY } from './_utils/dates'
 import apiUrl from "./_utils/apiEndpoint"
 
 interface Updates {
@@ -49,14 +50,13 @@ export default async function Home() {
   
   return (
     <>
-    <MainHeaderNav></MainHeaderNav>
     <main>
       <Card className="max-w-[1024px]">
         <CardHeader>
           <h4>Latest Update</h4>
         </CardHeader>
         <Divider className="my-4"></Divider>
-        <div className="grid sm:grid-cols-4 gap-2 grid-cols-2">
+        <div className="cards-cont p-2">
       
       {updates && updates.updates.map((node, idx) => {
         console.log('BOOK:', node.book)
@@ -65,10 +65,13 @@ export default async function Home() {
           <div key={node.book._id} className="cg">
            
               
-            <div>
+            <div className="relative">
               <Image radius="lg" alt={`Cover image of ${node.book.name}`} src={node.book.image} isZoomed>
 
               </Image>
+              {/* <NextImage width={160} height={160} src={node.book.image} alt={`Cover image of ${node.book.name}`}>
+
+              </NextImage> */}
             </div>
             
               
@@ -80,9 +83,13 @@ export default async function Home() {
               <div className="ch-btns gap-1">
               {node.chapters.map((node) => {
                 return (
-                  <Button key={node._id} color="primary" radius="full" size="sm">
+                  <div key={node._id} className="flex gap-1 items-center">
+                  <Button color="primary" radius="lg" size="sm">
                     <span>{`Chapter ${node.chapterNumber}`}</span>
+                   
                   </Button>
+                  <span className="text-sm text-danger pulsate flex-1 text-center">{formatDateDMY(node.releasedAt)}</span>
+                  </div>
                 )
               })}
               </div>

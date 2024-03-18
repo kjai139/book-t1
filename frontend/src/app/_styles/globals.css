@@ -80,6 +80,30 @@ main {
   flex-direction: column;
 }
 
+.cards-cont {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  grid-auto-rows: 1fr;
+  gap: .5rem;
+}
+
+.pulsate {
+  animation: pulsate 2s ease-out infinite;
+  opacity: 0.5;
+}
+
+@keyframes pulsate {
+  0% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 1.0;
+  }
+  100% {
+    opacity: 0.5;
+  }
+}
+
 @layer utilities {
   .text-balance {
     text-wrap: balance;

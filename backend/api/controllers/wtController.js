@@ -203,3 +203,24 @@ exports.wt_updates_get = async (req, res) => {
         })
     }
 }
+
+exports.wt_getOne = async ( req, res ) => {
+
+    try {
+        const nameWspaces = req.query.name.replace(/-/g, " ")
+        const wt = await Wt.findOne({name: nameWspaces})
+
+        const wtChapters = await Wtc.find({wtRef: wt._id}).sort({chapterNumber: -1})
+
+        res.json({
+            wt: wt,
+            wtc: wtChapters
+        })
+
+
+    } catch (err) {
+        res.status(500).json({
+            message: err.message
+        })
+    }
+}
