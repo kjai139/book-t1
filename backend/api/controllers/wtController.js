@@ -208,7 +208,7 @@ exports.wt_getOne = async ( req, res ) => {
 
     try {
         const nameWspaces = req.query.name.replace(/-/g, " ")
-        const wt = await Wt.findOne({name: nameWspaces})
+        const wt = await Wt.findOne({name: nameWspaces}).populate('genres')
 
         const wtChapters = await Wtc.find({wtRef: wt._id}).sort({chapterNumber: -1})
 

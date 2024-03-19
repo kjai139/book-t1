@@ -1,4 +1,4 @@
-import { Button, Card, CardBody, CardFooter, CardHeader, Divider, Image } from "@nextui-org/react"
+import { Button, Card, CardBody, CardFooter, CardHeader, Divider, Image, Link } from "@nextui-org/react"
 import MainHeaderNav from "./_components/mainHeaderNav"
 import NextImage from "next/image"
 import { formatDateDMY } from './_utils/dates'
@@ -61,14 +61,17 @@ export default async function Home() {
       {updates && updates.updates.map((node, idx) => {
         console.log('BOOK:', node.book)
         console.log('CHATPERS:', node.chapters)
+        let slug = node.book.name.replace(/ /g, "-")
         return (
           <div key={node.book._id} className="cg">
            
               
             <div className="relative">
+              <Link href={`/read/${slug}`}>
               <Image radius="lg" alt={`Cover image of ${node.book.name}`} src={node.book.image} isZoomed>
 
               </Image>
+              </Link>
               {/* <NextImage width={160} height={160} src={node.book.image} alt={`Cover image of ${node.book.name}`}>
 
               </NextImage> */}

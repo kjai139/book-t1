@@ -8,7 +8,7 @@ const formatDateDMY = (date) => {
 
     const result = differenceInDays(todayDate, parsedDate)
     const day = format(parsedDate, 'd')
-    const month = format(parsedDate, 'M')
+    const month = format(parsedDate, 'MMM')
     const year = format(parsedDate, 'yyyy')
 
     if (result <= 2) {
