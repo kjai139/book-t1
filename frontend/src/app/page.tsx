@@ -78,20 +78,27 @@ export default async function Home() {
             </div>
             
               
-
+              
             <span className="card-txt">
+            <Link href={`/read/${slug}`} color="foreground">
             <h4>{node.book.name}</h4>
+            </Link>
             </span>
               
               <div className="ch-btns gap-1">
               {node.chapters.map((node) => {
                 return (
-                  <div key={node._id} className="flex gap-1 items-center">
-                  <Button color="primary" radius="lg" size="sm">
-                    <span>{`Chapter ${node.chapterNumber}`}</span>
-                   
-                  </Button>
-                  <span className="text-sm text-danger pulsate flex-1 text-center">{formatDateDMY(node.releasedAt)}</span>
+                  <div key={node._id}>
+                  <Link color="foreground" href={`/read/${slug}/${node.chapterNumber}`} className="flex gap-1 items-center">
+                  <span className="text-sm">{`Chapter ${node.chapterNumber}`}</span>
+                  
+                  {formatDateDMY(node.releasedAt) === 'New' ?
+
+                  <span className={`text-xs text-danger pulsate flex-1 text-center`}>{formatDateDMY(node.releasedAt)}</span>:
+                  <span className={`text-xs text-danger text-default-500 flex-1 text-center`}>{formatDateDMY(node.releasedAt)}</span>
+                  }
+                  </Link>
+                  
                   </div>
                 )
               })}

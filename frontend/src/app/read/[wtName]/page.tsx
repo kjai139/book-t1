@@ -2,6 +2,7 @@ import ChList from "@/app/_components/list/chList";
 import Rating from "@/app/_components/rating/starRating";
 import apiUrl from "@/app/_utils/apiEndpoint";
 import { Button, Card, CardBody, CardHeader, Divider, Image } from "@nextui-org/react";
+import { notFound } from "next/navigation";
 import { IoBookmarkOutline } from "react-icons/io5";
 
 
@@ -9,50 +10,74 @@ import { IoBookmarkOutline } from "react-icons/io5";
 
 async function getWts(params) {
     console.log('PARAMS IN getWTS:', params)
-    const response = await fetch(`${apiUrl}/api/wt/one/get?name=${params.wtName}`, {
-        next: {
-            revalidate: 86400
-        }
-    })
-    const chResponse = await fetch(`${apiUrl}/api/wt/ch/count/get?name=${params.wtName}`, {
-        next: {
-            revalidate: 1
-        }
-    })
+    try {
+        const response = await fetch(`${apiUrl}/api/wt/one/get?name=${params.wtName}`, {
+            next: {
+                revalidate: 86400
+            }
+        })
 
-    const wt = await response.json()
-    const ch = await chResponse.json()
-    wt.totalCh = ch.totalCh
+        if (!response.ok) {
+            throw new Error('ERROR FETCHING getWts')
+        }
 
-    return wt
+        const chResponse = await fetch(`${apiUrl}/api/wt/ch/count/get?name=${params.wtName}`, {
+            next: {
+                revalidate: 1
+            }
+        })
+
+        if (!chResponse.ok) {
+            throw new Error('ERROR FETCHING WT CHP in getWts')
+        }
+
+        const wt = await response.json()
+        const ch = await chResponse.json()
+        wt.totalCh = ch.totalCh
+
+        return wt
+
+    } catch (err) {
+        console.error(err)
+    }
+    
+    
+
 }
 
 export default async function WtPage({params}) {
     const wt = await getWts(params)
     console.log('WTPAGE wt:', wt)
+    if (!wt) {
+        notFound()
+    }
 
+    
     const table = [
-        {
-            name:'Status',
-            value: wt.wt.status
-        },
-        {
-            name: 'Released Year',
-            value: wt.wt.releasedYear
-        },
-        {
-            name: 'Author',
-            value: wt.wt.author
-        },
-        {
-            name: 'Artist(s)',
-            value: wt.wt.artist
-        },
-        {
-            name:'TL Group',
-            value: wt.wt.tlGroup
-        }
-    ]
+            {
+                name:'Status',
+                value: wt.wt.status
+            },
+            {
+                name: 'Released Year',
+                value: wt.wt.releasedYear
+            },
+            {
+                name: 'Author',
+                value: wt.wt.author
+            },
+            {
+                name: 'Artist(s)',
+                value: wt.wt.artist
+            },
+            {
+                name:'TL Group',
+                value: wt.wt.tlGroup
+            }
+        ]
+    
+
+    
 
     return (
         <Card>
@@ -107,7 +132,7 @@ export default async function WtPage({params}) {
                     <h3 className="font-semibold">{`Chapters for ${wt.wt.name}`}</h3>
                     <Divider className="mt-4"></Divider>
                 </div>
-                <ChList chs={wt.totalCh}></ChList>
+                <ChList chs={wt.totalCh} curSlug={params.wtName}></ChList>
 
                
                 

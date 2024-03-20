@@ -1,35 +1,46 @@
 
 
-import { Button } from "@nextui-org/react"
+import { Button, Link } from "@nextui-org/react"
 import { formatDateDMY } from "@/app/_utils/dates"
 
 interface ChListProps{
-    chs: any
+    chs: any,
+    curSlug: string,
 }
 
 
-export default function ChList ({chs}:ChListProps) {
+export default function ChList ({chs, curSlug}:ChListProps) {
 
 
 
     return (
         <div className="flex flex-col">
-            <div className="grid grid-cols-2 gap-2 auto-rows-auto">
+            <ul className="grid grid-cols-2 gap-2 auto-rows-auto">
                 {chs.map((ch) => {
                     return (
-                        <Button key={ch._id} size="md" variant="ghost" fullWidth aria-label={`Chapter ${ch.chapterNumber}`}>
-                            <div className="flex flex-col items-start">
+                        <li key={ch._id} aria-label={`Chapter ${ch.chapterNumber}`}>
+                            <div>
+                                <Link href={`/read/${curSlug}/${ch.chapterNumber}`} className="flex flex-col items-center" color="foreground">
                             <span className="">{`Chapter ${ch.chapterNumber}`}</span>
-                            <span className="text-xs text-default-500">
+                            {
+                                formatDateDMY(ch.releasedAt) === 'New' ? 
+                                <span className="text-xs pulsate text-warning">
                                 {formatDateDMY(ch.releasedAt)}
-                            </span>
+                                </span> : 
+                                <span className="text-xs text-default-500">
+                                {formatDateDMY(ch.releasedAt)}
+                                 </span>
+
+                            }
+                            </Link>
+                            
                             </div>
-                        </Button>
+                        </li>
                     )
                 })}
                 
 
-            </div>
+            </ul>
 
         </div>
     )

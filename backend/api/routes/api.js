@@ -9,7 +9,7 @@ const multer = require('multer')
 const multerS3 = require('multer-s3')
 const s3 = require('../../s3Client')
 const { wtc_ch_count_get } = require('../controllers/wtcController')
-const { wtp_get_all } = require('../controllers/wtpController')
+const { wtp_get_all, wtp_get_content } = require('../controllers/wtpController')
 require('dotenv').config()
 
 const upload = multer({
@@ -57,5 +57,7 @@ router.get('/wt/one/get', wt_getOne)
 router.get('/wt/ch/count/get', wtc_ch_count_get)
 
 router.get('/wtpage/get', wtp_get_all)
+
+router.get('/wtpage/getch', wtp_get_content)
 
 module.exports = router
