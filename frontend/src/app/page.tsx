@@ -56,7 +56,7 @@ export default async function Home() {
           <h4>Latest Update</h4>
         </CardHeader>
         <Divider className="my-4"></Divider>
-        <div className="cards-cont p-2">
+        <div className="cards-cont p-2 grid-cols-2 gap-2">
       
       {updates && updates.updates.map((node, idx) => {
         console.log('BOOK:', node.book)
@@ -65,25 +65,31 @@ export default async function Home() {
         return (
           <div key={node.book._id} className="cg">
            
+            <Link href={`/read/${slug}`}>
+            <div className="relative w-[148px] h-[212px] overflow-hidden">
               
-            <div className="relative">
-              <Link href={`/read/${slug}`}>
-              <Image radius="lg" alt={`Cover image of ${node.book.name}`} src={node.book.image} isZoomed>
+              {/* <Image radius="lg" alt={`Cover image of ${node.book.name}`} src={node.book.image} isZoomed className="h-full">
 
-              </Image>
-              </Link>
+              </Image> */}
+              <NextImage src={node.book.image} alt={`Cover image of ${node.book.image}`} priority={idx <= 4 ? true : false} fill sizes="(max-width:600px) 50vw 25vw" className="home-c">
+
+              </NextImage>
+             
               {/* <NextImage width={160} height={160} src={node.book.image} alt={`Cover image of ${node.book.name}`}>
 
               </NextImage> */}
             </div>
+            </Link>
             
               
-              
+            
             <span className="card-txt">
             <Link href={`/read/${slug}`} color="foreground">
-            <h4>{node.book.name}</h4>
+            {node.book.name}
             </Link>
+            
             </span>
+            
               
               <div className="ch-btns gap-1">
               {node.chapters.map((node) => {

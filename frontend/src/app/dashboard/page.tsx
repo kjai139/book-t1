@@ -11,7 +11,6 @@ export default function Dashboard () {
 
     return (
         <>
-        <MainHeaderNav></MainHeaderNav>
         <main>
             <UploadTabs></UploadTabs>
         

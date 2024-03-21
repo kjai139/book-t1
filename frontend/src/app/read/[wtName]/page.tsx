@@ -1,3 +1,4 @@
+import BreadCrumbs from "@/app/_components/breadcrumbs/breadcrumb";
 import ChList from "@/app/_components/list/chList";
 import Rating from "@/app/_components/rating/starRating";
 import apiUrl from "@/app/_utils/apiEndpoint";
@@ -85,6 +86,7 @@ export default async function WtPage({params}) {
                 <h3 className="text-center w-full text-lg font-semibold">{wt.wt.name}</h3>
             </CardHeader>
             <CardBody className="gap-4">
+                <BreadCrumbs wtUrl={wt.wt.name}></BreadCrumbs>
                 <Image src={wt.wt.image} alt={`Cover image of ${wt.wt.name}`}></Image>
                 <Button startContent={<IoBookmarkOutline></IoBookmarkOutline>} variant="light" className="text-md font-semibold" aria-label="Add to Bookmark">Bookmark</Button>
                 <div className="flex">

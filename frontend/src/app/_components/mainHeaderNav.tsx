@@ -1,8 +1,10 @@
 'use client'
 
 import { useEffect, useState } from "react"
-import {Navbar, NavbarBrand, NavbarContent, NavbarItem, NavbarMenuToggle, NavbarMenu, NavbarMenuItem, Link, Button, Divider} from "@nextui-org/react";
+import {Navbar, NavbarBrand, NavbarContent, NavbarItem, NavbarMenuToggle, NavbarMenu, NavbarMenuItem, Link, Button, Divider, Input} from "@nextui-org/react";
 import { useAuth } from "../_contexts/authContext";
+import NavSearch from "./button/search";
+import BookmarkBtn from "./button/bookmark";
 
 interface MenuItems {
   name: string,
@@ -96,14 +98,20 @@ export default function MainHeaderNav () {
           </NavbarContent>
     
           <NavbarContent justify="end">
-            <NavbarItem className="hidden lg:flex">
-              <Link href="#">Login</Link>
+            <NavbarItem>
+              <NavSearch></NavSearch>
             </NavbarItem>
             <NavbarItem>
-              {/* <Button as={Link} color="primary" href="#" variant="flat">
-                Sign Up
-              </Button> */}
+              <BookmarkBtn></BookmarkBtn>
             </NavbarItem>
+            {/* <NavbarItem className="hidden lg:flex">
+              <Link href="#">Login</Link>
+            </NavbarItem> */}
+            {/* <NavbarItem>
+              <Button as={Link} color="primary" href="#" variant="flat">
+                Sign Up
+              </Button>
+            </NavbarItem> */}
           </NavbarContent>
     
           <NavbarMenu>

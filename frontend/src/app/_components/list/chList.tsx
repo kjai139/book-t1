@@ -20,7 +20,7 @@ export default function ChList ({chs, curSlug}:ChListProps) {
                     return (
                         <li key={ch._id} aria-label={`Chapter ${ch.chapterNumber}`}>
                             <div>
-                                <Link href={`/read/${curSlug}/${ch.chapterNumber}`} className="flex flex-col items-center" color="foreground">
+                                <Link href={`/read/${curSlug}/${ch.chapterNumber}`} className="flex flex-col border-2 rounded-lg items-center" color="foreground" >
                             <span className="">{`Chapter ${ch.chapterNumber}`}</span>
                             {
                                 formatDateDMY(ch.releasedAt) === 'New' ? 

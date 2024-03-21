@@ -224,3 +224,24 @@ exports.wt_getOne = async ( req, res ) => {
         })
     }
 }
+
+
+exports.wt_search = async (req, res) => {
+    try {
+        const regex = new RegExp(req.query.name, 'i')
+        const results = await Wt.find({
+            name: {
+                $regex: regex
+            }
+        })
+
+        res.json({
+            results: results
+        })
+
+    } catch (err) {
+        res.status(500).json({
+            message: err.message
+        })
+    }
+}

@@ -3,7 +3,7 @@ const { user_createUser_post, user_login_post, user_logout_post } = require('../
 const { checkJwt } = require('../middleware/checkJwt')
 const { auth_check_get } = require('../controllers/authController')
 const { genres_get } = require('../controllers/genreController')
-const { wt_get_all, wt_create, wtc_create, wt_updates_get, wt_getOne } = require('../controllers/wtController')
+const { wt_get_all, wt_create, wtc_create, wt_updates_get, wt_getOne, wt_search } = require('../controllers/wtController')
 const router = express.Router()
 const multer = require('multer')
 const multerS3 = require('multer-s3')
@@ -59,5 +59,7 @@ router.get('/wt/ch/count/get', wtc_ch_count_get)
 router.get('/wtpage/get', wtp_get_all)
 
 router.get('/wtpage/getch', wtp_get_content)
+
+router.get('/wt/search', wt_search)
 
 module.exports = router
