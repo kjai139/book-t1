@@ -1,5 +1,4 @@
 
-import MainHeaderNav from "../_components/mainHeaderNav"
 import UploadTabs from "../_components/tabs/uploadTab"
 
 

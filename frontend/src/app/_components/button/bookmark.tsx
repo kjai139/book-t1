@@ -6,20 +6,10 @@ export default function BookmarkBtn () {
 
 
     return (
-        <Popover placement="bottom-end">
-            <PopoverTrigger>
-                <Button isIconOnly aria-label="Open Bookmark dropdown" color="warning">
-                    <FaBookmark></FaBookmark>
-                </Button>
-            </PopoverTrigger>
-            <PopoverContent>
-                <div>
-                    Bookmark stuff 
-                </div>
-                
-                
-            </PopoverContent>
         
-        </Popover>
+        <button aria-label="Open bookmarks">
+            <FaBookmark></FaBookmark>
+        </button>
+    
     )
 }

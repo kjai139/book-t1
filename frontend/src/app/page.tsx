@@ -1,5 +1,4 @@
-import { Button, Card, CardBody, CardFooter, CardHeader, Divider, Image, Link } from "@nextui-org/react"
-import MainHeaderNav from "./_components/mainHeaderNav"
+import { Divider, Link } from "@nextui-org/react"
 import NextImage from "next/image"
 import { formatDateDMY } from './_utils/dates'
 import apiUrl from "./_utils/apiEndpoint"
@@ -50,13 +49,13 @@ export default async function Home() {
   
   return (
     <>
-    <main>
-      <Card className="max-w-[1024px]">
-        <CardHeader>
+    <main className="flex flex-col items-center">
+      <div className="max-w-[1024px] w-full">
+        <div className="pt-4 px-2">
           <h4>Latest Update</h4>
-        </CardHeader>
+        </div>
         <Divider className="my-4"></Divider>
-        <div className="cards-cont p-2 grid-cols-2 gap-2">
+        <div className="cards-cont p-2 gap-2 sm:gap-8">
       
       {updates && updates.updates.map((node, idx) => {
         console.log('BOOK:', node.book)
@@ -66,12 +65,12 @@ export default async function Home() {
           <div key={node.book._id} className="cg">
            
             <Link href={`/read/${slug}`}>
-            <div className="relative w-[148px] h-[212px] overflow-hidden">
+            <div className="relative w-full min-h-[200px] overflow-hidden">
               
               {/* <Image radius="lg" alt={`Cover image of ${node.book.name}`} src={node.book.image} isZoomed className="h-full">
 
               </Image> */}
-              <NextImage src={node.book.image} alt={`Cover image of ${node.book.image}`} priority={idx <= 4 ? true : false} fill sizes="(max-width:600px) 50vw 25vw" className="home-c">
+              <NextImage src={node.book.image} alt={`Cover image of ${node.book.image}`} priority={idx <= 4 ? true : false} fill sizes="(max-width:600px) 40vw, (max-width:1200px) 20vw" className="home-c object-cover rounded">
 
               </NextImage>
              
@@ -114,7 +113,7 @@ export default async function Home() {
         )
       })}
       </div>
-      </Card>
+      </div>
       
       
       

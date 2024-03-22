@@ -1,5 +1,5 @@
 import apiUrl from "@/app/_utils/apiEndpoint";
-import { Input } from "@nextui-org/react";
+import { Button, Input, Popover, PopoverContent, PopoverTrigger } from "@nextui-org/react";
 import { useCallback, useMemo, useState } from "react";
 import { FaSearch } from "react-icons/fa";
 import NextImage from "next/image";
@@ -7,11 +7,12 @@ import NextImage from "next/image";
 
 
 
-export default function NavSearch ({isSearchOpen, setIsSearchOpen}) {
+export default function PbNavSearch () {
 
     const [query, setQuery] = useState('')
     const [result, setResult] = useState()
     const [noResult, setNoResult] = useState(false)
+    const [isSearchOpen, setIsSearchOpen] = useState(false)
 
     
     
@@ -40,6 +41,8 @@ export default function NavSearch ({isSearchOpen, setIsSearchOpen}) {
                     setResult(data.results)
                     if (data.results.length === 0) {
                         setNoResult(true)
+                    } else {
+                        setNoResult(false)
                     }
                 } else {
                     setResult(null)
@@ -67,17 +70,20 @@ export default function NavSearch ({isSearchOpen, setIsSearchOpen}) {
         setResult(null)
         setQuery('')
         setNoResult(false)
-        setIsSearchOpen((prev) => !prev)
+        setIsSearchOpen((prev)=> !prev)
+        
     }, [])
 
 
 
     return (
-        <div className="relative p-2">
-            <button onClick={onOpenChange}>
+        <Popover className="relative p-2" isOpen={isSearchOpen} onOpenChange={onOpenChange}>
+            <PopoverTrigger>
+            <Button isIconOnly>
                 <FaSearch></FaSearch>
-            </button>
-            <div className={`fixed ${isSearchOpen ? 'undefined' : 'hidden'} flex flex-col w-full p-2 bg-background left-0 max-w-[400px] sm:absolute sm:left-[-1000%] sm:min-w-[400px]`}>
+            </Button>
+            </PopoverTrigger>
+            <PopoverContent>
                 <Input
                 label="Search"
                 size="sm"
@@ -91,7 +97,7 @@ export default function NavSearch ({isSearchOpen, setIsSearchOpen}) {
                 </Input>
                 
                 {result &&
-                <ul className="flex">
+                <ul className="flex flex-col">
                     {result.map((node) => {
                         const genres = node.genres.map(node => node.name).join(', ')
 
@@ -124,8 +130,8 @@ export default function NavSearch ({isSearchOpen, setIsSearchOpen}) {
                     </li>
                 </ul>
                 }
-            </div>
-        </div>
+            </PopoverContent>
+        </Popover>
                 
                 
                 

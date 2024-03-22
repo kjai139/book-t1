@@ -11,7 +11,7 @@ interface BreadcrumbsProps {
 export default function BreadCrumbs ({wtUrl, wtcUrl}:BreadcrumbsProps) {
 
     return (
-        <Breadcrumbs size="md" className="bc">
+        <Breadcrumbs size="md" className="bc p-4">
         <BreadcrumbItem href="/">Home</BreadcrumbItem>
         <BreadcrumbItem href="/read">read</BreadcrumbItem>
         {

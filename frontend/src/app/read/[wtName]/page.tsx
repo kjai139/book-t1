@@ -81,13 +81,14 @@ export default async function WtPage({params}) {
     
 
     return (
-        <Card>
+        <div className="justify-center items-center">
+        <Card className="max-w-[1024px]">
             <CardHeader>
                 <h3 className="text-center w-full text-lg font-semibold">{wt.wt.name}</h3>
             </CardHeader>
-            <CardBody className="gap-4">
+            <CardBody className="gap-4 items-center">
                 <BreadCrumbs wtUrl={wt.wt.name}></BreadCrumbs>
-                <Image src={wt.wt.image} alt={`Cover image of ${wt.wt.name}`}></Image>
+                <Image src={wt.wt.image} alt={`Cover image of ${wt.wt.name}`} className="sm:max-h-[240px]"></Image>
                 <Button startContent={<IoBookmarkOutline></IoBookmarkOutline>} variant="light" className="text-md font-semibold" aria-label="Add to Bookmark">Bookmark</Button>
                 <div className="flex">
                     <Rating rating={5}></Rating>
@@ -140,5 +141,6 @@ export default async function WtPage({params}) {
                 
             </CardBody>
         </Card>
+        </div>
     )
 }

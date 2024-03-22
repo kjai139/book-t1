@@ -2,7 +2,6 @@ import apiUrl from "@/app/_utils/apiEndpoint";
 import { Button, Link } from "@nextui-org/react";
 import { notFound } from "next/navigation";
 import Image from "next/image";
-import RenderImgs from "@/app/_components/Img/renderImgPgs";
 import BreadCrumbs from "@/app/_components/breadcrumbs/breadcrumb";
 import ChSelect from "@/app/_components/select/chSelect";
 

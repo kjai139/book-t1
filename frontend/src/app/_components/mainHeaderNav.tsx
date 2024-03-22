@@ -5,6 +5,7 @@ import {Navbar, NavbarBrand, NavbarContent, NavbarItem, NavbarMenuToggle, Navbar
 import { useAuth } from "../_contexts/authContext";
 import NavSearch from "./button/search";
 import BookmarkBtn from "./button/bookmark";
+import PbNavSearch from "./button/pbSearch";
 
 interface MenuItems {
   name: string,
@@ -17,6 +18,9 @@ export default function MainHeaderNav () {
 
     const [isMenuOpen, setIsMenuOpen] = useState(false)
     const [menuItems, setMenuItems] = useState<MenuItems[]>([])
+    const [isSearchOpen, setIsSearchOpen] = useState(false)
+    const [isBookmarkOpen, setIsBookmarkOpen] = useState(false)
+
     const { user, authCheck, logUserOut } = useAuth()
 
     const loggedInMenu = [
@@ -61,6 +65,8 @@ export default function MainHeaderNav () {
         }
         
       }, [user])
+
+      
     
       return (
         <Navbar disableAnimation={true} isBordered onMenuOpenChange={setIsMenuOpen} isMenuOpen={isMenuOpen}>
@@ -78,28 +84,29 @@ export default function MainHeaderNav () {
           <NavbarContent className="hidden sm:flex gap-4" justify="center">
             <NavbarBrand>
               
-              <p className="font-bold text-inherit">ACME</p>
+              <p className="font-bold text-inherit">Logo</p>
             </NavbarBrand>
             <NavbarItem>
               <Link color="foreground" href="#">
-                Features
+                Series
               </Link>
             </NavbarItem>
             <NavbarItem isActive>
               <Link href="#" aria-current="page" color="warning">
-                Customers
+                Genres
               </Link>
             </NavbarItem>
-            <NavbarItem>
+            {/* <NavbarItem>
               <Link color="foreground" href="#">
                 Integrations
               </Link>
-            </NavbarItem>
+            </NavbarItem> */}
           </NavbarContent>
     
           <NavbarContent justify="end">
             <NavbarItem>
-              <NavSearch></NavSearch>
+              {/* <NavSearch setIsSearchOpen={setIsSearchOpen} isSearchOpen={isSearchOpen}></NavSearch> */}
+              <PbNavSearch></PbNavSearch>
             </NavbarItem>
             <NavbarItem>
               <BookmarkBtn></BookmarkBtn>

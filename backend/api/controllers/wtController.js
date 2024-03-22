@@ -228,12 +228,14 @@ exports.wt_getOne = async ( req, res ) => {
 
 exports.wt_search = async (req, res) => {
     try {
-        const regex = new RegExp(req.query.name, 'i')
+        const escapedTxt = req.query.name.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&')
+        const regex = new RegExp(escapedTxt, 'i')
+        
         const results = await Wt.find({
             name: {
                 $regex: regex
             }
-        })
+        }).populate('genres')
 
         res.json({
             results: results
