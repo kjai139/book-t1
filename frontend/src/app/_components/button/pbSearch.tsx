@@ -1,5 +1,5 @@
 import apiUrl from "@/app/_utils/apiEndpoint";
-import { Button, Input, Popover, PopoverContent, PopoverTrigger } from "@nextui-org/react";
+import { Button, Input, Link, Popover, PopoverContent, PopoverTrigger } from "@nextui-org/react";
 import { useCallback, useMemo, useState } from "react";
 import { FaSearch } from "react-icons/fa";
 import NextImage from "next/image";
@@ -103,16 +103,18 @@ export default function PbNavSearch () {
 
                         return (
                             <li key={`sr${node._id}`} className="flex p-2 justify-center items-center">
+                            <Link href={`/read/${node.name.replace(/ /g, "-")}`} onPress={onOpenChange}>
                             <div className="relative w-[50px] h-[75px]">
-                                <NextImage fill alt={`Cover of ${node.image}`} src={node.image} sizes="(max-width:600px) 15vw 25vw"></NextImage>
+                                <NextImage fill alt={`Cover of ${node.image}`} src={node.image} sizes="(max-width:600px) 15vw 10vw"></NextImage>
                             </div>
                             <div className="flex flex-col flex-1 p-2">
-                                <span className="font-semibold">{node.name}</span>
+                                <span className="font-semibold text-sm">{node.name}</span>
                                 <span className="text-xs text-default-500">Status: {node.status}</span>
                                 <span className="text-xs text-default-500 whitespace-normal">
                                     {genres}
                                 </span>
                             </div>
+                            </Link>
                         </li>
                         )
                     })}

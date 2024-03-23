@@ -1,4 +1,5 @@
 import BreadCrumbs from "@/app/_components/breadcrumbs/breadcrumb";
+import SaveBookmarkBtn from "@/app/_components/button/saveBookmark";
 import ChList from "@/app/_components/list/chList";
 import Rating from "@/app/_components/rating/starRating";
 import apiUrl from "@/app/_utils/apiEndpoint";
@@ -89,7 +90,7 @@ export default async function WtPage({params}) {
             <CardBody className="gap-4 items-center">
                 <BreadCrumbs wtUrl={wt.wt.name}></BreadCrumbs>
                 <Image src={wt.wt.image} alt={`Cover image of ${wt.wt.name}`} className="sm:max-h-[240px]"></Image>
-                <Button startContent={<IoBookmarkOutline></IoBookmarkOutline>} variant="light" className="text-md font-semibold" aria-label="Add to Bookmark">Bookmark</Button>
+                <SaveBookmarkBtn image={wt.wt.image} wTstatus={wt.wt.status} wtName={wt.wt.name} wtGenres={wt.wt.genres}></SaveBookmarkBtn>
                 <div className="flex">
                     <Rating rating={5}></Rating>
                 </div>
@@ -104,7 +105,7 @@ export default async function WtPage({params}) {
                         Latest Chapter
                     </Button>
                 </div>
-                <div className="flex flex-col">
+                <div className="flex flex-col w-full">
                     <table>
                         <tbody className="text-sm">
                             {table.map((node, idx) => {

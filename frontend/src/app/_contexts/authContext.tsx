@@ -4,7 +4,7 @@
 import { createContext, useContext, useState } from "react";
 import { AuthContextType, AuthProviderProps } from "../_interfaces/auth.interface";
 import apiUrl from "../_utils/apiEndpoint";
-
+import User from "../_interfaces/user.interface";
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined)
 

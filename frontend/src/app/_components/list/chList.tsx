@@ -1,6 +1,6 @@
 
 
-import { Button, Link } from "@nextui-org/react"
+import { Link } from "@nextui-org/react"
 import { formatDateDMY } from "@/app/_utils/dates"
 
 interface ChListProps{
@@ -20,7 +20,7 @@ export default function ChList ({chs, curSlug}:ChListProps) {
                     return (
                         <li key={ch._id} aria-label={`Chapter ${ch.chapterNumber}`}>
                             <div>
-                                <Link href={`/read/${curSlug}/${ch.chapterNumber}`} className="flex flex-col border-2 rounded-lg items-center" color="foreground" >
+                                <Link href={`/read/${curSlug}/${ch.chapterNumber}`} className="flex flex-col items-center py-1 px-4" color="primary" size="sm" isBlock>
                             <span className="">{`Chapter ${ch.chapterNumber}`}</span>
                             {
                                 formatDateDMY(ch.releasedAt) === 'New' ? 

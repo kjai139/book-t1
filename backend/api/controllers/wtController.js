@@ -5,6 +5,7 @@ const debug = require('debug')('book-test:wtController')
 const WtPage = require('../../models/WtPageModel')
 
 
+
 exports.wt_get_all = async (req, res) => {
     try {
         const allWt = await Wt.find().sort({name: 1})
@@ -228,7 +229,8 @@ exports.wt_getOne = async ( req, res ) => {
 
 exports.wt_search = async (req, res) => {
     try {
-        const escapedTxt = req.query.name.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&')
+        const escapedTxt = req.query.name.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
+        
         const regex = new RegExp(escapedTxt, 'i')
         
         const results = await Wt.find({

@@ -99,7 +99,8 @@ export default async function Home() {
                   
                   {formatDateDMY(node.releasedAt) === 'New' ?
 
-                  <span className={`text-xs text-danger pulsate flex-1 text-center`}>{formatDateDMY(node.releasedAt)}</span>:
+                  <span className={`text-xs text-danger-600 font-bold pulsate flex-1 text-center`}>
+                    ★ {formatDateDMY(node.releasedAt)}</span>:
                   <span className={`text-xs text-danger text-default-500 flex-1 text-center`}>{formatDateDMY(node.releasedAt)}</span>
                   }
                   </Link>

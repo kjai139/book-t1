@@ -15,6 +15,12 @@ const config: Config = {
         "gradient-conic":
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
       },
+      aspectRatio: {
+        '4/3': '3 / 4'
+      },
+      flex: {
+        '2': '2'
+      }
     },
   },
   darkMode: 'class',
@@ -35,7 +41,10 @@ const config: Config = {
             DEFAULT: '#DE911D'
           },
           danger: {
-            DEFAULT: '#E66A6A'
+            DEFAULT: '#E66A6A',
+            600: '#911111',
+            800: '#610404'
+
           },
           divider: {
             DEFAULT: '#9FB3C8',

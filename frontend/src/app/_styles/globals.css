@@ -19,8 +19,8 @@
   --txt-link: #84C5F4;
 }
 
-@media (prefers-color-scheme: dark) {
-  
+* {
+  scrollbar-width: thin;
 }
 
 body {
@@ -107,12 +107,15 @@ main {
 @keyframes pulsate {
   0% {
     opacity: 0.5;
+    filter: brightness(0.5);
   }
   50% {
     opacity: 1.0;
+    filter: brightness(1.5);
   }
   100% {
     opacity: 0.5;
+    filter: brightness(1);
   }
 }
 
