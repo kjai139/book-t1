@@ -11,6 +11,7 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined)
 export function AuthProvider ({children}:AuthProviderProps) {
 
     const [user, setUser] = useState<User | null>(null)
+    const [checkLocal, setCheckLocal] = useState(false)
     const authCheck = async () => {
         try {
             const response = await fetch(`${apiUrl}/api/auth/check`, {
@@ -58,7 +59,7 @@ export function AuthProvider ({children}:AuthProviderProps) {
 
 
     return (
-        <AuthContext.Provider value={{user, setUser, authCheck, logUserOut}}>
+        <AuthContext.Provider value={{user, setUser, authCheck, logUserOut, checkLocal, setCheckLocal}}>
             {children}
         </AuthContext.Provider>
     )

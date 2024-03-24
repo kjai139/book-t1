@@ -3,6 +3,7 @@ import { usePathname, useRouter } from "next/navigation"
 import { Button } from "@nextui-org/react"
 import { FaBookmark } from "react-icons/fa"
 import { useEffect, useState } from "react"
+import { useAuth } from "@/app/_contexts/authContext"
 
 
 interface BookmarkObj {
@@ -23,7 +24,7 @@ interface SaveBookmarkBtnProps {
 }
 
 export default function SaveBookmarkBtn ({wtGenres, chNum, image, wTstatus, wtName}:SaveBookmarkBtnProps) {
-
+    const { checkLocal, setCheckLocal } = useAuth()
     const [isMarked, setIsMarked] = useState(false)
     const [isDoneLoading, setIsDoneLoading] = useState(false)
 
@@ -31,6 +32,7 @@ export default function SaveBookmarkBtn ({wtGenres, chNum, image, wTstatus, wtNa
     
 
     useEffect(() => {
+        console.log('bookmarkbtn checkstate')
         const storedBookmarks = localStorage.getItem('bookmarks')
         if ( storedBookmarks) {
             const json:BookmarkObj[] = JSON.parse(storedBookmarks)
@@ -40,10 +42,11 @@ export default function SaveBookmarkBtn ({wtGenres, chNum, image, wTstatus, wtNa
                 setIsMarked(true)
                 setIsDoneLoading(true)
             } else {
+                setIsMarked(false)
                 setIsDoneLoading(true)
             }
         }
-    }, [])
+    }, [checkLocal])
 
     const toggleBm = () => {
         let storedBookmarks = localStorage.getItem('bookmarks')

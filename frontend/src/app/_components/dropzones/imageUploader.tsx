@@ -51,7 +51,8 @@ export default function ImageUploader ({setImageArr, imageArr}: ImageUploaderPro
         onDrop,
         accept: {
             'image/jpeg': [],
-            'image/png': []
+            'image/png': [],
+            'image/webp': [],
         },
         
     })
@@ -79,7 +80,7 @@ export default function ImageUploader ({setImageArr, imageArr}: ImageUploaderPro
         <div {...getRootProps({ className: 'dropzone' })}>
           <input {...getInputProps()} />
           <p>Drag 'n' drop images here, or click to select some</p>
-          <em>(Only jpeg and png)</em>
+          <em>(jpeg png webp)</em>
         </div>
         <aside>
           <h4>Accepted files</h4>

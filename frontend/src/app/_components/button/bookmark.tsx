@@ -5,9 +5,10 @@ import { FaBookmark } from "react-icons/fa";
 import NextImage from "next/image";
 import { MdDelete } from "react-icons/md";
 import { usePathname } from "next/navigation";
+import { useAuth } from "@/app/_contexts/authContext";
 
 export default function BookmarkBtn () {
-    
+    const { setCheckLocal } = useAuth()
     const { isOpen, onOpen, onOpenChange } = useDisclosure()
     const [bookmarks, setBookmarks] = useState([])
     const pathname = usePathname()
@@ -26,11 +27,14 @@ export default function BookmarkBtn () {
         let storedBookmarks = localStorage.getItem('bookmarks')
         if (storedBookmarks) {
             const parsedBookmarks = JSON.parse(storedBookmarks)
-            const existingBm = parsedBookmarks.findIndex(bm => bm.url === pathname)
+            const existingBm = parsedBookmarks.findIndex(bm => bm.url === key)
 
             if (existingBm !== -1) {
                 const updatedBm = parsedBookmarks.filter((_, index) => index !== existingBm)
                 localStorage.setItem('bookmarks', JSON.stringify(updatedBm))
+                console.log('bm removed:', localStorage)
+                setBookmarks(prevArr => prevArr.filter(item => item.url !== key))
+                setCheckLocal((prev) => !prev)
             }
         }
         //wip
@@ -72,7 +76,7 @@ export default function BookmarkBtn () {
                                     </span>
                                 </div>
                                 </Link>
-                                <Button isIconOnly size="lg" variant="light" color="default"><MdDelete></MdDelete></Button>
+                                <Button isIconOnly size="lg" variant="light" color="default" onPress={() => removeBm(node.url)}><MdDelete></MdDelete></Button>
                                 </li>
                             )
                         }): 

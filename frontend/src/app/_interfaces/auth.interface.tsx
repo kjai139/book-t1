@@ -6,7 +6,9 @@ export interface AuthContextType {
     user: User | null,
     setUser: React.Dispatch<React.SetStateAction<User | null>>,
     authCheck: () => Promise<void>,
-    logUserOut: () => Promise<void>
+    logUserOut: () => Promise<void>,
+    checkLocal: boolean,
+    setCheckLocal:React.Dispatch<React.SetStateAction<boolean>
     
 }
 

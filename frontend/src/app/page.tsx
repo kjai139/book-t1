@@ -51,8 +51,9 @@ export default async function Home() {
     <>
     <main className="flex flex-col items-center">
       <div className="max-w-[1024px] w-full">
-        <div className="pt-4 px-2">
+        <div className="pt-4 px-4 flex justify-between">
           <h4>Latest Update</h4>
+          <Link href="/read" size="sm">View more</Link>
         </div>
         <Divider className="my-4"></Divider>
         <div className="cards-cont p-2 gap-2 sm:gap-8">
@@ -100,8 +101,11 @@ export default async function Home() {
                   {formatDateDMY(node.releasedAt) === 'New' ?
 
                   <span className={`text-xs text-danger-600 font-bold pulsate flex-1 text-center`}>
-                    ★ {formatDateDMY(node.releasedAt)}</span>:
-                  <span className={`text-xs text-danger text-default-500 flex-1 text-center`}>{formatDateDMY(node.releasedAt)}</span>
+                    <span className="bg-danger-600 text-foreground px-2 rounded">
+                    {formatDateDMY(node.releasedAt)}
+                    </span>
+                    </span>:
+                  <span className={`text-xs text-default-500 flex-1 text-center`}>{formatDateDMY(node.releasedAt)}</span>
                   }
                   </Link>
                   
