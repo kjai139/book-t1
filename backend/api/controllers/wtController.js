@@ -3,6 +3,7 @@ const Wtc = require('../../models/WTChapterModel')
 require('dotenv').config()
 const debug = require('debug')('book-test:wtController')
 const WtPage = require('../../models/WtPageModel')
+const mongoose = require('mongoose')
 
 
 
@@ -244,6 +245,90 @@ exports.wt_search = async (req, res) => {
         })
 
     } catch (err) {
+        res.status(500).json({
+            message: err.message
+        })
+    }
+}
+
+
+exports.wt_query_get = async (req, res) => {
+    try {
+        const limit = 3
+        const { status, order, page} = req.query
+        const genres = JSON.parse(req.query.genres)
+        const genresObjIds = genres.map(id => mongoose.Types.ObjectId.createFromHexString(id))
+        const skip = (page - 1) * limit
+        const totalWt = await Wt.countDocuments()
+        const totalPages = Math.ceil(totalWt / limit)
+        debug('genres in q', genres)
+
+        const updates = await Wt.aggregate([
+            {
+                $match: {
+                    status: status,
+                    genres: {
+                        $in: genresObjIds
+                    }
+                }
+            },
+            {
+                $sort: { updatedOn: -1}
+            },
+            {
+                $skip: 0
+
+            },
+            {
+                $limit: limit
+            },
+            {
+                $lookup: {
+                    from: Wtc.collection.name,
+                    localField: '_id',
+                    foreignField: 'wtRef',
+                    as: 'chapters'
+                    //localField(cur collection) matches the foreignfield(from collection)
+                }
+            },
+            {
+                $unwind: '$chapters'
+            },
+            {
+                $sort: { 'chapters.chapterNumber': -1 }
+            },
+            {
+                $group: {
+                    //grouping by the Book's id
+                    _id: '$_id',
+                    chapters: { $push: '$chapters' },
+                    book: { $first: '$$ROOT'}
+                }
+            },
+            {
+                $project: {
+                    _id: 0,
+                    book: 1,
+                    chapters: { $slice: ['$chapters', 2]}
+                }
+            },
+            {
+                $unset: "book.chapters"
+            },
+            {
+                $sort: {
+                    "book.updatedOn": -1
+                }
+            }
+        ])
+
+        res.json({
+            wts: updates,
+            totalPages: totalPages
+        })
+
+    } catch (err) {
+        debug('error in query read', err)
         res.status(500).json({
             message: err.message
         })

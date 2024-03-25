@@ -58,7 +58,7 @@ export default function SelectGenres ({value, setValue}) {
              })}
              </CheckboxGroup>
              
-             <p>Selected: {value.join(', ')}</p>
+            {/*  <p>Selected: {value.join(', ')}</p> */}
             </>
             }
         </div>
