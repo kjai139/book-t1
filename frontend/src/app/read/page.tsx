@@ -13,6 +13,7 @@ export default function Readpg () {
                 <Divider className="mt-2"></Divider>
             </div>
             <ViewallWt></ViewallWt>
+            
 
         </div>
     )

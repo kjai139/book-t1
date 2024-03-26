@@ -258,25 +258,41 @@ exports.wt_query_get = async (req, res) => {
         const { status, order, page} = req.query
         const genres = JSON.parse(req.query.genres)
         const genresObjIds = genres.map(id => mongoose.Types.ObjectId.createFromHexString(id))
+        let matchStage = {
+            $match: {
+                
+            }
+        }
+        let countQuery = {
+           
+        }
         const skip = (page - 1) * limit
-        const totalWt = await Wt.countDocuments()
+        if (status) {
+            matchStage.$match.status = status
+            countQuery.status = status
+        }
+        if (genres.length > 0) {
+            matchStage.$match.genres = {
+                $in: genresObjIds
+            }
+            countQuery.genres = {
+                $in: genres
+            }
+        }
+        const totalWt = await Wt.countDocuments(countQuery)
+        
         const totalPages = Math.ceil(totalWt / limit)
         debug('genres in q', genres)
+        
+        
 
         const updates = await Wt.aggregate([
-            {
-                $match: {
-                    status: status,
-                    genres: {
-                        $in: genresObjIds
-                    }
-                }
-            },
+            matchStage,
             {
                 $sort: { updatedOn: -1}
             },
             {
-                $skip: 0
+                $skip: skip
 
             },
             {
