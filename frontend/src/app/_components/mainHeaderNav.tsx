@@ -6,6 +6,7 @@ import { useAuth } from "../_contexts/authContext";
 import NavSearch from "./button/search";
 import BookmarkBtn from "./button/bookmark";
 import PbNavSearch from "./button/pbSearch";
+import { usePathname } from "next/navigation";
 
 interface MenuItems {
   name: string,
@@ -15,6 +16,8 @@ interface MenuItems {
 }
 
 export default function MainHeaderNav () {
+
+    const pathname = usePathname()
 
     const [isMenuOpen, setIsMenuOpen] = useState(false)
     const [menuItems, setMenuItems] = useState<MenuItems[]>([])
@@ -54,7 +57,7 @@ export default function MainHeaderNav () {
 
       useEffect(() => {
         authCheck()
-      }, [])
+      }, [pathname])
 
       useEffect(() => {
         if (user) {
@@ -132,7 +135,7 @@ export default function MainHeaderNav () {
                   color={
                     index === 2 ? "warning" : index === menuItems.length - 1 ? "danger" : "foreground"
                   }
-                  href={item.url}
+                  href={item.url} onClick={() =>setIsMenuOpen(false)}
                   size="lg"
                 >
                   {item.name}

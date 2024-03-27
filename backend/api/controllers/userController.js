@@ -3,6 +3,7 @@ const debug = require('debug')('book-test:userController')
 const { validationResult, body } = require('express-validator')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
+const transporter = require('../../nodemailer')
 require('dotenv').config()
 
 exports.user_createUser_post = [
@@ -61,6 +62,19 @@ exports.user_createUser_post = [
                         })
 
                         await newUser.save()
+                        /* const token = jwt.sign({
+                            email: normalizeEmail
+                        }, process.env.JWT_SECRET, {
+                            expiresIn: '1h'
+                        })
+                        const mailOptions = {
+                            from: process.env.GMAIL_ADDRESS,
+                            to: normalizeEmail,
+                            subject: 'Registration Verification Email',
+                            text: `Please click this link to verify your account: http://localhost:4000/api/user/verify?token=${token}`
+                        } */
+
+                        
 
                         res.json({
                             message: 'Registration successful.'
@@ -136,5 +150,46 @@ exports.user_logout_post = (req, res) => {
         res.status(500).json({
             message: err
         })
+    }
+}
+
+
+exports.user_verification_sendmail = async (req, res) => {
+    try {
+        const user = await User.findById(req.user._id)
+        const normalizeEmail = user.email
+        const token = jwt.sign({
+            email: normalizeEmail
+        }, process.env.JWT_SECRET, {
+            expiresIn: '1h'
+        })
+        const mailOptions = {
+            from: process.env.GMAIL_ADDRESS,
+            to: normalizeEmail,
+            subject: 'Registration Verification Email',
+            text: `Please click this link to verify your account: http://localhost:4000/api/user/verify?token=${token}`
+        }
+
+        await transporter.sendMail(mailOptions)
+        res.json({
+            message: `Verification email sent to ${normalizeEmail}`
+        })
+
+    } catch (err) {
+        debug('ERROR IN VERI SEND', err)
+        res.status(500).json({
+            message: err.message
+        })
+    }
+}
+
+exports.user_verification_confirm = (req, res) => {
+    try {
+        const token = req.query.token
+        const decoded = jwt.verify(token, process.env.JWT_SECRET)
+        
+        res.redirect(`${process.env.FRONT_URL}/verification?success=true`)
+    } catch (err) {
+        res.redirect(`${process.env.FRONT_URL}/verification?success=false`)
     }
 }

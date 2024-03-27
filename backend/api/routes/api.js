@@ -1,5 +1,5 @@
 const express = require('express')
-const { user_createUser_post, user_login_post, user_logout_post } = require('../controllers/userController')
+const { user_createUser_post, user_login_post, user_logout_post, user_verification_confirm, user_verification_sendmail } = require('../controllers/userController')
 const { checkJwt } = require('../middleware/checkJwt')
 const { auth_check_get } = require('../controllers/authController')
 const { genres_get } = require('../controllers/genreController')
@@ -63,5 +63,9 @@ router.get('/wtpage/getch', wtp_get_content)
 router.get('/wt/search', wt_search)
 
 router.get('/wts/all/get', wt_query_get)
+
+router.get('/user/verify', user_verification_confirm)
+
+router.post('/user/verify/send', checkJwt, user_verification_sendmail)
 
 module.exports = router

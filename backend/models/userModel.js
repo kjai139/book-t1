@@ -33,6 +33,10 @@ const UserSchema = new Schema({
     bio: {
         type:String,
         default: null
+    },
+    isVerified: {
+        type:Boolean,
+        default: false
     }
 })
 

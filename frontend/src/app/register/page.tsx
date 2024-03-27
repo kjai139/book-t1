@@ -85,7 +85,7 @@ export default function RegisterPage () {
 
     return (
         <div className='h-screen items-center justify-center flex'>
-        <form onSubmit={handleSubmit(onSubmit)} className={`flex flex-col p-2 gap-1 rounded shadow border-divider border-2 ${styles.form}`}>
+        <form onSubmit={handleSubmit(onSubmit)} className={`flex flex-col p-2 gap-1 rounded shadow border-divider border-2 bg-background-500 ${styles.form}`}>
             <span className='text-center text-lg font-bold'>
                 Sign up
             </span>
@@ -110,10 +110,10 @@ export default function RegisterPage () {
             <p className='text-warning'>{errors.confirmPassword?.message}</p>
             </div>
             <div>
-            <button type='submit' className={`${styles.submitBtn} bg-primary rounded`}>SIGN UP</button>
+            <button type='submit' className={`${styles.submitBtn} bg-primary rounded p-2`}>SIGN UP</button>
             </div>
             <span>
-            <button onClick={(e) => {e.preventDefault(); router.push('/login')}} className={`${styles.link} text-sm`}>Already registered?</button>
+            <button onClick={(e) => {e.preventDefault(); router.push('/login')}} className={`${styles.link} text-sm text-primary`}>Already registered?</button>
             </span>
             {/* For some reason, using link gets spam warnings for preload bs */}
         </form>

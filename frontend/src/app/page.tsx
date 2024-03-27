@@ -53,7 +53,7 @@ export default async function Home() {
       <div className="max-w-[1024px] w-full">
         <div className="pt-4 px-4 flex justify-between">
           <h4>Latest Update</h4>
-          <Link href="/read" size="sm">View more</Link>
+          <Link href="/read" size="sm">View all</Link>
         </div>
         <Divider className="my-4"></Divider>
         <div className="cards-cont p-2 gap-2 sm:gap-8">
@@ -118,6 +118,10 @@ export default async function Home() {
         )
       })}
       </div>
+      <div className="p-6 flex justify-end">
+          
+          <Link href="/read" size="sm">View all</Link>
+        </div>
       </div>
       
       

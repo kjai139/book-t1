@@ -52,7 +52,9 @@ export default function LoginPage () {
                 setIsLoading(false)
                 const responseData = await response.json()
                 console.log(responseData)
-                router.back()
+                console.log('ROUTING TO DASHBOARD...')
+                router.push('/dashboard')
+                /* router.back() */
                 
             } else {
                 setIsLoading(false)

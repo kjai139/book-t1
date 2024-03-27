@@ -29,7 +29,10 @@ const config: Config = {
       'blue-dark': {
         extend: 'dark',
         colors: {
-          background: "#0D001A",
+          background: {
+            DEFAULT: "#0D001A",
+            
+          },
           foreground: "#ffffff",
           overlay: {
             DEFAULT:'rgba(255, 255, 255, 0.5)'
