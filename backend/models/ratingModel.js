@@ -10,18 +10,14 @@ const RatingSchema = new Schema({
         max: 5
     },
     ratedBy: {
-        type:Schema.Types.ObjectId,
-        ref: 'User',
+        type:String,
         required: true
     },
-    item: {
+    wtRef: {
         type:Schema.Types.ObjectId,
         required: true,
-        refPath: 'itemType'
-    },
-    itemType: {
-        type:String,
-        enum: ['Novel', 'WT']
+        ref: 'WT'
+        
     },
     createdAt: {
         type:Date,

@@ -10,6 +10,7 @@ const multerS3 = require('multer-s3')
 const s3 = require('../../s3Client')
 const { wtc_ch_count_get } = require('../controllers/wtcController')
 const { wtp_get_all, wtp_get_content } = require('../controllers/wtpController')
+const { rating_add_post } = require('../controllers/ratingController')
 require('dotenv').config()
 
 const upload = multer({
@@ -26,7 +27,8 @@ const upload = multer({
             
             cb(null, `img/pub/${req.headers['directory-name']}/${Date.now().toString()}-${file.originalname}`)
         },
-        contentType: multerS3.AUTO_CONTENT_TYPE
+        contentType: multerS3.AUTO_CONTENT_TYPE,
+        
 
     })
 })
@@ -67,5 +69,7 @@ router.get('/wts/all/get', wt_query_get)
 router.get('/user/verify', user_verification_confirm)
 
 router.post('/user/verify/send', checkJwt, user_verification_sendmail)
+
+router.post('/rating/add', rating_add_post)
 
 module.exports = router

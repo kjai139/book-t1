@@ -3,20 +3,7 @@
 @tailwind utilities;
 
 :root {
-  --background-c: #BCCCDC;
-  --modal-background-c: hsl(210, 36%, 96%);
-
-
-  --modal-input-c: #D9E2EC;
-  --modal-txt-c: #003E6B;
-  --modal-btn-bg: #4098D7;
-  --btn-txt-light: #F0F4F8;
-
-  --txt-sm: 0.875rem;
-  --txt-xs: 0.75rem;
-
-  --txt-red: #E66A6A;
-  --txt-link: #84C5F4;
+  
 }
 
 * {
@@ -122,5 +109,8 @@ main {
 @layer utilities {
   .text-balance {
     text-wrap: balance;
+  }
+  .dStar {
+    pointer-events: none;
   }
 }

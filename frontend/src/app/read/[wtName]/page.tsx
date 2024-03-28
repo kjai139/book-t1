@@ -91,8 +91,8 @@ export default async function WtPage({params}) {
                 <BreadCrumbs wtUrl={wt.wt.name}></BreadCrumbs>
                 <Image src={wt.wt.image} alt={`Cover image of ${wt.wt.name}`} className="sm:max-h-[240px]"></Image>
                 <SaveBookmarkBtn image={wt.wt.image} wTstatus={wt.wt.status} wtName={wt.wt.name} wtGenres={wt.wt.genres}></SaveBookmarkBtn>
-                <div className="flex">
-                    <Rating rating={5}></Rating>
+                <div className="flex w-full">
+                    <Rating wtId={wt.wt._id}></Rating>
                 </div>
                 <span className="text-sm">
                     <p>{wt.wt.about}</p>
