@@ -3,7 +3,7 @@ import SaveBookmarkBtn from "@/app/_components/button/saveBookmark";
 import ChList from "@/app/_components/list/chList";
 import Rating from "@/app/_components/rating/starRating";
 import apiUrl from "@/app/_utils/apiEndpoint";
-import { Button, Card, CardBody, CardHeader, Divider, Image } from "@nextui-org/react";
+import { Button, Card, CardBody, CardHeader, Divider, Image, Link } from "@nextui-org/react";
 import { notFound } from "next/navigation";
 import { IoBookmarkOutline } from "react-icons/io5";
 
@@ -76,8 +76,15 @@ export default async function WtPage({params}) {
                 name:'TL Group',
                 value: wt.wt.tlGroup
             }
-        ]
+    ]
     
+    const firstChapterNum = wt.totalCh[wt.totalCh.length - 1].chapterNumber
+
+    const lastChapterNum = wt.totalCh[0].chapterNumber
+
+    const sortedGenres = wt.wt.genres.sort((a, b) => {
+        return (a.name > b.name ? 1 : (a.name === b.name ? 0 : -1))
+    })
 
     
 
@@ -98,10 +105,10 @@ export default async function WtPage({params}) {
                     <p>{wt.wt.about}</p>
                 </span>
                 <div className="flex gap-1 justify-evenly">
-                    <Button>
+                    <Button as={Link} href={`/read/${params.wtName}/${firstChapterNum}`} aria-label="First Chapter">
                         First Chapter
                     </Button>
-                    <Button>
+                    <Button as={Link} href={`/read/${params.wtName}/${lastChapterNum}`} aria-label="Latest Chapter">
                         Latest Chapter
                     </Button>
                 </div>
@@ -124,7 +131,7 @@ export default async function WtPage({params}) {
                 </div>
                 
                 <div className="flex gap-2 flex-wrap">
-                {wt.wt.genres.map((genre) => {
+                {sortedGenres.map((genre) => {
                     return (
                         <Button key={genre._id} size="sm" radius="full">
                             {genre.name}

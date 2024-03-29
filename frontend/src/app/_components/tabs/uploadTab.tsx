@@ -46,6 +46,13 @@ export default function UploadTabs () {
         
     }
 
+    const resetWtcForm = () => {
+        setWtcTitle('')
+        setParentRef('')
+        setWtcNumber('')
+        setWtcImages([])
+    }
+
     const uploadWT = async () => {
         
         try {
@@ -179,6 +186,7 @@ export default function UploadTabs () {
                 <Card>
                     <CardBody>
                         <div className='flex flex-col gap-4'>
+                            <Button onPress={resetWtcForm}>RESET FIELDS</Button>
                             <Input
                             value={wtcTitle}
                             onValueChange={setWtcTitle}

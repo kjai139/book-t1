@@ -38,10 +38,12 @@ export function AuthProvider ({children}:AuthProviderProps) {
                     }
                     
                 } else {
-                    const responseData = await response.json()
-                    console.log('User is not logged in.', responseData)
+                    
                     if (pathname === '/dashboard') {
                         router.push('/login')
+                    } else {
+                        const responseData = await response.json()
+                        console.log('User is not logged in.', responseData)
                     }
                 }
     

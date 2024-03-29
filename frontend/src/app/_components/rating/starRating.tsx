@@ -20,10 +20,11 @@ export default function Rating ({wtId}:RatingProps) {
 
     const stars = []
     const starsDisabled = []
-    const [rating, setRating] = useState(4)
+    const [rating, setRating] = useState(0)
     const [hasUserVoted, setHasUserVoted] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
     const [tempId, setTempId] = useState<string | null>('temp')
+    const [isDoneLoading, setIsDoneLoading] = useState(false)
     
 
     useEffect(() => {
@@ -45,16 +46,35 @@ export default function Rating ({wtId}:RatingProps) {
 
     const getRating = async () => {
         try {
-            const response = await fetch(`${apiUrl}/api/ratings/get?wtId=${wtId}`)
+            const tempId = localStorage.getItem('tempId')
+            const response = await fetch(`${apiUrl}/api/ratings/get?wtId=${wtId}&tempId=${tempId}`, {
+                method: 'GET',
+                next: {
+                    revalidate: 1
+                }
+            })
 
             if (response.ok) {
+                const json = await response.json()
+                console.log(json)
+                if (json.results.length > 0) {
+                    setRating(json.results[0].averageRating)
+                    setIsDoneLoading(true)
+                }
+                if (json.didUserRate) {
+                    setHasUserVoted(true)
+                }
                 
             }
 
         } catch (err) {
-
+            console.error(err)
         }
     }
+
+    useEffect(() => {
+        getRating()
+    },[])
 
    
 
@@ -119,7 +139,16 @@ export default function Rating ({wtId}:RatingProps) {
 
 
     return (
-        <div className="flex">{isLoading ? starsDisabled : stars}</div>
+        <div className="flex items-center gap-1">{isLoading ? <div>{starsDisabled}</div> : <div>{stars}</div>}
+        
+        {isDoneLoading && <span className="text-warning-500 text-sm ml-1">
+            {rating}/5
+        </span>}
+        {isDoneLoading && hasUserVoted ? 
+        <span className="text-xs text-default-500 italic">You have already rated this.</span> :
+        <span className="text-xs text-default-500 italic">Give it a rating!</span>
+        }
+        </div>
     )
 
 }

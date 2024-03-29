@@ -1,5 +1,6 @@
 const Rating = require('../../models/ratingModel')
 const debug = require('debug')('book-test:ratingController')
+const mongoose = require('mongoose')
 
 exports.rating_add_post = async (req, res) => {
     try {
@@ -23,6 +24,50 @@ exports.rating_add_post = async (req, res) => {
                 message: 'Thanks for your rating!'
             })
         }
+
+    } catch (err) {
+        res.status(500).json({
+            message: err.message
+        })
+    }
+}
+
+exports.rating_wt_check = async (req, res) => {
+    try {
+        const results = await Rating.aggregate([
+            {
+                $match: {
+                    wtRef:mongoose.Types.ObjectId.createFromHexString(req.query.wtId)
+                }
+            },
+            {
+                $group: {
+                    _id: null,
+                    totalRating: { $sum: "$rating"},
+                    totalCount: {$sum: 1}, //counts all docs that matched 
+                }
+            },
+            {
+                $project : {
+                    wtRef: 1,
+                    totalRating: 1,
+                    totalCount: 1,
+                    averageRating: {
+                        $divide: [
+                            "$totalRating", "$totalCount"
+                        ]
+                    }
+                }
+            }
+        ])
+
+        const didUserRate = await Rating.findOne({wtRef: req.query.wtId, ratedBy: req.query.tempId})
+
+        res.json({
+            results: results,
+            didUserRate: didUserRate
+        })
+
 
     } catch (err) {
         res.status(500).json({

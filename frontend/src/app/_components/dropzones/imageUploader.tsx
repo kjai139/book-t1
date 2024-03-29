@@ -28,7 +28,7 @@ export default function ImageUploader ({setImageArr, imageArr}: ImageUploaderPro
                         const sortedFiles = loadedImages.sort((a, b) => {
                             return acceptedFiles.indexOf(a.file) - acceptedFiles.indexOf(b.file)
                         })
-                        setImageArr(loadedImages)
+                        setImageArr(sortedFiles)
                     }
 
                 }
