@@ -1,6 +1,7 @@
 import BreadCrumbs from "@/app/_components/breadcrumbs/breadcrumb";
 import SaveBookmarkBtn from "@/app/_components/button/saveBookmark";
 import ChList from "@/app/_components/list/chList";
+import LastRead from "@/app/_components/localstorage/lastRead";
 import Rating from "@/app/_components/rating/starRating";
 import apiUrl from "@/app/_utils/apiEndpoint";
 import { Button, Card, CardBody, CardHeader, Divider, Image, Link } from "@nextui-org/react";
@@ -139,6 +140,7 @@ export default async function WtPage({params}) {
                     )
                 })}
                 </div>
+                <LastRead wtId={wt.wt._id}></LastRead>
                 <div>
                     <h3 className="font-semibold">{`Chapters for ${wt.wt.name}`}</h3>
                     <Divider className="mt-4"></Divider>

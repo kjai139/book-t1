@@ -127,6 +127,17 @@ export default function UploadTabs () {
         }
     }
 
+    const uploadNextWtc = () => {
+        let parts = wtcTitle.split(' ')
+        const number = Number(parts[parts.length - 1]) + 1
+        const lastIndex = parts.length - 1
+        const firstPart = parts.slice(0, lastIndex).join(" ")
+        const newNumber = Number(wtcNumber) + 1
+        setWtcTitle(`${firstPart} ${number}`)
+        setWtcNumber(newNumber.toString())
+        setWtcImages([])
+    }
+
     useEffect(() => {
         console.log('WTC IMGS', wtcImages)
     }, [wtcImages])
@@ -187,6 +198,7 @@ export default function UploadTabs () {
                     <CardBody>
                         <div className='flex flex-col gap-4'>
                             <Button onPress={resetWtcForm}>RESET FIELDS</Button>
+                            <Button onPress={uploadNextWtc}>ADD NEXT</Button>
                             <Input
                             value={wtcTitle}
                             onValueChange={setWtcTitle}

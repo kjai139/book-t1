@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import Image from "next/image";
 import BreadCrumbs from "@/app/_components/breadcrumbs/breadcrumb";
 import ChSelect from "@/app/_components/select/chSelect";
+import LocalStorageSaveHistory from "@/app/_components/localstorage/lastPageHistory";
 
 export async function generateStaticParams({
     params: { wtName }
@@ -74,6 +75,7 @@ export default async function Page({params}:{params: {wtName: string; chNum: str
 
     return (
         <div className="flex flex-col gap-2 items-center max-w-[1024px]">
+            <LocalStorageSaveHistory wtRef={content.wtc.wtRef} chName={params.wtName} chNum={params.chNum}></LocalStorageSaveHistory>
             <div className="p-4 text-center">
                 <h3>{content.wtc.name}</h3>
             </div>
