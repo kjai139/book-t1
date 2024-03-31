@@ -48,6 +48,14 @@ async function getWts(params) {
 
 }
 
+export async function generateMetadata({params}) {
+    const formattedtitle = params.wtName.replace(/-/g, ' ')
+    return {
+        title: formattedtitle,
+        description: `Read ${formattedtitle}`
+    }
+}
+
 export default async function WtPage({params}) {
     const wt = await getWts(params)
     console.log('WTPAGE wt:', wt)

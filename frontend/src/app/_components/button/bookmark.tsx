@@ -60,7 +60,7 @@ export default function BookmarkBtn () {
                         Saved Bookmarks
                     </ModalHeader>
                     <ModalBody>
-                        <ul>
+                        <ul className="max-h-[400px] overflow-y-auto bmark-cont">
                         {bookmarks && bookmarks.length > 0 ? bookmarks.map((node, idx) => {
                             return (
                                 <li key={`sr${node.url}-${idx}`} className="flex p-2 justify-center items-center">

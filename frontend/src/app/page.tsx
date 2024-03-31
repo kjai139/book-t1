@@ -19,7 +19,7 @@ async function GetHomeUpdates() {
 
   if (response.ok) {
     const updates = await response.json()
-    console.log('updates:', updates)
+    /* console.log('updates:', updates) */
 
     return updates
   } else {
@@ -42,9 +42,11 @@ async function GetHomeUpdates() {
 
 }
 
+
+
 export default async function Home() {
   const updates = await GetHomeUpdates()
-  console.log('PROPS RECEIVED FROM SSG', updates)
+  /* console.log('PROPS RECEIVED FROM SSG', updates) */
   
   
   return (
@@ -59,8 +61,8 @@ export default async function Home() {
         <div className="cards-cont p-2 gap-2 sm:gap-8">
       
       {updates && updates.updates.map((node, idx) => {
-        console.log('BOOK:', node.book)
-        console.log('CHATPERS:', node.chapters)
+        /* console.log('BOOK:', node.book)
+        console.log('CHATPERS:', node.chapters) */
         let slug = node.book.name.replace(/ /g, "-")
         return (
           <div key={node.book._id} className="cg">

@@ -6,9 +6,7 @@
   
 }
 
-* {
-  scrollbar-width: thin;
-}
+
 
 body {
   display: flex;
@@ -16,8 +14,15 @@ body {
   height:100%;
   width:100%;
   justify-content: center;
+  
  
 }
+
+html, .bmark-cont {
+  scrollbar-width: thin;
+}
+
+
 
 main {
   display: flex;
@@ -90,6 +95,12 @@ main {
   animation: pulsate 1s ease-out infinite;
   opacity: 0.5;
 }
+
+.chList-cont::-webkit-scrollbar {
+  width: 0;
+  background-color: transparent;
+}
+
 
 @keyframes pulsate {
   0% {

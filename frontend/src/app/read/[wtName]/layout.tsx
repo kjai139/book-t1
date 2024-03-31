@@ -28,7 +28,6 @@ export async function generateStaticParams() {
 
 
 
-
 export default function Layout({children, params}) {
     return (
         <>

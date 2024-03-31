@@ -11,6 +11,7 @@ const s3 = require('../../s3Client')
 const { wtc_ch_count_get } = require('../controllers/wtcController')
 const { wtp_get_all, wtp_get_content } = require('../controllers/wtpController')
 const { rating_add_post, rating_wt_check } = require('../controllers/ratingController')
+const { siteData_get } = require('../controllers/metaController')
 require('dotenv').config()
 
 const upload = multer({
@@ -73,5 +74,7 @@ router.post('/user/verify/send', checkJwt, user_verification_sendmail)
 router.post('/rating/add', rating_add_post)
 
 router.get('/ratings/get', rating_wt_check )
+
+router.get('/metadata/get', siteData_get)
 
 module.exports = router

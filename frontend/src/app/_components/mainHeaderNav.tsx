@@ -1,12 +1,14 @@
 'use client'
 
 import { useEffect, useState } from "react"
-import {Navbar, NavbarBrand, NavbarContent, NavbarItem, NavbarMenuToggle, NavbarMenu, NavbarMenuItem, Link, Button, Divider, Input} from "@nextui-org/react";
+import {Navbar, NavbarBrand, NavbarContent, NavbarItem, NavbarMenuToggle, NavbarMenu, NavbarMenuItem, Link, Button, Divider, Input } from "@nextui-org/react";
 import { useAuth } from "../_contexts/authContext";
 import NavSearch from "./button/search";
 import BookmarkBtn from "./button/bookmark";
 import PbNavSearch from "./button/pbSearch";
 import { usePathname } from "next/navigation";
+import homeIcon from '../apple-icon.png'
+import NextImage from "next/image";
 
 interface MenuItems {
   name: string,
@@ -70,11 +72,20 @@ export default function MainHeaderNav () {
       }, [user])
 
       
+
+      
     
       return (
         <Navbar disableAnimation={true} isBordered onMenuOpenChange={setIsMenuOpen} isMenuOpen={isMenuOpen}>
           <NavbarContent className="sm:hidden" justify="start">
             <NavbarMenuToggle aria-label={isMenuOpen ? 'Close menu' : 'Open menu'} className="sm:hidden" />
+          </NavbarContent>
+          <NavbarContent>
+            <NavbarBrand>
+              <Button variant="flat" as={Link} href="/" isIconOnly>
+                <NextImage src={homeIcon} alt="Home Icon Image"></NextImage>
+              </Button>
+            </NavbarBrand>
           </NavbarContent>
     
           <NavbarContent className="sm:hidden pr-3" justify="center">
@@ -94,11 +105,7 @@ export default function MainHeaderNav () {
                 Series
               </Link>
             </NavbarItem>
-            <NavbarItem isActive>
-              <Link href="#" aria-current="page" color="warning">
-                Genres
-              </Link>
-            </NavbarItem>
+            
             {/* <NavbarItem>
               <Link color="foreground" href="#">
                 Integrations

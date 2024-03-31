@@ -31,6 +31,14 @@ export async function generateStaticParams({
 
 }
 
+export async function generateMetadata ({params}) {
+    const formattedName = params.wtName.replace(/-/g, ' ')
+    return {
+        title: `${formattedName} Chapter ${params.chNum}`,
+        description: `Read ${formattedName} Chapter ${params.chNum}`
+    }
+}
+
 async function getChContent (params) {
     try {
         const response = await fetch(`${apiUrl}/api/wtpage/getch?name=${params.wtName}&num=${params.chNum}`, {

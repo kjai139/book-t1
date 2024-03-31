@@ -6,6 +6,10 @@ const siteDataSchema = new Schema({
         type:String,
         required: true,
     },
+    shortDesc: {
+        type:String,
+        required: true
+    },
     description: {
         type:String,
         required: true,
@@ -24,6 +28,9 @@ const siteDataSchema = new Schema({
     },
     url: {
         type:String,
+    },
+    ogImg: {
+        type:String
     }
 
 })

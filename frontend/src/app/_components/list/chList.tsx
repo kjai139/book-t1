@@ -3,6 +3,7 @@
 import { Link } from "@nextui-org/react"
 import { formatDateDMY } from "@/app/_utils/dates"
 
+
 interface ChListProps{
     chs: any,
     curSlug: string,
@@ -11,10 +12,14 @@ interface ChListProps{
 
 export default function ChList ({chs, curSlug}:ChListProps) {
 
+    
+   
+    
+
 
 
     return (
-        <div className="flex flex-col">
+        <div className="flex flex-col chList-cont max-h-[300px] overflow-y-auto">
             <ul className="grid grid-cols-2 gap-2 auto-rows-auto">
                 {chs.map((ch) => {
                     return (
@@ -41,6 +46,7 @@ export default function ChList ({chs, curSlug}:ChListProps) {
                 
 
             </ul>
+           
 
         </div>
     )
