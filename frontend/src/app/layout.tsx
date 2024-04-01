@@ -32,6 +32,7 @@ export async function generateMetadata () {
 
 
 
+
 export default function RootLayout({
   children,
 }: Readonly<{

@@ -24,7 +24,7 @@ const main = async () => {
 main()
 app.use(cors({
     origin: allowedOrigins,
-    credentials: true
+    credentials: true,
 }))
 app.use(cookieParser())
 app.use(express.json())

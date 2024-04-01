@@ -131,7 +131,11 @@ exports.user_login_post = [
                     })
     
                     res.json({
-                        message: 'Login successful.'
+                        message:'Authorized'
+                    })
+                } else {
+                    res.status(401).json({
+                        message: 'Incorrect credentials'
                     })
                 }
             }

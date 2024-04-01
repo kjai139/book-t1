@@ -6,7 +6,7 @@ import { useAuth } from "../_contexts/authContext";
 import NavSearch from "./button/search";
 import BookmarkBtn from "./button/bookmark";
 import PbNavSearch from "./button/pbSearch";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import homeIcon from '../apple-icon.png'
 import NextImage from "next/image";
 
@@ -20,7 +20,7 @@ interface MenuItems {
 export default function MainHeaderNav () {
 
     const pathname = usePathname()
-
+    const router = useRouter()
     const [isMenuOpen, setIsMenuOpen] = useState(false)
     const [menuItems, setMenuItems] = useState<MenuItems[]>([])
     const [isSearchOpen, setIsSearchOpen] = useState(false)
@@ -58,8 +58,13 @@ export default function MainHeaderNav () {
     
 
       useEffect(() => {
-        authCheck()
+        if (pathname === '/login' || pathname === '/dashboard' || pathname === '/') {
+          authCheck()
+        }
+        
       }, [pathname])
+
+      
 
       useEffect(() => {
         if (user) {
@@ -83,7 +88,7 @@ export default function MainHeaderNav () {
           <NavbarContent>
             <NavbarBrand>
               <Button variant="flat" as={Link} href="/" isIconOnly>
-                <NextImage src={homeIcon} alt="Home Icon Image"></NextImage>
+                <NextImage src={homeIcon} alt="Home Icon Image" priority></NextImage>
               </Button>
             </NavbarBrand>
           </NavbarContent>
