@@ -2,7 +2,7 @@ const express = require('express')
 const { user_createUser_post, user_login_post, user_logout_post, user_verification_confirm, user_verification_sendmail } = require('../controllers/userController')
 const { checkJwt } = require('../middleware/checkJwt')
 const { auth_check_get } = require('../controllers/authController')
-const { genres_get } = require('../controllers/genreController')
+const { genres_get, genres_all_params_get, genre_wt_byGenre_get } = require('../controllers/genreController')
 const { wt_get_all, wt_create, wtc_create, wt_updates_get, wt_getOne, wt_search, wt_query_get } = require('../controllers/wtController')
 const router = express.Router()
 const multer = require('multer')
@@ -76,5 +76,9 @@ router.post('/rating/add', rating_add_post)
 router.get('/ratings/get', rating_wt_check )
 
 router.get('/metadata/get', siteData_get)
+
+router.get('/genres/all/getParams', genres_all_params_get)
+
+router.get('/genre/wts/get', genre_wt_byGenre_get)
 
 module.exports = router

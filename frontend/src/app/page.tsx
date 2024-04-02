@@ -2,6 +2,7 @@ import { Divider, Link } from "@nextui-org/react"
 import NextImage from "next/image"
 import { formatDateDMY } from './_utils/dates'
 import apiUrl from "./_utils/apiEndpoint"
+import StarsOnly from "./_components/rating/starsDisplayOnly"
 
 interface Updates {
 
@@ -90,6 +91,9 @@ export default async function Home() {
             {node.book.name}
             </Link>
             
+            </span>
+            <span className="my-[5px]">
+              <StarsOnly rating={node.book.avgRating ? node.book.avgRating : 0}></StarsOnly>
             </span>
             
               

@@ -6,7 +6,7 @@ import Rating from "@/app/_components/rating/starRating";
 import apiUrl from "@/app/_utils/apiEndpoint";
 import { Button, Card, CardBody, CardHeader, Divider, Image, Link } from "@nextui-org/react";
 import { notFound } from "next/navigation";
-import { IoBookmarkOutline } from "react-icons/io5";
+
 
 
 

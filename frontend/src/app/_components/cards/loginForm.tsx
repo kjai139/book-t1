@@ -8,6 +8,7 @@ import apiUrl from '../../_utils/apiEndpoint'
 import { useState } from 'react'
 import ResultModal from '../../_components/modals/resultModal'
 import { Button } from '@nextui-org/react'
+import { useAuth } from '@/app/_contexts/authContext'
 
 const schema = yup.object({
     username: yup.string().required('A username is required'),
@@ -20,6 +21,7 @@ export default function LoginForm () {
     const router = useRouter()
     const [errorMsg, setErrorMsg] = useState('')
     const [isLoading, setIsLoading] = useState(false)
+    const { setUser } = useAuth()
     
     const {
         register,
@@ -49,7 +51,6 @@ export default function LoginForm () {
             if (response.ok) {
                 setIsLoading(false)
                 const responseData = await response.json()
-                console.log(responseData)
                 console.log('ROUTING TO DASHBOARD...')
                 router.push('/dashboard')
           

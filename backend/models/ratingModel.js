@@ -25,4 +25,14 @@ const RatingSchema = new Schema({
     }
 })
 
+RatingSchema.post('save', async function(doc) {
+    await doc.populate('wtRef')
+    doc.wtRef.calculateAvgRating()
+})
+
+RatingSchema.post('remove', async function(doc) {
+    await doc.populate('wtRef')
+    doc.wtRef.calculateAvgRating()
+})
+
 module.exports = mongoose.model('Rating', RatingSchema)

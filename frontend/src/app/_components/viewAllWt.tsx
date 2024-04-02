@@ -7,6 +7,7 @@ import { Button, Link, Pagination } from "@nextui-org/react"
 import apiUrl from "../_utils/apiEndpoint"
 import { formatDateDMY } from "../_utils/dates"
 import NextImage from "next/image"
+import StarsOnly from "./rating/starsDisplayOnly"
 
 
 export default function ViewallWt () {
@@ -53,7 +54,7 @@ export default function ViewallWt () {
             <div className="justify-end flex">
                 <Button  color="primary" size="sm" onPress={getWts}>Filter</Button>
             </div>
-            <div className="cards-cont p-2 gap-2 sm:gap-8">
+            <div className="cards-cont gap-2 sm:gap-8">
       
         {updates && updates.wts.map((node, idx) => {
             
@@ -84,6 +85,9 @@ export default function ViewallWt () {
                 {node.book.name}
                 </Link>
                 
+                </span>
+                <span className="my-[5px]">
+                <StarsOnly rating={node.book.avgRating ? node.book.avgRating : 0}></StarsOnly>
                 </span>
                 
                 

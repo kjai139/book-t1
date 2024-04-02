@@ -1,6 +1,7 @@
 const Rating = require('../../models/ratingModel')
 const debug = require('debug')('book-test:ratingController')
 const mongoose = require('mongoose')
+const Wt = require('../../models/wtModel')
 
 exports.rating_add_post = async (req, res) => {
     try {
@@ -34,7 +35,7 @@ exports.rating_add_post = async (req, res) => {
 
 exports.rating_wt_check = async (req, res) => {
     try {
-        const results = await Rating.aggregate([
+       /*  const results = await Rating.aggregate([
             {
                 $match: {
                     wtRef:mongoose.Types.ObjectId.createFromHexString(req.query.wtId)
@@ -59,12 +60,15 @@ exports.rating_wt_check = async (req, res) => {
                     }
                 }
             }
-        ])
+        ]) */
+        // dont have to aggregate on query when you can jusst set post in the models with a function that runs on rating creation
+
+        const results = await Wt.findById(req.query.wtId)
 
         const didUserRate = await Rating.findOne({wtRef: req.query.wtId, ratedBy: req.query.tempId})
 
         res.json({
-            results: results,
+            results: results.avgRating,
             didUserRate: didUserRate
         })
 

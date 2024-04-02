@@ -39,7 +39,6 @@ export function AuthProvider ({children}:AuthProviderProps) {
                   
                     
                 } else {
-                    console.log('User is not logged in.')
                     if (pathname === '/dashboard') {
                         router.push('/login')
                     }

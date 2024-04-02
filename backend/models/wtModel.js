@@ -52,9 +52,23 @@ const WTSchema = new Schema({
     tlGroup: {
         type:String,
         default: ''
+    },
+    avgRating: {
+        type: Number,
+        default: 0
     }
     
 })
+
+WTSchema.methods.calculateAvgRating = async function() {
+    const ratings = await mongoose.model('Rating').aggregate([
+        {$match: {wtRef: this._id}},
+        {$group: {_id: null, avgRating: {$avg: '$rating'} }}
+    ])
+
+    this.avgRating = ratings.length > 0 ? Math.ceil(ratings[0].avgRating * 10) / 10 : 0
+    await this.save()
+}
 
 /* WTSchema.pre('save', function(next) {
     if (this.isModified('chapters')) {

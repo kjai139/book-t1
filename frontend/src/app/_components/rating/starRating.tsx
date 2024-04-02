@@ -57,8 +57,8 @@ export default function Rating ({wtId}:RatingProps) {
             if (response.ok) {
                 const json = await response.json()
                 console.log(json)
-                if (json.results.length > 0) {
-                    setRating(json.results[0].averageRating)
+                if (json.results) {
+                    setRating(json.results)
                     setIsDoneLoading(true)
                 }
                 if (json.didUserRate) {

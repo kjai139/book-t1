@@ -1,5 +1,5 @@
 import { FaRegStar, FaRegStarHalfStroke, FaStar } from "react-icons/fa6";
-import { Button } from "@nextui-org/react";
+
 interface StarProps {
     remain: number,
     idx: number,
@@ -12,6 +12,7 @@ export default function Star ({remain, idx, isDisabled, onClickFunc}:StarProps) 
     
 
     return (
+        
         <span>
             {remain == 0 &&
             <button onClick={() => onClickFunc(idx)} className={`${isDisabled ? 'dStar' : 'undefined'}`}>

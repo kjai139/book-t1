@@ -131,7 +131,7 @@ exports.user_login_post = [
                     })
     
                     res.json({
-                        message:'Authorized'
+                        message:'Authorized',
                     })
                 } else {
                     res.status(401).json({
