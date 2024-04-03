@@ -8,6 +8,7 @@ import apiUrl from "../_utils/apiEndpoint"
 import { formatDateDMY } from "../_utils/dates"
 import NextImage from "next/image"
 import StarsOnly from "./rating/starsDisplayOnly"
+import SortByRadio from "./radio/sortByRadio"
 
 
 export default function ViewallWt () {
@@ -18,6 +19,8 @@ export default function ViewallWt () {
     const [curPg, setCurPg] = useState(1)
     const [totalPages, setTotalPages] = useState()
     const [updates, setUpdates] = useState()
+
+    const [sortBy, setSortBy] = useState('latest')
     const [isResultOut, setIsResultOut] = useState(false)
     //for errors
 
@@ -25,7 +28,7 @@ export default function ViewallWt () {
     const getWts = async () => {
         setIsResultOut(false)
         try {
-            const response = await fetch(`${apiUrl}/api/wts/all/get?genres=${encodeURIComponent(JSON.stringify(genres))}&status=${status}&order=${'latest'}&page=${curPg}`, {
+            const response = await fetch(`${apiUrl}/api/wts/all/get?genres=${encodeURIComponent(JSON.stringify(genres))}&status=${status}&order=${sortBy}&page=${curPg}`, {
                 cache: "no-cache"
             })
 
@@ -44,13 +47,16 @@ export default function ViewallWt () {
     }
 
     useEffect(() => {
-        getWts()
+        if (curPg) {
+            getWts()
+        }
     }, [curPg])
 
     return (
         <div className="p-2 flex flex-col gap-6">
             <SelectGenres value={genres} setValue={setGenres}></SelectGenres>
             <SelectStatusCheckbox value={status} setValue={setStatus}></SelectStatusCheckbox>
+            <SortByRadio value={sortBy} setValue={setSortBy}></SortByRadio>
             <div className="justify-end flex">
                 <Button  color="primary" size="sm" onPress={getWts}>Filter</Button>
             </div>

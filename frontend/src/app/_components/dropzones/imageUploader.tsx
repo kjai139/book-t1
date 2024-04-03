@@ -11,7 +11,7 @@ interface ImageUploaderProps {
 
 export default function ImageUploader ({setImageArr, imageArr}: ImageUploaderProps) {
 
-    const onDrop = useCallback((acceptedFiles:File[]) => {
+    /*const onDrop = useCallback((acceptedFiles:File[]) => {
         setImageArr([])
         let loadedImages = []
         acceptedFiles.forEach((file) => {
@@ -20,10 +20,7 @@ export default function ImageUploader ({setImageArr, imageArr}: ImageUploaderPro
                 const img = new window.Image()
                 img.onload = () => {
                     loadedImages.push( { file, width:img.naturalWidth, height: img.naturalHeight })
-                    /* setImageArr((prev) => [
-                        ...prev, 
-                        { file, width:img.naturalWidth, height: img.naturalHeight }
-                    ]) */
+                    
                     if (loadedImages.length === acceptedFiles.length){
                         const sortedFiles = loadedImages.sort((a, b) => {
                             return acceptedFiles.indexOf(a.file) - acceptedFiles.indexOf(b.file)
@@ -41,7 +38,51 @@ export default function ImageUploader ({setImageArr, imageArr}: ImageUploaderPro
         })
         console.log(acceptedFiles)
         
-    }, [])
+    }, []) */
+    //onload is a listener set up that triggers when readasdataurl, promise gathers them all and then sortfile forms an array of the objs, remove the onload listeners when done for cleanup, promiseall returns an array
+    const onDrop = useCallback((acceptedFiles: File[]) => {
+        setImageArr([]);
+        let loadedImages = [];
+    
+        const loadImage = (file) => {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+    
+                reader.onload = () => {
+                    const img = new window.Image();
+                    img.onload = () => {
+                        resolve({ file, width: img.naturalWidth, height: img.naturalHeight });
+                        img.onload = null;
+                        reader.onload = null;
+                    };
+                    img.onerror = () => {
+                        reject(new Error('Error loading image'));
+                        img.onerror = null;
+                        reader.onload = null;
+                    };
+                    img.src = reader.result as string;
+                };
+    
+                reader.onerror = (error) => {
+                    reject(error);
+                    reader.onerror = null;
+                };
+    
+                reader.readAsDataURL(file);
+            });
+        };
+    
+        Promise.all(acceptedFiles.map(loadImage))
+            .then((loadedImages) => {
+                const sortedFiles = loadedImages.sort((a, b) => {
+                    return acceptedFiles.indexOf(a.file) - acceptedFiles.indexOf(b.file);
+                });
+                setImageArr(sortedFiles);
+            })
+            .catch((error) => {
+                console.error('Error processing files', error);
+            });
+    }, []);
     const {
         acceptedFiles,
         fileRejections,

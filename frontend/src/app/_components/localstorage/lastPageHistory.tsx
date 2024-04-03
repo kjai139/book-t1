@@ -13,7 +13,7 @@ export default function LocalStorageSaveHistory ({chName, chNum, wtRef}:localSto
 
     useEffect(() => {
         let savedHistory = localStorage.getItem(wtRef)
-        let formattedName = chName.replace('-', ' ')
+        let formattedName = chName.replace(/-/g, ' ')
         let url = `/read/${chName}/${chNum}`
         if (savedHistory) {
             savedHistory = JSON.parse(savedHistory)

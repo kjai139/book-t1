@@ -44,6 +44,14 @@ main {
   height: 100%;
 }
 
+.bcStr {
+  text-overflow: ellipsis;
+  white-space: break-spaces;
+  overflow: hidden;
+  max-width: 300px;
+  display: inline-block;
+}
+
 .dropzone {
   justify-content: center;
   align-items: center;

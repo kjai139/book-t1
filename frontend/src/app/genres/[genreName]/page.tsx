@@ -5,7 +5,7 @@ import { notFound } from "next/navigation"
 
 async function getWts(params) {
     try {
-        const response = await fetch(`${apiUrl}/api/genre/wts/get?name=${params.genreName}`, {
+        const response = await fetch(`${apiUrl}/api/genre/wts/get?name=${params.genreName}&page=${1}&sort=${'latest'}`, {
             method: 'GET',
             next: {
                 revalidate: 1
@@ -30,13 +30,14 @@ export default async function Page ({params}) {
     if (!wts) {
         notFound()
     }
+    const formattedName = params.genreName.replace(/-/g, ' ').charAt(0).toUpperCase() + params.genreName.slice(1)
 
     return (
-        <div className="max-w-[1024px] flex flex-col">
+        <div className="max-w-[1024px] flex flex-col p-2">
             <div>
-            <h3>{params.genreName.replace(/-/g, ' ')}</h3>
+            <h3>{formattedName}</h3>
             </div>
-            <ViewGenreWt wtsArr={wts}></ViewGenreWt>
+            <ViewGenreWt wtsArr={wts} totalPg={wts.totalPages} genreName={params.genreName}></ViewGenreWt>
         </div>
     )
 }

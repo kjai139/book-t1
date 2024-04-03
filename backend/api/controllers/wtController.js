@@ -266,6 +266,9 @@ exports.wt_query_get = async (req, res) => {
         let countQuery = {
            
         }
+        let sortCondition = {
+
+        }
         const skip = (page - 1) * limit
         if (status) {
             matchStage.$match.status = status
@@ -279,6 +282,11 @@ exports.wt_query_get = async (req, res) => {
                 $in: genres
             }
         }
+        if (order === 'latest') {
+            sortCondition = { updatedOn : -1}
+        } else if (order === 'rating') {
+            sortCondition = {avgRating: -1}
+        }
         const totalWt = await Wt.countDocuments(countQuery)
         
         const totalPages = Math.ceil(totalWt / limit)
@@ -289,7 +297,7 @@ exports.wt_query_get = async (req, res) => {
         const updates = await Wt.aggregate([
             matchStage,
             {
-                $sort: { updatedOn: -1}
+                $sort: sortCondition
             },
             {
                 $skip: skip

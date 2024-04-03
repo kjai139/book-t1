@@ -142,7 +142,7 @@ export default async function WtPage({params}) {
                 <div className="flex gap-2 flex-wrap">
                 {sortedGenres.map((genre) => {
                     return (
-                        <Button key={genre._id} size="sm" radius="full">
+                        <Button as={Link} href={`/genres/${genre.lcname}`} aria-label={`Check ${genre.lcname}`} key={genre._id} size="sm" radius="full">
                             {genre.name}
                         </Button>
                     )
