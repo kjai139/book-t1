@@ -81,6 +81,10 @@ main {
   white-space: nowrap;
 }
 
+.slick-dots li button:before {
+  color: white;
+}
+
 .cards-cont {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
@@ -109,6 +113,39 @@ main {
   background-color: transparent;
 }
 
+.slider-txt-cont {
+  backdrop-filter: blur(0.5rem);
+}
+
+.slider-dots {
+  display: flex;
+  width: 100%;
+  list-style: none;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  padding: .25rem;
+  color: var(--nextui-foreground);
+}
+
+.slider-dots > ul {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  gap: 16px;
+  padding: .5rem;
+}
+
+.slider-dots > ul > li:hover {
+  cursor: pointer;
+}
+
+
+
+.slick-active {
+  color: #4098D7;
+}
+
 
 @keyframes pulsate {
   0% {
@@ -125,11 +162,16 @@ main {
   }
 }
 
+
+
 @layer utilities {
   .text-balance {
     text-wrap: balance;
   }
   .dStar {
     pointer-events: none;
+  }
+  .text-shadow {
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
   }
 }

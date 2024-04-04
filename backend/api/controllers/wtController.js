@@ -193,9 +193,12 @@ exports.wt_updates_get = async (req, res) => {
 
         const totalPages = Math.ceil(totalCount / limit)
 
+        const slider = await Wt.aggregate().sample(6)
+
         res.json({
             updates: updates,
-            totalPages: totalPages
+            totalPages: totalPages,
+            slider: slider
         })
 
     } catch (err) {

@@ -3,6 +3,7 @@ import NextImage from "next/image"
 import { formatDateDMY } from './_utils/dates'
 import apiUrl from "./_utils/apiEndpoint"
 import StarsOnly from "./_components/rating/starsDisplayOnly"
+import MainDynamicSlide from "./_components/slider/mainSlider"
 
 interface Updates {
 
@@ -54,6 +55,7 @@ export default async function Home() {
     <>
     <main className="flex flex-col items-center">
       <div className="max-w-[1024px] w-full">
+        <MainDynamicSlide slideArr={updates.slider}></MainDynamicSlide>
         <div className="pt-4 px-4 flex justify-between">
           <h4>Latest Update</h4>
           <Link href="/read" size="sm">View all</Link>
