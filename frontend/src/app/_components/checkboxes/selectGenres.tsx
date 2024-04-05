@@ -41,11 +41,11 @@ export default function SelectGenres ({value, setValue}) {
 
 
     return (
-       <div className="flex w-full max-w-xs flex-col gap-2">
+       <div className="flex w-full flex-col gap-2">
              { defaultItems &&
              <>
              <CheckboxGroup
-             label="Select Genres"
+             label="By Genres"
              color="primary"
              value={value}
              onValueChange={setValue}

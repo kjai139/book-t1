@@ -5,6 +5,7 @@ import { Providers } from "./provider";
 import { AuthProvider } from "./_contexts/authContext";
 import MainHeaderNav from "./_components/mainHeaderNav";
 import apiUrl from "./_utils/apiEndpoint";
+import MainFooter from "./_components/footer/mainFooter";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -34,7 +35,7 @@ export async function generateMetadata () {
 
 
 export default function RootLayout({
-  children,
+  children, params
 }: Readonly<{
   children: React.ReactNode;
 }>) {
@@ -47,6 +48,7 @@ export default function RootLayout({
         <Providers>
         <MainHeaderNav></MainHeaderNav>
         {children}
+        <MainFooter></MainFooter>
         </Providers>
         </AuthProvider>
         </body>

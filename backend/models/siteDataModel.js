@@ -31,6 +31,9 @@ const siteDataSchema = new Schema({
     },
     ogImg: {
         type:String
+    },
+    siteC: {
+        type:String,
     }
 
 })

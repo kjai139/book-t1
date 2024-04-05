@@ -193,7 +193,18 @@ exports.wt_updates_get = async (req, res) => {
 
         const totalPages = Math.ceil(totalCount / limit)
 
-        const slider = await Wt.aggregate().sample(6)
+        const slider = await Wt.aggregate([
+            {
+                $lookup: {
+                    from: 'genres',
+                    localField: 'genres',
+                    foreignField: '_id',
+                    as: 'genres'
+                }//serves as populate
+            }
+        ]).sample(6)
+
+        debug('SLIDER RESULT', slider)
 
         res.json({
             updates: updates,

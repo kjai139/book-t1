@@ -44,6 +44,16 @@ main {
   height: 100%;
 }
 
+.slider-about {
+  display: -webkit-box;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  width: 100%;
+  white-space: normal;
+  -webkit-line-clamp: 5;
+  -webkit-box-orient: vertical;
+}
+
 .bcStr {
   text-overflow: ellipsis;
   white-space: break-spaces;
@@ -114,7 +124,7 @@ main {
 }
 
 .slider-txt-cont {
-  backdrop-filter: blur(0.5rem);
+  backdrop-filter: blur(0.8rem);
 }
 
 .slider-dots {
@@ -173,5 +183,8 @@ main {
   }
   .text-shadow {
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  }
+  .text-shadow-sm {
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
   }
 }

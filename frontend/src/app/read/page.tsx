@@ -7,7 +7,8 @@ export default function Readpg () {
 
 
     return (
-        <div className="flex flex-col max-w-[1024px]">
+        <main>
+        <div className="flex flex-col max-w-[1024px] w-full">
             <div className="p-4">
                 <h3>All Webtoons</h3>
                 <Divider className="mt-2"></Divider>
@@ -16,5 +17,6 @@ export default function Readpg () {
             
 
         </div>
+        </main>
     )
 }

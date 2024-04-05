@@ -17,22 +17,61 @@ export default function MainDynamicSlide ({slideArr}:MainDynamicSlideProps) {
     const [slides, setSlides] = useState(slideArr)
 
     const settings = {
-        dots: true,
-        slidesToShow: 1,
+        slidesToShow: 4,
         slidesToScroll: 1,
-        initialSlide: 0,
-        autoplay: true,
-        autoplaySpeed: 500,
+        dots:true,
+        autoplay: false,
+        autoplaySpeed: 3000,
         speed:500,
+        arrows: true,
         pauseonHover: true,
+        className: 'w-[100%] p-2',
+        appendDots: dots => (
+            <div style={{
+
+            }}>
+                <ul>{dots}</ul>
+
+            </div>
+        ),
+        customPaging: i => (
+            <GoDotFill>
+                {i + 1}
+            </GoDotFill>
+        ),
+        dotsClass: 'slider-dots',
+                    
         responsive: [
             {
                 breakpoint:1024,
                 settings: {
-                    slidesToShow: 3,
-                    slidesToScroll: 3,
+                    slidesToShow: 1,
+                    slidesToScroll: 1,
                     dots:true,
+                    autoplay: false,
+                    autoplaySpeed: 3000,
+                    speed:500,
+                    arrows: false,
+                    pauseonHover: true,
+                    className: 'w-[100%] p-2',
+                    appendDots: dots => (
+                        <div style={{
 
+                        }}>
+                            <ul>{dots}</ul>
+
+                        </div>
+                    ),
+                    customPaging: i => (
+                        <GoDotFill>
+                            {i + 1}
+                        </GoDotFill>
+                    ),
+                    dotsClass: 'slider-dots'
+                    
+                    
+                    
+                    
                 }
             },
             {
@@ -44,8 +83,23 @@ export default function MainDynamicSlide ({slideArr}:MainDynamicSlideProps) {
                     autoplay: false,
                     autoplaySpeed: 3000,
                     speed:500,
+                    arrows: false,
                     pauseonHover: true,
-                    className: 'w-[80%] p-2',
+                    className: 'w-[100%] p-2',
+                    appendDots: dots => (
+                        <div style={{
+
+                        }}>
+                            <ul>{dots}</ul>
+
+                        </div>
+                    ),
+                    customPaging: i => (
+                        <GoDotFill>
+                            {i + 1}
+                        </GoDotFill>
+                    ),
+                    dotsClass: 'slider-dots'
                     
                     
                     
@@ -89,14 +143,17 @@ export default function MainDynamicSlide ({slideArr}:MainDynamicSlideProps) {
 
     }
 
+    
+
     return (
         <div className='slider-container flex items-center justify-center'>
             <Slider {...settings}>
                 {slides.map((slide) => {
+                    const concatGenres = slide.genres.map(genre => genre.name).sort().join(', ')
                     return (
-                        <div key={`slide-${slide._id}`} className='h-[300px] w-full'>
-                            <span className='relative h-[300px] flex flex-col'>
-                            <NextImage src={slide.image} fill  sizes="(max-width:600px) 80vw, (max-width:1200px) 20vw" alt={`Cover Image of ${slide.name}`} className='rounded shadow' style={{
+                        <div key={`slide-${slide._id}`} className='h-[400px] w-full'>
+                            <span className='relative h-[400px] flex flex-col lg:m-2'>
+                            <NextImage src={slide.image} fill  sizes="(max-width:320px) 80vw, (max-width:640px) 40vw, (max-width:768px) 30vw, (max-width:1200px) 15vw, 10vw" alt={`Cover Image of ${slide.name}`} className='rounded shadow' style={{
                                 objectFit: 'cover'
                             }}>
 
@@ -107,8 +164,16 @@ export default function MainDynamicSlide ({slideArr}:MainDynamicSlideProps) {
                                     {slide.name}
                                 </span>
                                 <StarsOnly rating={slide.avgRating ? slide.avgRating : 0}></StarsOnly>
-                                <div>
-                                <Button variant='solid' color='default' size='sm' radius='sm'>Read</Button>
+                                <span className='flex text-xs text-foreground font-semibold'>
+                                    {`Genres: ${concatGenres}`}
+                                </span>
+                                <span className='text-xs text-shadow slider-about'>
+                                    <p>
+                                    {slide.about}
+                                    </p>
+                                </span>
+                                <div className='pb-2'>
+                                <Button variant='solid' color='default' size='sm' radius='sm'>More Details</Button>
                                 </div>
                                 </div>
                             </div>

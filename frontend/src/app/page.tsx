@@ -99,12 +99,12 @@ export default async function Home() {
             </span>
             
               
-              <div className="ch-btns gap-1">
+              <div className="ch-btns gap-2 mt-2">
               {node.chapters.map((node) => {
                 return (
                   <div key={node._id}>
                   <Link color="foreground" href={`/read/${slug}/${node.chapterNumber}`} className="flex gap-1 items-center">
-                  <span className="text-sm">{`Chapter ${node.chapterNumber}`}</span>
+                  <span className="text-xs sm:text-sm">{`Chapter ${node.chapterNumber}`}</span>
                   
                   {formatDateDMY(node.releasedAt) === 'New' ?
 
