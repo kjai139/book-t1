@@ -76,7 +76,8 @@ exports.genre_wt_byGenre_get = async (req, res) => {
                 }
             } else if (sort === 'rating') {
                 sortCondition = {
-                    avgRating: -1
+                    avgRating: -1,
+                    updatedOn: -1
                 }
             }
             const totalWt = await Wt.countDocuments(countQuery)
@@ -137,6 +138,7 @@ exports.genre_wt_byGenre_get = async (req, res) => {
                     }
                 }
             ])
+            debug('genre filter', updates)
     
             res.json({
                 wts: updates,

@@ -71,28 +71,24 @@ export default function ViewGenreWt ({wtsArr, totalPg, genreName}:ViewGenreWtPro
     }, [sortBy])
 
     return (
-        <div className="p-2 flex flex-col gap-6">
+        <div className="flex flex-col gap-6">
             <SortByRadio value={sortBy} setValue={setSortBy}></SortByRadio>
             <div className="cards-cont gap-2 sm:gap-8">
             {updates && updates.wts.map((node, idx) => {
             
-            let slug = node.book.name.replace(/ /g, "-")
+            let slug = node.book.slug
             return (
             <div key={node.book._id} className="cg">
             
                 <Link href={`/read/${slug}`}>
                 <div className="relative w-full min-h-[200px] overflow-hidden">
                 
-                {/* <Image radius="lg" alt={`Cover image of ${node.book.name}`} src={node.book.image} isZoomed className="h-full">
-
-                </Image> */}
+              
                 <NextImage src={node.book.image} alt={`Cover image of ${node.book.image}`} priority={idx <= 4 ? true : false} fill sizes="(max-width:600px) 40vw, (max-width:1200px) 20vw" className="home-c object-cover rounded">
 
                 </NextImage>
                 
-                {/* <NextImage width={160} height={160} src={node.book.image} alt={`Cover image of ${node.book.name}`}>
-
-                </NextImage> */}
+              
                 </div>
                 </Link>
                 
@@ -123,7 +119,7 @@ export default function ViewGenreWt ({wtsArr, totalPg, genreName}:ViewGenreWtPro
                         {formatDateDMY(node.releasedAt)}
                         </span>
                         </span>:
-                    <span className={`text-xs text-default-500 flex-1 text-center`}>{formatDateDMY(node.releasedAt)}</span>
+                    <span className={`text-xs text-default-500 flex-1 text-center date-txt`}>{formatDateDMY(node.releasedAt)}</span>
                     }
                     </Link>
                     

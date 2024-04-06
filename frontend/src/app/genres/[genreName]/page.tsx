@@ -33,11 +33,13 @@ export default async function Page ({params}) {
     const formattedName = params.genreName.replace(/-/g, ' ').charAt(0).toUpperCase() + params.genreName.slice(1)
 
     return (
-        <div className="max-w-[1024px] flex flex-col p-2">
+        <main>
+        <div className="max-w-[1024px] flex flex-col p-2 w-full">
             <div>
             <h3>{formattedName}</h3>
             </div>
             <ViewGenreWt wtsArr={wts} totalPg={wts.totalPages} genreName={params.genreName}></ViewGenreWt>
         </div>
+        </main>
     )
 }

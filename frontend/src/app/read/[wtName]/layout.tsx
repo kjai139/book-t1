@@ -2,7 +2,9 @@ import apiUrl from "@/app/_utils/apiEndpoint"
 
 export async function generateStaticParams() {
     try {
-        const response = await fetch(`${apiUrl}/api/wt/all/getParams`)
+        const response = await fetch(`${apiUrl}/api/wt/all/getParams`, {
+            method: 'GET',
+        })
 
         if (!response.ok) {
             throw new Error(`error in generate wt name: ${response}`)
@@ -11,10 +13,10 @@ export async function generateStaticParams() {
         const wts = await response.json()
 
         return wts.allWt.map((wt) => {
-            let slug = wt.name.replace(/ /g, "-")
+            
             return (
                 {
-                    wtName: slug,
+                    wtName: wt.slug,
                 }
             )
         })

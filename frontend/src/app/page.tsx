@@ -66,11 +66,11 @@ export default async function Home() {
       {updates && updates.updates.map((node, idx) => {
         /* console.log('BOOK:', node.book)
         console.log('CHATPERS:', node.chapters) */
-        let slug = node.book.name.replace(/ /g, "-")
+        let slug = node.book.slug
         return (
           <div key={node.book._id} className="cg">
            
-            <Link href={`/read/${slug}`}>
+            <Link href={`/read/${node.book.slug}`}>
             <div className="relative w-full min-h-[200px] overflow-hidden">
               
               {/* <Image radius="lg" alt={`Cover image of ${node.book.name}`} src={node.book.image} isZoomed className="h-full">
@@ -89,13 +89,16 @@ export default async function Home() {
               
             
             <span className="card-txt">
-            <Link href={`/read/${slug}`} color="foreground">
+            <Link href={`/read/${node.book.slug}`} color="foreground">
             {node.book.name}
             </Link>
             
             </span>
-            <span className="my-[5px]">
+            <span className="my-[5px] flex gap-2 items-center">
               <StarsOnly rating={node.book.avgRating ? node.book.avgRating : 0}></StarsOnly>
+              <span className="text-foreground font-semibold text-xs">
+                {node.book.avgRating ? node.book.avgRating : ''}
+              </span>
             </span>
             
               
@@ -113,7 +116,7 @@ export default async function Home() {
                     {formatDateDMY(node.releasedAt)}
                     </span>
                     </span>:
-                  <span className={`text-xs text-default-500 flex-1 text-center`}>{formatDateDMY(node.releasedAt)}</span>
+                  <span className={`text-xs text-default-500 flex-1 text-center date-txt`}>{formatDateDMY(node.releasedAt)}</span>
                   }
                   </Link>
                   

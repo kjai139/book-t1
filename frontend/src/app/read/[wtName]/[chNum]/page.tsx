@@ -5,6 +5,7 @@ import Image from "next/image";
 import BreadCrumbs from "@/app/_components/breadcrumbs/breadcrumb";
 import ChSelect from "@/app/_components/select/chSelect";
 import LocalStorageSaveHistory from "@/app/_components/localstorage/lastPageHistory";
+import { ResolvingMetadata } from "next";
 
 export async function generateStaticParams({
     params: { wtName }
@@ -12,7 +13,10 @@ export async function generateStaticParams({
     params:{wtName:string}
 }) {
     try {
-        const response = await fetch(`${apiUrl}/api/wtpage/get?name=${wtName}`)
+        console.log('PARAMS IN WT PAGE GENERATESTATIC', wtName)
+        const response = await fetch(`${apiUrl}/api/wtpage/get?name=${wtName}`, {
+            method: 'GET',
+        })
 
         if (!response.ok) {
             throw new Error(`error in generating pg num, ${wtName}`)
@@ -31,11 +35,18 @@ export async function generateStaticParams({
 
 }
 
-export async function generateMetadata ({params}) {
-    const formattedName = params.wtName.replace(/-/g, ' ')
+export async function generateMetadata ({params}, parent:ResolvingMetadata) {
+    
+    const response = await fetch(`${apiUrl}/api/wt/meta/get?name=${params.wtName}`, {
+        method:'GET'
+    })
+    if (!response.ok) {
+        throw new Error('ERROR FETCHING METADATA IN WTPAGE')
+    }
+    const data = await response.json()
     return {
-        title: `${formattedName} Chapter ${params.chNum}`,
-        description: `Read ${formattedName} Chapter ${params.chNum}`
+        title: `${data.wt.name} Chapter ${params.chNum}`,
+        description: `Read ${data.wt.name} Chapter ${params.chNum}`
     }
 }
 

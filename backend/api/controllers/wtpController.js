@@ -6,11 +6,11 @@ const WtPage = require('../../models/WtPageModel')
 
 exports.wtp_get_all = async (req, res) => {
     try {
-        const nameWspaces = req.query.name.replace(/-/g, " ")
-        const wt = await Wt.findOne({name: nameWspaces })
+        
+        const wt = await Wt.findOne({slug: req.query.name })
         if (!wt) {
             res.status(500).json({
-                nameWspaces: nameWspaces,
+                name:req.query.name,
                 wt: wt
             })
         } else {
@@ -33,8 +33,8 @@ exports.wtp_get_all = async (req, res) => {
 
 exports.wtp_get_content = async (req, res) => {
     try {
-        const nameWspaces = req.query.name.replace(/-/g, " ")
-        const wt = await Wt.findOne({name: nameWspaces })
+        
+        const wt = await Wt.findOne({slug: req.query.name })
         if (!wt) {
             debug('wt not found in get content')
         }

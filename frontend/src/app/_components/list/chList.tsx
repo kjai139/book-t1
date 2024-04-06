@@ -19,8 +19,8 @@ export default function ChList ({chs, curSlug}:ChListProps) {
 
 
     return (
-        <div className="flex flex-col chList-cont max-h-[300px] overflow-y-auto">
-            <ul className="grid grid-cols-2 gap-2 auto-rows-auto">
+        <div className="flex flex-col chList-cont max-h-[300px] overflow-y-auto w-full max-w-[630px]">
+            <ul className="grid grid-cols-2 gap-2 auto-rows-auto lg:grid-cols-4">
                 {chs.map((ch) => {
                     return (
                         <li key={ch._id} aria-label={`Chapter ${ch.chapterNumber}`}>

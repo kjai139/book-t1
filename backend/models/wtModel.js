@@ -56,6 +56,10 @@ const WTSchema = new Schema({
     avgRating: {
         type: Number,
         default: 0
+    },
+    slug: {
+        type:String,
+        unique:true
     }
     
 })
@@ -71,8 +75,8 @@ WTSchema.methods.calculateAvgRating = async function() {
 }
 
 /* WTSchema.pre('save', function(next) {
-    if (this.isModified('chapters')) {
-        this.updatedOn = new Date()
+    if (this.isModified('updatedOn')) {
+        const slug = this.name.toLowerCase().replace(/\s+/g, '-')
     }
 
     next()

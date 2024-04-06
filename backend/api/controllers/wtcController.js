@@ -5,8 +5,8 @@ const Wt = require('../../models/wtModel')
 
 exports.wtc_ch_count_get = async (req, res) => {
     try {
-        const nameWspaces = req.query.name.replace(/-/g, " ")
-        const wt = await Wt.findOne({name: nameWspaces })
+        
+        const wt = await Wt.findOne({slug:req.query.name })
         const totalCh = await Wtc.find({wtRef: wt._id}).sort({chapterNumber: -1})
         debug('from ch count get:', totalCh)
         res.json({

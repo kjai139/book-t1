@@ -49,10 +49,17 @@ async function getWts(params) {
 }
 
 export async function generateMetadata({params}) {
-    const formattedtitle = params.wtName.replace(/-/g, ' ')
+    console.log('GENERATE META PARAM', params)
+    const response = await fetch(`${apiUrl}/api/wt/meta/get?name=${params.wtName}`, {
+        method:'GET'
+    })
+    if (!response.ok) {
+        throw new Error('ERROR FETCHING METADATA IN WT GENERAL')
+    }
+    const data = await response.json()
     return {
-        title: formattedtitle,
-        description: `Read ${formattedtitle}`
+        title: data.wt.name,
+        description: `Read ${data.wt.name}`
     }
 }
 
@@ -98,30 +105,38 @@ export default async function WtPage({params}) {
     
 
     return (
-        <div className="justify-center items-center">
+        <div className="justify-center items-center flex flex-col">
         <Card className="max-w-[1024px]">
-            <CardHeader>
+            <CardHeader className="mt-4">
                 <h3 className="text-center w-full text-lg font-semibold">{wt.wt.name}</h3>
             </CardHeader>
             <CardBody className="gap-4 items-center">
                 <BreadCrumbs wtUrl={wt.wt.name}></BreadCrumbs>
+                <div className="flex flex-col sm:flex-row sm:gap-4 gap-4">
+                <div className="flex flex-col gap-4">
                 <Image src={wt.wt.image} alt={`Cover image of ${wt.wt.name}`} className="sm:max-h-[240px]"></Image>
                 <SaveBookmarkBtn image={wt.wt.image} wTstatus={wt.wt.status} wtName={wt.wt.name} wtGenres={wt.wt.genres}></SaveBookmarkBtn>
-                <div className="flex w-full">
-                    <Rating wtId={wt.wt._id}></Rating>
                 </div>
-                <span className="text-sm">
-                    <p>{wt.wt.about}</p>
-                </span>
-                <div className="flex gap-1 justify-evenly">
-                    <Button as={Link} href={`/read/${params.wtName}/${firstChapterNum}`} aria-label="First Chapter">
-                        First Chapter
-                    </Button>
-                    <Button as={Link} href={`/read/${params.wtName}/${lastChapterNum}`} aria-label="Latest Chapter">
-                        Latest Chapter
-                    </Button>
+
+                <div className="flex flex-col max-w-[630px] sm:max-w-[450px] justify-between gap-4">
+                    <div className="flex w-full">
+                        <Rating wtId={wt.wt._id}></Rating>
+                    </div>
+                    <span className="text-sm">
+                        <p>{wt.wt.about}</p>
+                    </span>
+                    <div className="flex gap-2 justify-evenly">
+                        <Button as={Link} href={`/read/${params.wtName}/${firstChapterNum}`} aria-label="First Chapter" fullWidth>
+                            First Chapter
+                        </Button>
+                        <Button as={Link} href={`/read/${params.wtName}/${lastChapterNum}`} aria-label="Latest Chapter" fullWidth>
+                            Latest Chapter
+                        </Button>
+                    </div>
                 </div>
-                <div className="flex flex-col w-full">
+                </div>
+
+                <div className="flex flex-col w-full max-w-[400px]">
                     <table>
                         <tbody className="text-sm">
                             {table.map((node, idx) => {
@@ -139,7 +154,7 @@ export default async function WtPage({params}) {
                     </table>
                 </div>
                 
-                <div className="flex gap-2 flex-wrap">
+                <div className="flex gap-2 flex-wrap max-w-[630px]">
                 {sortedGenres.map((genre) => {
                     return (
                         <Button as={Link} href={`/genres/${genre.lcname}`} aria-label={`Check ${genre.lcname}`} key={genre._id} size="sm" radius="full">
@@ -148,7 +163,9 @@ export default async function WtPage({params}) {
                     )
                 })}
                 </div>
+                <div className="max-w-[630px] w-full">
                 <LastRead wtId={wt.wt._id}></LastRead>
+                </div>
                 <div>
                     <h3 className="font-semibold">{`Chapters for ${wt.wt.name}`}</h3>
                     <Divider className="mt-4"></Divider>

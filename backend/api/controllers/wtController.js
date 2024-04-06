@@ -103,11 +103,14 @@ exports.wtc_create = async (req, res) => {
         
 
         const updatedParentWT = await Wt.findByIdAndUpdate(parentRef, {
-            updatedOn: Date.now()
+            updatedOn: Date.now(),
         }, {
             new: true
         })
-        
+        if (!updatedParentWT.slug) {
+            updatedParentWT.slug = updatedParentWT.name.toLowerCase().replace(/\s+/g, '-') 
+            await updatedParentWT.save()
+        }
         
         res.json({
             message: 'sucess'
@@ -223,8 +226,8 @@ exports.wt_updates_get = async (req, res) => {
 exports.wt_getOne = async ( req, res ) => {
 
     try {
-        const nameWspaces = req.query.name.replace(/-/g, " ")
-        const wt = await Wt.findOne({name: nameWspaces}).populate('genres')
+        
+        const wt = await Wt.findOne({slug: req.query.name}).populate('genres')
 
         const wtChapters = await Wtc.find({wtRef: wt._id}).sort({chapterNumber: -1})
 
@@ -268,7 +271,7 @@ exports.wt_search = async (req, res) => {
 
 exports.wt_query_get = async (req, res) => {
     try {
-        const limit = 3
+        const limit = 20
         const { status, order, page} = req.query
         const genres = JSON.parse(req.query.genres)
         const genresObjIds = genres.map(id => mongoose.Types.ObjectId.createFromHexString(id))
@@ -367,6 +370,20 @@ exports.wt_query_get = async (req, res) => {
 
     } catch (err) {
         debug('error in query read', err)
+        res.status(500).json({
+            message: err.message
+        })
+    }
+}
+
+exports.wt_meta_get = async (req, res) => {
+    try {
+        const wt = await Wt.findOne({slug: req.query.name})
+        console.log('FROM WT META GET', wt, req.query.name)
+        res.json({
+            wt: wt
+        })
+    } catch (err) {
         res.status(500).json({
             message: err.message
         })

@@ -26,7 +26,7 @@ html, .bmark-cont {
 
 main {
   display: flex;
-  justify-content: center;
+  min-height: 100vh;
   align-items: center;
   flex-direction: column;
 }
@@ -127,6 +127,21 @@ main {
   backdrop-filter: blur(0.8rem);
 }
 
+.date-txt {
+  display: -webkit-box;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  width: 100%;
+  white-space: normal;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+}
+
+.slider-img {
+  -webkit-mask-image: -webkit-gradient(linear, left top, left bottom, from(rgba(0, 0, 0, 1)), to(rgba(0, 0, 0, 0)));
+  mask-image:-webkit-gradient(linear, left top, left bottom, from(rgba(0, 0, 0, 1)), to(rgba(0, 0, 0, 0)));
+}
+
 .slider-dots {
   display: flex;
   width: 100%;
@@ -136,6 +151,7 @@ main {
   align-items: center;
   padding: .25rem;
   color: var(--nextui-foreground);
+  margin-top: .5rem;
 }
 
 .slider-dots > ul {
