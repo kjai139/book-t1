@@ -29,10 +29,10 @@ export default function Dashboard () {
     
 
     return (
-        <>
         
+            <main>
            { user &&
-           <main>
+            <>
             <div className="p-2">
                 <h3>Welcome, {user.name}</h3>
                 <div>
@@ -46,13 +46,13 @@ export default function Dashboard () {
                 </div>
             </div>
             <UploadTabs></UploadTabs>
-            </main>
+            </>
             }
-            
+            </main>
         
         
         
         
-        </>
+        
     )
 }

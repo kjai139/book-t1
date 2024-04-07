@@ -66,6 +66,7 @@ const config: Config = {
             DEFAULT: "#4098D7",
             foreground: "#ffffff",
           },
+          content1: '#18181B',
 
         },
       }

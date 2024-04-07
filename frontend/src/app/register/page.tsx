@@ -7,6 +7,7 @@ import { useRouter } from 'next/navigation'
 import apiUrl from '../_utils/apiEndpoint'
 import { useEffect, useState } from 'react'
 import ResultModal from '../_components/modals/resultModal'
+import { Link } from '@nextui-org/react'
 
 const schema = yup.object({
     username: yup.string().required('A username is required'),
@@ -85,7 +86,7 @@ export default function RegisterPage () {
 
     return (
         <div className='h-screen items-center justify-center flex'>
-        <form onSubmit={handleSubmit(onSubmit)} className={`flex flex-col p-2 gap-1 rounded shadow border-divider border-2 bg-background-500 ${styles.form}`}>
+       {/*  <form onSubmit={handleSubmit(onSubmit)} className={`flex flex-col p-2 gap-1 rounded shadow border-divider border-2 bg-background-500 ${styles.form}`}>
             <span className='text-center text-lg font-bold'>
                 Sign up
             </span>
@@ -115,9 +116,15 @@ export default function RegisterPage () {
             <span>
             <button onClick={(e) => {e.preventDefault(); router.push('/login')}} className={`${styles.link} text-sm text-primary`}>Already registered?</button>
             </span>
-            {/* For some reason, using link gets spam warnings for preload bs */}
+            
         </form>
-        {resultMsg && <ResultModal isOpen={true} message={resultMsg} title={modalTitle} redirectUrl='/login' actionName='Log in' handleClose={() => setResultMsg('')} ></ResultModal>}
+        {resultMsg && <ResultModal isOpen={true} message={resultMsg} title={modalTitle} redirectUrl='/login' actionName='Log in' handleClose={() => setResultMsg('')} ></ResultModal>} */}
+        <div className='flex flex-col p-4 gap-4'>
+        <h1 className='text-lg'>Registration is not open at the moment...and you're not supposed to be here...</h1>
+        <Link href="/">
+                Go Home
+        </Link>
+        </div>
         </div>
     )
 }

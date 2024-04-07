@@ -144,11 +144,11 @@ export default function UploadTabs () {
 
 
     return (
-        <div className='max-w-[1024px]'>
+        <div className='max-w-[1024px] p-8'>
         <Tabs fullWidth aria-label="Options" selectedKey={selectedTab} onSelectionChange={setSelectedTab} color="primary" variant="underlined">
             <Tab key={'WT'} title="WT">
-                <Card className='max-w-[1000px]'>
-                    <CardBody>
+                <div>
+                    <div>
                         <div className='flex flex-col gap-4'>
                             <Button onPress={resetWtForm}>Reset</Button>
                             <Input
@@ -182,20 +182,20 @@ export default function UploadTabs () {
 
                             
                         </div>
-                    </CardBody>
-                </Card>
+                    </div>
+                </div>
 
             </Tab>
             <Tab key={'NV'} title="NV">
-            <Card>
-                    <CardBody>
+            <div>
+                    <div>
                         UPLOAD NV UI HERE
-                    </CardBody>
-                </Card>
+                    </div>
+            </div>
             </Tab>
             <Tab key={'WTC'} title="WTC">
-                <Card>
-                    <CardBody>
+                <div>
+                    <div>
                         <div className='flex flex-col gap-4'>
                             <Button onPress={resetWtcForm}>RESET FIELDS</Button>
                             <Button onPress={uploadNextWtc}>ADD NEXT</Button>
@@ -213,8 +213,8 @@ export default function UploadTabs () {
                             <ImageUploader setImageArr={setWtcImages} imageArr={wtcImages}></ImageUploader>
                             
                         </div>
-                    </CardBody>
-                </Card>
+                    </div>
+                </div>
 
             </Tab>
 

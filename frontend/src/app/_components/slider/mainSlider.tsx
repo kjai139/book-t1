@@ -24,7 +24,9 @@ export default function MainDynamicSlide ({slideArr}:MainDynamicSlideProps) {
         autoplaySpeed: 3000,
         speed:500,
         arrows: true,
+        initialSlide: 0,
         pauseonHover: true,
+        lazyLoad: true,
         className: 'w-[100%] p-2',
         appendDots: dots => (
             <div style={{
@@ -45,7 +47,7 @@ export default function MainDynamicSlide ({slideArr}:MainDynamicSlideProps) {
             {
                 breakpoint:1024,
                 settings: {
-                    slidesToShow: 1,
+                    slidesToShow: 3,
                     slidesToScroll: 1,
                     dots:true,
                     autoplay: false,
@@ -53,6 +55,7 @@ export default function MainDynamicSlide ({slideArr}:MainDynamicSlideProps) {
                     speed:500,
                     arrows: false,
                     pauseonHover: true,
+                    lazyLoad:true,
                     className: 'w-[100%] p-2',
                     appendDots: dots => (
                         <div style={{
@@ -75,7 +78,7 @@ export default function MainDynamicSlide ({slideArr}:MainDynamicSlideProps) {
                 }
             },
             {
-                breakpoint:600,
+                breakpoint:640,
                 settings: {
                     slidesToShow: 1,
                     slidesToScroll: 1,
@@ -85,6 +88,7 @@ export default function MainDynamicSlide ({slideArr}:MainDynamicSlideProps) {
                     speed:500,
                     arrows: false,
                     pauseonHover: true,
+                    lazyLoad:true,
                     className: 'w-[100%] p-2',
                     appendDots: dots => (
                         <div style={{
@@ -117,6 +121,7 @@ export default function MainDynamicSlide ({slideArr}:MainDynamicSlideProps) {
                     speed:500,
                     arrows: false,
                     pauseonHover: true,
+                    lazyLoad: true,
                     className: 'w-[100%] p-2',
                     appendDots: dots => (
                         <div style={{
@@ -148,12 +153,12 @@ export default function MainDynamicSlide ({slideArr}:MainDynamicSlideProps) {
     return (
         <div className='slider-container flex items-center justify-center'>
             <Slider {...settings}>
-                {slides.map((slide) => {
+                {slides.map((slide, idx) => {
                     const concatGenres = slide.genres.map(genre => genre.name).sort().join(', ')
                     return (
                         <div key={`slide-${slide._id}`} className='h-[400px] w-full'>
-                            <span className='relative h-[400px] flex flex-col lg:m-2'>
-                            <NextImage src={slide.image} fill  sizes="(max-width:320px) 80vw, (max-width:640px) 40vw, (max-width:768px) 30vw, (max-width:1200px) 15vw, 10vw" alt={`Cover Image of ${slide.name}`} className='rounded shadow slider-img' style={{
+                            <span className='relative h-[400px] flex flex-col lg:m-2 sm:m-2 md:m-2'>
+                            <NextImage src={slide.image} fill  sizes="(max-width:320px) 80vw, (max-width:640px) 40vw, (max-width:768px) 30vw, (max-width:1200px) 15vw, 10vw" placeholder='blur' blurDataURL={slide.image} alt={`Cover Image of ${slide.name}`} className='rounded shadow slider-img' style={{
                                 objectFit: 'cover'
                             }}>
 
@@ -173,7 +178,7 @@ export default function MainDynamicSlide ({slideArr}:MainDynamicSlideProps) {
                                     </p>
                                 </span>
                                 <div className='pb-2 mt-2'>
-                                <Button variant='solid' color='default' size='sm' radius='sm' as={Link} href={`/read/`}>More Details</Button>
+                                <Button variant='solid' color='default' size='sm' radius='sm' as={Link} href={`/read/${slide.slug}`}>More Details</Button>
                                 </div>
                                 </div>
                             </div>

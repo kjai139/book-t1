@@ -143,6 +143,7 @@ export default async function Page({params}:{params: {wtName: string; chNum: str
                     )
                 })}
             </div>
+            <BreadCrumbs wtUrl={params.wtName} wtcUrl={params.chNum.toString()}></BreadCrumbs>
             <div className="w-full flex flex-col py-1 px-4">
             <ChSelect wtName={params.wtName} chList={content.chList} curCh={params.chNum}></ChSelect>
             </div>

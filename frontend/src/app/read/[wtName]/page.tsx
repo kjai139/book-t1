@@ -105,12 +105,12 @@ export default async function WtPage({params}) {
     
 
     return (
-        <div className="justify-center items-center flex flex-col">
-        <Card className="max-w-[1024px]">
-            <CardHeader className="mt-4">
+        <main>
+        <div className="max-w-[1024px] md:m-8 md:p-8 lg:p-8 lg:m-8 sm:m-8 sm:p-8 bg-content1 p-4">
+            <span className="mt-4">
                 <h3 className="text-center w-full text-lg font-semibold">{wt.wt.name}</h3>
-            </CardHeader>
-            <CardBody className="gap-4 items-center">
+            </span>
+            <div className="items-center flex flex-col gap-8">
                 <BreadCrumbs wtUrl={wt.wt.name}></BreadCrumbs>
                 <div className="flex flex-col sm:flex-row sm:gap-4 gap-4">
                 <div className="flex flex-col gap-4">
@@ -164,7 +164,7 @@ export default async function WtPage({params}) {
                 })}
                 </div>
                 <div className="max-w-[630px] w-full">
-                <LastRead wtId={wt.wt._id}></LastRead>
+                <LastRead wtId={wt.wt._id} wtName={wt.wt.name}></LastRead>
                 </div>
                 <div>
                     <h3 className="font-semibold">{`Chapters for ${wt.wt.name}`}</h3>
@@ -174,8 +174,8 @@ export default async function WtPage({params}) {
 
                
                 
-            </CardBody>
-        </Card>
+            </div>
         </div>
+        </main>
     )
 }

@@ -1,5 +1,6 @@
+'use client'
 import Image from "next/image"
-import { useCallback } from "react"
+import { useCallback, useEffect, useState } from "react"
 import { useDropzone } from "react-dropzone"
 
 interface ImageUploaderProps {
@@ -11,38 +12,14 @@ interface ImageUploaderProps {
 
 export default function ImageUploader ({setImageArr, imageArr}: ImageUploaderProps) {
 
-    /*const onDrop = useCallback((acceptedFiles:File[]) => {
-        setImageArr([])
-        let loadedImages = []
-        acceptedFiles.forEach((file) => {
-            const reader = new FileReader()
-            reader.onload = () => {
-                const img = new window.Image()
-                img.onload = () => {
-                    loadedImages.push( { file, width:img.naturalWidth, height: img.naturalHeight })
-                    
-                    if (loadedImages.length === acceptedFiles.length){
-                        const sortedFiles = loadedImages.sort((a, b) => {
-                            return acceptedFiles.indexOf(a.file) - acceptedFiles.indexOf(b.file)
-                        })
-                        setImageArr(sortedFiles)
-                    }
-
-                }
-                img.src = reader.result as string
-            }
-            reader.onerror = (error) => {
-                console.error('error in filereader', error)
-            }
-            reader.readAsDataURL(file)
-        })
-        console.log(acceptedFiles)
-        
-    }, []) */
-    //onload is a listener set up that triggers when readasdataurl, promise gathers them all and then sortfile forms an array of the objs, remove the onload listeners when done for cleanup, promiseall returns an array
-    const onDrop = useCallback((acceptedFiles: File[]) => {
+    const [preview, setPreview] = useState<any>([])
+    
+    
+    const onDrop = (acceptedFiles: File[]) => {
         setImageArr([]);
-        let loadedImages = [];
+        setPreview([])
+        
+        
     
         const loadImage = (file) => {
             return new Promise((resolve, reject) => {
@@ -78,11 +55,22 @@ export default function ImageUploader ({setImageArr, imageArr}: ImageUploaderPro
                     return acceptedFiles.indexOf(a.file) - acceptedFiles.indexOf(b.file);
                 });
                 setImageArr(sortedFiles);
+
+                //set preview
+                const dupeArr = [...sortedFiles]
+                const newArr = dupeArr.map(file => ({file, preview: URL.createObjectURL(file.file)}))
+                
+                setPreview(newArr)
+                
+
+               
+                
+                
             })
             .catch((error) => {
                 console.error('Error processing files', error);
             });
-    }, []);
+    }
     const {
         acceptedFiles,
         fileRejections,
@@ -97,6 +85,33 @@ export default function ImageUploader ({setImageArr, imageArr}: ImageUploaderPro
         },
         
     })
+
+    useEffect(() => {
+        if (imageArr.length === 0) {
+            
+            setPreview([])
+            
+            
+        }
+        
+    }, [imageArr])
+
+       
+        
+            
+  
+
+    useEffect(() => {
+        return () => 
+            // Revoke object URLs on component unmount
+            
+            preview.forEach(file => URL.revokeObjectURL(file.preview));
+            
+       
+    }, []); // Empty dependency array for component unmount cleanup
+
+   
+    
 
     
 
@@ -137,18 +152,18 @@ export default function ImageUploader ({setImageArr, imageArr}: ImageUploaderPro
           }</ul>
           <h4>Rejected files</h4>
           <ul>{fileRejectionItems}</ul>
-          <ul>{imageArr && imageArr.length > 0 &&
-            imageArr.map((file) => {
-                let imgURL = URL.createObjectURL(file.file)   
+          <ul>{preview && preview.length > 0 &&
+            preview.map((file,idx) => {
+                
                 
                 
               
                 
                
             return (
-                <li key={file.file.path}>
+                <li key={`${idx}- ${file.file.path}`}>
                   <div className="flex flex-col">
-                  <Image src={imgURL} alt="preview" width={file.width} sizes="100vw" height={file.height} style={{
+                  <Image src={file.preview} alt="preview" width={file.file.width} sizes="100vw" height={file.file.height} onLoad={() => {URL.revokeObjectURL(file.preview)}} style={{
                     width:'100%',
                     height:'auto',
                   }}></Image>

@@ -4,10 +4,11 @@ import { Divider, Link } from "@nextui-org/react"
 import { useEffect, useState } from "react"
 
 interface LastReadProps {
-    wtId: string
+    wtId: string,
+    wtName: string,
 }
 
-export default function LastRead ({wtId}:LastReadProps) {
+export default function LastRead ({wtId, wtName}:LastReadProps) {
 
     const [readHistory, setReadHistory] = useState([])
     const [initialized, isInitialized] = useState('done')
@@ -40,7 +41,7 @@ export default function LastRead ({wtId}:LastReadProps) {
                 let chNum = parts[parts.length - 1]
                 return (
                     <li key={`hty${idx}`}>
-                        <Link href={node.url} aria-label={`Go to chapter ${chNum}`} className="text-sm">{node.name} Chapter {chNum}</Link>
+                        <Link href={node.url} aria-label={`Go to chapter ${chNum}`} className="text-sm">{wtName} Chapter {chNum}</Link>
                     </li>
                 )
             })}
