@@ -74,7 +74,7 @@ export default function LoginForm () {
 
     return (
         <div className='h-screen items-center justify-center flex'>
-        <form onSubmit={handleSubmit(onSubmit)} className={`flex flex-col p-2 gap-1 rounded shadow relative border-divider border-2 ${styles.form}`}>
+        <form onSubmit={handleSubmit(onSubmit)} className={`flex flex-col p-2 gap-1 rounded shadow relative border-divider border-2 bg-content1 ${styles.form}`}>
             {/* {isLoading &&
             <span className='overlay-t'></span>
             } */}

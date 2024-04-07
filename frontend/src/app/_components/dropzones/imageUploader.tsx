@@ -15,7 +15,7 @@ export default function ImageUploader ({setImageArr, imageArr}: ImageUploaderPro
     const [preview, setPreview] = useState<any>([])
     
     
-    const onDrop = (acceptedFiles: File[]) => {
+    const onDrop = async (acceptedFiles: File[]) => {
         setImageArr([]);
         setPreview([])
         
@@ -31,6 +31,7 @@ export default function ImageUploader ({setImageArr, imageArr}: ImageUploaderPro
                         resolve({ file, width: img.naturalWidth, height: img.naturalHeight });
                         img.onload = null;
                         reader.onload = null;
+                        
                     };
                     img.onerror = () => {
                         reject(new Error('Error loading image'));
@@ -48,28 +49,32 @@ export default function ImageUploader ({setImageArr, imageArr}: ImageUploaderPro
                 reader.readAsDataURL(file);
             });
         };
-    
-        Promise.all(acceptedFiles.map(loadImage))
-            .then((loadedImages) => {
-                const sortedFiles = loadedImages.sort((a, b) => {
-                    return acceptedFiles.indexOf(a.file) - acceptedFiles.indexOf(b.file);
-                });
-                setImageArr(sortedFiles);
 
-                //set preview
-                const dupeArr = [...sortedFiles]
-                const newArr = dupeArr.map(file => ({file, preview: URL.createObjectURL(file.file)}))
-                
-                setPreview(newArr)
+        try {
+            const loadedImages = await Promise.all(acceptedFiles.map(loadImage))
+            
+            const sortedFiles = loadedImages.sort((a, b) => {
+                return acceptedFiles.indexOf(a.file) - acceptedFiles.indexOf(b.file);
+            });
+            setImageArr(sortedFiles);
+
+            //set preview
+            const dupeArr = [...sortedFiles]
+            const newArr = dupeArr.map(file => ({file, preview: URL.createObjectURL(file.file)}))
+            
+            setPreview(newArr)
+
+        } catch(err) {
+            console.error(err)
+        }
+    
+        
                 
 
                
                 
                 
-            })
-            .catch((error) => {
-                console.error('Error processing files', error);
-            });
+            
     }
     const {
         acceptedFiles,
