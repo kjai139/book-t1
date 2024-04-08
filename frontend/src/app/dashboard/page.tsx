@@ -4,6 +4,7 @@ import UploadTabs from "../_components/tabs/uploadTab"
 import { useAuth } from "../_contexts/authContext"
 import { Button } from "@nextui-org/react"
 import apiUrl from "../_utils/apiEndpoint"
+import Previews from "../_components/dropzones/testdefault"
 
 
 
@@ -46,6 +47,7 @@ export default function Dashboard () {
                 </div>
             </div>
             <UploadTabs></UploadTabs>
+          
             </>
             }
             </main>

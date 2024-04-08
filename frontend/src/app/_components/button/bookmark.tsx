@@ -14,14 +14,24 @@ export default function BookmarkBtn () {
     const pathname = usePathname()
 
     useEffect(() => {
-        const storedBm = localStorage.getItem('bookmarks')
-        if (storedBm) {
-            const parsedBm = JSON.parse(storedBm)
-            setBookmarks(parsedBm)
-        } else {
-            setBookmarks([])
+        if (isOpen) {
+            const storedBm = localStorage.getItem('bookmarks')
+            if (storedBm) {
+                const parsedBm = JSON.parse(storedBm)
+                setBookmarks(parsedBm)
+            } else {
+                setBookmarks([])
+            }
         }
+        
     }, [onOpenChange])
+
+    useEffect(() => {
+        if (isOpen) {
+            onOpenChange(false)
+        }
+       
+    }, [pathname])
 
     const removeBm = (key) => {
         let storedBookmarks = localStorage.getItem('bookmarks')
@@ -60,13 +70,15 @@ export default function BookmarkBtn () {
                         Saved Bookmarks
                     </ModalHeader>
                     <ModalBody>
-                        <ul className="max-h-[400px] overflow-y-auto bmark-cont">
+                        <ul className="max-h-[400px] overflow-y-auto bmark-cont flex flex-col my-4">
                         {bookmarks && bookmarks.length > 0 ? bookmarks.map((node, idx) => {
                             return (
                                 <li key={`sr${node.url}-${idx}`} className="flex p-2 justify-center items-center">
                                 <Link href={node.url} isDisabled={node.url === pathname ? true : false}>
-                                <div className="relative aspect-4/3 w-full flex-1">
-                                    <NextImage fill alt={`Cover of ${node.image}`} src={node.image} sizes="(max-width:600px) 15vw 10vw"></NextImage>
+                                <div className="relative h-[140px] w-[100px]">
+                                    <NextImage fill alt={`Cover of ${node.image}`} src={node.image} sizes="(max-width:600px) 15vw (max-width:1200px) 10vw, 5vw" style={{
+                                        objectFit: 'cover'
+                                    }}></NextImage>
                                 </div>
                                 <div className="flex flex-col flex-2 p-2">
                                     <span className="font-semibold text-sm">{node.name}</span>
@@ -80,7 +92,7 @@ export default function BookmarkBtn () {
                                 </li>
                             )
                         }): 
-                        <li>You have nothing bookmarked.</li>
+                        <li className="my-4">You have nothing bookmarked.</li>
                         }
                         </ul>
                     </ModalBody>

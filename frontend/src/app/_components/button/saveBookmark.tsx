@@ -45,6 +45,8 @@ export default function SaveBookmarkBtn ({wtGenres, chNum, image, wTstatus, wtNa
                 setIsMarked(false)
                 setIsDoneLoading(true)
             }
+        } else {
+            setIsDoneLoading(true)
         }
     }, [checkLocal])
 

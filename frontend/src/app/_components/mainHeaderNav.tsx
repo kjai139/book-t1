@@ -81,7 +81,7 @@ export default function MainHeaderNav () {
       
     
       return (
-        <Navbar disableAnimation={true} isBordered onMenuOpenChange={setIsMenuOpen} isMenuOpen={isMenuOpen}>
+        <Navbar disableAnimation={true} isBordered shouldHideOnScroll onMenuOpenChange={setIsMenuOpen} isMenuOpen={isMenuOpen}>
           <NavbarContent className="sm:hidden" justify="start">
             <NavbarMenuToggle aria-label={isMenuOpen ? 'Close menu' : 'Open menu'} className="sm:hidden" />
           </NavbarContent>

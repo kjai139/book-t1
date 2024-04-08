@@ -21,6 +21,7 @@ export default function Rating ({wtId}:RatingProps) {
     const stars = []
     const starsDisabled = []
     const [rating, setRating] = useState(0)
+    const [totalRated, setTotalRated] = useState(0)
     const [hasUserVoted, setHasUserVoted] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
     const [tempId, setTempId] = useState<string | null>('temp')
@@ -60,6 +61,7 @@ export default function Rating ({wtId}:RatingProps) {
                 if (json.results) {
                     setRating(json.results)
                     setIsDoneLoading(true)
+                    setTotalRated(json.totalRated)
                 }
                 if (json.didUserRate) {
                     setHasUserVoted(true)
@@ -139,15 +141,17 @@ export default function Rating ({wtId}:RatingProps) {
 
 
     return (
-        <div className="flex items-center gap-1">{isLoading ? <div>{starsDisabled}</div> : <div>{stars}</div>}
+        <div className="flex items-center gap-1 w-full">{isLoading ? <div>{starsDisabled}</div> : <div>{stars}</div>}
+        <div className="flex flex-col">
         
         {isDoneLoading && <span className="text-warning-500 text-sm ml-1">
-            {rating}/5
+            {rating}/5 out of {totalRated}
         </span>}
         {isDoneLoading && hasUserVoted ? 
         <span className="text-xs text-default-500 italic">You have already rated this.</span> :
         <span className="text-xs text-default-500 italic">Give it a rating!</span>
         }
+        </div>
         </div>
     )
 

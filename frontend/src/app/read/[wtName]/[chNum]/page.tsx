@@ -93,21 +93,22 @@ export default async function Page({params}:{params: {wtName: string; chNum: str
 
 
     return (
-        <div className="flex flex-col gap-2 items-center max-w-[1024px]">
+        <main>
+        <div className="flex flex-col gap-4 items-center max-w-[1024px]">
             <LocalStorageSaveHistory wtRef={content.wtc.wtRef} chName={params.wtName} chNum={params.chNum}></LocalStorageSaveHistory>
-            <div className="p-4 text-center">
+            <div className="px-4 py-2 text-center font-bold text-lg">
                 <h3>{content.wtc.name}</h3>
             </div>
             
             <BreadCrumbs wtUrl={params.wtName} wtcUrl={params.chNum.toString()}></BreadCrumbs>
         
             
-            
-            <div className="w-full flex flex-col py-1 px-4">
+            <div className="flex flex-col w-full gap-4">
+            <div className="w-full flex flex-col py-2 px-4 items-end">
             <ChSelect wtName={params.wtName} chList={content.chList} curCh={params.chNum}></ChSelect>
             </div>    
             
-            <div className="w-full flex justify-between pb-2 px-4">
+            <div className="w-full flex justify-end gap-4 pb-2 px-4">
                 {
                     content.chList[content.chList.length - 1].chapterNumber < Number(params.chNum) ?
                     <Button as={Link} href={`/read/${params.wtName}/${getPrev(params.chNum)}`} size="sm" className="text-default-500 font-semibold">
@@ -131,6 +132,7 @@ export default async function Page({params}:{params: {wtName: string; chNum: str
 
                 }
 
+            </div>
             </div>
             <div>
                 {content.images.map((node, idx) => {
@@ -138,43 +140,46 @@ export default async function Page({params}:{params: {wtName: string; chNum: str
                     return (
                         
                         <div key={node._id}>
-                            <Image src={node.url} priority={idx === 0 ? true : false} alt="image" width={node.imgWidth} height={node.imgHeight} sizes="(max-width:600px) 100vw, 50vw"></Image>
+                            <Image src={node.url} priority={idx === 0 ? true : false} alt="image" width={node.imgWidth} height={node.imgHeight} sizes="(max-width:600px) 100vw, (max-width:1200px) 80vw, 50vw"></Image>
                         </div>
                     )
                 })}
             </div>
             <BreadCrumbs wtUrl={params.wtName} wtcUrl={params.chNum.toString()}></BreadCrumbs>
-            <div className="w-full flex flex-col py-1 px-4">
-            <ChSelect wtName={params.wtName} chList={content.chList} curCh={params.chNum}></ChSelect>
-            </div>
+            <div className="flex flex-col w-full gap-4">
+                <div className="w-full flex flex-col py-1 px-4 items-end">
+                <ChSelect wtName={params.wtName} chList={content.chList} curCh={params.chNum}></ChSelect>
+                </div>
 
-            <div className="w-full flex justify-between pb-2 px-4">
-                {
-                    content.chList[content.chList.length - 1].chapterNumber < Number(params.chNum) ?
-                    <Button as={Link} href={`/read/${params.wtName}/${getPrev(params.chNum)}`} size="sm" className="text-default-500 font-semibold">
+                <div className="w-full flex pb-2 px-4 justify-end gap-4">
+                    {
+                        content.chList[content.chList.length - 1].chapterNumber < Number(params.chNum) ?
+                        <Button as={Link} href={`/read/${params.wtName}/${getPrev(params.chNum)}`} size="sm" className="text-default-500 font-semibold">
+                            {`< Prev`}
+                        </Button> :
+                        <Button as={Link} href="#" isDisabled size="sm" className="text-default-500 font-semibold">
                         {`< Prev`}
-                    </Button> :
-                    <Button as={Link} href="#" isDisabled size="sm" className="text-default-500 font-semibold">
-                    {`< Prev`}
-                </Button> 
+                    </Button> 
 
-                    
+                        
 
-                }
-                {
-                    content.chList[0].chapterNumber > Number(params.chNum) ?
-                    <Button as={Link} href={`/read/${params.wtName}/${getNext(params.chNum)}`} size="sm" className="text-default-500 font-semibold">
+                    }
+                    {
+                        content.chList[0].chapterNumber > Number(params.chNum) ?
+                        <Button as={Link} href={`/read/${params.wtName}/${getNext(params.chNum)}`} size="sm" className="text-default-500 font-semibold">
+                            {`Next >`}
+                        </Button>  :
+                        <Button as={Link} href="#" isDisabled size="sm" className="text-default-500 font-semibold">
                         {`Next >`}
-                    </Button>  :
-                    <Button as={Link} href="#" isDisabled size="sm" className="text-default-500 font-semibold">
-                    {`Next >`}
-                     </Button> 
+                        </Button> 
 
-                }
+                    }
 
+                </div>
             </div>
 
 
         </div>
+        </main>
     )
 }

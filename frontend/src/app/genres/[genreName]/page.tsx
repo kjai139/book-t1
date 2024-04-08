@@ -34,9 +34,9 @@ export default async function Page ({params}) {
 
     return (
         <main>
-        <div className="max-w-[1024px] flex flex-col p-2 w-full">
+        <div className="max-w-[1024px] flex flex-col p-2 w-full gap-4">
             <div>
-            <h3>{formattedName}</h3>
+            <h3 className="text-lg font-bold">{formattedName}</h3>
             </div>
             <ViewGenreWt wtsArr={wts} totalPg={wts.totalPages} genreName={params.genreName}></ViewGenreWt>
         </div>

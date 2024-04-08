@@ -6,6 +6,7 @@ import { AuthProvider } from "./_contexts/authContext";
 import MainHeaderNav from "./_components/mainHeaderNav";
 import apiUrl from "./_utils/apiEndpoint";
 import MainFooter from "./_components/footer/mainFooter";
+import GoogleAnalytics from "./_components/gTag";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -51,7 +52,8 @@ export default function RootLayout({
         <MainFooter></MainFooter>
         </Providers>
         </AuthProvider>
-        </body>
+      </body>
+      <GoogleAnalytics></GoogleAnalytics>
     </html>
   );
 }

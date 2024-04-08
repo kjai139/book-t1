@@ -134,17 +134,17 @@ export default function ViewGenreWt ({wtsArr, totalPg, genreName}:ViewGenreWtPro
         </div>
         {curPg && totalPages ? 
           <>
-          <Pagination total={totalPages} page={curPg} onChange={setCurPg}>
+          <Pagination total={totalPages} page={curPg} onChange={setCurPg} className="w-full" showControls>
 
            </Pagination>
-           <div className="flex justify-between">
+           {/* <div className="flex justify-between">
             <Button size="sm" variant="flat" onPress={() => setCurPg((prev) => (prev > 1 ? prev - 1 : prev))} isDisabled={curPg === 1 ? true : false}>
                 Prev
             </Button>
             <Button size="sm" variant="flat" onPress={() => setCurPg((prev) => (prev < totalPages ? prev + 1 : prev))} isDisabled={curPg < totalPages ? false : true}>
                 Next
             </Button>
-           </div>
+           </div> */}
            </> : 
            <></>
            }

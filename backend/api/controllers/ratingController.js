@@ -64,12 +64,14 @@ exports.rating_wt_check = async (req, res) => {
         // dont have to aggregate on query when you can jusst set post in the models with a function that runs on rating creation
 
         const results = await Wt.findById(req.query.wtId)
+        const totalRated = await Rating.countDocuments({wtRef: req.query.wtId })
 
         const didUserRate = await Rating.findOne({wtRef: req.query.wtId, ratedBy: req.query.tempId})
 
         res.json({
             results: results.avgRating,
-            didUserRate: didUserRate
+            didUserRate: didUserRate,
+            totalRated: totalRated
         })
 
 

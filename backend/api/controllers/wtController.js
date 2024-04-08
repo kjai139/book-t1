@@ -108,7 +108,8 @@ exports.wtc_create = async (req, res) => {
             new: true
         })
         if (!updatedParentWT.slug) {
-            updatedParentWT.slug = updatedParentWT.name.toLowerCase().replace(/\s+/g, '-') 
+            const removeCommaStr = updatedParentWT.name.replace(/,/g, '')
+            updatedParentWT.slug = removeCommaStr.toLowerCase().replace(/\s+/g, '-') 
             await updatedParentWT.save()
         }
         

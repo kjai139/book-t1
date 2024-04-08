@@ -106,14 +106,14 @@ export default async function WtPage({params}) {
 
     return (
         <main>
-        <div className="max-w-[1024px] md:m-8 md:p-8 lg:p-8 lg:m-8 sm:m-8 sm:p-8 bg-content1 p-4">
-            <span className="mt-4">
+        <div className="max-w-[1024px] md:m-8 md:p-8 lg:p-8 lg:m-8 sm:m-8 sm:p-8 bg-content1 p-4 rounded lg:shadow flex flex-col gap-4">
+            <span className="my-4">
                 <h3 className="text-center w-full text-lg font-semibold">{wt.wt.name}</h3>
             </span>
             <div className="items-center flex flex-col gap-8">
                 <BreadCrumbs wtUrl={wt.wt.name}></BreadCrumbs>
                 <div className="flex flex-col sm:flex-row sm:gap-4 gap-4">
-                <div className="flex flex-col gap-4">
+                <div className="flex flex-col gap-4 justify-between">
                 <Image src={wt.wt.image} alt={`Cover image of ${wt.wt.name}`} className="sm:max-h-[240px]"></Image>
                 <SaveBookmarkBtn image={wt.wt.image} wTstatus={wt.wt.status} wtName={wt.wt.name} wtGenres={wt.wt.genres}></SaveBookmarkBtn>
                 </div>

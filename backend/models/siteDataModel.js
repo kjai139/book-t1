@@ -1,4 +1,5 @@
 const { Schema, model, models } = require('mongoose')
+const Wt = require('../models/wtModel')
 
 
 const siteDataSchema = new Schema({
@@ -34,10 +35,20 @@ const siteDataSchema = new Schema({
     },
     siteC: {
         type:String,
+    },
+    monthlyExpire: {
+        type:Date
     }
 
 })
 
 const SiteData = models.SiteData || model('SiteData', siteDataSchema)
+
+siteDataSchema.pre('save', async function(next) {
+    if (this.isModified('monthlyExpire')) {
+        await Wt.updateMany({}, { $set: {monthlyViews: 0}})
+    }
+    next()
+})
 
 module.exports = SiteData

@@ -60,8 +60,13 @@ const WTSchema = new Schema({
     slug: {
         type:String,
         unique:true
-    }
-    
+    },
+    monthlyViews: {
+        type:Number,
+        default: 0
+
+    },
+   
 })
 
 WTSchema.methods.calculateAvgRating = async function() {
