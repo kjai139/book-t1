@@ -55,11 +55,13 @@ export default function ViewallWt () {
 
     return (
         <div className="p-2 flex flex-col gap-6">
+            <div className="flex flex-col gap-4 p-2">
             <SelectGenres value={genres} setValue={setGenres}></SelectGenres>
             <SelectStatusCheckbox value={status} setValue={setStatus}></SelectStatusCheckbox>
             <SortByRadio value={sortBy} setValue={setSortBy}></SortByRadio>
             <div className="justify-end flex">
                 <Button  color="primary" size="sm" onPress={getWts}>Filter</Button>
+            </div>
             </div>
             <div className="cards-cont gap-2 sm:gap-6">
       
@@ -124,17 +126,10 @@ export default function ViewallWt () {
       </div>
           {curPg && totalPages ? 
           <>
-          <Pagination total={totalPages} page={curPg} onChange={setCurPg}>
+          <Pagination total={totalPages} showControls page={curPg} onChange={setCurPg} className="w-full">
 
            </Pagination>
-           <div className="flex justify-between">
-            <Button size="sm" variant="flat" onPress={() => setCurPg((prev) => (prev > 1 ? prev - 1 : prev))} isDisabled={curPg === 1 ? true : false}>
-                Prev
-            </Button>
-            <Button size="sm" variant="flat" onPress={() => setCurPg((prev) => (prev < totalPages ? prev + 1 : prev))} isDisabled={curPg < totalPages ? false : true}>
-                Next
-            </Button>
-           </div>
+          
            </> : 
            <></>
            }

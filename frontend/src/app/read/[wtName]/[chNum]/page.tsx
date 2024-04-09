@@ -6,6 +6,7 @@ import BreadCrumbs from "@/app/_components/breadcrumbs/breadcrumb";
 import ChSelect from "@/app/_components/select/chSelect";
 import LocalStorageSaveHistory from "@/app/_components/localstorage/lastPageHistory";
 import { ResolvingMetadata } from "next";
+import IncreViews from "@/app/_components/viewAdd";
 
 export async function generateStaticParams({
     params: { wtName }
@@ -13,7 +14,7 @@ export async function generateStaticParams({
     params:{wtName:string}
 }) {
     try {
-        console.log('PARAMS IN WT PAGE GENERATESTATIC', wtName)
+        /* console.log('PARAMS IN WT PAGE GENERATESTATIC', wtName) */
         const response = await fetch(`${apiUrl}/api/wtpage/get?name=${wtName}`, {
             method: 'GET',
         })
@@ -53,6 +54,7 @@ export async function generateMetadata ({params}, parent:ResolvingMetadata) {
 async function getChContent (params) {
     try {
         const response = await fetch(`${apiUrl}/api/wtpage/getch?name=${params.wtName}&num=${params.chNum}`, {
+            method:'GET',
             next: {
                 revalidate:1
             }
@@ -73,12 +75,13 @@ async function getChContent (params) {
 
 export default async function Page({params}:{params: {wtName: string; chNum: string}}) {
 
-    console.log('PARAMS FROM PG', params)
+    /* console.log('PARAMS FROM PG', params) */
     const content = await getChContent(params)
     if (!content) {
         notFound()
     }
-    console.log('content:', content)
+    
+    /* console.log('content:', content) */
 
     const getPrev = (num:string) => {
         const prevNum = Number(num) - 1
@@ -96,6 +99,7 @@ export default async function Page({params}:{params: {wtName: string; chNum: str
         <main>
         <div className="flex flex-col gap-4 items-center max-w-[1024px]">
             <LocalStorageSaveHistory wtRef={content.wtc.wtRef} chName={params.wtName} chNum={params.chNum}></LocalStorageSaveHistory>
+            <IncreViews wtName={params.wtName}></IncreViews>
             <div className="px-4 py-2 text-center font-bold text-lg">
                 <h3>{content.wtc.name}</h3>
             </div>

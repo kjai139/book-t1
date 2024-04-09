@@ -42,13 +42,24 @@ const siteDataSchema = new Schema({
 
 })
 
+siteDataSchema.pre('save', async function(next) {
+    try {
+        if (this.isModified('monthlyExpire')) {
+            await Wt.updateMany({}, { $set: {monthlyViews: 1}})
+            console.log('monthly views reset from pre save')
+        }
+        
+        next()
+
+    } catch (err) {
+        console.error('Error in pre-save hook in siteData')
+        next(err)
+    }
+    
+})
+
 const SiteData = models.SiteData || model('SiteData', siteDataSchema)
 
-siteDataSchema.pre('save', async function(next) {
-    if (this.isModified('monthlyExpire')) {
-        await Wt.updateMany({}, { $set: {monthlyViews: 0}})
-    }
-    next()
-})
+
 
 module.exports = SiteData

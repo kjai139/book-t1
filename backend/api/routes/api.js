@@ -3,7 +3,7 @@ const { user_createUser_post, user_login_post, user_logout_post, user_verificati
 const { checkJwt } = require('../middleware/checkJwt')
 const { auth_check_get } = require('../controllers/authController')
 const { genres_get, genres_all_params_get, genre_wt_byGenre_get } = require('../controllers/genreController')
-const { wt_get_all, wt_create, wtc_create, wt_updates_get, wt_getOne, wt_search, wt_query_get, wt_meta_get } = require('../controllers/wtController')
+const { wt_get_all, wt_create, wtc_create, wt_updates_get, wt_getOne, wt_search, wt_query_get, wt_meta_get, wt_views_inc, wt_rankings_get } = require('../controllers/wtController')
 const router = express.Router()
 const multer = require('multer')
 const multerS3 = require('multer-s3')
@@ -82,5 +82,9 @@ router.get('/genres/all/getParams', genres_all_params_get)
 router.get('/genre/wts/get', genre_wt_byGenre_get)
 
 router.get('/wt/meta/get', wt_meta_get)
+
+router.post('/wt/views/add', wt_views_inc)
+
+router.get('/wt/rankings/get', wt_rankings_get)
 
 module.exports = router

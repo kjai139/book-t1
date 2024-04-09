@@ -4,6 +4,7 @@ import { formatDateDMY } from './_utils/dates'
 import apiUrl from "./_utils/apiEndpoint"
 import StarsOnly from "./_components/rating/starsDisplayOnly"
 import MainDynamicSlide from "./_components/slider/mainSlider"
+import RankingDisplay from "./_components/footer/ranking"
 
 interface Updates {
 
@@ -44,10 +45,31 @@ async function GetHomeUpdates() {
 
 }
 
+async function getRankings () {
+  try {
+    const response = await fetch(`${apiUrl}/api/wt/rankings/get`, {
+      method: 'GET',
+      next: {
+        revalidate: 3600
+      }
+    })
+    if (response.ok) {
+      const data = await response.json()
+      console.log('ranking:', data)
+      return data
+    }
+
+  } catch (err) {
+    console.error('Error fetching rankings')
+  }
+}
+
 
 
 export default async function Home() {
-  const updates = await GetHomeUpdates()
+  const updatesData = GetHomeUpdates()
+  const rankingsData = getRankings()
+  const [updates, rankings] = await Promise.all([updatesData, rankingsData])
   /* console.log('PROPS RECEIVED FROM SSG', updates) */
   
   
@@ -134,6 +156,9 @@ export default async function Home() {
           <Link href="/read" size="sm">View all</Link>
         </div>
       </div>
+      
+      <RankingDisplay rankingList={rankings}></RankingDisplay>
+
       
       
       

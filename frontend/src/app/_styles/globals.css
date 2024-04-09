@@ -137,6 +137,18 @@ main {
   -webkit-box-orient: vertical;
 }
 
+.ranking-txt {
+  
+  display: -webkit-box;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  width: 100%;
+  white-space: normal;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  
+}
+
 .slider-img {
   -webkit-mask-image: -webkit-gradient(linear, left top, left bottom, from(rgba(0, 0, 0, 1)), to(rgba(0, 0, 0, 0)));
   mask-image:-webkit-gradient(linear, left top, left bottom, from(rgba(0, 0, 0, 1)), to(rgba(0, 0, 0, 0)));

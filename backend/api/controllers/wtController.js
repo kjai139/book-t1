@@ -4,6 +4,8 @@ require('dotenv').config()
 const debug = require('debug')('book-test:wtController')
 const WtPage = require('../../models/WtPageModel')
 const mongoose = require('mongoose')
+const { isToday, startOfMonth, startOfDay, endOfMonth, isSameDay } = require('date-fns')
+const SiteData = require('../../models/siteDataModel')
 
 
 
@@ -383,6 +385,75 @@ exports.wt_meta_get = async (req, res) => {
         console.log('FROM WT META GET', wt, req.query.name)
         res.json({
             wt: wt
+        })
+    } catch (err) {
+        res.status(500).json({
+            message: err.message
+        })
+    }
+}
+
+
+exports.wt_views_inc = async (req, res) => {
+    const today = startOfDay(new Date())
+    const result = isToday(startOfMonth(today))
+    //if today is the 1st day of the month
+    if (result) {
+        const newExpire = endOfMonth(today)
+        try {
+
+            const siteData = await SiteData.findOne()
+            if (!siteData) {
+                debug('Error finding siteData')
+                res.status(500).json({
+                    message: 'Error finding siteData'
+                })
+            }
+            const doesExpireMatch = isSameDay(siteData.monthlyExpire, newExpire)
+            if (!doesExpireMatch) {
+                siteData.monthlyExpire = newExpire
+                await siteData.save()
+                res.json({
+                    message: `New expire date for views updated to ${newExpire}`
+                })
+            } else if (doesExpireMatch) {
+                await Wt.findOneAndUpdate({slug: req.body.wtName}, {
+                    $inc: {
+                        monthlyViews: 1
+                    }
+                })
+                res.json({
+                    message: 'Monthly view updated'
+                })
+            }
+            
+
+        } catch (err) {
+            debug('Error in inc views', err)
+            res.status(500).json({
+                message: err.message
+            })
+        }
+        //if it's any other day
+    } else {
+        await Wt.findOneAndUpdate({slug: req.body.wtName}, {
+            $inc: {
+                monthlyViews: 1
+            }
+        })
+        res.json({
+            message: 'Monthly view updated'
+        })
+    }
+
+}
+
+exports.wt_rankings_get = async (req, res) => {
+    try {
+        const monthlyRanking = await Wt.find({}).sort({monthlyViews: -1, name: -1}).limit(10)
+        debug('MONTHLY RANKING:', monthlyRanking)
+        res.json({
+            rankings:monthlyRanking
         })
     } catch (err) {
         res.status(500).json({

@@ -37,7 +37,7 @@ export default async function MainFooter () {
                 <Link href="#" color="foreground" size="sm">Request</Link>
                 <Link href="#" color="foreground" size="sm">Privacy</Link> */}
             </span>
-            <span className="flex flex-col gap-2 justify-center items-center">
+            <span className="flex flex-col gap-2 justify-center items-center text-center">
                 <p>
                 {siteData.siteData.siteC}
                 </p>
