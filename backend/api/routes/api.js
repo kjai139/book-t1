@@ -1,6 +1,6 @@
 const express = require('express')
 const { user_createUser_post, user_login_post, user_logout_post, user_verification_confirm, user_verification_sendmail } = require('../controllers/userController')
-const { checkJwt } = require('../middleware/checkJwt')
+const { checkJwt, checkJwtAdmin } = require('../middleware/checkJwt')
 const { auth_check_get } = require('../controllers/authController')
 const { genres_get, genres_all_params_get, genre_wt_byGenre_get } = require('../controllers/genreController')
 const { wt_get_all, wt_create, wtc_create, wt_updates_get, wt_getOne, wt_search, wt_query_get, wt_meta_get, wt_views_inc, wt_rankings_get } = require('../controllers/wtController')
@@ -47,9 +47,9 @@ router.get('/genres/get', genres_get)
 
 router.get('/wt/get', wt_get_all)
 
-router.post('/wt/create', upload.single('image'), wt_create)
+router.post('/wt/create', checkJwtAdmin, upload.single('image'), wt_create)
 
-router.post('/wtc/create', upload.array('images'), wtc_create)
+router.post('/wtc/create', checkJwtAdmin, upload.array('images'), wtc_create)
 
 router.get('/wt/updates/get', wt_updates_get)
 

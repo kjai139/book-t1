@@ -83,7 +83,7 @@ export default async function Home() {
           <Link href="/read" size="sm">View all</Link>
         </div>
         <Divider className="my-4"></Divider>
-        <div className="cards-cont p-2 gap-2 sm:gap-4 lg:gap-8">
+        <div className="cards-cont gap-4 sm:gap-4 lg:gap-8 p-2">
       
       {updates && updates.updates.map((node, idx) => {
         /* console.log('BOOK:', node.book)
@@ -95,16 +95,11 @@ export default async function Home() {
             <Link href={`/read/${node.book.slug}`}>
             <div className="relative w-full min-h-[200px] overflow-hidden">
               
-              {/* <Image radius="lg" alt={`Cover image of ${node.book.name}`} src={node.book.image} isZoomed className="h-full">
-
-              </Image> */}
+             
               <NextImage src={node.book.image} alt={`Cover image of ${node.book.image}`} priority={idx <= 4 ? true : false} fill sizes="(max-width:600px) 40vw, (max-width:1200px) 20vw" className="home-c object-cover rounded">
 
               </NextImage>
              
-              {/* <NextImage width={160} height={160} src={node.book.image} alt={`Cover image of ${node.book.name}`}>
-
-              </NextImage> */}
             </div>
             </Link>
             

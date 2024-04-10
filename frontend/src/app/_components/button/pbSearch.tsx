@@ -97,20 +97,22 @@ export default function PbNavSearch () {
                 </Input>
                 
                 {result &&
-                <ul className="flex flex-col">
+                <ul className="flex flex-col max-h-[400px] overflow-auto">
                     {result.map((node) => {
                         const genres = node.genres.map(node => node.name).join(', ')
 
                         return (
                             <li key={`sr${node._id}`} className="flex p-2 justify-center items-center">
-                            <Link href={`/read/${node.name.replace(/ /g, "-")}`} onPress={onOpenChange}>
+                            <Link href={`/read/${node.slug}`} onPress={onOpenChange} className="w-full">
                             <div className="relative w-[50px] h-[75px]">
-                                <NextImage fill alt={`Cover of ${node.image}`} src={node.image} sizes="(max-width:600px) 15vw 10vw"></NextImage>
+                                <NextImage fill alt={`Cover of ${node.image}`} src={node.image} sizes="(max-width:600px) 15vw 5vw" style={{
+                                    objectFit:'cover'
+                                }}></NextImage>
                             </div>
                             <div className="flex flex-col flex-1 p-2">
                                 <span className="font-semibold text-sm">{node.name}</span>
                                 <span className="text-xs text-default-500">Status: {node.status}</span>
-                                <span className="text-xs text-default-500 whitespace-normal">
+                                <span className="text-xs text-default-500 search-txt">
                                     {genres}
                                 </span>
                             </div>

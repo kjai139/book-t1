@@ -67,7 +67,7 @@ export default function BookmarkBtn () {
                 {(onClose) => (
                     <>
                     <ModalHeader>
-                        Saved Bookmarks
+                        Saved Bookmarks - {bookmarks.length} / 25
                     </ModalHeader>
                     <ModalBody>
                         <ul className="max-h-[400px] overflow-y-auto bmark-cont flex flex-col my-4">
@@ -75,15 +75,15 @@ export default function BookmarkBtn () {
                             return (
                                 <li key={`sr${node.url}-${idx}`} className="flex p-2 justify-center items-center">
                                 <Link href={node.url} isDisabled={node.url === pathname ? true : false}>
-                                <div className="relative h-[140px] w-[100px]">
+                                <div className="relative h-[100px] w-[60px] sm:h-[140px] sm:w-[100px]">
                                     <NextImage fill alt={`Cover of ${node.image}`} src={node.image} sizes="(max-width:600px) 15vw (max-width:1200px) 10vw, 5vw" style={{
                                         objectFit: 'cover'
                                     }}></NextImage>
                                 </div>
-                                <div className="flex flex-col flex-2 p-2">
-                                    <span className="font-semibold text-sm">{node.name}</span>
+                                <div className="flex flex-col flex-2 p-2 gap-1">
+                                    <span className="font-semibold text-sm bm-txt">{node.name}</span>
                                     <span className="text-xs text-default-500">Status: {node.status}</span>
-                                    <span className="text-xs text-default-500 whitespace-normal">
+                                    <span className="text-xs text-default-500 bm-txt">
                                         {node.genres}
                                     </span>
                                 </div>

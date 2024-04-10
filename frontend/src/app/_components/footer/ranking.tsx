@@ -19,11 +19,11 @@ export default function RankingDisplay ({rankingList}:RankingDisplayProps) {
             <Divider className="mt-4"></Divider>
         </div>
         
-        <ul className="grid grid-cols-3 p-2 w-full gap-4 max-w-[1024px]">
+        <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 p-4 w-full gap-4 lg:max-w-[1024px] sm:max-w-[640px] max-w-[400px]">
             {rankingList && rankingList.rankings.map((wt, idx) => {
                 return (
                     <li key={wt._id} className="flex items-center">
-                        <div className="flex p-2 items-center gap-4 justify-center w-[20%] text-lg">
+                        <div className="flex p-2 items-center gap-4 justify-center w-[20%] text-lg flex-col lg:flex-row">
                             {idx === 0 &&
                             <FaChessKing size={30} color="gold"></FaChessKing>
                             }
@@ -34,7 +34,7 @@ export default function RankingDisplay ({rankingList}:RankingDisplayProps) {
                                 idx === 2 &&
                             <FaChessRook size={30} color="cd7f32"></FaChessRook>
                             }
-                            <span className={`${idx < 4 ? 'font-bold' : 'font-semibold'}`}>
+                            <span className={`${idx < 4 ? 'font-bold' : 'font-semibold'} ${idx === 0 && 'txt-gold'} ${idx === 1 && 'txt-silver'} ${idx === 2 && 'txt-bronze'}`}>
                                 {idx + 1}
                             </span>
                         </div>

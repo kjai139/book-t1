@@ -27,6 +27,7 @@ export default function SaveBookmarkBtn ({wtGenres, chNum, image, wTstatus, wtNa
     const { checkLocal, setCheckLocal } = useAuth()
     const [isMarked, setIsMarked] = useState(false)
     const [isDoneLoading, setIsDoneLoading] = useState(false)
+    const [errorMsg, setErrorMsg] = useState('')
 
     const pathname = usePathname()
     
@@ -69,8 +70,9 @@ export default function SaveBookmarkBtn ({wtGenres, chNum, image, wTstatus, wtNa
                 localStorage.setItem('bookmarks', JSON.stringify(bookmarks))
                 setIsMarked(true)
                 console.log('bookmark added:', localStorage)
+                setErrorMsg('')
             } else {
-                console.log('Your bookmark is full. limit:25')
+                setErrorMsg('Your bookmarks are full, delete something and try again.')
             }
            
         }
@@ -83,6 +85,9 @@ export default function SaveBookmarkBtn ({wtGenres, chNum, image, wTstatus, wtNa
     return (
         <>
         {isDoneLoading && <Button onPress={toggleBm} startContent={<FaBookmark></FaBookmark>} variant="solid" fullWidth className={`ext-md font-semibold`} color={`${isMarked ? 'success' : 'default'}`} aria-label="Add to Bookmark">{isMarked ? 'Bookmarked' : 'Bookmark'}</Button>}
+        {errorMsg &&
+        <span className="text-xs text-danger">{errorMsg}</span> 
+        }
         </>
     )
 }
