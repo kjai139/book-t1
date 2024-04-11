@@ -43,17 +43,19 @@ export default function RootLayout({
 
 
   return (
-    <html lang="en" className="blue-dark">
-      <body className={inter.className}>
-        <AuthProvider>
+      <html lang="en" className="dTheme" suppressHydrationWarning>
+        <body className={inter.className}>
         <Providers>
+        
         <MainHeaderNav></MainHeaderNav>
         {children}
         <MainFooter></MainFooter>
+        
         </Providers>
-        </AuthProvider>
-      </body>
-      <GoogleAnalytics></GoogleAnalytics>
-    </html>
+        
+        </body>
+        <GoogleAnalytics></GoogleAnalytics>
+      </html>
+   
   );
 }

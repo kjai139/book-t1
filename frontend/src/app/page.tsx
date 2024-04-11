@@ -5,6 +5,7 @@ import apiUrl from "./_utils/apiEndpoint"
 import StarsOnly from "./_components/rating/starsDisplayOnly"
 import MainDynamicSlide from "./_components/slider/mainSlider"
 import RankingDisplay from "./_components/footer/ranking"
+import { ThemeSwitcher } from "./_components/themeSwitcher"
 
 interface Updates {
 
@@ -77,6 +78,7 @@ export default async function Home() {
     <>
     <main className="flex flex-col items-center">
       <div className="max-w-[1024px] w-full">
+        <ThemeSwitcher></ThemeSwitcher>
         <MainDynamicSlide slideArr={updates.slider}></MainDynamicSlide>
         <div className="pt-4 px-4 flex justify-between">
           <h4>Latest Update</h4>
@@ -124,13 +126,15 @@ export default async function Home() {
                 return (
                   <div key={node._id}>
                   <Link color="foreground" href={`/read/${slug}/${node.chapterNumber}`} className="flex gap-1 items-center">
-                  <span className="text-xs sm:text-sm">{`Chapter ${node.chapterNumber}`}</span>
+                  <span className="text-xs sm:text-sm py-1">{`Chapter ${node.chapterNumber}`}</span>
                   
                   {formatDateDMY(node.releasedAt) === 'New' ?
 
-                  <span className={`text-xs text-danger-600 font-bold pulsate flex-1 text-center`}>
+                  <span className={`text-xs text-danger-600 font-bold flex-1 text-center`}>
                     <span className="bg-danger-600 text-foreground px-2 rounded">
+                      <span className="pulsate">
                     {formatDateDMY(node.releasedAt)}
+                    </span>
                     </span>
                     </span>:
                   <span className={`text-xs text-default-500 flex-1 text-center date-txt`}>{formatDateDMY(node.releasedAt)}</span>

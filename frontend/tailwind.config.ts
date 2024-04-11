@@ -26,7 +26,7 @@ const config: Config = {
   darkMode: 'class',
   plugins: [nextui({
     themes: {
-      'blue-dark': {
+      'dTheme': {
         extend: 'dark',
         colors: {
           background: {
@@ -69,6 +69,29 @@ const config: Config = {
           content1: '#18181B',
 
         },
+      },
+      'lTheme': {
+        extend: 'light',
+        colors: {
+          primary: {
+            50: "#DCEEFB",
+            100: "#B6E0FE",
+            200: "#84C5F4",
+            300: "#62B0E8",
+            400: "#4098D7",
+            500: "#2680C2",
+            600: "#186FAF",
+            700: "#0F609B",
+            800: "#0A558C",
+            900: "#003E6B",
+            DEFAULT: "#4098D7",
+            foreground: "#ffffff",
+          },
+          success: {
+            DEFAULT: '#87EAF2'
+          },
+          
+        }
       }
     }
   })],

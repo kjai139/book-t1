@@ -15,6 +15,10 @@ const GenreSchema = new Schema({
     },
     description: {
         type:String
+    },
+    slug: {
+        type:String,
+        unique:true
     }
 
 })

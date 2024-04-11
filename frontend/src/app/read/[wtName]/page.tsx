@@ -4,8 +4,9 @@ import ChList from "@/app/_components/list/chList";
 import LastRead from "@/app/_components/localstorage/lastRead";
 import Rating from "@/app/_components/rating/starRating";
 import apiUrl from "@/app/_utils/apiEndpoint";
-import { Button, Card, CardBody, CardHeader, Divider, Image, Link } from "@nextui-org/react";
+import { Button, Divider, Image, Link } from "@nextui-org/react";
 import { notFound } from "next/navigation";
+import SideRankingDisplay from "@/app/_components/sidebar/sideRankings";
 
 
 
@@ -63,8 +64,29 @@ export async function generateMetadata({params}) {
     }
 }
 
+async function getRankings () {
+    try {
+      const response = await fetch(`${apiUrl}/api/wt/rankings/get`, {
+        method: 'GET',
+        next: {
+          revalidate: 3600
+        }
+      })
+      if (response.ok) {
+        const data = await response.json()
+        console.log('ranking:', data)
+        return data
+      }
+  
+    } catch (err) {
+      console.error('Error fetching rankings')
+    }
+  }
+
 export default async function WtPage({params}) {
-    const wt = await getWts(params)
+    const wtData = getWts(params)
+    const rankingsData = getRankings()
+    const [wt, rankings] = await Promise.all([wtData, rankingsData])
     console.log('WTPAGE wt:', wt)
     if (!wt) {
         notFound()
@@ -106,7 +128,9 @@ export default async function WtPage({params}) {
 
     return (
         <main>
+            <div className="flex flex-col lg:flex-row max-w-[1024px]">
         <div className="max-w-[1024px] md:m-8 md:p-8 lg:p-8 lg:m-8 sm:m-8 sm:p-8 bg-content1 p-4 rounded lg:shadow flex flex-col gap-4">
+            
             <span className="my-4">
                 <h3 className="text-center w-full text-lg font-semibold">{wt.wt.name}</h3>
             </span>
@@ -157,7 +181,7 @@ export default async function WtPage({params}) {
                 <div className="flex gap-2 flex-wrap max-w-[630px]">
                 {sortedGenres.map((genre) => {
                     return (
-                        <Button as={Link} href={`/genres/${genre.lcname}`} aria-label={`Check ${genre.lcname}`} key={genre._id} size="sm" radius="full">
+                        <Button as={Link} href={`/genres/${genre.slug}`} aria-label={`Check the ${genre.name} genre collection`} key={genre._id} size="sm" radius="full">
                             {genre.name}
                         </Button>
                     )
@@ -175,6 +199,9 @@ export default async function WtPage({params}) {
                
                 
             </div>
+            
+            </div>
+            <SideRankingDisplay rankingList={rankings}></SideRankingDisplay>
         </div>
         </main>
     )

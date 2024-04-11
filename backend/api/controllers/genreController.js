@@ -36,16 +36,17 @@ exports.genres_all_params_get = async (req, res) => {
 
 
 exports.genre_wt_byGenre_get = async (req, res) => {
-    debug(req.query)
+    
     
      
      
         try {
-            const limit = 3
+            const limit = 10
             const { status, sort } = req.query
             const page = Number(req.query.page)
-            const lcname = req.query.name.replace(/-/g, ' ')
-            const genre = await Genre.find({lcname:lcname})
+            const slug = req.query.slug
+            debug('slug', slug)
+            const genre = await Genre.find({slug:slug})
             debug('genre', genre)
             const genreId = genre[0]._id
             debug('genreId', genreId)
@@ -142,7 +143,9 @@ exports.genre_wt_byGenre_get = async (req, res) => {
     
             res.json({
                 wts: updates,
-                totalPages: totalPages
+                totalPages: totalPages,
+                genre: genre,
+                totalWt: totalWt
             })
     
         } catch (err) {

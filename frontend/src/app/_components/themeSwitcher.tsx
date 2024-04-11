@@ -2,24 +2,50 @@
 
 import { useTheme } from "next-themes"
 import { useEffect, useState } from "react"
+import { Switch } from "@nextui-org/react"
+import { IoSunnySharp, IoMoonSharp } from "react-icons/io5"
 
 
 export function ThemeSwitcher() {
     const [mounted, setMounted] = useState(false)
     const { theme, setTheme } = useTheme()
+    const [isSelected, setIsSelected] = useState(false)
+    const [userPref, setUserPref] = useState('')
 
     useEffect(() => {
         setMounted(true)
+        const savedUserPref = localStorage.getItem('theme')
+        if (savedUserPref) {
+           if (savedUserPref === 'lTheme') {
+            setIsSelected(true)
+            setTheme('lTheme')
+           }
+        }
     }, [])
+
+   
+
+    
+
 
     if (!mounted) return null
 
+    const toggleTheme = () => {
+        if (isSelected) {
+            setTheme('dTheme')
+            setIsSelected(false)
+        } else {
+            setTheme('lTheme')
+            setIsSelected(true)
+        }
+    }
+  
+
 
     return (
-        <div>
-            The current theme is: {theme}
-            <button onClick={() => setTheme('light')}>Light Mode</button>
-            <button onClick={(() => setTheme('dark-blue'))}>Dark Mode</button>
+        <div className="p-2 justify-end flex">
+            <Switch isSelected={isSelected} onValueChange={toggleTheme} size="md" endContent={<IoSunnySharp></IoSunnySharp>} startContent={<IoMoonSharp></IoMoonSharp>}></Switch>
+          
         </div>
     )
 }

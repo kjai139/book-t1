@@ -16,7 +16,7 @@ interface ViewGenreWtProps {
 export default function ViewGenreWt ({wtsArr, totalPg, genreName}:ViewGenreWtProps) {
 
     console.log(wtsArr)
-    const [sortBy, setSortBy] = useState('')
+    const [sortBy, setSortBy] = useState('latest')
     const [updates, setUpdates] = useState<any>(wtsArr)
     const [curPg, setCurPg] = useState(1)
     const [totalPages, setTotalPages] = useState(totalPg)
@@ -25,7 +25,7 @@ export default function ViewGenreWt ({wtsArr, totalPg, genreName}:ViewGenreWtPro
 
     const getPage = async () => {
         try {
-            const response = await fetch(`${apiUrl}/api/genre/wts/get?name=${genreName}&page=${curPg}&sort=${sortBy ? sortBy : 'latest'}`, {
+            const response = await fetch(`${apiUrl}/api/genre/wts/get?slug=${genreName}&page=${curPg}&sort=${sortBy ? sortBy : 'latest'}`, {
                 method: 'GET',
                 next: {
                     revalidate: 1

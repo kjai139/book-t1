@@ -165,14 +165,14 @@ export default function MainDynamicSlide ({slideArr}:MainDynamicSlideProps) {
                             </NextImage>
                             <div className='flex flex-col flex-1 justify-end items-center z-10 text-foreground'>
                                 <div className='flex flex-col items-center justify-center p-2 gap-2 w-full'>
-                                <span className='font-bold text-foreground text-shadow text-center'>
+                                <span className='font-bold text-foreground text-center'>
                                     {slide.name}
                                 </span>
                                 <StarsOnly rating={slide.avgRating ? slide.avgRating : 0}></StarsOnly>
                                 <span className='flex text-xs text-foreground font-semibold'>
                                     {`Genres: ${concatGenres}`}
                                 </span>
-                                <span className='text-xs font-semibold text-shadow slider-about'>
+                                <span className='text-xs font-semibold slider-about'>
                                     <p>
                                     {slide.about}
                                     </p>

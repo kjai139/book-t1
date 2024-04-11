@@ -114,8 +114,9 @@ main {
 }
 
 .pulsate {
-  animation: pulsate 1s ease-out infinite;
-  opacity: 0.5;
+  animation: pulsate 1s linear infinite;
+  color: white;
+  
 }
 
 .chList-cont::-webkit-scrollbar {
@@ -208,16 +209,16 @@ main {
 
 @keyframes pulsate {
   0% {
-    opacity: 0.7;
-    filter: brightness(0.5);
+    opacity: 1;
+    /* filter: brightness(0.5); */
   }
   50% {
-    opacity: 1.0;
-    filter: brightness(1.2);
+    opacity: 0.75;
+    /* filter: brightness(1.2); */
   }
   100% {
-    opacity: 0.7;
-    filter: brightness(1);
+    opacity: 1;
+    /* filter: brightness(1); */
   }
 }
 
