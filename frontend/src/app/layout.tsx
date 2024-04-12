@@ -44,7 +44,7 @@ export default function RootLayout({
 
   return (
       <html lang="en" className="dTheme" suppressHydrationWarning>
-        <body className={inter.className}>
+        <body className={`${inter.className} bg-background-100`}>
         <Providers>
         
         <MainHeaderNav></MainHeaderNav>

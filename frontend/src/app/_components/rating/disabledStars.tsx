@@ -14,7 +14,7 @@ export default function DisabledStar ({remain}:StarProps) {
         <span>
             {remain == 0 &&
            
-                <FaStar color="yellow"></FaStar>
+                <FaStar color="#F7C948"></FaStar>
             
                 
             }
@@ -22,7 +22,7 @@ export default function DisabledStar ({remain}:StarProps) {
                 
                 remain >= 1 &&
                
-                <FaStar color="yellow"></FaStar>
+                <FaStar color="#F7C948"></FaStar>
                
             }
             {
@@ -34,7 +34,7 @@ export default function DisabledStar ({remain}:StarProps) {
             {
                 remain > 0 && remain < 1 &&
                
-                <FaRegStarHalfStroke color="yellow"></FaRegStarHalfStroke>
+                <FaRegStarHalfStroke color="#F7C948"></FaRegStarHalfStroke>
                
             }
         </span>

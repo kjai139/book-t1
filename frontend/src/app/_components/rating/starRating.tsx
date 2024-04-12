@@ -26,6 +26,7 @@ export default function Rating ({wtId}:RatingProps) {
     const [isLoading, setIsLoading] = useState(false)
     const [tempId, setTempId] = useState<string | null>('temp')
     const [isDoneLoading, setIsDoneLoading] = useState(false)
+    const [didUserJustVote, setDidUserJustVote] = useState(false)
     
 
     useEffect(() => {
@@ -58,13 +59,15 @@ export default function Rating ({wtId}:RatingProps) {
             if (response.ok) {
                 const json = await response.json()
                 console.log(json)
-                if (json.results) {
+                if (json) {
                     setRating(json.results)
                     setIsDoneLoading(true)
                     setTotalRated(json.totalRated)
                 }
                 if (json.didUserRate) {
+                    
                     setHasUserVoted(true)
+                
                 }
                 
             }
@@ -99,7 +102,7 @@ export default function Rating ({wtId}:RatingProps) {
 
             if (response.ok) {
                 setIsLoading(false)
-                setHasUserVoted(true)
+                setDidUserJustVote(true)
                 console.log(`User rated ${wtId} ${rating} stars`)
             } else {
                 setIsLoading(false)
@@ -122,7 +125,7 @@ export default function Rating ({wtId}:RatingProps) {
    
     for (let i = 1; i <= 5; i++) {
         starsDisabled.push(
-        <Star idx={i} key={`star${i}`}
+        <Star idx={i} key={`star-disc-${i}`}
         remain={rating - i} isDisabled={true}
         ></Star>
         )
@@ -132,7 +135,7 @@ export default function Rating ({wtId}:RatingProps) {
     for (let i = 1; i <= 5; i++) {
         stars.push(
         <Star idx={i} key={`star${i}`}
-        remain={rating - i} isDisabled={hasUserVoted} onClickFunc={rateWt}
+        remain={rating - i} isDisabled={hasUserVoted || didUserJustVote} onClickFunc={rateWt}
         ></Star>
         )
     
@@ -141,7 +144,7 @@ export default function Rating ({wtId}:RatingProps) {
 
 
     return (
-        <div className="flex items-center gap-1 w-full">{isLoading ? <div>{starsDisabled}</div> : <div>{stars}</div>}
+        <div className="flex items-center gap-1 w-full">{!isDoneLoading || isLoading ? <div>{starsDisabled}</div> : <div>{stars}</div>}
         <div className="flex flex-col">
         
         {isDoneLoading && <span className="text-warning-500 text-sm ml-1">
@@ -150,6 +153,9 @@ export default function Rating ({wtId}:RatingProps) {
         {isDoneLoading && hasUserVoted ? 
         <span className="text-xs text-default-500 italic">You have already rated this.</span> :
         <span className="text-xs text-default-500 italic">Give it a rating!</span>
+        }
+        {didUserJustVote &&
+        <span className="text-xs text-default-500 italic">Thanks for your rating!</span>
         }
         </div>
         </div>

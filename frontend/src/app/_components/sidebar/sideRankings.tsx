@@ -11,40 +11,41 @@ export default function SideRankingDisplay ({rankingList}:SideRankingDisplayProp
     
 
     return (
-        <div className="flex flex-col mt-8 rounded shadow bg-content1">
-        <div className="max-w-[300px] w-full p-2">
-            <h3 className="p-1">
+        <div className="lg:max-w-[320px] w-full">
+        <div className="flex flex-col my-8 sm:m-8 lg:mx-0 sm:rounded sm:shadow sm:bg-content1">
+        <div className="lg:max-w-[350px] w-full p-2">
+            <h3 className="p-2 font-semibold">
                 Popularity Rankings
             </h3>
-            <Divider className="mt-4"></Divider>
+            <Divider className="mt-2"></Divider>
         </div>
         
-        <ul className="grid grid-cols-1 p-4 w-full gap-4 max-w-[300px]">
+        <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 p-4 w-full gap-4 lg:max-w-[300px]">
             {rankingList && rankingList.rankings.map((wt, idx) => {
                 return (
-                    <li key={wt._id} className="flex items-center">
-                        <div className="flex p-2 items-center gap-4 justify-center w-[20%] text-lg flex-col lg:flex-row">
+                    <li key={wt._id} className="items-center rank-li-grid gap-2">
+                        <div className="flex p-2 items-center gap-4 justify-center sm:flex text-lg flex-col">
                             {idx === 0 &&
-                            <FaChessKing size={30} color="gold"></FaChessKing>
+                            <FaChessKing size={22} color="gold"></FaChessKing>
                             }
                             {idx === 1 &&
-                            <FaChessQueen size={30} color="silver"></FaChessQueen>
+                            <FaChessQueen size={22} color="silver"></FaChessQueen>
                             }
                             {
                                 idx === 2 &&
-                            <FaChessRook size={30} color="cd7f32"></FaChessRook>
+                            <FaChessRook size={22} color="cd7f32"></FaChessRook>
                             }
                             <span className={`${idx < 4 ? 'font-bold' : 'font-semibold'} ${idx === 0 && 'txt-gold'} ${idx === 1 && 'txt-silver'} ${idx === 2 && 'txt-bronze'}`}>
                                 {idx + 1}
                             </span>
                         </div>
-                        <div className="flex w-[80%] items-center">
+                        <div className="rank-grid max-w-[320px] gap-2 items-center">
                         <div className="relative w-full flex-1 h-[80px]">
                             <NextImage src={wt.image} alt={`Cover image of ${wt.name} at rank ${idx}`} fill sizes="(max-width:600px) 15vw, (max-width:1200px) 10vw, 10vw" className="rounded object-contain"></NextImage>
 
                         </div>
                         
-                        <span className="flex-1 flex items-center ranking-txt">
+                        <span className="flex-1 flex items-center ranking-txt text-sm">
                             {wt.name}
                         </span>
                         </div>
@@ -54,6 +55,7 @@ export default function SideRankingDisplay ({rankingList}:SideRankingDisplayProp
             })}
 
         </ul>
+        </div>
         </div>
     )
 }

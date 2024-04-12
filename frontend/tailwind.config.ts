@@ -90,6 +90,11 @@ const config: Config = {
           success: {
             DEFAULT: '#87EAF2'
           },
+          background: {
+            200: "#D9E2EC",
+            100: "#F0F4F8",
+            
+          },
           
         }
       }

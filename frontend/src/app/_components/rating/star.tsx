@@ -16,7 +16,7 @@ export default function Star ({remain, idx, isDisabled, onClickFunc}:StarProps) 
         <span>
             {remain == 0 &&
             <button onClick={() => onClickFunc(idx)} className={`${isDisabled ? 'dStar' : 'undefined'}`}>
-                <FaStar color="yellow"></FaStar>
+                <FaStar color="#F7C948"></FaStar>
             </button> 
                 
             }
@@ -24,7 +24,7 @@ export default function Star ({remain, idx, isDisabled, onClickFunc}:StarProps) 
                 
                 remain >= 1 &&
                 <button onClick={() => onClickFunc(idx)} className={`${isDisabled ? 'dStar' : 'undefined'}`}>
-                <FaStar color="yellow"></FaStar>
+                <FaStar color="#F7C948"></FaStar>
                 </button> 
             }
             {
@@ -36,7 +36,7 @@ export default function Star ({remain, idx, isDisabled, onClickFunc}:StarProps) 
             {
                 remain > 0 && remain < 1 &&
                 <button onClick={() => onClickFunc(idx)} className={`${isDisabled ? 'dStar' : 'undefined'}`}>
-                <FaRegStarHalfStroke color="yellow"></FaRegStarHalfStroke>
+                <FaRegStarHalfStroke color="#F7C948"></FaRegStarHalfStroke>
                 </button> 
             }
         </span>

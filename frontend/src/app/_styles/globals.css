@@ -120,8 +120,13 @@ main {
 }
 
 .chList-cont::-webkit-scrollbar {
-  width: 0;
+  width: 5px;
   background-color: transparent;
+}
+
+.chList-cont::-webkit-scrollbar-thumb {
+  background-color: #4098D7;
+  border-radius: 8px;
 }
 
 .slider-txt-cont {
@@ -151,7 +156,7 @@ main {
 }
 
 .txt-gold {
-  color:gold;
+  color: #F6C948;
 }
 .txt-silver {
   color: silver;
@@ -200,7 +205,15 @@ main {
   cursor: pointer;
 }
 
+.rank-grid {
+  grid-template-columns: 1fr 2fr;
+  display: grid;
+}
 
+.rank-li-grid {
+  grid-template-columns: 1fr 4fr;
+  display: grid;
+}
 
 .slick-active {
   color: #4098D7;

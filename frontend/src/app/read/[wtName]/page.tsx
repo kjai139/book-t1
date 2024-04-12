@@ -7,6 +7,7 @@ import apiUrl from "@/app/_utils/apiEndpoint";
 import { Button, Divider, Image, Link } from "@nextui-org/react";
 import { notFound } from "next/navigation";
 import SideRankingDisplay from "@/app/_components/sidebar/sideRankings";
+import { ThemeSwitcher } from "@/app/_components/themeSwitcher";
 
 
 
@@ -128,8 +129,9 @@ export default async function WtPage({params}) {
 
     return (
         <main>
-            <div className="flex flex-col lg:flex-row max-w-[1024px]">
-        <div className="max-w-[1024px] md:m-8 md:p-8 lg:p-8 lg:m-8 sm:m-8 sm:p-8 bg-content1 p-4 rounded lg:shadow flex flex-col gap-4">
+            <div className="flex flex-col lg:flex-row max-w-[1024px] gap-4 p-2">
+            
+        <div className="lg:max-w-[700px] md:my-8 md:py-8 lg:py-8 lg:my-8 sm:my-8 sm:p-8 bg-content1 p-2 rounded lg:shadow flex flex-col gap-4">
             
             <span className="my-4">
                 <h3 className="text-center w-full text-lg font-semibold">{wt.wt.name}</h3>
@@ -190,7 +192,7 @@ export default async function WtPage({params}) {
                 <div className="max-w-[630px] w-full">
                 <LastRead wtId={wt.wt._id} wtName={wt.wt.name}></LastRead>
                 </div>
-                <div>
+                <div className="w-full">
                     <h3 className="font-semibold">{`Chapters for ${wt.wt.name}`}</h3>
                     <Divider className="mt-4"></Divider>
                 </div>

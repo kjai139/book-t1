@@ -11,15 +11,15 @@ export default function RankingDisplay ({rankingList}:RankingDisplayProps) {
     console.log('RANKING LIST........', rankingList)
 
     return (
-        <>
+        <div className="w-full max-w-[1024px]">
         <div className="max-w-[1024px] w-full p-2">
-            <h3>
+            <h3 className="font-semibold p-2">
                 Popularity Rankings
             </h3>
-            <Divider className="mt-4"></Divider>
+            <Divider className="mt-2"></Divider>
         </div>
         
-        <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 p-4 w-full gap-4 lg:max-w-[1024px] sm:max-w-[640px] max-w-[400px]">
+        <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 p-4 w-full gap-4 lg:max-w-[1024px] sm:max-w-[1024px] md:grid-cols-3 max-w-[400px] ml-auto mr-auto">
             {rankingList && rankingList.rankings.map((wt, idx) => {
                 return (
                     <li key={wt._id} className="flex items-center">
@@ -44,7 +44,7 @@ export default function RankingDisplay ({rankingList}:RankingDisplayProps) {
 
                         </div>
                         
-                        <span className="flex-1 flex items-center ranking-txt">
+                        <span className="flex-1 flex items-center ranking-txt text-sm font-semibold">
                             {wt.name}
                         </span>
                         </div>
@@ -54,6 +54,6 @@ export default function RankingDisplay ({rankingList}:RankingDisplayProps) {
             })}
 
         </ul>
-        </>
+        </div>
     )
 }
