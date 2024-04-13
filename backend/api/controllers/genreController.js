@@ -41,7 +41,7 @@ exports.genre_wt_byGenre_get = async (req, res) => {
      
      
         try {
-            const limit = 10
+            const limit = 5
             const { status, sort } = req.query
             const page = Number(req.query.page)
             const slug = req.query.slug
@@ -61,6 +61,9 @@ exports.genre_wt_byGenre_get = async (req, res) => {
             let sortCondition = {
 
             }
+            let aggSortCondition = {
+
+            }
             const skip = (page - 1) * limit
             if (status) {
                 matchStage.$match.status = status
@@ -75,17 +78,28 @@ exports.genre_wt_byGenre_get = async (req, res) => {
                 sortCondition = {
                     updatedOn: -1
                 }
+                aggSortCondition = {
+                    "book.updatedOn": -1
+                }
             } else if (sort === 'rating') {
                 sortCondition = {
                     avgRating: -1,
                     updatedOn: -1
+                    
+                }
+                aggSortCondition = {
+                    "book.avgRating": -1,
+                    "book.updatedOn": -1
                 }
             }
             const totalWt = await Wt.countDocuments(countQuery)
             
             const totalPages = Math.ceil(totalWt / limit)
            
-            
+            const sortedWt = await Wt.find().sort({
+                avgRating: -1,
+                updatedOn: -1
+            }).skip(skip).limit(limit)
             
     
             const updates = await Wt.aggregate([
@@ -120,7 +134,8 @@ exports.genre_wt_byGenre_get = async (req, res) => {
                         //grouping by the Book's id
                         _id: '$_id',
                         chapters: { $push: '$chapters' },
-                        book: { $first: '$$ROOT'}
+                        book: { $first: '$$ROOT'},
+                       
                     }
                 },
                 {
@@ -134,9 +149,7 @@ exports.genre_wt_byGenre_get = async (req, res) => {
                     $unset: "book.chapters"
                 },
                 {
-                    $sort: {
-                        "book.updatedOn": -1
-                    }
+                    $sort: aggSortCondition
                 }
             ])
             debug('genre filter', updates)
@@ -145,7 +158,8 @@ exports.genre_wt_byGenre_get = async (req, res) => {
                 wts: updates,
                 totalPages: totalPages,
                 genre: genre,
-                totalWt: totalWt
+                totalWt: totalWt,
+                fullArr: sortedWt
             })
     
         } catch (err) {

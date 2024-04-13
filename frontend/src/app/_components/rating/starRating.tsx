@@ -147,11 +147,12 @@ export default function Rating ({wtId}:RatingProps) {
         <div className="flex items-center gap-1 w-full">{!isDoneLoading || isLoading ? <div>{starsDisabled}</div> : <div>{stars}</div>}
         <div className="flex flex-col">
         
-        {isDoneLoading && <span className="text-warning-500 text-sm ml-1">
+        {isDoneLoading && !didUserJustVote && <span className="text-warning-500 text-sm ml-1">
             {rating}/5 out of {totalRated}
         </span>}
-        {isDoneLoading && hasUserVoted ? 
-        <span className="text-xs text-default-500 italic">You have already rated this.</span> :
+        {isDoneLoading && hasUserVoted && 
+        <span className="text-xs text-default-500 italic">You have already rated this.</span>}
+        {isDoneLoading && !hasUserVoted && !didUserJustVote &&
         <span className="text-xs text-default-500 italic">Give it a rating!</span>
         }
         {didUserJustVote &&

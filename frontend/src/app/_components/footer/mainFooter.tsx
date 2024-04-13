@@ -28,7 +28,7 @@ export default async function MainFooter () {
     console.log('siteData home', siteData)
 
     return (
-        <footer className="bg-primary-400 flex flex-col p-2 gap-2 mt-8">
+        <footer className="bg-primary-400 flex flex-col p-2 gap-2 mt-16">
             <span>
 
             </span>

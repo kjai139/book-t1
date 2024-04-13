@@ -276,6 +276,7 @@ exports.wt_query_get = async (req, res) => {
     try {
         const limit = 20
         const { status, order, page} = req.query
+        console.log('WT QUERY GET:STATUS ORDER PAGE-', status, order, page)
         const genres = JSON.parse(req.query.genres)
         const genresObjIds = genres.map(id => mongoose.Types.ObjectId.createFromHexString(id))
         let matchStage = {
@@ -287,6 +288,9 @@ exports.wt_query_get = async (req, res) => {
            
         }
         let sortCondition = {
+
+        }
+        let aggreSortCondition = {
 
         }
         const skip = (page - 1) * limit
@@ -304,8 +308,18 @@ exports.wt_query_get = async (req, res) => {
         }
         if (order === 'latest') {
             sortCondition = { updatedOn : -1}
+            aggreSortCondition = {
+                "book.updatedOn": -1
+            }
         } else if (order === 'rating') {
-            sortCondition = {avgRating: -1}
+            sortCondition = {
+                avgRating: -1,
+                updatedOn: -1
+            }
+            aggreSortCondition = {
+                "book.avgRating": -1,
+                "book.updatedOn": -1
+            }
         }
         const totalWt = await Wt.countDocuments(countQuery)
         
@@ -360,9 +374,7 @@ exports.wt_query_get = async (req, res) => {
                 $unset: "book.chapters"
             },
             {
-                $sort: {
-                    "book.updatedOn": -1
-                }
+                $sort: aggreSortCondition
             }
         ])
 
@@ -450,7 +462,7 @@ exports.wt_views_inc = async (req, res) => {
 
 exports.wt_rankings_get = async (req, res) => {
     try {
-        const monthlyRanking = await Wt.find({}).sort({monthlyViews: -1, name: -1}).limit(10)
+        const monthlyRanking = await Wt.find({}).sort({monthlyViews: -1, name: -1}).limit(10).populate('genres')
         debug('MONTHLY RANKING:', monthlyRanking)
         res.json({
             rankings:monthlyRanking

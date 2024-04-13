@@ -56,7 +56,7 @@ async function getRankings () {
     })
     if (response.ok) {
       const data = await response.json()
-      console.log('ranking:', data)
+      /* console.log('ranking:', data) */
       return data
     }
 

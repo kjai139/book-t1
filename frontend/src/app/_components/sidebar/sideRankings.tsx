@@ -1,6 +1,6 @@
 import { FaChessKing, FaChessRook, FaChessQueen } from "react-icons/fa"
 import NextImage from "next/image"
-import { Divider } from "@nextui-org/react"
+import { Divider, Link } from "@nextui-org/react"
 
 interface SideRankingDisplayProps {
     rankingList: {rankings: [any]}
@@ -12,7 +12,7 @@ export default function SideRankingDisplay ({rankingList}:SideRankingDisplayProp
 
     return (
         <div className="lg:max-w-[320px] w-full">
-        <div className="flex flex-col my-8 sm:m-8 lg:mx-0 sm:rounded sm:shadow sm:bg-content1">
+        <div className="flex flex-col mt-1 lg:m-8 lg:mx-0 bg-content1">
         <div className="lg:max-w-[350px] w-full p-2">
             <h3 className="p-2 font-semibold">
                 Popularity Rankings
@@ -20,8 +20,9 @@ export default function SideRankingDisplay ({rankingList}:SideRankingDisplayProp
             <Divider className="mt-2"></Divider>
         </div>
         
-        <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 p-4 w-full gap-4 lg:max-w-[300px]">
+        <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 p-4 w-full gap-4 lg:max-w-[300px] rank-grid-bot">
             {rankingList && rankingList.rankings.map((wt, idx) => {
+                const genres = wt.genres.map(node => node.name).join(', ')
                 return (
                     <li key={wt._id} className="items-center rank-li-grid gap-2">
                         <div className="flex p-2 items-center gap-4 justify-center sm:flex text-lg flex-col">
@@ -39,16 +40,20 @@ export default function SideRankingDisplay ({rankingList}:SideRankingDisplayProp
                                 {idx + 1}
                             </span>
                         </div>
-                        <div className="rank-grid max-w-[320px] gap-2 items-center">
+                        <Link className="rank-grid max-w-[320px] gap-2 items-center" href={`/read/${wt.slug}`} color="foreground">
+                        
                         <div className="relative w-full flex-1 h-[80px]">
                             <NextImage src={wt.image} alt={`Cover image of ${wt.name} at rank ${idx}`} fill sizes="(max-width:600px) 15vw, (max-width:1200px) 10vw, 10vw" className="rounded object-contain"></NextImage>
 
                         </div>
-                        
-                        <span className="flex-1 flex items-center ranking-txt text-sm">
+                        <div className="flex flex-col">
+                        <span className="flex-1 flex ranking-txt text-sm">
                             {wt.name}
                         </span>
+                        <span className="text-xs text-default-500 ranking-txt">{genres}</span>
                         </div>
+                        
+                        </Link>
                     
                     </li>
                 )

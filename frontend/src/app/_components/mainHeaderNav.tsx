@@ -43,7 +43,7 @@ export default function MainHeaderNav () {
     ]
 
     const publicMenu = [
-      {
+     /*  {
         name: 'Create Account',
         type: 'link',
         url: '/register'
@@ -52,6 +52,17 @@ export default function MainHeaderNav () {
         name: 'Log In',
         type: 'link',
         url: '/login'
+      } */
+      {
+        name: 'Home',
+        type: 'link',
+        url: '/'
+
+      },
+      {
+        name: 'View Webtoons',
+        type: 'link',
+        url: '/read'
       }
     ]
 
@@ -100,23 +111,9 @@ export default function MainHeaderNav () {
             </NavbarBrand>
           </NavbarContent>
     
-          <NavbarContent className="hidden sm:flex gap-4" justify="center">
-            <NavbarBrand>
-              
-              <p className="font-bold text-inherit">Logo</p>
-            </NavbarBrand>
-            <NavbarItem>
-              <Link color="foreground" href="#">
-                Series
-              </Link>
-            </NavbarItem>
+          {/* <NavbarContent className="hidden sm:flex gap-4" justify="center">
             
-            {/* <NavbarItem>
-              <Link color="foreground" href="#">
-                Integrations
-              </Link>
-            </NavbarItem> */}
-          </NavbarContent>
+          </NavbarContent> */}
     
           <NavbarContent justify="end">
             <NavbarItem>

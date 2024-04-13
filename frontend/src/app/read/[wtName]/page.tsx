@@ -129,11 +129,17 @@ export default async function WtPage({params}) {
 
     return (
         <main>
-            <div className="flex flex-col lg:flex-row max-w-[1024px] gap-4 p-2">
             
-        <div className="lg:max-w-[700px] md:my-8 md:py-8 lg:py-8 lg:my-8 sm:my-8 sm:p-8 bg-content1 p-2 rounded lg:shadow flex flex-col gap-4">
+            <div className="flex flex-col lg:flex-row max-w-[1024px] gap-4 p-2 pt-0">
+                
+            
+        <div className="lg:max-w-[700px] md:py-8 lg:py-8 lg:my-8 sm:p-8 bg-content1 p-2 rounded lg:shadow flex flex-col gap-4 my-0">
+        {/* <div className="max-w-[1024px] flex justify-end">
+            <ThemeSwitcher></ThemeSwitcher>
+            </div> */}
             
             <span className="my-4">
+            
                 <h3 className="text-center w-full text-lg font-semibold">{wt.wt.name}</h3>
             </span>
             <div className="items-center flex flex-col gap-8">

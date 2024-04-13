@@ -35,6 +35,7 @@ export default function ViewGenreWt ({wtsArr, totalPg, genreName}:ViewGenreWtPro
             if (response.ok) {
                 console.log('Get page ran in client')
                 const json = await response.json()
+                console.log('RESULTS:::', json)
                 setIsResultOut(true)
                 setInitialPage(0)
                 setUpdates(json)

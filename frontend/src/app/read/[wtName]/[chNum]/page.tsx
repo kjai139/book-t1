@@ -100,7 +100,7 @@ export default async function Page({params}:{params: {wtName: string; chNum: str
         <div className="flex flex-col gap-4 items-center max-w-[1024px]">
             <LocalStorageSaveHistory wtRef={content.wtc.wtRef} chName={params.wtName} chNum={params.chNum}></LocalStorageSaveHistory>
             <IncreViews wtName={params.wtName}></IncreViews>
-            <div className="px-4 py-2 text-center font-bold text-lg">
+            <div className="px-4 py-2 text-center font-bold text-lg mt-8">
                 <h3>{content.wtc.name}</h3>
             </div>
             
