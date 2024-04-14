@@ -1,12 +1,12 @@
 'use client'
 
 import { useEffect, useState } from "react"
-import {Navbar, NavbarBrand, NavbarContent, NavbarItem, NavbarMenuToggle, NavbarMenu, NavbarMenuItem, Link, Button, Divider, Input } from "@nextui-org/react";
+import {Navbar, NavbarBrand, NavbarContent, NavbarItem, NavbarMenuToggle, NavbarMenu, NavbarMenuItem, Link, Button, Divider } from "@nextui-org/react";
 import { useAuth } from "../_contexts/authContext";
-import NavSearch from "./button/search";
+
 import BookmarkBtn from "./button/bookmark";
 import PbNavSearch from "./button/pbSearch";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import homeIcon from '../apple-icon.png'
 import NextImage from "next/image";
 
@@ -20,11 +20,9 @@ interface MenuItems {
 export default function MainHeaderNav () {
 
     const pathname = usePathname()
-    const router = useRouter()
     const [isMenuOpen, setIsMenuOpen] = useState(false)
     const [menuItems, setMenuItems] = useState<MenuItems[]>([])
-    const [isSearchOpen, setIsSearchOpen] = useState(false)
-    const [isBookmarkOpen, setIsBookmarkOpen] = useState(false)
+   
 
     const { user, authCheck, logUserOut } = useAuth()
 
@@ -93,10 +91,8 @@ export default function MainHeaderNav () {
     
       return (
         <Navbar disableAnimation={true} isBordered shouldHideOnScroll onMenuOpenChange={setIsMenuOpen} isMenuOpen={isMenuOpen}>
-          <NavbarContent className="sm:hidden" justify="start">
-            <NavbarMenuToggle aria-label={isMenuOpen ? 'Close menu' : 'Open menu'} className="sm:hidden" />
-          </NavbarContent>
           <NavbarContent justify="start">
+            <NavbarMenuToggle aria-label={isMenuOpen ? 'Close menu' : 'Open menu'} className="sm:hidden" />
             <NavbarBrand>
               <Button variant="flat" as={Link} href="/" isIconOnly>
                 <NextImage src={homeIcon} alt="Home Icon Image" priority></NextImage>
@@ -117,20 +113,12 @@ export default function MainHeaderNav () {
     
           <NavbarContent justify="end">
             <NavbarItem>
-              {/* <NavSearch setIsSearchOpen={setIsSearchOpen} isSearchOpen={isSearchOpen}></NavSearch> */}
               <PbNavSearch></PbNavSearch>
             </NavbarItem>
             <NavbarItem>
               <BookmarkBtn></BookmarkBtn>
             </NavbarItem>
-            {/* <NavbarItem className="hidden lg:flex">
-              <Link href="#">Login</Link>
-            </NavbarItem> */}
-            {/* <NavbarItem>
-              <Button as={Link} color="primary" href="#" variant="flat">
-                Sign Up
-              </Button>
-            </NavbarItem> */}
+           
           </NavbarContent>
     
           <NavbarMenu>

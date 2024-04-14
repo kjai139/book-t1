@@ -14,7 +14,7 @@ interface MainDynamicSlideProps {
 
 export default function MainDynamicSlide ({slideArr}:MainDynamicSlideProps) {
 
-    const [slides, setSlides] = useState(slideArr)
+    const [slides, setSlides] = useState<any[]>(slideArr)
 
     const settings = {
         slidesToShow: 4,
@@ -28,7 +28,7 @@ export default function MainDynamicSlide ({slideArr}:MainDynamicSlideProps) {
         pauseonHover: true,
         lazyLoad: true,
         className: 'w-[100%] p-2',
-        appendDots: dots => (
+        appendDots: (dots:any) => (
             <div style={{
 
             }}>
@@ -57,7 +57,7 @@ export default function MainDynamicSlide ({slideArr}:MainDynamicSlideProps) {
                     pauseonHover: true,
                     lazyLoad:true,
                     className: 'w-[100%] p-2',
-                    appendDots: dots => (
+                    appendDots: (dots:any) => (
                         <div style={{
 
                         }}>
@@ -65,7 +65,7 @@ export default function MainDynamicSlide ({slideArr}:MainDynamicSlideProps) {
 
                         </div>
                     ),
-                    customPaging: i => (
+                    customPaging: (i:any) => (
                         <GoDotFill>
                             {i + 1}
                         </GoDotFill>
@@ -90,7 +90,7 @@ export default function MainDynamicSlide ({slideArr}:MainDynamicSlideProps) {
                     pauseonHover: true,
                     lazyLoad:true,
                     className: 'w-[100%] p-2',
-                    appendDots: dots => (
+                    appendDots: (dots:any) => (
                         <div style={{
 
                         }}>
@@ -98,7 +98,7 @@ export default function MainDynamicSlide ({slideArr}:MainDynamicSlideProps) {
 
                         </div>
                     ),
-                    customPaging: i => (
+                    customPaging: (i:any) => (
                         <GoDotFill>
                             {i + 1}
                         </GoDotFill>
@@ -123,7 +123,7 @@ export default function MainDynamicSlide ({slideArr}:MainDynamicSlideProps) {
                     pauseonHover: true,
                     lazyLoad: true,
                     className: 'w-[100%] p-2',
-                    appendDots: dots => (
+                    appendDots: (dots:any) => (
                         <div style={{
 
                         }}>
@@ -131,7 +131,7 @@ export default function MainDynamicSlide ({slideArr}:MainDynamicSlideProps) {
 
                         </div>
                     ),
-                    customPaging: i => (
+                    customPaging: (i:any) => (
                         <GoDotFill>
                             {i + 1}
                         </GoDotFill>
@@ -154,30 +154,32 @@ export default function MainDynamicSlide ({slideArr}:MainDynamicSlideProps) {
         <div className='slider-container flex items-center justify-center'>
             <Slider {...settings}>
                 {slides.map((slide, idx) => {
-                    const concatGenres = slide.genres.map(genre => genre.name).sort().join(', ')
+                    const concatGenres = slide.genres.map((genre:any) => genre.name).sort().join(', ')
                     return (
                         <div key={`slide-${slide._id}`} className='h-[400px] w-full'>
                             <span className='relative h-[400px] flex flex-col lg:m-2 sm:m-2 md:m-2'>
-                            <NextImage src={slide.image} fill  sizes="(max-width:320px) 80vw, (max-width:640px) 40vw, (max-width:768px) 30vw, (max-width:1200px) 15vw, 10vw" placeholder='blur' blurDataURL={slide.image} alt={`Cover Image of ${slide.name}`} className='rounded shadow slider-img' style={{
+                            <NextImage src={slide.image} fill  sizes="(max-width:320px) 80vw, (max-width:640px) 80vw, (max-width:768px) 30vw, (max-width:1200px) 15vw, 10vw" placeholder='blur' blurDataURL={slide.image} alt={`Cover Image of ${slide.name}`} className='rounded shadow slider-img' style={{
                                 objectFit: 'cover'
                             }}>
 
                             </NextImage>
-                            <div className='flex flex-col flex-1 justify-end items-center z-10 text-foreground'>
-                                <div className='flex flex-col items-center justify-center p-2 gap-2 w-full'>
-                                <span className='font-bold text-foreground text-center'>
+                            <div className='flex flex-col flex-1 justify-end items-center z-10 text-foreground slider-ol'>
+                                <div className='flex flex-col p-2 gap-2 w-full'>
+                                    <div className='flex justify-start'>
+                                <span className='font-bold text-content2 text-start'>
                                     {slide.name}
                                 </span>
-                                <StarsOnly rating={slide.avgRating ? slide.avgRating : 0}></StarsOnly>
-                                <span className='flex text-xs text-foreground font-semibold'>
+                                </div>
+                                <StarsOnly isOnCard={true} rating={slide.avgRating ? slide.avgRating : 0}></StarsOnly>
+                                <span className='flex text-xs text-content2 font-semibold slider-txt'>
                                     {`Genres: ${concatGenres}`}
                                 </span>
-                                <span className='text-xs font-semibold slider-about'>
+                                <span className='text-xs font-semibold slider-about text-content2'>
                                     <p>
                                     {slide.about}
                                     </p>
                                 </span>
-                                <div className='pb-2 mt-2'>
+                                <div className='pb-2 mt-2 flex justify-center'>
                                 <Button variant='solid' color='default' size='sm' radius='sm' as={Link} href={`/read/${slide.slug}`}>More Details</Button>
                                 </div>
                                 </div>

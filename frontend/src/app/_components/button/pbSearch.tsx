@@ -1,6 +1,6 @@
 import apiUrl from "@/app/_utils/apiEndpoint";
 import { Button, Input, Link, Popover, PopoverContent, PopoverTrigger } from "@nextui-org/react";
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useState } from "react";
 import { FaSearch } from "react-icons/fa";
 import NextImage from "next/image";
 
@@ -10,16 +10,16 @@ import NextImage from "next/image";
 export default function PbNavSearch () {
 
     const [query, setQuery] = useState('')
-    const [result, setResult] = useState()
-    const [noResult, setNoResult] = useState(false)
+    const [result, setResult] = useState<any>()
+    const [noResult, setNoResult] = useState<any>(false)
     const [isSearchOpen, setIsSearchOpen] = useState(false)
 
     
     
-    const debounce = useCallback((callback, delay) => {
-        let timeoutId
+    const debounce = useCallback((callback:any, delay:number) => {
+        let timeoutId:any
     
-        return (...args) => {
+        return (...args:any) => {
             clearTimeout(timeoutId)
             timeoutId = setTimeout(() => callback(...args), delay)
         }
@@ -37,7 +37,7 @@ export default function PbNavSearch () {
 
                 if (response.ok) {
                     const data = await response.json()
-                    console.log(data)
+                    /* console.log(data) */
                     setResult(data.results)
                     if (data.results.length === 0) {
                         setNoResult(true)
@@ -59,9 +59,9 @@ export default function PbNavSearch () {
     //useMemo for result of function, useCallback for functions 
     /* const debouncedSearch = useMemo(() => debounce(search, 3000), [debounce, search]); */
 
-    const debouncedSearch = useCallback(debounce(search, 3000), [search])
+    const debouncedSearch = useCallback(debounce(search, 1500), [search])
 
-    const handleInputChange = useCallback((value) => {
+    const handleInputChange = useCallback((value:any) => {
         setQuery(value)
         debouncedSearch(value)
     }, [])
@@ -98,8 +98,8 @@ export default function PbNavSearch () {
                 
                 {result &&
                 <ul className="flex flex-col max-h-[400px] overflow-auto">
-                    {result.map((node) => {
-                        const genres = node.genres.map(node => node.name).join(', ')
+                    {result.map((node:any) => {
+                        const genres = node.genres.map((node:any) => node.name).join(', ')
 
                         return (
                             <li key={`sr${node._id}`} className="flex p-2 justify-center items-center">

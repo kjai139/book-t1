@@ -31,7 +31,7 @@ export default function LoginForm () {
         resolver: yupResolver(schema)
     })
 
-    const onSubmit = async (data) => {
+    const onSubmit = async (data:any) => {
         try {
             setIsLoading(true)
             const response = await fetch(`${apiUrl}/api/user/login`, {

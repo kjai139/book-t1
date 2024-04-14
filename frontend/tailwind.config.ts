@@ -67,6 +67,7 @@ const config: Config = {
             foreground: "#ffffff",
           },
           content1: '#18181B',
+          content2: "#ffffff",
 
         },
       },
@@ -95,6 +96,7 @@ const config: Config = {
             100: "#F0F4F8",
             
           },
+          content2: "#ffffff"
           
         }
       }

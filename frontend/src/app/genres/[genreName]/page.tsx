@@ -3,7 +3,7 @@ import apiUrl from "@/app/_utils/apiEndpoint"
 import { notFound } from "next/navigation"
 
 
-async function getWts(params) {
+async function getWts(params:any) {
     try {
         const response = await fetch(`${apiUrl}/api/genre/wts/get?slug=${params.genreName}&page=${1}&sort=${'latest'}`, {
             method: 'GET',
@@ -23,7 +23,7 @@ async function getWts(params) {
 }
 
 
-export default async function Page ({params}) {
+export default async function Page ({params}:any) {
     console.log('PARAMS FROM PAGE GENRE', params)
     const wts = await getWts(params)
     console.log('wts by genre', wts)
@@ -42,7 +42,7 @@ export default async function Page ({params}) {
             {`( ${wts.totalWt} )`}
             </span>
             </div>
-            <span>
+            <span className="text-default-500">
                 {wts.genre[0].description}
             </span>
             </div>

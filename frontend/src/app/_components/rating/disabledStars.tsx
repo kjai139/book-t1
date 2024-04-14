@@ -2,11 +2,12 @@ import { FaRegStar, FaRegStarHalfStroke, FaStar } from "react-icons/fa6";
 
 interface StarProps {
     remain: number,
+    isOnCard?: boolean,
     
 }
 
 
-export default function DisabledStar ({remain}:StarProps) {
+export default function DisabledStar ({remain, isOnCard}:StarProps) {
     
 
     return (
@@ -28,7 +29,7 @@ export default function DisabledStar ({remain}:StarProps) {
             {
                 remain < 0 &&
               
-                <FaRegStar></FaRegStar>
+                <FaRegStar className={`${isOnCard ? 'onCard' : 'undefined'}`}></FaRegStar>
                 
             }
             {

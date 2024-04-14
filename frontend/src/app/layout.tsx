@@ -23,7 +23,13 @@ export async function generateMetadata () {
     title: data.siteData.title,
     description: data.siteData.shortDesc,
     openGraph: {
-      images: data.siteData.ogImg
+      images: data.siteData.ogImg,
+      title: data.siteData.title,
+      url: data.siteData.url,
+      description: data.siteData.description,
+      siteName: data.siteData.title,
+      type: 'website',
+      locale: 'en_US',
     }
   }
 }

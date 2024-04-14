@@ -78,10 +78,12 @@ export default async function Home() {
     <>
     <main className="flex flex-col items-center">
       <div className="max-w-[1024px] w-full">
+        <div className="px-4 py-2 justify-end flex">
         <ThemeSwitcher></ThemeSwitcher>
+        </div>
         <MainDynamicSlide slideArr={updates.slider}></MainDynamicSlide>
         <div className="pt-4 px-4 flex justify-between">
-          <h4>Latest Update</h4>
+          <h4>Recently Updated</h4>
           <Link href="/read" size="sm">View all</Link>
         </div>
         <Divider className="my-4"></Divider>
@@ -122,7 +124,7 @@ export default async function Home() {
             
               
               <div className="ch-btns mt-2">
-              {node.chapters.map((node) => {
+              {node.chapters.map((node:any) => {
                 return (
                   <div key={node._id}>
                   <Link color="foreground" href={`/read/${slug}/${node.chapterNumber}`} className="flex gap-1 items-center" isBlock>

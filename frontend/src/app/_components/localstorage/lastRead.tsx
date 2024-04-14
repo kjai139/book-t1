@@ -36,7 +36,7 @@ export default function LastRead ({wtId, wtName}:LastReadProps) {
             </span>
             <Divider className="mt-2 mb-2"></Divider>
         <ul className="flex flex-col gap-2 w-full">
-            {readHistory.map((node, idx) => {
+            {readHistory.map((node:any, idx) => {
                 let parts = node.url.split('/')
                 let chNum = parts[parts.length - 1]
                 return (

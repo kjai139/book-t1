@@ -33,7 +33,7 @@ export default function SaveBookmarkBtn ({wtGenres, chNum, image, wTstatus, wtNa
     
 
     useEffect(() => {
-        console.log('bookmarkbtn checkstate')
+        /* console.log('bookmarkbtn checkstate') */
         const storedBookmarks = localStorage.getItem('bookmarks')
         if ( storedBookmarks) {
             const json:BookmarkObj[] = JSON.parse(storedBookmarks)
@@ -59,17 +59,17 @@ export default function SaveBookmarkBtn ({wtGenres, chNum, image, wTstatus, wtNa
         const existingBm = bookmarks.findIndex(bm => bm.url === pathname)
 
         if (existingBm !== -1) {
-            console.log('bookmark found.', bookmarks[existingBm])
+            /* console.log('bookmark found.', bookmarks[existingBm]) */
             bookmarks = bookmarks.filter((_, index) => index !== existingBm)
             localStorage.setItem('bookmarks', JSON.stringify(bookmarks))
             setIsMarked(false)
-            console.log('bm removed:', localStorage)
+            /* console.log('bm removed:', localStorage) */
         } else {
             if (bookmarks.length < 25) {
-                bookmarks.push({ url: pathname, genres:wtGenres.map(node => node.name).join(', '), name:wtName, status: wTstatus, image: image  })
+                bookmarks.push({ url: pathname, genres:wtGenres.map((node:any) => node.name).join(', '), name:wtName, status: wTstatus, image: image  })
                 localStorage.setItem('bookmarks', JSON.stringify(bookmarks))
                 setIsMarked(true)
-                console.log('bookmark added:', localStorage)
+                /* console.log('bookmark added:', localStorage) */
                 setErrorMsg('')
             } else {
                 setErrorMsg('Your bookmarks are full, delete something and try again.')

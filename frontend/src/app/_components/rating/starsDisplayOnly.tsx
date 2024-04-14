@@ -1,16 +1,17 @@
 import DisabledStar from "./disabledStars"
 
 interface StarsOnlyProps {
-    rating: number
+    rating: number,
+    isOnCard?: boolean,
 }
 
 
-export default function StarsOnly ({rating}:StarsOnlyProps) {
+export default function StarsOnly ({rating, isOnCard}:StarsOnlyProps) {
     const stars = []
 
     for (let i = 1; i <= 5; i++) {
         stars.push(
-        <DisabledStar key={`star${i}`}
+        <DisabledStar isOnCard={isOnCard} key={`star${i}`}
         remain={rating - i}
         ></DisabledStar>
         )

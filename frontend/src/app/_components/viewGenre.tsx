@@ -75,11 +75,11 @@ export default function ViewGenreWt ({wtsArr, totalPg, genreName}:ViewGenreWtPro
         <div className="flex flex-col gap-6">
             <SortByRadio value={sortBy} setValue={setSortBy}></SortByRadio>
             <div className="cards-cont gap-2 sm:gap-8">
-            {updates && updates.wts.map((node, idx) => {
+            {updates && updates.wts.map((node:any, idx:number) => {
             
             let slug = node.book.slug
             return (
-            <div key={node.book._id} className="cg">
+            <div key={`${node.book._id}-g`} className="cg">
             
                 <Link href={`/read/${slug}`}>
                 <div className="relative w-full min-h-[200px] overflow-hidden">
@@ -107,16 +107,16 @@ export default function ViewGenreWt ({wtsArr, totalPg, genreName}:ViewGenreWtPro
                 
                 
                 <div className="ch-btns gap-1">
-                {node.chapters.map((node) => {
+                {node.chapters.map((node:any) => {
                     return (
-                    <div key={node._id}>
-                    <Link color="foreground" href={`/read/${slug}/${node.chapterNumber}`} className="flex gap-1 items-center">
-                    <span className="text-sm">{`Chapter ${node.chapterNumber}`}</span>
+                    <div key={`${node._id}-gch`}>
+                    <Link color="foreground" href={`/read/${slug}/${node.chapterNumber}`} isBlock className="flex gap-1 items-center">
+                    <span className="text-xs sm:text-sm py-1">{`Chapter ${node.chapterNumber}`}</span>
                     
                     {formatDateDMY(node.releasedAt) === 'New' ?
 
                     <span className={`text-xs text-danger-600 font-bold pulsate flex-1 text-center`}>
-                        <span className="bg-danger-600 text-foreground px-2 rounded">
+                        <span className="bg-danger-600 text-white px-2 rounded">
                         {formatDateDMY(node.releasedAt)}
                         </span>
                         </span>:

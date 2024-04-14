@@ -87,6 +87,7 @@ export default function ImageUploader ({setImageArr, imageArr}: ImageUploaderPro
             'image/jpeg': [],
             'image/png': [],
             'image/webp': [],
+            'image/gif': [],
         },
         
     })

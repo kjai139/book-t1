@@ -38,6 +38,9 @@ const siteDataSchema = new Schema({
     },
     monthlyExpire: {
         type:Date
+    },
+    about: {
+        type:String
     }
 
 })

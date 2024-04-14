@@ -130,10 +130,10 @@ export default async function WtPage({params}) {
     return (
         <main>
             
-            <div className="flex flex-col lg:flex-row max-w-[1024px] gap-4 p-2 pt-0">
+            <div className="flex flex-col lg:flex-row max-w-[1024px] gap-4 p-2 pt-0 w-full">
                 
             
-        <div className="lg:max-w-[700px] md:py-8 lg:py-8 lg:my-8 sm:p-8 bg-content1 p-2 rounded lg:shadow flex flex-col gap-4 my-0">
+        <div className="lg:max-w-[750px] md:py-8 lg:py-8 lg:my-8 sm:p-8 bg-content1 p-2 rounded lg:shadow flex flex-col gap-4 my-0 w-full">
         {/* <div className="max-w-[1024px] flex justify-end">
             <ThemeSwitcher></ThemeSwitcher>
             </div> */}
@@ -154,7 +154,7 @@ export default async function WtPage({params}) {
                     <div className="flex w-full">
                         <Rating wtId={wt.wt._id}></Rating>
                     </div>
-                    <span className="text-sm">
+                    <span className="text-sm text-default-500">
                         <p>{wt.wt.about}</p>
                     </span>
                     <div className="flex gap-2 justify-evenly">

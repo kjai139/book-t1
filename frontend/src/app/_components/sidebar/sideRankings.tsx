@@ -11,7 +11,7 @@ export default function SideRankingDisplay ({rankingList}:SideRankingDisplayProp
     
 
     return (
-        <div className="lg:max-w-[320px] w-full">
+        <div className="lg:max-w-[280px] w-full">
         <div className="flex flex-col mt-1 lg:m-8 lg:mx-0 bg-content1">
         <div className="lg:max-w-[350px] w-full p-2">
             <h3 className="p-2 font-semibold">
@@ -22,7 +22,7 @@ export default function SideRankingDisplay ({rankingList}:SideRankingDisplayProp
         
         <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 p-4 w-full gap-4 lg:max-w-[300px] rank-grid-bot">
             {rankingList && rankingList.rankings.map((wt, idx) => {
-                const genres = wt.genres.map(node => node.name).join(', ')
+                const genres = wt.genres.map((node:any) => node.name).join(', ')
                 return (
                     <li key={wt._id} className="items-center rank-li-grid gap-2">
                         <div className="flex p-2 items-center gap-4 justify-center sm:flex text-lg flex-col">

@@ -41,7 +41,7 @@ exports.genre_wt_byGenre_get = async (req, res) => {
      
      
         try {
-            const limit = 5
+            const limit = 20
             const { status, sort } = req.query
             const page = Number(req.query.page)
             const slug = req.query.slug

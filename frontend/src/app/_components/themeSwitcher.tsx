@@ -43,9 +43,9 @@ export function ThemeSwitcher() {
 
 
     return (
-        <div className="p-2 justify-end flex">
+        <>
             <Switch isSelected={isSelected} onValueChange={toggleTheme} size="md" endContent={<IoSunnySharp></IoSunnySharp>} startContent={<IoMoonSharp></IoMoonSharp>}></Switch>
           
-        </div>
+        </>
     )
 }
