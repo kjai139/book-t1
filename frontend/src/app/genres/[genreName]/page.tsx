@@ -1,5 +1,6 @@
 import ViewGenreWt from "@/app/_components/viewGenre"
 import apiUrl from "@/app/_utils/apiEndpoint"
+import { Divider } from "@nextui-org/react"
 import { notFound } from "next/navigation"
 
 
@@ -24,9 +25,9 @@ async function getWts(params:any) {
 
 
 export default async function Page ({params}:any) {
-    console.log('PARAMS FROM PAGE GENRE', params)
+    /* console.log('PARAMS FROM PAGE GENRE', params) */
     const wts = await getWts(params)
-    console.log('wts by genre', wts)
+    /* console.log('wts by genre', wts) */
     if (!wts) {
         notFound()
     }
@@ -36,15 +37,18 @@ export default async function Page ({params}:any) {
         <main>
         <div className="max-w-[1024px] flex flex-col p-2 w-full gap-4">
             <div>
-                <div className="flex gap-2 items-center">
-            <h3 className="text-lg font-bold">{wts.genre[0].name}</h3>
-            <span className="text-md">
+                <div className="flex gap-2 items-center pt-4 pb-2">
+                <h3 className="text-lg font-bold">
+                {wts.genre[0].name}
+                </h3>
+            <span>
             {`( ${wts.totalWt} )`}
             </span>
             </div>
             <span className="text-default-500">
                 {wts.genre[0].description}
             </span>
+            <Divider className="my-4"></Divider>
             </div>
             <ViewGenreWt wtsArr={wts} totalPg={wts.totalPages} genreName={params.genreName}></ViewGenreWt>
         </div>

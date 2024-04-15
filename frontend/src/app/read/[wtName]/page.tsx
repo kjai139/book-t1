@@ -140,7 +140,7 @@ export default async function WtPage({params}:any) {
             
             <span className="my-4">
             
-                <h3 className="text-center w-full text-lg font-semibold">{wt.wt.name}</h3>
+                <h3 className="text-center w-full text-lg font-semibold lg:text-2xl sm:text-xl">{wt.wt.name}</h3>
             </span>
             <div className="items-center flex flex-col gap-8">
                 <BreadCrumbs wtUrl={wt.wt.name}></BreadCrumbs>

@@ -7,6 +7,7 @@ import NextImage from 'next/image'
 import { Button, Link } from '@nextui-org/react'
 import StarsOnly from '../rating/starsDisplayOnly'
 import { GoDotFill } from 'react-icons/go'
+import { FaPlay } from 'react-icons/fa'
 
 interface MainDynamicSlideProps {
     slideArr: []
@@ -20,10 +21,10 @@ export default function MainDynamicSlide ({slideArr}:MainDynamicSlideProps) {
         slidesToShow: 1,
         slidesToScroll: 1,
         dots:true,
-        autoplay: false,
+        autoplay: true,
         autoplaySpeed: 15000,
         speed:500,
-        arrows: true,
+        arrows: false,
         initialSlide: 0,
         pauseonHover: true,
         lazyLoad: true,
@@ -180,8 +181,8 @@ export default function MainDynamicSlide ({slideArr}:MainDynamicSlideProps) {
                                     {slide.about}
                                     </p>
                                 </span>
-                                <div className='pb-2 mt-2 flex justify-center'>
-                                <Button variant='solid' color='default' size='sm' radius='sm' as={Link} href={`/read/${slide.slug}`}>More Details</Button>
+                                <div className='pb-2 mt-2 flex justify-center sm:mt-8 sm:pr-4 sm:justify-end'>
+                                <Button variant='solid' color='default' size='sm' radius='full' as={Link} href={`/read/${slide.slug}`} className=' lg:w-[200px] lg:h-[55px] font-semibold lg:text-base' startContent={<FaPlay></FaPlay>}>Start Reading</Button>
                                 </div>
                                 </div>
                             </div>

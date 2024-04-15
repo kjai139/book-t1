@@ -15,9 +15,9 @@ export async function generateStaticParams() {
         }
 
         const genres = await response.json()
-        console.log('genres in static layout', genres)
+        /* console.log('genres in static layout', genres) */
 
-        return genres.allGenres.map((gen) => {
+        return genres.allGenres.map((gen:any) => {
            
             return (
                 {
@@ -31,7 +31,7 @@ export async function generateStaticParams() {
 }
 
 
-export default function Layout({children, params}) {
+export default function Layout({children, params}:any) {
     return (
         <>
         {children}

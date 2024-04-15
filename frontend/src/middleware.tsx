@@ -1,22 +1,43 @@
 import { NextRequest, NextResponse } from "next/server"
 import apiUrl from "./app/_utils/apiEndpoint"
+import { Ratelimit } from "@upstash/ratelimit"
+import { Redis } from "@upstash/redis"
+
+const redis = new Redis({
+    url: `${process.env.UPSTASH_REDIS_REST_URL}`,
+    token: `${process.env.UPSTASH_REDIS_REST_TOKEN}`
+
+})
+
+const ratelimit = new Ratelimit({
+    redis: redis,
+    limiter: Ratelimit.slidingWindow(5, '10 s')
+})
 
 
 export const config = {
-    matcher: ['/dashboard/:path*', '/login/:path*', '/genres/:path*']
+    matcher: ['/((?!_next/static|_next/image|favicon.ico|blocked).*)']
 }
 
 
 export async function middleware(request: NextRequest) {
 
-    if (request.nextUrl.pathname.startsWith('/genres')) {
+    const ip = request.ip ?? '127.0.0.1'
+    const { success, pending, limit, reset, remaining } = await ratelimit.limit(ip)
+    console.log(`status:${success}, limit:${limit}, remaining:${remaining}`)
+    
+    if (!success) {
+        return NextResponse.redirect(new URL('/blocked', request.url))
+    }
+
+    if (request.nextUrl.pathname.startsWith('/genres') || request.nextUrl.pathname.startsWith('/read')) {
         const { pathname, origin} = request.nextUrl
         if (pathname === pathname.toLowerCase() ) {
             return NextResponse.next()
         } else {
             return NextResponse.redirect(new URL(origin + pathname.toLowerCase()))
         }
-    } else {
+    } else if (request.nextUrl.pathname.startsWith('/login') || request.nextUrl.pathname.startsWith('/dashboard')) {
         //if dashboard or login route
         const jwt = request.cookies.get('jwt')
         if (jwt) {
@@ -33,9 +54,9 @@ export async function middleware(request: NextRequest) {
 
                 if (response.ok) {
                     console.log('RESPONSE OK MIDDLEWARE')
-                    if (request.nextUrl.pathname.startsWith('/login')) {
+                  
                         return NextResponse.redirect(new URL('/dashboard', request.url))
-                    }
+                    
                 } else {
                     if (request.nextUrl.pathname.startsWith('/dashboard')) {
                         return NextResponse.redirect(new URL('/login', request.url))
@@ -51,56 +72,9 @@ export async function middleware(request: NextRequest) {
                 return NextResponse.redirect(new URL('/login', request.url))
             }
         }
+    } else {
+        return NextResponse.next()
     }
 
     
-    
-
-
-
-   /*  if (request.nextUrl.pathname.startsWith('/dashboard')) {
-        try {
-            console.log('request', request)
-            const response = await fetch(`http:/localhost:3000/api/checkAuth`, {
-                method: 'POST',
-                cache: 'no-cache',
-                credentials: 'include',
-                
-    
-            })
-    
-            if (!response.ok) {
-                console.log(response)
-                const json = await response.json()
-                console.log('middleware response not ok', json)
-                return NextResponse.redirect(new URL('/login', request.url))
-            }     
-    
-        } catch (err) {
-            console.log(err)
-        }
-    }
-
-    if (request.nextUrl.pathname.startsWith('/login')) {
-        try {
-            const response = await fetch(`/api/checkAuth`, {
-                method: 'GET',
-                credentials: 'include',
-                cache: 'no-cache',
-                
-    
-            })
-
-            if (response.ok) {
-                return NextResponse.redirect(new URL('/dashboard', request.url))
-            } else {
-                NextResponse.next()
-            }
-        } catch (err) {
-            console.log(err)
-        }
-    }
-
-    
- */
 }
