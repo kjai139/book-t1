@@ -2,7 +2,7 @@ import Image from "next/image"
 
 
 interface RenderImgsProps {
-    imgs: any
+    img: any
 }
 
 export default function RenderImgs ({img}:RenderImgsProps) {

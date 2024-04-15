@@ -26,7 +26,7 @@ export async function generateStaticParams({
         const nums = await response.json()
         
 
-        return nums.allCh.map((ch) => ({
+        return nums.allCh.map((ch:any) => ({
             chNum: ch.chapterNumber.toString()
         }))
     } catch (err) {
@@ -37,7 +37,7 @@ export async function generateStaticParams({
 
 }
 
-export async function generateMetadata ({params}, parent:ResolvingMetadata) {
+export async function generateMetadata ({params}:any, parent:ResolvingMetadata) {
     
     const response = await fetch(`${apiUrl}/api/wt/meta/get?name=${params.wtName}`, {
         method:'GET'
@@ -52,7 +52,7 @@ export async function generateMetadata ({params}, parent:ResolvingMetadata) {
     }
 }
 
-async function getChContent (params) {
+async function getChContent (params:any) {
     try {
         const response = await fetch(`${apiUrl}/api/wtpage/getch?name=${params.wtName}&num=${params.chNum}`, {
             method:'GET',
@@ -142,7 +142,7 @@ export default async function Page({params}:{params: {wtName: string; chNum: str
             </div>
             </div>
             <div>
-                {content.images.map((node, idx) => {
+                {content.images.map((node:any, idx:number) => {
                     console.log('CONTENT IMGS MAP', node)
                     return (
                         
