@@ -1,7 +1,7 @@
 import { Button, Link } from "@nextui-org/react"
 
 
-export default function VerificationPage({searchParams}) {
+export default function VerificationPage({searchParams}:any) {
     const success = searchParams.success
 
 

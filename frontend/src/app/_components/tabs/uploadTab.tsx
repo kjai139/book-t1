@@ -22,7 +22,7 @@ export default function UploadTabs () {
     const [releasedYr, setReleasedYr] = useState('')
     const [artist, setArtist] = useState('')
     const [wtStatus, setWtStatus] = useState('')
-    const [wtCover, setWtCover] = useState<File[]>([])
+    const [wtCover, setWtCover] = useState<any[]>([])
     const [tlGroup, setTlGroup] = useState('')
 
 
@@ -96,7 +96,7 @@ export default function UploadTabs () {
     const uploadWtc = async () => {
         try {
             const formData = new FormData()
-            wtcImages.forEach((file, idx) => {
+            wtcImages.forEach((file:any, idx) => {
                 /* const idx = file.file.name.split('.')[0].toString() */
                 formData.append('images', file.file)
                 formData.append(`heights-${idx}`, file.height )

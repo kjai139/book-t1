@@ -300,10 +300,10 @@ exports.wt_query_get = async (req, res) => {
         }
         if (genres.length > 0) {
             matchStage.$match.genres = {
-                $in: genresObjIds
+                $all: genresObjIds
             }
             countQuery.genres = {
-                $in: genres
+                $all: genres
             }
         }
         if (order === 'latest') {
@@ -380,7 +380,8 @@ exports.wt_query_get = async (req, res) => {
 
         res.json({
             wts: updates,
-            totalPages: totalPages
+            totalPages: totalPages,
+            totalWt: totalWt
         })
 
     } catch (err) {

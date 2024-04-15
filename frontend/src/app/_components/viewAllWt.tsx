@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react"
 import SelectGenres from "./checkboxes/selectGenres"
 import SelectStatusCheckbox from "./checkboxes/selectStatus"
-import { Button, Link, Pagination } from "@nextui-org/react"
+import { Button, Divider, Link, Pagination } from "@nextui-org/react"
 import apiUrl from "../_utils/apiEndpoint"
 import { formatDateDMY } from "../_utils/dates"
 import NextImage from "next/image"
@@ -18,7 +18,8 @@ export default function ViewallWt () {
 
     const [curPg, setCurPg] = useState(1)
     const [totalPages, setTotalPages] = useState()
-    const [updates, setUpdates] = useState()
+    const [updates, setUpdates] = useState<any>()
+    const [totalWt, setTotalWt] = useState<any>()
 
     const [sortBy, setSortBy] = useState('latest')
     const [isResultOut, setIsResultOut] = useState(false)
@@ -29,19 +30,23 @@ export default function ViewallWt () {
         setIsResultOut(false)
         try {
             const response = await fetch(`${apiUrl}/api/wts/all/get?genres=${encodeURIComponent(JSON.stringify(genres))}&status=${status}&order=${sortBy}&page=${curPg}`, {
-                cache: "no-cache"
+                next: {
+                    revalidate: 900
+                }
             })
 
             if (response.ok) {
                 const data = await response.json()
-                console.log(data)
+                /* console.log(data) */
                 setUpdates(data)
                 setTotalPages(data.totalPages)
+                setTotalWt(data.totalWt)
                 setIsResultOut(true)
                 
             }
 
         } catch (err) {
+            setTotalWt(0)
             setIsResultOut(true)
             console.error(err)
         }
@@ -60,16 +65,25 @@ export default function ViewallWt () {
             <SelectStatusCheckbox value={status} setValue={setStatus}></SelectStatusCheckbox>
             <SortByRadio value={sortBy} setValue={setSortBy}></SortByRadio>
             <div className="justify-end flex">
-                <Button  color="primary" size="sm" onPress={getWts}>Filter</Button>
+            <Button  color="primary" size="sm" onPress={getWts}>Filter</Button>
+            </div>
+            <Divider className="mt-4"></Divider>
+            <div className="justify-start flex items-center">
+                {totalWt && isResultOut ?
+                <span className="font-semibold">
+                    Results: ( {totalWt} )
+                </span> : <span className="font-semibold">No matching results.</span>
+                }
+                
             </div>
             </div>
             <div className="cards-cont gap-2 sm:gap-6">
       
-        {updates && updates.wts.map((node, idx) => {
+        {updates && updates.wts.map((node:any, idx:number) => {
             
             let slug = node.book.slug
             return (
-            <div key={node.book._id} className="cg">
+            <div key={`${node.book._id}-qry`} className="cg">
             
                 <Link href={`/read/${slug}`}>
                 <div className="relative w-full min-h-[200px] overflow-hidden">
@@ -98,22 +112,24 @@ export default function ViewallWt () {
                 
                 
                 <div className="ch-btns gap-1">
-                {node.chapters.map((node) => {
+                {node.chapters.map((node:any) => {
                     return (
-                    <div key={node._id}>
-                    <Link color="foreground" href={`/read/${slug}/${node.chapterNumber}`} className="flex gap-1 items-center">
-                    <span className="text-sm">{`Chapter ${node.chapterNumber}`}</span>
-                    
-                    {formatDateDMY(node.releasedAt) === 'New' ?
+                    <div key={`${node._id}-qry`}>
+                   <Link color="foreground" href={`/read/${slug}/${node.chapterNumber}`} className="flex gap-1 items-center" isBlock>
+                  <span className="text-sm sm:text-sm py-1">{`Chapter ${node.chapterNumber}`}</span>
+                  
+                  {formatDateDMY(node.releasedAt) === 'New' ?
 
-                    <span className={`text-xs text-danger-600 font-bold pulsate flex-1 text-center`}>
-                        <span className="bg-danger-600 text-foreground px-2 rounded">
-                        {formatDateDMY(node.releasedAt)}
-                        </span>
-                        </span>:
-                    <span className={`text-xs text-default-500 flex-1 text-center date-txt`}>{formatDateDMY(node.releasedAt)}</span>
-                    }
-                    </Link>
+                  <span className={`text-xs text-danger-600 font-bold flex-1 text-center`}>
+                    <span className="bg-danger-600 text-foreground px-2 rounded">
+                      <span className="pulsate">
+                    {formatDateDMY(node.releasedAt)}
+                    </span>
+                    </span>
+                    </span>:
+                  <span className={`text-xs text-default-500 flex-1 text-center date-txt`}>{formatDateDMY(node.releasedAt)}</span>
+                  }
+                  </Link>
                     
                     </div>
                     )
@@ -133,11 +149,7 @@ export default function ViewallWt () {
            </> : 
            <></>
            }
-           {
-            isResultOut && totalPages === 0 &&
-            <span>No matching results.</span> 
-
-           }
+           
 
         </div>
     )

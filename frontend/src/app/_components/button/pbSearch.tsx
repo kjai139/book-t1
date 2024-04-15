@@ -110,7 +110,7 @@ export default function PbNavSearch () {
                                 }}></NextImage>
                             </div>
                             <div className="flex flex-col flex-1 p-2">
-                                <span className="font-semibold text-sm">{node.name}</span>
+                                <span className="font-semibold text-xs">{node.name}</span>
                                 <span className="text-xs text-default-500">Status: {node.status}</span>
                                 <span className="text-xs text-default-500 search-txt">
                                     {genres}

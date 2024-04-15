@@ -1,6 +1,6 @@
 'use client'
 import SortByRadio from "./radio/sortByRadio";
-import { Link, Pagination, Button } from "@nextui-org/react";
+import { Link, Pagination } from "@nextui-org/react";
 import NextImage from "next/image";
 import StarsOnly from "./rating/starsDisplayOnly";
 import { formatDateDMY } from "../_utils/dates";
@@ -15,7 +15,7 @@ interface ViewGenreWtProps {
 
 export default function ViewGenreWt ({wtsArr, totalPg, genreName}:ViewGenreWtProps) {
 
-    console.log(wtsArr)
+    /* console.log(wtsArr) */
     const [sortBy, setSortBy] = useState('latest')
     const [updates, setUpdates] = useState<any>(wtsArr)
     const [curPg, setCurPg] = useState(1)
@@ -28,14 +28,14 @@ export default function ViewGenreWt ({wtsArr, totalPg, genreName}:ViewGenreWtPro
             const response = await fetch(`${apiUrl}/api/genre/wts/get?slug=${genreName}&page=${curPg}&sort=${sortBy ? sortBy : 'latest'}`, {
                 method: 'GET',
                 next: {
-                    revalidate: 1
+                    revalidate: 60 * 15
                 }
             })
 
             if (response.ok) {
-                console.log('Get page ran in client')
+                /* console.log('Get page ran in client') */
                 const json = await response.json()
-                console.log('RESULTS:::', json)
+                /* console.log('RESULTS:::', json) */
                 setIsResultOut(true)
                 setInitialPage(0)
                 setUpdates(json)
@@ -49,14 +49,14 @@ export default function ViewGenreWt ({wtsArr, totalPg, genreName}:ViewGenreWtPro
     useEffect(() => {
         
         if (curPg !== initialPg) {
-            console.log('trigger from curpg')
+            /* console.log('trigger from curpg') */
             getPage()
         }
     },[curPg])
 
     useEffect(() => {
         if (sortBy === 'rating' || sortBy === 'latest') {
-            console.log('triggered from sorting')
+            /* console.log('triggered from sorting') */
            /*  console.log('sorting by rating...')
             const sortedWts = updates.wts.slice().sort((a,b) => {
                 const avgRatingA = a.book?.avgRating || 0

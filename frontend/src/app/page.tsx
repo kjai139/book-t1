@@ -17,7 +17,9 @@ async function GetHomeUpdates() {
     const response = await fetch(`${apiUrl}/api/wt/updates/get?page=1`, {
       credentials: 'include',
       method: 'GET',
-      cache: 'no-cache'
+      next: {
+        revalidate: 900
+      }
       
   })
 
@@ -89,7 +91,7 @@ export default async function Home() {
         <Divider className="my-4"></Divider>
         <div className="cards-cont gap-4 sm:gap-4 lg:gap-8 p-2">
       
-      {updates && updates.updates.map((node, idx) => {
+      {updates && updates.updates.map((node:any, idx:any) => {
         /* console.log('BOOK:', node.book)
         console.log('CHATPERS:', node.chapters) */
         let slug = node.book.slug

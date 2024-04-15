@@ -22,9 +22,10 @@ export default function RankingDisplay ({rankingList}:RankingDisplayProps) {
         <ul className="grid grid-cols-1 lg:grid-cols-3 p-4 w-full gap-4 lg:max-w-[1024px] md:grid-cols-3 ml-auto mr-auto rank-grid-bot sm:grid-cols-2">
             {rankingList && rankingList.rankings.map((wt:any, idx) => {
                 
-                const genres = wt.genres.map(node => node.name).join(', ')
+                const genres = wt.genres.map((node:any) => node.name).join(', ')
                 return (
-                    <li key={wt._id} className="flex items-center">
+                    
+                    <li key={`${wt._id}-rf`} className="flex items-center bg-content1 py-1 px-2">
                         <div className="flex p-2 items-center gap-4 justify-center w-[20%] text-lg flex-col">
                             {idx === 0 &&
                             <FaChessKing size={24} color="gold"></FaChessKing>
@@ -56,6 +57,8 @@ export default function RankingDisplay ({rankingList}:RankingDisplayProps) {
                         </Link>
                     
                     </li>
+                    
+                    
                 )
             })}
 

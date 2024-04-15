@@ -17,11 +17,11 @@ export default function MainDynamicSlide ({slideArr}:MainDynamicSlideProps) {
     const [slides, setSlides] = useState<any[]>(slideArr)
 
     const settings = {
-        slidesToShow: 4,
+        slidesToShow: 1,
         slidesToScroll: 1,
         dots:true,
         autoplay: false,
-        autoplaySpeed: 3000,
+        autoplaySpeed: 15000,
         speed:500,
         arrows: true,
         initialSlide: 0,
@@ -36,7 +36,7 @@ export default function MainDynamicSlide ({slideArr}:MainDynamicSlideProps) {
 
             </div>
         ),
-        customPaging: i => (
+        customPaging: (i:any) => (
             <GoDotFill>
                 {i + 1}
             </GoDotFill>
@@ -47,11 +47,11 @@ export default function MainDynamicSlide ({slideArr}:MainDynamicSlideProps) {
             {
                 breakpoint:1024,
                 settings: {
-                    slidesToShow: 3,
+                    slidesToShow: 1,
                     slidesToScroll: 1,
                     dots:true,
-                    autoplay: false,
-                    autoplaySpeed: 3000,
+                    autoplay: true,
+                    autoplaySpeed: 15000,
                     speed:500,
                     arrows: false,
                     pauseonHover: true,
@@ -75,7 +75,7 @@ export default function MainDynamicSlide ({slideArr}:MainDynamicSlideProps) {
                     
                     
                     
-                }
+                } 
             },
             {
                 breakpoint:640,
@@ -83,8 +83,8 @@ export default function MainDynamicSlide ({slideArr}:MainDynamicSlideProps) {
                     slidesToShow: 1,
                     slidesToScroll: 1,
                     dots:true,
-                    autoplay: false,
-                    autoplaySpeed: 3000,
+                    autoplay: true,
+                    autoplaySpeed: 15000,
                     speed:500,
                     arrows: false,
                     pauseonHover: true,
@@ -108,7 +108,7 @@ export default function MainDynamicSlide ({slideArr}:MainDynamicSlideProps) {
                     
                     
                     
-                }
+                } 
             },
             {
                 breakpoint:400,
@@ -116,12 +116,13 @@ export default function MainDynamicSlide ({slideArr}:MainDynamicSlideProps) {
                     slidesToShow: 1,
                     slidesToScroll: 1,
                     dots:true,
-                    autoplay: false,
-                    autoplaySpeed: 3000,
+                    autoplay: true,
+                    autoplaySpeed: 15000,
                     speed:500,
                     arrows: false,
                     pauseonHover: true,
                     lazyLoad: true,
+                    initialSlide: 0,
                     className: 'w-[100%] p-2',
                     appendDots: (dots:any) => (
                         <div style={{
@@ -141,12 +142,12 @@ export default function MainDynamicSlide ({slideArr}:MainDynamicSlideProps) {
                     
                     
                     
-                }
+                } 
             }
         ]
 
 
-    }
+    } as any
 
     
 
@@ -158,23 +159,23 @@ export default function MainDynamicSlide ({slideArr}:MainDynamicSlideProps) {
                     return (
                         <div key={`slide-${slide._id}`} className='h-[400px] w-full'>
                             <span className='relative h-[400px] flex flex-col lg:m-2 sm:m-2 md:m-2'>
-                            <NextImage src={slide.image} fill  sizes="(max-width:320px) 80vw, (max-width:640px) 80vw, (max-width:768px) 30vw, (max-width:1200px) 15vw, 10vw" placeholder='blur' blurDataURL={slide.image} alt={`Cover Image of ${slide.name}`} className='rounded shadow slider-img' style={{
+                            <NextImage src={slide.image} fill  sizes="(max-width:320px) 80vw, (max-width:640px) 80vw, (max-width:768px) 30vw, (max-width:1200px) 15vw, 10vw" placeholder='blur' blurDataURL={slide.image} alt={`Cover Image of ${slide.name}`} className='rounded shadow slider-img sm:max-w-[300px]' style={{
                                 objectFit: 'cover'
                             }}>
 
                             </NextImage>
-                            <div className='flex flex-col flex-1 justify-end items-center z-10 text-foreground slider-ol'>
+                            <div className='flex flex-col flex-1 justify-end items-center z-10 text-foreground slider-ol sm:l-slider-ol sm:pl-[320px] sm:justify-center'>
                                 <div className='flex flex-col p-2 gap-2 w-full'>
                                     <div className='flex justify-start'>
-                                <span className='font-bold text-content2 text-start'>
+                                <span className='font-bold text-content2 text-start lg:text-4xl sm:text-2xl md:text-3xl'>
                                     {slide.name}
                                 </span>
                                 </div>
                                 <StarsOnly isOnCard={true} rating={slide.avgRating ? slide.avgRating : 0}></StarsOnly>
-                                <span className='flex text-xs text-content2 font-semibold slider-txt'>
+                                <span className='flex text-xs text-content2 font-semibold slider-txt sm:txt-sm'>
                                     {`Genres: ${concatGenres}`}
                                 </span>
-                                <span className='text-xs font-semibold slider-about text-content2'>
+                                <span className='text-xs font-semibold slider-about lg:l-about text-content2 sm:text-sm'>
                                     <p>
                                     {slide.about}
                                     </p>
@@ -185,6 +186,7 @@ export default function MainDynamicSlide ({slideArr}:MainDynamicSlideProps) {
                                 </div>
                             </div>
                             </span>
+                           
                             
                         </div>
                     )

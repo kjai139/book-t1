@@ -3,12 +3,11 @@ import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useForm } from 'react-hook-form'
 import { useRouter } from 'next/navigation'
-import styles from '../../_styles/register.module.css'
 import apiUrl from '../../_utils/apiEndpoint'
 import { useState } from 'react'
 import ResultModal from '../../_components/modals/resultModal'
 import { Button } from '@nextui-org/react'
-import { useAuth } from '@/app/_contexts/authContext'
+import { IoIosAlert } from 'react-icons/io'
 
 const schema = yup.object({
     username: yup.string().required('A username is required'),
@@ -21,7 +20,7 @@ export default function LoginForm () {
     const router = useRouter()
     const [errorMsg, setErrorMsg] = useState('')
     const [isLoading, setIsLoading] = useState(false)
-    const { setUser } = useAuth()
+    
     
     const {
         register,
@@ -51,7 +50,7 @@ export default function LoginForm () {
             if (response.ok) {
                 setIsLoading(false)
                 const responseData = await response.json()
-                console.log('ROUTING TO DASHBOARD...')
+                /* console.log('ROUTING TO DASHBOARD...') */
                 router.push('/dashboard')
           
                 
@@ -62,7 +61,7 @@ export default function LoginForm () {
                 
                 const responseData = await response.json()
                 setErrorMsg(responseData.message)
-                console.log(responseData)
+                /* console.log(responseData) */
             }
 
         } catch (err) {
@@ -73,8 +72,8 @@ export default function LoginForm () {
     }
 
     return (
-        <div className='h-screen items-center justify-center flex'>
-        <form onSubmit={handleSubmit(onSubmit)} className={`flex flex-col p-2 gap-1 rounded shadow relative border-divider border-2 bg-content1 ${styles.form}`}>
+        <div className='h-screen items-center justify-center flex p-4'>
+        <form onSubmit={handleSubmit(onSubmit)} className={`flex flex-col p-2 gap-4 rounded shadow relative border-divider border-2 bg-content1`}>
             {/* {isLoading &&
             <span className='overlay-t'></span>
             } */}
@@ -83,22 +82,28 @@ export default function LoginForm () {
             </span>
             <div>
             <label htmlFor='username'>Username</label>
-            <input {...register('username')} id='username' autoComplete='off' maxLength={20}></input>
+            <input {...register('username')} id='username' autoComplete='off' maxLength={20} className='bg-default w-full rounded'></input>
             <p className='text-warning'>{errors.username?.message}</p>
             </div>
             
             <div>
             <label htmlFor='password'>Password</label>
-            <input {...register('password')} type='password' maxLength={20} autoComplete='off' id='password'></input>
+            <input {...register('password')} type='password' maxLength={20} autoComplete='off' id='password' className='bg-default w-full rounded'></input>
             <p className='text-warning'>{errors.password?.message}</p>
             </div>
             
             
             {/* <button type='submit' className={`${styles.submitBtn} p-1 bg-primary rounded`}>LOG IN</button> */}
             <div>
-            <Button color='primary' isLoading={isLoading} radius='md' type='submit'>
+            <Button color='primary' isLoading={isLoading} radius='md' type='submit' fullWidth>
                 {isLoading ? 'Loading' : 'Log in'}
             </Button>
+            </div>
+            <div className='flex gap-2 items-center'>
+                <IoIosAlert size={22}></IoIosAlert>
+                <span className='text-xs text-default-500'>
+                    Signups are not open at this moment.
+                </span>
             </div>
             
            

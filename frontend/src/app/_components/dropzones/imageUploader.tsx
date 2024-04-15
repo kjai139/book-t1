@@ -21,7 +21,7 @@ export default function ImageUploader ({setImageArr, imageArr}: ImageUploaderPro
         
         
     
-        const loadImage = (file) => {
+        const loadImage = (file:any) => {
             return new Promise((resolve, reject) => {
                 const reader = new FileReader();
     
@@ -53,14 +53,14 @@ export default function ImageUploader ({setImageArr, imageArr}: ImageUploaderPro
         try {
             const loadedImages = await Promise.all(acceptedFiles.map(loadImage))
             
-            const sortedFiles = loadedImages.sort((a, b) => {
+            const sortedFiles = loadedImages.sort((a:any, b:any) => {
                 return acceptedFiles.indexOf(a.file) - acceptedFiles.indexOf(b.file);
             });
             setImageArr(sortedFiles);
 
             //set preview
             const dupeArr = [...sortedFiles]
-            const newArr = dupeArr.map(file => ({file, preview: URL.createObjectURL(file.file)}))
+            const newArr = dupeArr.map((file:any) => ({file, preview: URL.createObjectURL(file.file)}))
             
             setPreview(newArr)
 
@@ -111,7 +111,7 @@ export default function ImageUploader ({setImageArr, imageArr}: ImageUploaderPro
         return () => 
             // Revoke object URLs on component unmount
             
-            preview.forEach(file => URL.revokeObjectURL(file.preview));
+            preview.forEach((file:any) => URL.revokeObjectURL(file.preview));
             
        
     }, []); // Empty dependency array for component unmount cleanup
@@ -125,11 +125,11 @@ export default function ImageUploader ({setImageArr, imageArr}: ImageUploaderPro
 
     
     
-    const fileRejectionItems = fileRejections.map(({ file, errors }) => (
+    const fileRejectionItems = fileRejections.map(({ file, errors }:any) => (
     <li key={file.path}>
         {file.path} - {file.size} bytes
         <ul>
-        {errors.map(e => (
+        {errors.map((e:any) => (
             <li key={e.code}>{e.message}</li>
         ))}
         </ul>
@@ -148,7 +148,7 @@ export default function ImageUploader ({setImageArr, imageArr}: ImageUploaderPro
           <h4>Accepted files</h4>
           <ul>{imageArr &&
 
-            imageArr.map((file) => {    
+            imageArr.map((file:any) => {    
             return (
                 <li key={file.file.path}>
                 <p>{file.file.path} - {file.file.size} bytes</p>
@@ -159,7 +159,7 @@ export default function ImageUploader ({setImageArr, imageArr}: ImageUploaderPro
           <h4>Rejected files</h4>
           <ul>{fileRejectionItems}</ul>
           <ul>{preview && preview.length > 0 &&
-            preview.map((file,idx) => {
+            preview.map((file:any,idx:number) => {
                 
                 
                 

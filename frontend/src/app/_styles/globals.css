@@ -54,6 +54,8 @@ main {
   -webkit-box-orient: vertical;
 }
 
+
+
 .slider-txt {
   display: -webkit-box;
   text-overflow: ellipsis;
@@ -208,20 +210,7 @@ main {
   
 }
 
-.lTheme .slider-ol {
-  position: absolute;
-  bottom: 0; 
-  left: 0;
-  width: 100%; 
-  padding: 10px;
-  box-sizing: border-box; 
-  background: linear-gradient(to top, rgba(0, 0, 0, 0.4) 50%, rgba(0, 0, 0, 0) 100%);
-  
-  font-size: 1em;
-  display: flex;
-  align-items: center; 
-  justify-content: center; 
-}
+
 
 .slider-dots {
   display: flex;
@@ -292,4 +281,35 @@ main {
   .text-shadow-sm {
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
   }
+  .l-about {
+    display: -webkit-box;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    width: 100%;
+    white-space: normal;
+    -webkit-line-clamp: 5;
+    -webkit-box-orient: vertical;
+  }
+  .lTheme .l-slider-ol {
+    padding-left:320px;
+    justify-content: center;
+    position: static;
+  
+  }
+  .lTheme .slider-ol {
+    position: absolute;
+    bottom: 0; 
+    left: 0;
+    width: 100%; 
+    padding: 10px;
+    box-sizing: border-box; 
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.4) 50%, rgba(0, 0, 0, 0) 100%);
+    
+    font-size: 1em;
+    display: flex;
+    align-items: center; 
+    justify-content: center; 
+   
+  }
 }
+

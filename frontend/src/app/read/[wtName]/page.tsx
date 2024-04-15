@@ -13,7 +13,7 @@ import { ThemeSwitcher } from "@/app/_components/themeSwitcher";
 
 
 
-async function getWts(params) {
+async function getWts(params:any) {
     console.log('PARAMS IN getWTS:', params)
     try {
         const response = await fetch(`${apiUrl}/api/wt/one/get?name=${params.wtName}`, {
@@ -50,7 +50,7 @@ async function getWts(params) {
 
 }
 
-export async function generateMetadata({params}) {
+export async function generateMetadata({params}:any) {
     console.log('GENERATE META PARAM', params)
     const response = await fetch(`${apiUrl}/api/wt/meta/get?name=${params.wtName}`, {
         method:'GET'
@@ -84,7 +84,7 @@ async function getRankings () {
     }
   }
 
-export default async function WtPage({params}) {
+export default async function WtPage({params}:any) {
     const wtData = getWts(params)
     const rankingsData = getRankings()
     const [wt, rankings] = await Promise.all([wtData, rankingsData])
@@ -121,7 +121,7 @@ export default async function WtPage({params}) {
 
     const lastChapterNum = wt.totalCh[0].chapterNumber
 
-    const sortedGenres = wt.wt.genres.sort((a, b) => {
+    const sortedGenres = wt.wt.genres.sort((a:any, b:any) => {
         return (a.name > b.name ? 1 : (a.name === b.name ? 0 : -1))
     })
 
@@ -187,7 +187,7 @@ export default async function WtPage({params}) {
                 </div>
                 
                 <div className="flex gap-2 flex-wrap max-w-[630px]">
-                {sortedGenres.map((genre) => {
+                {sortedGenres.map((genre:any) => {
                     return (
                         <Button as={Link} href={`/genres/${genre.slug}`} aria-label={`Check the ${genre.name} genre collection`} key={genre._id} size="sm" radius="full">
                             {genre.name}
