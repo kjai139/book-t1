@@ -12,7 +12,7 @@ export async function generateStaticParams() {
 
         const wts = await response.json()
 
-        return wts.allWt.map((wt) => {
+        return wts.allWt.map((wt:any) => {
             
             return (
                 {
@@ -30,7 +30,7 @@ export async function generateStaticParams() {
 
 
 
-export default function Layout({children, params}) {
+export default function Layout({children, params}:any) {
     return (
         <>
         {children}
