@@ -8,7 +8,7 @@ export interface AuthContextType {
     authCheck: () => Promise<void>,
     logUserOut: () => Promise<void>,
     checkLocal: boolean,
-    setCheckLocal:React.Dispatch<React.SetStateAction<boolean>
+    setCheckLocal:React.Dispatch<React.SetStateAction<boolean>>
     
 }
 
