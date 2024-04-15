@@ -1,7 +1,7 @@
 import { CheckboxGroup, Checkbox } from "@nextui-org/react";
 
 
-export default function SelectStatusCheckbox ({value, setValue}) {
+export default function SelectStatusCheckbox ({value, setValue}:any) {
     return (
         <div>
             <CheckboxGroup label="By Status" value={value} onValueChange={setValue} orientation="horizontal">

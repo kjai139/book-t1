@@ -1,10 +1,10 @@
 'use client'
 
 import {Autocomplete, AutocompleteItem} from "@nextui-org/react";
-import { useEffect, useState } from "react";
 
 
-export default function SelectWtStatus({value, setValue}) {
+
+export default function SelectWtStatus({value, setValue}:any) {
 
     const defaultItems = [
         {

@@ -5,9 +5,9 @@ import {Autocomplete, AutocompleteItem} from "@nextui-org/react";
 import { useEffect, useState } from "react";
 
 
-export default function SelectWtcTitle ({value, setValue}) {
+export default function SelectWtcTitle ({value, setValue}:any) {
 
-    const [defaultItems, setDefaultItems] = useState()
+    const [defaultItems, setDefaultItems] = useState<any[]>()
     
 
     const getWtTitles = async () => {

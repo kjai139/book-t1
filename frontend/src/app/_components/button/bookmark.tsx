@@ -10,7 +10,7 @@ import { useAuth } from "@/app/_contexts/authContext";
 export default function BookmarkBtn () {
     const { setCheckLocal } = useAuth()
     const { isOpen, onOpen, onOpenChange } = useDisclosure()
-    const [bookmarks, setBookmarks] = useState([])
+    const [bookmarks, setBookmarks] = useState<any[]>([])
     const pathname = usePathname()
 
     useEffect(() => {
@@ -28,19 +28,19 @@ export default function BookmarkBtn () {
 
     useEffect(() => {
         if (isOpen) {
-            onOpenChange(false)
+            onOpenChange()
         }
        
     }, [pathname])
 
-    const removeBm = (key) => {
+    const removeBm = (key:any) => {
         let storedBookmarks = localStorage.getItem('bookmarks')
         if (storedBookmarks) {
-            const parsedBookmarks = JSON.parse(storedBookmarks)
+            const parsedBookmarks:any[] = JSON.parse(storedBookmarks)
             const existingBm = parsedBookmarks.findIndex(bm => bm.url === key)
 
             if (existingBm !== -1) {
-                const updatedBm = parsedBookmarks.filter((_, index) => index !== existingBm)
+                const updatedBm = parsedBookmarks.filter((_:any, index:any) => index !== existingBm)
                 localStorage.setItem('bookmarks', JSON.stringify(updatedBm))
                 console.log('bm removed:', localStorage)
                 setBookmarks(prevArr => prevArr.filter(item => item.url !== key))
@@ -76,7 +76,7 @@ export default function BookmarkBtn () {
                                 <li key={`sr${node.url}-${idx}`} className="flex p-2 justify-center items-center">
                                 <Link href={node.url} isDisabled={node.url === pathname ? true : false}>
                                 <div className="relative h-[100px] w-[60px] sm:h-[140px] sm:w-[100px]">
-                                    <NextImage fill alt={`Cover of ${node.image}`} src={node.image} sizes="(max-width:600px) 15vw (max-width:1200px) 10vw, 5vw" style={{
+                                    <NextImage fill alt={`Cover of ${node.image}`} src={node.image} sizes="(max-width:600px) 15vw, (max-width:1200px) 10vw, 5vw" style={{
                                         objectFit: 'cover'
                                     }}></NextImage>
                                 </div>

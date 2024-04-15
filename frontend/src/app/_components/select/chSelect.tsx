@@ -2,9 +2,13 @@
 
 import { Select, SelectItem } from "@nextui-org/react";
 
+interface ChSelectProps {
+    chList: any[],
+    curCh: any,
+    wtName: string,
+}
 
-
-export default function ChSelect ({chList, curCh, wtName}) {
+export default function ChSelect ({chList, curCh, wtName}:ChSelectProps) {
 
     const disabledKeys = chList.filter(ch => ch.chapterNumber === Number(curCh)).map(ch => ch._id)
     /* console.log(disabledKeys) */
