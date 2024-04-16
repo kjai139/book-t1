@@ -7,7 +7,7 @@ export async function generateStaticParams() {
         })
 
         if (!response.ok) {
-            throw new Error(`error in generate wt name: ${response}`)
+            throw new Error(`error in generate wt name: ${response.status}, ${response.statusText}`)
         }
 
         const wts = await response.json()
