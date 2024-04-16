@@ -54,8 +54,11 @@ export async function middleware(request: NextRequest) {
 
                 if (response.ok) {
                     console.log('RESPONSE OK MIDDLEWARE')
-                  
+                    if (request.nextUrl.pathname.startsWith('/login')) {
                         return NextResponse.redirect(new URL('/dashboard', request.url))
+                    } else {
+                        return NextResponse.next()
+                    }
                     
                 } else {
                     if (request.nextUrl.pathname.startsWith('/dashboard')) {
