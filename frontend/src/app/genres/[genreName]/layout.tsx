@@ -11,7 +11,7 @@ export async function generateStaticParams() {
         })
 
         if (!response.ok) {
-            throw new Error(`error in generate genre names: ${response}`)
+            throw new Error(`error in generate genre names: ${response.status}, ${response.statusText}`)
         }
 
         const genres = await response.json()
