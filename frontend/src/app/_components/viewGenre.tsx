@@ -22,27 +22,30 @@ export default function ViewGenreWt ({wtsArr, totalPg, genreName}:ViewGenreWtPro
     const [totalPages, setTotalPages] = useState(totalPg)
     const [isResultOut, setIsResultOut] = useState(false)
     const [initialPg, setInitialPage] = useState(1)
+    const [isLoading, setIsLoading] = useState(false)
 
     const getPage = async () => {
         try {
-            const response = await fetch(`${apiUrl}/api/genre/wts/get?slug=${genreName}&page=${curPg}&sort=${sortBy ? sortBy : 'latest'}`, {
+            setIsLoading(true)
+            const response = await fetch(`/api/genre/wts/get?slug=${genreName}&page=${curPg}&sort=${sortBy ? sortBy : 'latest'}`, {
                 method: 'GET',
                 next: {
-                    revalidate: 60 * 15
+                    tags: ['updateContent']
                 }
             })
 
             if (response.ok) {
-                /* console.log('Get page ran in client') */
                 const json = await response.json()
-                /* console.log('RESULTS:::', json) */
+                console.log('RESULTS:', json)
                 setIsResultOut(true)
                 setInitialPage(0)
                 setUpdates(json)
                 setTotalPages(json.totalPages)
+                setIsLoading(false)
             }
         } catch (err) {
             console.error(err)
+            setIsLoading(false)
         }
     }
 
@@ -56,17 +59,6 @@ export default function ViewGenreWt ({wtsArr, totalPg, genreName}:ViewGenreWtPro
 
     useEffect(() => {
         if (sortBy === 'rating' || sortBy === 'latest') {
-            /* console.log('triggered from sorting') */
-           /*  console.log('sorting by rating...')
-            const sortedWts = updates.wts.slice().sort((a,b) => {
-                const avgRatingA = a.book?.avgRating || 0
-                const avgRatingB = b.book?.avgRating || 0
-                return avgRatingB - avgRatingA
-            })
-            setUpdates((prev) =>  ({
-                ...prev,
-                wts: sortedWts
-            })) */
             getPage()
         }
     }, [sortBy])
@@ -85,7 +77,7 @@ export default function ViewGenreWt ({wtsArr, totalPg, genreName}:ViewGenreWtPro
                 <div className="relative w-full min-h-[200px] overflow-hidden">
                 
               
-                <NextImage src={node.book.image} alt={`Cover image of ${node.book.image}`} placeholder="blur" blurDataURL={`${node.book.image}`} fill sizes="(max-width:450px) 40vw (max-width:600px) 30vw, (max-width:1200px) 10vw, 10vw" className="home-c object-cover rounded">
+                <NextImage src={node.book.image} alt={`Cover image of ${node.book.image}`} placeholder="blur" blurDataURL={`${node.book.image}`} fill sizes="(max-width:450px) 50vw, (max-width:600px) 40vw, (max-width:1200px) 10vw" className="home-c object-cover rounded">
 
                 </NextImage>
                 
@@ -133,7 +125,7 @@ export default function ViewGenreWt ({wtsArr, totalPg, genreName}:ViewGenreWtPro
             )
         })}
         </div>
-        {curPg && totalPages ? 
+        {curPg && totalPages && !isLoading ? 
           <>
           <Pagination total={totalPages} page={curPg} onChange={setCurPg} className="w-full" showControls>
 
@@ -150,7 +142,7 @@ export default function ViewGenreWt ({wtsArr, totalPg, genreName}:ViewGenreWtPro
            <></>
            }
            {
-            isResultOut && totalPages === 0 &&
+            isResultOut && totalPages === 0 && !isLoading &&
             <span>No matching results.</span> 
 
            }

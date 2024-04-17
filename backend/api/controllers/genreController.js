@@ -21,6 +21,7 @@ exports.genres_get = async (req, res) => {
     }
 }
 
+//no longer needed - used in static ngen directly
 exports.genres_all_params_get = async (req, res) => {
     try {
         const allGenres = await Genre.find()
@@ -34,7 +35,7 @@ exports.genres_all_params_get = async (req, res) => {
     }
 }
 
-
+//used in generating genre pages
 exports.genre_wt_byGenre_get = async (req, res) => {
     
     

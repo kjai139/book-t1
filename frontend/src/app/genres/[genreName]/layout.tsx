@@ -1,23 +1,18 @@
 import apiUrl from "@/app/_utils/apiEndpoint"
-
+import { dbConnect } from '@/app/_utils/db'
+import Genre from '@/app/_models/genre'
 
 export async function generateStaticParams() {
     try {
-        const response = await fetch(`${apiUrl}/api/genres/all/getParams`, {
-            method:'GET',
-            next: {
-                revalidate: 60 * 60 * 24 * 7,
-            }
-        })
+        await dbConnect()
+        const allGenres = await Genre.find()
+       
+        
 
-        if (!response.ok) {
-            throw new Error(`error in generate genre names: ${response.status}, ${response.statusText}`)
-        }
-
-        const genres = await response.json()
+        /* const genres = await allGenres.json() */
         /* console.log('genres in static layout', genres) */
-
-        return genres.allGenres.map((gen:any) => {
+        /* console.log('Genres from generating genre params', allGenres) */
+        return allGenres.map((gen:any) => {
            
             return (
                 {

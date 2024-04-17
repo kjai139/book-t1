@@ -25,7 +25,7 @@ async function getFooterData () {
 export default async function MainFooter () {
 
     const siteData = await getFooterData()
-    console.log('siteData home', siteData)
+    /* console.log('siteData home', siteData) */
 
     return (
         <footer className="bg-content1 flex flex-col p-2 gap-2 mt-16 justify-center items-center">

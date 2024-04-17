@@ -3,7 +3,7 @@ const debug = require('debug')('book-test:wtpController')
 const Wt = require('../../models/wtModel')
 const WtPage = require('../../models/WtPageModel')
 
-
+//migrate route handler getpagestatic
 exports.wtp_get_all = async (req, res) => {
     try {
         
@@ -30,6 +30,8 @@ exports.wtp_get_all = async (req, res) => {
         })
     }
 }
+
+//migrate route handler wtp serv comp
 
 exports.wtp_get_content = async (req, res) => {
     try {

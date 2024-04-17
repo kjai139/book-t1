@@ -1,28 +1,28 @@
-import ViewGenreWt from "@/app/_components/viewGenre"
-import apiUrl from "@/app/_utils/apiEndpoint"
-import { Divider } from "@nextui-org/react"
-import { notFound } from "next/navigation"
-import Genre from "@/app/_models/genre"
-import Wt from "@/app/_models/wt"
-import Wtc from '@/app/_models/wtChapter'
-import { dbConnect } from "@/app/_utils/db"
+import { NextRequest, NextResponse } from "next/server";
+import Genre from "@/app/_models/genre";
+import Wt from "@/app/_models/wt";
+import Wtc from "@/app/_models/wtChapter";
 
-async function getWts(params:any) {
+export async function GET(req: NextRequest) {
+    const searchParams = req.nextUrl.searchParams
+       
+     
     try {
-        await dbConnect()
-        const limit = 20       
-        const page = 1
-        const slug = params.genreName
-        let matchStage:any = {
-
-        }
-        const genre = await Genre.find({slug:slug})
-        
+        const limit = 20
+        const status = searchParams.get('status')
+        const sort = searchParams.get('sort')
+        const page = Number(searchParams.get('page'))
+        const slug = searchParams.get('slug') 
+        const genre = await Genre.find({slug:slug})   
         const genreId = genre[0]._id
-        const sort = 'latest'
-        
-        let countQuery = {
-            
+
+        let matchStage:any = {
+            $match: {
+                
+            }
+        }
+        let countQuery:any = {
+           
         }
         let sortCondition = {
 
@@ -31,14 +31,14 @@ async function getWts(params:any) {
 
         }
         const skip = (page - 1) * limit
-        
+        if (status) {
+            matchStage.$match.status = status
+            countQuery.status = status
+        }
         if (genre) {
-            matchStage.$match = {
-                genres: genreId
-            }
-            countQuery = {
-                genres: genreId
-            }
+            
+            matchStage.$match.genres = genreId
+            countQuery.genres = genreId
         }
         if (sort === 'latest') {
             sortCondition = {
@@ -61,7 +61,7 @@ async function getWts(params:any) {
         const totalWt = await Wt.countDocuments(countQuery)
         
         const totalPages = Math.ceil(totalWt / limit)
-        
+       
         const sortedWt = await Wt.find().sort({
             avgRating: -1,
             updatedOn: -1
@@ -101,7 +101,7 @@ async function getWts(params:any) {
                     _id: '$_id',
                     chapters: { $push: '$chapters' },
                     book: { $first: '$$ROOT'},
-                    
+                   
                 }
             },
             {
@@ -120,51 +120,23 @@ async function getWts(params:any) {
         ])
         
 
-        const json = {
+        return NextResponse.json({
             wts: updates,
             totalPages: totalPages,
             genre: genre,
             totalWt: totalWt,
             fullArr: sortedWt
-        }
+        })
 
-        return JSON.parse(JSON.stringify(json))
-                
-
-    } catch (err) {
-        console.error(err)
+    } catch (err:any) {
+        return NextResponse.json({
+            message: err.message
+        }, {
+            status: 500
+        })
     }
-}
 
 
-export default async function Page ({params}:any) {
-    /* console.log('PARAMS FROM PAGE GENRE', params) */
-    const wts = await getWts(params)
-    /* console.log('wts by genre', wts) */
-    if (!wts) {
-        notFound()
-    }
     
 
-    return (
-        <main>
-        <div className="max-w-[1024px] flex flex-col p-2 w-full gap-4">
-            <div>
-                <div className="flex gap-2 items-center pt-4 pb-2">
-                <h3 className="text-lg font-bold">
-                {wts.genre[0].name}
-                </h3>
-            <span>
-            {`( ${wts.totalWt} )`}
-            </span>
-            </div>
-            <span className="text-default-500">
-                {wts.genre[0].description}
-            </span>
-            <Divider className="my-4"></Divider>
-            </div>
-            <ViewGenreWt wtsArr={wts} totalPg={wts.totalPages} genreName={params.genreName}></ViewGenreWt>
-        </div>
-        </main>
-    )
 }

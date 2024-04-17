@@ -23,15 +23,17 @@ export default function ViewallWt () {
 
     const [sortBy, setSortBy] = useState('latest')
     const [isResultOut, setIsResultOut] = useState(false)
+    const [isLoading, setIsLoading] = useState(false)
     //for errors
 
 
     const getWts = async () => {
-        setIsResultOut(false)
+        setIsLoading(true)
         try {
-            const response = await fetch(`${apiUrl}/api/wts/all/get?genres=${encodeURIComponent(JSON.stringify(genres))}&status=${status}&order=${sortBy}&page=${curPg}`, {
+            const response = await fetch(`/api/wt/query/get?genres=${encodeURIComponent(JSON.stringify(genres))}&status=${status}&order=${sortBy}&page=${curPg}`, {
                 next: {
-                    revalidate: 900
+                    revalidate: 900,
+                    tags: ['updateContent']
                 }
             })
 
@@ -42,12 +44,14 @@ export default function ViewallWt () {
                 setTotalPages(data.totalPages)
                 setTotalWt(data.totalWt)
                 setIsResultOut(true)
+                setIsLoading(false)
                 
             }
 
         } catch (err) {
             setTotalWt(0)
             setIsResultOut(true)
+            setIsLoading(false)
             console.error(err)
         }
     }
@@ -59,27 +63,31 @@ export default function ViewallWt () {
     }, [curPg])
 
     return (
-        <div className="p-2 flex flex-col gap-6">
+        <div className="p-2 flex flex-col gap-6 relative">
             <div className="flex flex-col gap-4 p-2">
             <SelectGenres value={genres} setValue={setGenres}></SelectGenres>
             <SelectStatusCheckbox value={status} setValue={setStatus}></SelectStatusCheckbox>
             <SortByRadio value={sortBy} setValue={setSortBy}></SortByRadio>
             <div className="justify-end flex">
-            <Button  color="primary" size="sm" onPress={getWts}>Filter</Button>
+            <Button  color="primary" size="sm" onPress={getWts} isLoading={isLoading}>Filter</Button>
             </div>
             <Divider className="mt-4"></Divider>
             <div className="justify-start flex items-center">
-                {totalWt && isResultOut ?
+                {totalWt && isResultOut &&!isLoading &&
                 <span className="font-semibold">
                     Results: ( {totalWt} )
-                </span> : <span className="font-semibold">No matching results.</span>
+                </span>
+                }
+                {
+                    !totalWt && isResultOut && !isLoading &&
+                    <span className="font-semibold">No matching results.</span>
                 }
                 
             </div>
             </div>
             <div className="cards-cont gap-2 sm:gap-6">
       
-        {updates && updates.wts.map((node:any, idx:number) => {
+        {!isLoading && updates && updates.wts.map((node:any, idx:number) => {
             
             let slug = node.book.slug
             return (
@@ -140,7 +148,7 @@ export default function ViewallWt () {
             )
         })}
       </div>
-          {curPg && totalPages ? 
+          {curPg && totalPages && !isLoading && isResultOut ? 
           <>
           <Pagination total={totalPages} showControls page={curPg} onChange={setCurPg} className="w-full">
 

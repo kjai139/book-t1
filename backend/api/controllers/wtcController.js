@@ -2,7 +2,7 @@ const Wtc = require('../../models/WTChapterModel')
 const debug = require('debug')('book-test:wtcController')
 const Wt = require('../../models/wtModel')
 
-
+//migrated to wt getWts serv component
 exports.wtc_ch_count_get = async (req, res) => {
     try {
         

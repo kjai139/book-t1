@@ -1,18 +1,17 @@
-import apiUrl from "@/app/_utils/apiEndpoint"
+import { dbConnect } from "@/app/_utils/db"
+import Wt from "@/app/_models/wt"
 
 export async function generateStaticParams() {
     try {
-        const response = await fetch(`${apiUrl}/api/wt/all/getParams`, {
-            method: 'GET',
-        })
-
-        if (!response.ok) {
-            throw new Error(`error in generate wt name: ${response.status}, ${response.statusText}`)
+        await dbConnect()
+        const allWt = await Wt.find().sort({name: 1})
+        if (!allWt) {
+            console.log('No wt found in generate static wt params')
+            return null
         }
 
-        const wts = await response.json()
-
-        return wts.allWt.map((wt:any) => {
+    
+        return allWt.map((wt:any) => {
             
             return (
                 {

@@ -8,7 +8,7 @@ const { isToday, startOfMonth, startOfDay, endOfMonth, isSameDay } = require('da
 const SiteData = require('../../models/siteDataModel')
 
 
-
+//migrate to route handler generating wt params
 exports.wt_get_all = async (req, res) => {
     try {
         const allWt = await Wt.find().sort({name: 1})
@@ -226,6 +226,7 @@ exports.wt_updates_get = async (req, res) => {
     }
 }
 
+//migrated to get wt in route handler 
 exports.wt_getOne = async ( req, res ) => {
 
     try {
@@ -271,7 +272,7 @@ exports.wt_search = async (req, res) => {
     }
 }
 
-
+//migrate api/wt/query
 exports.wt_query_get = async (req, res) => {
     try {
         const limit = 20
@@ -392,6 +393,7 @@ exports.wt_query_get = async (req, res) => {
     }
 }
 
+//migrated to route handler getwt + getwtpage
 exports.wt_meta_get = async (req, res) => {
     try {
         const wt = await Wt.findOne({slug: req.query.name})
@@ -460,6 +462,8 @@ exports.wt_views_inc = async (req, res) => {
     }
 
 }
+
+//migrate route handler getwt
 
 exports.wt_rankings_get = async (req, res) => {
     try {

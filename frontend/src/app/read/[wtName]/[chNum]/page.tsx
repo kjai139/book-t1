@@ -8,6 +8,10 @@ import LocalStorageSaveHistory from "@/app/_components/localstorage/lastPageHist
 import { ResolvingMetadata } from "next";
 import IncreViews from "@/app/_components/viewAdd";
 import { ThemeSwitcher } from "@/app/_components/themeSwitcher";
+import Wt from "@/app/_models/wt";
+import Wtc from "@/app/_models/wtChapter";
+import WtPage from "@/app/_models/wtPage"
+import { dbConnect } from "@/app/_utils/db";
 
 export async function generateStaticParams({
     params: { wtName }
@@ -15,20 +19,25 @@ export async function generateStaticParams({
     params:{wtName:string}
 }) {
     try {
+        await dbConnect()
         /* console.log('PARAMS IN WT PAGE GENERATESTATIC', wtName) */
-        const response = await fetch(`${apiUrl}/api/wtpage/get?name=${wtName}`, {
-            method: 'GET',
-        })
+        const wt = await Wt.findOne({slug: wtName })
+        if (!wt) {
+            return null
+        } else {
+            const allCh = await Wtc.find({wtRef: wt._id})
 
-        if (!response.ok) {
-            throw new Error(`error in generating pg num, ${wtName}`)
-        }
-        const nums = await response.json()
+            if (!allCh) {
+                return null
+            }
+
+            return allCh.map((ch:any) => ({
+                chNum: ch.chapterNumber.toString()
+            }))
+
+            
+        }     
         
-
-        return nums.allCh.map((ch:any) => ({
-            chNum: ch.chapterNumber.toString()
-        }))
     } catch (err) {
         console.error(err)
         
@@ -38,23 +47,51 @@ export async function generateStaticParams({
 }
 
 export async function generateMetadata ({params}:any, parent:ResolvingMetadata) {
-    
-    const response = await fetch(`${apiUrl}/api/wt/meta/get?name=${params.wtName}`, {
-        method:'GET'
-    })
-    if (!response.ok) {
-        throw new Error('ERROR FETCHING METADATA IN WTPAGE')
-    }
-    const data = await response.json()
-    return {
-        title: `${data.wt.name} Chapter ${params.chNum}`,
-        description: `Read ${data.wt.name} Chapter ${params.chNum}`
+
+    try {
+        const wt = await Wt.findOne({slug: params.wtName})
+        return {
+            title: `${wt.name} Chapter ${params.chNum}`,
+            description: `Read ${wt.name} Chapter ${params.chNum}`
+        }
+    } catch (err) {
+       console.error(err)
     }
 }
 
 async function getChContent (params:any) {
     try {
-        const response = await fetch(`${apiUrl}/api/wtpage/getch?name=${params.wtName}&num=${params.chNum}`, {
+       
+        const wt = await Wt.findOne({slug: params.wtName })
+        if (!wt) {
+            console.log('wt not found in get content')
+            return null
+        }
+        const wtc = await Wtc.findOne({wtRef: wt._id, chapterNumber: params.chNum})
+        if (!wtc) {
+            console.log('wtc not found in get content')
+            return null
+        }
+        const wtPages = await WtPage.find({chapterRef: wtc._id}).sort({pageNum: 1})
+        if (!wtPages) {
+            console.log('wtPages not found in get content')
+            return null
+        }
+
+        const allWtc = await Wtc.find({wtRef: wt._id}).sort({
+            chapterNumber: -1
+        })
+
+        const json = {
+            wtc: wtc,
+            images: wtPages,
+            chList: allWtc
+        }
+
+        return JSON.parse(JSON.stringify(json))
+    
+       
+       /*  const response = await fetch(`${apiUrl}/api/wtpage/getch?name=${params.wtName}&num=${params.chNum}`, {
             method:'GET',
             next: {
                 revalidate:1
@@ -66,7 +103,7 @@ async function getChContent (params:any) {
         } else {
             const chContent = await response.json()
             return chContent
-        }
+        } */
 
     } catch (err) {
         console.error(err)

@@ -33,6 +33,7 @@ exports.rating_add_post = async (req, res) => {
     }
 }
 
+//migrate api rating get
 exports.rating_wt_check = async (req, res) => {
     try {
        /*  const results = await Rating.aggregate([

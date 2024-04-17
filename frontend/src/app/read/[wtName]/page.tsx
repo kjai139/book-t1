@@ -7,77 +7,67 @@ import apiUrl from "@/app/_utils/apiEndpoint";
 import { Button, Divider, Image, Link } from "@nextui-org/react";
 import { notFound } from "next/navigation";
 import SideRankingDisplay from "@/app/_components/sidebar/sideRankings";
-import { ThemeSwitcher } from "@/app/_components/themeSwitcher";
-
-
+import Wt from "@/app/_models/wt";
+import Wtc from "@/app/_models/wtChapter";
+import { dbConnect } from "@/app/_utils/db";
 
 
 
 async function getWts(params:any) {
     console.log('PARAMS IN getWTS:', params)
     try {
-        const response = await fetch(`${apiUrl}/api/wt/one/get?name=${params.wtName}`, {
-            next: {
-                revalidate: 86400
-            }
-        })
+        await dbConnect()
+        const wt = await Wt.findOne({slug:params.wtName}).populate('genres')
 
-        if (!response.ok) {
-            throw new Error('ERROR FETCHING getWts')
+        /* const wtChapters = await Wtc.find({wtRef: wt._id}).sort({chapterNumber: -1}) */ 
+
+        const totalCh = await Wtc.find({wtRef: wt._id}).sort({chapterNumber: -1})
+
+        const json =  {
+            wt: wt,
+            totalCh: totalCh
         }
 
-        const chResponse = await fetch(`${apiUrl}/api/wt/ch/count/get?name=${params.wtName}`, {
-            next: {
-                revalidate: 1
-            }
-        })
-
-        if (!chResponse.ok) {
-            throw new Error('ERROR FETCHING WT CHP in getWts')
-        }
-
-        const wt = await response.json()
-        const ch = await chResponse.json()
-        wt.totalCh = ch.totalCh
-
-        return wt
+        return JSON.parse(JSON.stringify(json))
+        // remember to stringify and parse to avoid max stack exceed
+    
 
     } catch (err) {
         console.error(err)
     }
+   
     
     
 
 }
 
 export async function generateMetadata({params}:any) {
-    console.log('GENERATE META PARAM', params)
-    const response = await fetch(`${apiUrl}/api/wt/meta/get?name=${params.wtName}`, {
-        method:'GET'
-    })
-    if (!response.ok) {
-        throw new Error('ERROR FETCHING METADATA IN WT GENERAL')
+    
+    /* console.log('GENERATE META PARAM', params) */
+    try {
+        await dbConnect()
+        const wt = await Wt.findOne({slug: params.wtName})
+       
+        return {
+            title: wt.name,
+            description: `Read ${wt.name}`
+        }
+    } catch (err) {
+        console.error(err)
     }
-    const data = await response.json()
-    return {
-        title: data.wt.name,
-        description: `Read ${data.wt.name}`
-    }
+   
 }
 
 async function getRankings () {
     try {
-      const response = await fetch(`${apiUrl}/api/wt/rankings/get`, {
-        method: 'GET',
-        next: {
-          revalidate: 3600
+        await dbConnect()
+        const monthlyRanking = await Wt.find({}).sort({monthlyViews: -1, name: -1}).limit(10).populate('genres')
+        
+        const json = {
+            rankings: monthlyRanking
         }
-      })
-      if (response.ok) {
-        const data = await response.json()
-        console.log('ranking:', data)
-        return data
-      }
+        return JSON.parse(JSON.stringify(json))
+     
   
     } catch (err) {
       console.error('Error fetching rankings')
@@ -85,10 +75,13 @@ async function getRankings () {
   }
 
 export default async function WtPage({params}:any) {
-    const wtData = getWts(params)
-    const rankingsData = getRankings()
-    const [wt, rankings] = await Promise.all([wtData, rankingsData])
-    console.log('WTPAGE wt:', wt)
+    const wtPromise = getWts(params)
+    const rankingPromise = getRankings()
+    const [wt, rankings] = await Promise.all([wtPromise, rankingPromise])
+
+    /* console.log('RANKINGS: IN WTPAGE', rankings) */
+    
+    /* console.log('WTPAGE wt:', wt) */
     if (!wt) {
         notFound()
     }
