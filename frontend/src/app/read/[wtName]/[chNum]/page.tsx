@@ -1,4 +1,4 @@
-import apiUrl from "@/app/_utils/apiEndpoint";
+
 import { Button, Link } from "@nextui-org/react";
 import { notFound } from "next/navigation";
 import Image from "next/image";

@@ -7,9 +7,11 @@ import apiUrl from "@/app/_utils/apiEndpoint";
 import { Button, Divider, Image, Link } from "@nextui-org/react";
 import { notFound } from "next/navigation";
 import SideRankingDisplay from "@/app/_components/sidebar/sideRankings";
+import { dbConnect } from "@/app/_utils/db";
+import Genre from "@/app/_models/genre"
 import Wt from "@/app/_models/wt";
 import Wtc from "@/app/_models/wtChapter";
-import { dbConnect } from "@/app/_utils/db";
+
 
 
 
@@ -17,7 +19,7 @@ async function getWts(params:any) {
     console.log('PARAMS IN getWTS:', params)
     try {
         await dbConnect()
-        const wt = await Wt.findOne({slug:params.wtName}).populate('genres')
+        const wt = await Wt.findOne({slug:params.wtName}).populate({ path:'genres', model: Genre })
 
         /* const wtChapters = await Wtc.find({wtRef: wt._id}).sort({chapterNumber: -1}) */ 
 
@@ -61,7 +63,7 @@ export async function generateMetadata({params}:any) {
 async function getRankings () {
     try {
         await dbConnect()
-        const monthlyRanking = await Wt.find({}).sort({monthlyViews: -1, name: -1}).limit(10).populate('genres')
+        const monthlyRanking = await Wt.find({}).sort({monthlyViews: -1, name: -1}).limit(10).populate({ path:'genres', model: Genre })
         
         const json = {
             rankings: monthlyRanking

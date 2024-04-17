@@ -1,4 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
+import mongoose from "mongoose";
+import { dbConnect } from "@/app/_utils/db";
 import Genre from "@/app/_models/genre";
 import Wt from "@/app/_models/wt";
 import Wtc from "@/app/_models/wtChapter";
@@ -8,6 +10,7 @@ export async function GET(req: NextRequest) {
        
      
     try {
+        await dbConnect()
         const limit = 20
         const status = searchParams.get('status')
         const sort = searchParams.get('sort')

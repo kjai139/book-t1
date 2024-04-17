@@ -1,4 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
+import mongoose from "mongoose";
+import { dbConnect } from "@/app/_utils/db";
 import Wt from "@/app/_models/wt";
 import Rating from "@/app/_models/rating"
 
@@ -8,6 +10,7 @@ export async function GET(req:NextRequest) {
     const tempId = searchParams.get('tempId')
 
     try {
+        await dbConnect()
         const results = await Wt.findById(wtId)
         const totalRated = await Rating.countDocuments({wtRef: wtId })
 

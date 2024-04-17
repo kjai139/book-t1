@@ -1,8 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
-import mongoose from 'mongoose'
+import mongoose from "mongoose";
+import { dbConnect } from "@/app/_utils/db";
 import Wt from "@/app/_models/wt";
 import Wtc from "@/app/_models/wtChapter";
-import { dbConnect } from "@/app/_utils/db";
+
 
 export async function GET(req:NextRequest) {
     try {
