@@ -13,6 +13,8 @@ export default function PbNavSearch () {
     const [result, setResult] = useState<any>()
     const [noResult, setNoResult] = useState<any>(false)
     const [isSearchOpen, setIsSearchOpen] = useState(false)
+    const [resultError, setResultError] = useState(false)
+    const [isLoading, setIsLoading] = useState(false)
 
     
     
@@ -28,7 +30,8 @@ export default function PbNavSearch () {
     const search = useCallback(async (input:string) => {
         try {
             if (input.length >= 2) {
-                const response = await fetch(`${apiUrl}/api/wt/search?name=${input}`, {
+                setIsLoading(true)
+                const response = await fetch(`/api/wt/search?name=${input}`, {
                     method: 'GET',
                     next: {
                         revalidate: 1
@@ -40,20 +43,26 @@ export default function PbNavSearch () {
                     /* console.log(data) */
                     setResult(data.results)
                     if (data.results.length === 0) {
+                        setIsLoading(false)
                         setNoResult(true)
                     } else {
                         setNoResult(false)
+                        setIsLoading(false)
                     }
                 } else {
+                    setIsLoading(false)
                     setResult(null)
                     setNoResult(true)
+                    
                 }
             }
             
 
         } catch (err) {
             console.error(err)
+            setIsLoading(false)
             setResult(null)
+            setResultError(true)
         }
     }, [])
     //useMemo for result of function, useCallback for functions 
@@ -105,7 +114,7 @@ export default function PbNavSearch () {
                             <li key={`sr${node._id}`} className="flex p-2 justify-center items-center">
                             <Link href={`/read/${node.slug}`} onPress={onOpenChange} className="w-full">
                             <div className="relative w-[50px] h-[75px]">
-                                <NextImage fill alt={`Cover of ${node.image}`} src={node.image} sizes="(max-width:600px) 15vw 5vw" style={{
+                                <NextImage fill alt={`Cover of ${node.image}`} src={node.image} sizes="(max-width:400px) 10vw, (max-width:1200) 5vw, 5vw" style={{
                                     objectFit:'cover'
                                 }}></NextImage>
                             </div>
@@ -130,6 +139,26 @@ export default function PbNavSearch () {
                     <li className="p-2">
                         <span>
                             No matching results.
+                        </span>
+                    </li>
+                </ul>
+                }
+                {
+                    noResult && resultError &&
+                <ul>
+                    <li className="p-2">
+                        <span>
+                            Error getting results.
+                        </span>
+                    </li>
+                </ul>
+                }
+                {
+                    !result && !resultError && isLoading &&
+                <ul>
+                    <li className="p-2">
+                        <span>
+                            Searching...
                         </span>
                     </li>
                 </ul>

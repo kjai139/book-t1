@@ -1,23 +1,20 @@
 import apiUrl from "@/app/_utils/apiEndpoint";
-import { Divider, Link } from "@nextui-org/react";
-
+import { Divider } from "@nextui-org/react";
+import SiteData from "@/app/_models/siteData"
 
 async function getFooterData () {
     try {
-        const response = await fetch(`${apiUrl}/api/metadata/get`, {
-            method: 'GET',
-            next: {
-                revalidate: 86400
-            }
-        })
+        
+        const siteData = await SiteData.findOne()
 
-        if (response.ok) {
-            const json = await response.json()
-            return json
+        const json = {
+            siteData: siteData
         }
+        return JSON.parse(JSON.stringify(json))
+        
 
     } catch (err) {
-        console.log(err)
+        console.error(err)
     }
 }
 

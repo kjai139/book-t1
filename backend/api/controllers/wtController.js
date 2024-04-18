@@ -126,7 +126,7 @@ exports.wtc_create = async (req, res) => {
         })
     }
 }
-
+//migrate serv component
 exports.wt_updates_get = async (req, res) => {
     const sevendaysAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000)
 
@@ -248,7 +248,7 @@ exports.wt_getOne = async ( req, res ) => {
     }
 }
 
-
+//migrate api wt search
 exports.wt_search = async (req, res) => {
     try {
         const escapedTxt = req.query.name.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
@@ -408,7 +408,7 @@ exports.wt_meta_get = async (req, res) => {
     }
 }
 
-
+//migrate serv action
 exports.wt_views_inc = async (req, res) => {
     const today = startOfDay(new Date())
     const result = isToday(startOfMonth(today))
@@ -463,7 +463,7 @@ exports.wt_views_inc = async (req, res) => {
 
 }
 
-//migrate route handler getwt
+//migrate route handler getwt and homepage
 
 exports.wt_rankings_get = async (req, res) => {
     try {

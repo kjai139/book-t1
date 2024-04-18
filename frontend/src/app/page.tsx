@@ -6,65 +6,127 @@ import StarsOnly from "./_components/rating/starsDisplayOnly"
 import MainDynamicSlide from "./_components/slider/mainSlider"
 import RankingDisplay from "./_components/footer/ranking"
 import { ThemeSwitcher } from "./_components/themeSwitcher"
+import Wt from "./_models/wt"
+import Wtc from "./_models/wtChapter"
+import Genre from "./_models/genre"
+import { dbConnect } from "./_utils/db"
 
 interface Updates {
 
 }
 
 async function GetHomeUpdates() {
+    await dbConnect()
+    const sevendaysAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000)
 
-  try {
-    const response = await fetch(`${apiUrl}/api/wt/updates/get?page=1`, {
-      credentials: 'include',
-      method: 'GET',
-      next: {
-        revalidate: 900
-      }
-      
-  })
+    const page = 1
+    const limit = 50
 
-  if (response.ok) {
-    const updates = await response.json()
-    /* console.log('updates:', updates) */
+    try {
+        const updates = await Wt.aggregate([
+            {
+                $match: {
+                    updatedOn: { $gte: sevendaysAgo }
+                }
+            },
+            {
+                $sort: { updatedOn: -1}
+            },
+            {
+                $skip: (page - 1) * limit
 
-    return updates
-  } else {
-    throw new Error('Failed to fetch updates')
-  }
+            },
+            {
+                $limit: limit
+            },
+            {
+                $lookup: {
+                    from: Wtc.collection.name,
+                    localField: '_id',
+                    foreignField: 'wtRef',
+                    as: 'chapters'
+                    //localField(cur collection) matches the foreignfield(from collection)
+                }
+            },
+            {
+                $unwind: '$chapters'
+            },
+            {
+                $sort: { 'chapters.chapterNumber': -1 }
+            },
+            {
+                $group: {
+                    //grouping by the Book's id
+                    _id: '$_id',
+                    chapters: { $push: '$chapters' },
+                    book: { $first: '$$ROOT'}
+                }
+            },
+            {
+                $project: {
+                    _id: 0,
+                    book: 1,
+                    chapters: { $slice: ['$chapters', 2]}
+                }
+            },
+            {
+                $unset: "book.chapters"
+            },
+            {
+                $sort: {
+                    "book.updatedOn": -1
+                }
+            }
+        ])
 
 
-  
+        const totalCount = await Wt.countDocuments({
+            updatedOn: { $gte: sevendaysAgo }
+        })
 
-  } catch (err) {
-    console.error('Error fetching updates')
-    return {
-      props: {
-          updates: null
-      },
+        const totalPages = Math.ceil(totalCount / limit)
+
+        const slider = await Wt.aggregate([
+            {
+                $lookup: {
+                    from: 'genres',
+                    localField: 'genres',
+                    foreignField: '_id',
+                    as: 'genres'
+                }//serves as populate
+            }
+        ]).sample(6)
+
+
+        const json = {
+            updates: updates,
+            totalPages: totalPages,
+            slider: slider
+        }
+
+        return JSON.parse(JSON.stringify(json))
+
+    } catch (err:any) {
+        console.error(err)
     }
-  }
 
     
-
 }
 
 async function getRankings () {
   try {
-    const response = await fetch(`${apiUrl}/api/wt/rankings/get`, {
-      method: 'GET',
-      next: {
-        revalidate: 3600
-      }
-    })
-    if (response.ok) {
-      const data = await response.json()
-      /* console.log('ranking:', data) */
-      return data
+    await dbConnect()
+    const monthlyRanking = await Wt.find({}).sort({monthlyViews: -1, name: -1}).limit(10).populate({path:'genres', model:Genre})
+   
+    const json = {
+        rankings:monthlyRanking
     }
 
-  } catch (err) {
-    console.error('Error fetching rankings')
+    return JSON.parse(JSON.stringify(json))
+  } catch (err:any) {
+      console.error(err)
   }
+  
 }
 
 

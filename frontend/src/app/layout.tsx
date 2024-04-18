@@ -6,9 +6,11 @@ import MainHeaderNav from "./_components/mainHeaderNav";
 import apiUrl from "./_utils/apiEndpoint";
 import MainFooter from "./_components/footer/mainFooter";
 import GoogleAnalytics from "./_components/gTag";
+import { headers } from "next/headers";
+
+
 
 const inter = Inter({ subsets: ["latin"] });
-
 
 export async function generateMetadata () {
   const response = await fetch(`${apiUrl}/api/metadata/get`, {
@@ -47,6 +49,8 @@ export default function RootLayout({
   params: any
 }>) {
 
+  const nonce:any = headers().get('x-nonce')
+
 
   return (
       <html lang="en" className="dTheme" suppressHydrationWarning>
@@ -60,7 +64,7 @@ export default function RootLayout({
         </Providers>
         
         </body>
-        <GoogleAnalytics></GoogleAnalytics>
+        <GoogleAnalytics nonce={nonce}></GoogleAnalytics>
       </html>
    
   );

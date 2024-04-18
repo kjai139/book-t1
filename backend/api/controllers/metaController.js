@@ -1,6 +1,7 @@
 const SiteData = require('../../models/siteDataModel')
 const debug = require('debug')('book-test:metaController')
 
+//migrate serv component
 exports.siteData_get = async (req, res) => {
     try {
         const siteData = await SiteData.findOne()

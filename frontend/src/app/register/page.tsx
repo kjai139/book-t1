@@ -9,7 +9,7 @@ import ResultModal from '../_components/modals/resultModal'
 import { Link } from '@nextui-org/react'
 
 const schema = yup.object({
-    username: yup.string().required('A username is required'),
+    username: yup.string().required('A username is required').max(15, 'username cannot exceed 15 letters.'),
     password: yup.string().required('A password is required').matches(/^(?=.*[a-z])/, 'Password must contain at least one lowercase letter').matches(/^(?=.*[A-Z])/, 'must contain at least one uppercase letter').matches(/^(?=.*[!@#$%^&()_+-])/, 'must have at least one special character').max(20, 'Password cannot have more than 20 characters'),
     confirmPassword: yup.string().required('Passwords must match').oneOf([yup.ref('password')], 'Passwords must match.'),
     email: yup.string().required('An email is required')

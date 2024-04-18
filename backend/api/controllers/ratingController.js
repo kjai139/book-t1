@@ -3,6 +3,8 @@ const debug = require('debug')('book-test:ratingController')
 const mongoose = require('mongoose')
 const Wt = require('../../models/wtModel')
 
+
+//migrate api rating/add
 exports.rating_add_post = async (req, res) => {
     try {
         const { wtId, rating, tempId } = req.body

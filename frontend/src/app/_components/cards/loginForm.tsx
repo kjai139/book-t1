@@ -33,7 +33,7 @@ export default function LoginForm () {
     const onSubmit = async (data:any) => {
         try {
             setIsLoading(true)
-            const response = await fetch(`${apiUrl}/api/user/login`, {
+            const response = await fetch(`/api/auth/login`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -49,7 +49,7 @@ export default function LoginForm () {
 
             if (response.ok) {
                 setIsLoading(false)
-                const responseData = await response.json()
+                /* const responseData = await response.json() */
                 /* console.log('ROUTING TO DASHBOARD...') */
                 router.push('/dashboard')
           
@@ -82,13 +82,13 @@ export default function LoginForm () {
             </span>
             <div>
             <label htmlFor='username'>Username</label>
-            <input {...register('username')} id='username' autoComplete='off' maxLength={20} className='bg-default w-full rounded'></input>
+            <input {...register('username')} id='username' autoComplete='off' maxLength={20} className='bg-default w-full rounded p-1'></input>
             <p className='text-warning'>{errors.username?.message}</p>
             </div>
             
             <div>
             <label htmlFor='password'>Password</label>
-            <input {...register('password')} type='password' maxLength={20} autoComplete='off' id='password' className='bg-default w-full rounded'></input>
+            <input {...register('password')} type='password' maxLength={20} autoComplete='off' id='password' className='bg-default w-full rounded p-1'></input>
             <p className='text-warning'>{errors.password?.message}</p>
             </div>
             

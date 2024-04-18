@@ -49,10 +49,10 @@ export default function Rating ({wtId}:RatingProps) {
     const getRating = async () => {
         try {
             const tempId = localStorage.getItem('tempId')
-            const response = await fetch(`${apiUrl}/api/ratings/get?wtId=${wtId}&tempId=${tempId}`, {
+            const response = await fetch(`/api/rating/get?wtId=${wtId}&tempId=${tempId}`, {
                 method: 'GET',
                 next: {
-                    revalidate: 1
+                    tags: ['updateContent']
                 }
             })
 
@@ -92,7 +92,7 @@ export default function Rating ({wtId}:RatingProps) {
                 tempId: tempId,
                 wtId: wtId
             }
-            const response = await fetch(`${apiUrl}/api/rating/add`, {
+            const response = await fetch(`/api/rating/add`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -146,7 +146,12 @@ export default function Rating ({wtId}:RatingProps) {
     return (
         <div className="flex items-start gap-1 w-full">
             <div className="flex flex-col">
-                {!isDoneLoading || isLoading ? <div>{starsDisabled}</div> : <div>{stars}</div>}
+                {!isDoneLoading || isLoading ? <div>{starsDisabled}</div> : 
+                <div className="flex items-center">
+                    {stars} {isDoneLoading && !didUserJustVote && <span className="text-warning-500 text-sm ml-1">
+                    {rating}/5 out of {totalRated}
+                </span>}
+                </div>}
                 {isDoneLoading && hasUserVoted && 
                 <span className="text-xs text-default-500 italic">You have already rated this.</span>}
                 {isDoneLoading && !hasUserVoted && !didUserJustVote &&
@@ -158,9 +163,9 @@ export default function Rating ({wtId}:RatingProps) {
             </div>
         <div className="flex flex-col">
         
-        {isDoneLoading && !didUserJustVote && <span className="text-warning-500 text-sm ml-1">
+       {/*  {isDoneLoading && !didUserJustVote && <span className="text-warning-500 text-sm ml-1">
             {rating}/5 out of {totalRated}
-        </span>}
+        </span>} */}
        
         </div>
         </div>

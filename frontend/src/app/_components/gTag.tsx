@@ -1,12 +1,13 @@
 import Script from 'next/script'
+import { headers } from 'next/headers'
 
-
-export default function GoogleAnalytics () {
+export default function GoogleAnalytics ({nonce}:{nonce:string}) {
+    console.log('nonce:', nonce)
     return (
         <>
-        <Script strategy='lazyOnload' src="https://www.googletagmanager.com/gtag/js?id=G-J41ZCWS7F1">
+        <Script strategy='afterInteractive' src="https://www.googletagmanager.com/gtag/js?id=G-J41ZCWS7F1" nonce={nonce}>
         
-        <Script id='google-analytics' strategy='lazyOnload'>
+        <Script id='google-analytics' strategy='afterInteractive' nonce={nonce}>
             {`
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}

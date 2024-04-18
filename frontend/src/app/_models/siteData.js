@@ -1,5 +1,7 @@
-const { Schema, model, models } = require('mongoose')
-const Wt = require('../models/wtModel')
+
+import mongoose from 'mongoose'
+const Schema = mongoose.Schema
+import Wt from "./wt"
 
 
 const siteDataSchema = new Schema({
@@ -61,7 +63,7 @@ siteDataSchema.pre('save', async function(next) {
     
 })
 
-const SiteData = models.SiteData || model('SiteData', siteDataSchema)
+const SiteData = mongoose.models.SiteData || mongoose.model('SiteData', siteDataSchema)
 
 
 
