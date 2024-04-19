@@ -143,7 +143,7 @@ exports.user_login_post = [
         }
     
 }]
-
+//migrate to server action
 exports.user_logout_post = (req, res) => {
     try {
         res.cookie('jwt', '', {

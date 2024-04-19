@@ -4,6 +4,10 @@ import { startOfDay, isToday, startOfMonth, endOfMonth, isSameDay } from "date-f
 import SiteData from "@/app/_models/siteData"
 import Wt from "./_models/wt"
 import { dbConnect } from "./_utils/db"
+import { cookies } from "next/headers"
+import { verifySession } from "./_lib/dal"
+import { deleteSession } from "./_lib/session"
+const jwt = require('jsonwebtoken')
 
 
 export async function AddViews (wtName:string) {
@@ -49,4 +53,34 @@ export async function AddViews (wtName:string) {
        console.log('Monthly view updated')
     }
    
+}
+
+
+export async function serverVerifyJwt () {
+    try {
+        const session = await verifySession()
+        if (!session) {
+            return null
+        }
+
+        console.log('JWT REFRESHED')
+
+        return session
+
+    } catch (err:any) {
+        console.log('SERV ACTION:JWT unauthorized.')
+        return null
+    }
+}
+
+export async function serverLogUserOut () {
+    try {
+        deleteSession()
+        return {
+            message: 'You have logged out successfully.'
+        }
+    } catch(err:any) {
+        console.error(err)
+        return null
+    }
 }

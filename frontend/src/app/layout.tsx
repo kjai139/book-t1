@@ -7,32 +7,35 @@ import apiUrl from "./_utils/apiEndpoint";
 import MainFooter from "./_components/footer/mainFooter";
 import GoogleAnalytics from "./_components/gTag";
 import { headers } from "next/headers";
-
+import SiteData from '@/app/_models/siteData'
+import { dbConnect } from "./_utils/db";
 
 
 const inter = Inter({ subsets: ["latin"] });
 
 export async function generateMetadata () {
-  const response = await fetch(`${apiUrl}/api/metadata/get`, {
-    method: 'GET',
-    next: {
-      revalidate: 1
+  try {
+    await dbConnect()
+    const siteData = await SiteData.findOne()
+   
+    return {
+      title: siteData.title,
+      description: siteData.shortDesc,
+      openGraph: {
+        images: siteData.ogImg,
+        title: siteData.title,
+        url: siteData.url,
+        description: siteData.description,
+        siteName: siteData.title,
+        type: 'website',
+        locale: 'en_US',
+      }
     }
-  })
-  const data = await response.json()
-  return {
-    title: data.siteData.title,
-    description: data.siteData.shortDesc,
-    openGraph: {
-      images: data.siteData.ogImg,
-      title: data.siteData.title,
-      url: data.siteData.url,
-      description: data.siteData.description,
-      siteName: data.siteData.title,
-      type: 'website',
-      locale: 'en_US',
-    }
+
+  } catch (err:any) {
+      console.error(err)
   }
+  
 }
 
 
@@ -48,7 +51,6 @@ export default function RootLayout({
   children: React.ReactNode;
   params: any
 }>) {
-
   const nonce:any = headers().get('x-nonce')
 
 

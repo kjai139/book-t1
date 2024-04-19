@@ -47,9 +47,9 @@ router.get('/genres/get', genres_get)
 
 router.get('/wt/get', wt_get_all)
 
-router.post('/wt/create', checkJwtAdmin, upload.single('image'), wt_create)
-
-router.post('/wtc/create', checkJwtAdmin, upload.array('images'), wtc_create)
+router.post('/wt/create', upload.single('image'), wt_create)
+//took out check admin
+router.post('/wtc/create', upload.array('images'), wtc_create)
 
 router.get('/wt/updates/get', wt_updates_get)
 

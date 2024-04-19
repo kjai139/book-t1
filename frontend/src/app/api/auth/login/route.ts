@@ -2,8 +2,8 @@ import { NextRequest, NextResponse } from "next/server"
 import { object, string, InferType } from 'yup'
 import User from "@/app/_models/users"
 const bcrypt = require('bcrypt')
-const jwt = require('jsonwebtoken')
 import { cookies } from "next/headers"
+import { createSession } from "@/app/_lib/session"
 
 let userSchema = object({
     username: string().required().max(15),
@@ -26,20 +26,16 @@ export async function POST(req:NextRequest) {
             } else {
                 const pwMatch = await bcrypt.compare(body.password, theUser.password)
                 if (pwMatch) {
-                    const token = jwt.sign({
+                    
+
+                    await createSession({
                         _id: theUser._id,
                         name: theUser.name
-                    }, process.env.JWT_SECRET, {
-                        expiresIn: '1h'
                     })
-    
-                    cookies().set('jwt', token, {
-                        httpOnly: true,
-                        secure: process.env.NODE_ENV === 'production'
-                    })
+
     
                     return NextResponse.json({
-                        success:true
+                        message: 'success'
                     })
                 } else {
                     return NextResponse.json({

@@ -3,6 +3,7 @@ require('dotenv').config()
 const debug = require('debug')('book-test:checkJwt')
 const User = require('../../models/userModel')
 
+//migrate server action
 exports.checkJwt = async (req, res, next) => {
     
     try {

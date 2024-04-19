@@ -85,7 +85,7 @@ export default function ViewallWt () {
                 
             </div>
             </div>
-            <div className="cards-cont gap-2 sm:gap-6">
+            <div className="cards-cont gap-4 sm:gap-6">
       
         {!isLoading && updates && updates.wts.map((node:any, idx:number) => {
             

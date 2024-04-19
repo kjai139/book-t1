@@ -8,7 +8,7 @@ interface RankingDisplayProps {
 
 export default function RankingDisplay ({rankingList}:RankingDisplayProps) {
 
-    console.log('RANKING LIST........', rankingList)
+    /* console.log('RANKING LIST........', rankingList) */
 
     return (
         <div className="w-full max-w-[1024px]">

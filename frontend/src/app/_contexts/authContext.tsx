@@ -15,6 +15,7 @@ export function AuthProvider ({children}:AuthProviderProps) {
     const pathname = usePathname()
     const [user, setUser] = useState<User | null>(null)
     const [checkLocal, setCheckLocal] = useState(false)
+    //migrated to server action
     const authCheck = async () => {
         
 
@@ -54,7 +55,7 @@ export function AuthProvider ({children}:AuthProviderProps) {
         
         
     }
-
+    //migrated to server action
     const logUserOut = async () => {
         try {
             const response = await fetch(`${apiUrl}/api/user/logout`, {

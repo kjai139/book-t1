@@ -2,13 +2,13 @@
 
 import { useEffect, useState } from "react"
 import {Navbar, NavbarBrand, NavbarContent, NavbarItem, NavbarMenuToggle, NavbarMenu, NavbarMenuItem, Link, Button, Divider } from "@nextui-org/react";
-import { useAuth } from "../_contexts/authContext";
-
 import BookmarkBtn from "./button/bookmark";
 import PbNavSearch from "./button/pbSearch";
 import { usePathname } from "next/navigation";
 import homeIcon from '../apple-icon.png'
 import NextImage from "next/image";
+import { serverLogUserOut, serverVerifyJwt } from "../actions";
+import { useAuth } from "../_contexts/authContext";
 
 interface MenuItems {
   name: string,
@@ -22,9 +22,19 @@ export default function MainHeaderNav () {
     const pathname = usePathname()
     const [isMenuOpen, setIsMenuOpen] = useState(false)
     const [menuItems, setMenuItems] = useState<MenuItems[]>([])
+    const [errorMsg, setErrorMsg] = useState('')
+    const { user, setUser } = useAuth()
    
 
-    const { user, authCheck, logUserOut } = useAuth()
+    const logUserOut = async () => {
+      const isLogOutSuccessful = await serverLogUserOut()
+      if (isLogOutSuccessful) {
+        setMenuItems(publicMenu)
+        setUser(null)
+      } else {
+        setErrorMsg('Encountered an error trying to logout.')
+      }
+    }
 
     const loggedInMenu = [
       {
@@ -67,27 +77,34 @@ export default function MainHeaderNav () {
     
 
       useEffect(() => {
-        if (pathname === '/login' || pathname === '/dashboard' || pathname === '/') {
-          authCheck()
-        }
-        
-      }, [pathname])
-
       
-
-      useEffect(() => {
-        if (user) {
-          setMenuItems(loggedInMenu)
-
-        } else {
-          setMenuItems(publicMenu)
-        }
+          if (user) {
+            setMenuItems(loggedInMenu)
+          } else {
+            setMenuItems(publicMenu)
+          }
+          
+      
         
       }, [user])
 
-      
+      /* useEffect(() => {
+        const verifyUser = async () => {
+          const loggedInUser = await serverVerifyJwt()
+          if (loggedInUser) {
+            setMenuItems(loggedInMenu)
+            console.log(loggedInUser)
+        
+          } else {
+            setMenuItems(publicMenu)
+          }
+        }
+        verifyUser()
+      }, []) */
 
+     
       
+  
     
       return (
         <Navbar disableAnimation={true} isBordered shouldHideOnScroll onMenuOpenChange={setIsMenuOpen} isMenuOpen={isMenuOpen}>
@@ -142,6 +159,11 @@ export default function MainHeaderNav () {
                 <Button className="w-full" size="md" color={`${item.name === 'Sign Out' ? 'danger' : 'primary'}`} onPress={item?.func}>
                 {item.name}
                 </Button>
+                {
+                  errorMsg && 
+                  <span className="text-danger text-sm">{errorMsg}</span>
+                }
+                
                 </>
                 
                 }

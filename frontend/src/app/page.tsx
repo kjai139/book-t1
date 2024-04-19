@@ -1,3 +1,4 @@
+
 import { Divider, Link } from "@nextui-org/react"
 import NextImage from "next/image"
 import { formatDateDMY } from './_utils/dates'
@@ -10,6 +11,8 @@ import Wt from "./_models/wt"
 import Wtc from "./_models/wtChapter"
 import Genre from "./_models/genre"
 import { dbConnect } from "./_utils/db"
+
+
 
 interface Updates {
 
@@ -130,12 +133,12 @@ async function getRankings () {
 }
 
 
-
 export default async function Home() {
   const updatesData = GetHomeUpdates()
   const rankingsData = getRankings()
   const [updates, rankings] = await Promise.all([updatesData, rankingsData])
   /* console.log('PROPS RECEIVED FROM SSG', updates) */
+  
   
   
   return (
@@ -151,7 +154,7 @@ export default async function Home() {
           <Link href="/read" size="sm">View all</Link>
         </div>
         <Divider className="my-4"></Divider>
-        <div className="cards-cont gap-4 sm:gap-4 lg:gap-8 p-2">
+        <div className="cards-cont gap-4 sm:gap-6 lg:gap-6 p-2">
       
       {updates && updates.updates.map((node:any, idx:any) => {
         /* console.log('BOOK:', node.book)

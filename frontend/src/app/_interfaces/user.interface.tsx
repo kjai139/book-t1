@@ -3,10 +3,10 @@
 export default interface User {
     name: string,
     _id: string,
-    lcname: string,
-    role: string,
-    image: string,
-    bio: string,
-    isVerified: boolean
+    lcname?: string,
+    role?: string,
+    image?: string,
+    bio?: string,
+    isVerified?: boolean
 }
 
