@@ -7,7 +7,7 @@ import { dbConnect } from "./_utils/db"
 import { cookies } from "next/headers"
 import { verifySession } from "./_lib/dal"
 import { deleteSession } from "./_lib/session"
-const jwt = require('jsonwebtoken')
+
 
 
 export async function AddViews (wtName:string) {
@@ -84,3 +84,4 @@ export async function serverLogUserOut () {
         return null
     }
 }
+
