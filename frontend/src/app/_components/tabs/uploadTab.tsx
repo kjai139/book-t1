@@ -1,5 +1,5 @@
 'use client'
-import {Tabs, Tab, Card, CardBody, CardHeader, Input, Button, Textarea} from '@nextui-org/react'
+import {Tabs, Tab, Input, Button, Textarea} from '@nextui-org/react'
 import { useEffect, useState } from 'react'
 import SelectWtcTitle from '../autocomplete/selectTitle'
 import ImageUploader from '../dropzones/imageUploader'
@@ -71,8 +71,8 @@ export default function UploadTabs () {
             formData.append('releasedYr', releasedYr)
             formData.append('artist', artist)
             formData.append('tlGroup', tlGroup)
-            
-            const response = await fetch(`${apiUrl}/api/wt/create`, {
+            //old route /wt/create
+            const response = await fetch(`/api/upload/wt`, {
                 method: 'POST',
                 credentials: 'include',
                 body: formData,
@@ -98,17 +98,19 @@ export default function UploadTabs () {
             const formData = new FormData()
             wtcImages.forEach((file:any, idx) => {
                 /* const idx = file.file.name.split('.')[0].toString() */
-                formData.append('images', file.file)
+                formData.append(`images-${idx}`, file.file)
                 formData.append(`heights-${idx}`, file.height )
                 formData.append(`widths-${idx}`, file.width)
                 console.log(`appended hxw-${idx}`, file.height , 'x', file.width)
                 
             })
+
+            formData.append('imgL', wtcImages.length.toString())
             formData.append('name', wtcTitle)
             formData.append('chapterNumber', wtcNumber)
             formData.append('parentRef', parentRef)
 
-            const response = await fetch(`${apiUrl}/api/wtc/create`, {
+            const response = await fetch(`/api/upload/wtchapter`, {
                 credentials: 'include',
                 method: 'POST',
                 body: formData,

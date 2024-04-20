@@ -28,14 +28,15 @@ export async function POST(req:NextRequest) {
                 if (pwMatch) {
                     
 
-                    await createSession({
+                    const user = await createSession({
                         _id: theUser._id,
                         name: theUser.name
                     })
 
     
                     return NextResponse.json({
-                        message: 'success'
+                        message: 'success',
+                        user: user
                     })
                 } else {
                     return NextResponse.json({

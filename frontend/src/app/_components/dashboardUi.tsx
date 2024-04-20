@@ -1,5 +1,6 @@
 'use client'
 
+import { useEffect } from "react"
 import UploadTabs from "../_components/tabs/uploadTab"
 import { useAuth } from "../_contexts/authContext"
 import { Button } from "@nextui-org/react"
@@ -8,6 +9,8 @@ import { Button } from "@nextui-org/react"
 
 
 export default function DashboardUi ({user}:any) {
+
+    const { setUser } = useAuth()
 
     const sendVerificationEmail = async () => {
         try {
@@ -25,6 +28,10 @@ export default function DashboardUi ({user}:any) {
             console.log(err)
         }
     }
+
+    useEffect(() => {
+        setUser(user)
+    }, [])
     
 
     return (

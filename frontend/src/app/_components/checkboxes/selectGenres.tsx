@@ -1,6 +1,5 @@
 'use client'
 
-import apiUrl from "@/app/_utils/apiEndpoint";
 import {CheckboxGroup, Checkbox} from "@nextui-org/react";
 import { useEffect, useState } from "react";
 
@@ -14,10 +13,11 @@ export default function SelectGenres ({value, setValue}:any) {
 
     const getGenres = async () => {
         try {
-            const response = await fetch(`${apiUrl}/api/genres/get`, {
+            const response = await fetch(`/api/genre/all/get`, {
                 method: 'GET',
                 next: {
-                    revalidate: 60 * 60
+                    revalidate: 60 * 60 * 24 * 7,
+                    tags: ['updateContent']
                 }
 
             })

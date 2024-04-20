@@ -4,6 +4,7 @@ const debug = require('debug')('book-test:genreController')
 const mongoose = require('mongoose')
 const Wtc = require('../../models/WTChapterModel')
 
+//migrate route handler
 exports.genres_get = async (req, res) => {
     try {
         const allGenres = await Genre.find().sort({name: 1})

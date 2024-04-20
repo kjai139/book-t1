@@ -8,7 +8,7 @@ const { isToday, startOfMonth, startOfDay, endOfMonth, isSameDay } = require('da
 const SiteData = require('../../models/siteDataModel')
 
 
-//migrate to route handler generating wt params
+//migrate to serv comp generating wt params / route handler
 exports.wt_get_all = async (req, res) => {
     try {
         const allWt = await Wt.find().sort({name: 1})
@@ -69,6 +69,7 @@ exports.wt_create = async (req, res) => {
     }
 }
 
+//migrate route handler
 exports.wtc_create = async (req, res) => {
     try {
 

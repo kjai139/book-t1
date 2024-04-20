@@ -99,6 +99,10 @@ export default async function WtPage({params}:any) {
                 value: wt.wt.releasedYear
             },
             {
+                name: 'Raw Language',
+                value: wt.wt.raw
+            },
+            {
                 name: 'Author',
                 value: wt.wt.author
             },
@@ -109,7 +113,8 @@ export default async function WtPage({params}:any) {
             {
                 name:'TL Group',
                 value: wt.wt.tlGroup
-            }
+            },
+            
     ]
     
     const firstChapterNum = wt.totalCh[wt.totalCh.length - 1].chapterNumber

@@ -9,13 +9,14 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@aws-sdk/client-s3": "^3.556.0",
     "@hookform/resolvers": "^3.3.4",
-    "@nextui-org/react": "^2.2.10",
+    "@nextui-org/react": "^2.3.5",
     "@upstash/ratelimit": "^1.1.1",
     "@upstash/redis": "^1.29.0",
     "bcrypt": "^5.1.1",
     "date-fns": "^3.6.0",
-    "framer-motion": "^11.0.8",
+    "framer-motion": "^11.1.7",
     "jose": "^5.2.4",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.3.2",

@@ -3,11 +3,11 @@ import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useForm } from 'react-hook-form'
 import { useRouter } from 'next/navigation'
-import apiUrl from '../../_utils/apiEndpoint'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import ResultModal from '../../_components/modals/resultModal'
 import { Button } from '@nextui-org/react'
 import { IoIosAlert } from 'react-icons/io'
+import { useAuth } from '@/app/_contexts/authContext'
 
 const schema = yup.object({
     username: yup.string().required('A username is required'),
@@ -20,6 +20,7 @@ export default function LoginForm () {
     const router = useRouter()
     const [errorMsg, setErrorMsg] = useState('')
     const [isLoading, setIsLoading] = useState(false)
+    const { setUser } = useAuth()
     
     
     const {
@@ -49,6 +50,8 @@ export default function LoginForm () {
 
             if (response.ok) {
                 setIsLoading(false)
+                /* const data = await response.json()
+                setUser(data.user) */
                 /* const responseData = await response.json() */
                 /* console.log('ROUTING TO DASHBOARD...') */
                 router.push('/dashboard')
@@ -70,6 +73,11 @@ export default function LoginForm () {
             setErrorMsg('An error has occured')
         }
     }
+
+
+    useEffect(() => {
+        setUser(null)
+    }, [])
 
     return (
         <div className='h-screen items-center justify-center flex p-4'>

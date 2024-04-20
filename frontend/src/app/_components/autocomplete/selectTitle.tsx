@@ -1,6 +1,5 @@
 'use client'
 
-import apiUrl from "@/app/_utils/apiEndpoint";
 import {Autocomplete, AutocompleteItem} from "@nextui-org/react";
 import { useEffect, useState } from "react";
 
@@ -12,9 +11,12 @@ export default function SelectWtcTitle ({value, setValue}:any) {
 
     const getWtTitles = async () => {
         try {
-            const response = await fetch(`${apiUrl}/api/wt/get`, {
+            const response = await fetch(`/api/wt/all/get`, {
                 method: 'GET',
-                cache: 'no-cache',
+                next: {
+                    revalidate: 60 * 15,
+                    tags: ['updateContent']
+                }
 
             })
 

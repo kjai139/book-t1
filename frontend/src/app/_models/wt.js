@@ -38,6 +38,11 @@ const WTSchema = new Schema({
         type:String,
         enum: ['Ongoing', 'Finished', 'Hiatus']
     },
+    raw: {
+        type:String,
+        enum: ['Korean', 'Japanese', 'English', 'Chinese'],
+        default: 'Korean'
+    },
     releasedYear: {
         type:String,
 
