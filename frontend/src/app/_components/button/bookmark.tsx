@@ -72,7 +72,7 @@ export default function BookmarkBtn () {
                         Saved Bookmarks - {bookmarks.length} / 25
                     </ModalHeader>
                     <ModalBody>
-                        <ul className="max-h-[400px] overflow-y-auto bmark-cont flex my-4 flex-col">
+                        <ul className="max-h-[400px] overflow-y-auto bmark-cont flex flex-col my-4">
                         {bookmarks && bookmarks.length > 0 ? bookmarks.map((node, idx) => {
                             return (
                                 <li key={`sr${node.url}-${idx}`} className="flex p-2 justify-center items-center relative flex-col">
@@ -91,7 +91,7 @@ export default function BookmarkBtn () {
                                 </div>
                                 </Link>
                                 
-                                <Button isIconOnly size="lg" variant="light" color="default" onPress={() => removeBm(node.url)} className="w-full text-sm text-default-500 mt-4" aria-label={`delete bookmark of ${node.name}`} ><MdDelete size={20}></MdDelete></Button>
+                                <Button size="lg" variant="light" color="default" onPress={() => removeBm(node.url)} className="w-full text-sm text-default-500 mt-4" aria-label={`delete bookmark of ${node.name}`} startContent={<MdDelete size={20}></MdDelete>}>Delete this bookmark</Button>
                               
                                 <Divider></Divider>
                                 </li>

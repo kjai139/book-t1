@@ -53,7 +53,10 @@ export async function generateMetadata ({params}:any, parent:ResolvingMetadata) 
         const wt = await Wt.findOne({slug: params.wtName})
         return {
             title: `${wt.name} Chapter ${params.chNum}`,
-            description: `Read ${wt.name} Chapter ${params.chNum}`
+            description: `Read ${wt.name} Chapter ${params.chNum}`,
+            openGraph: {
+                images: wt.img,
+            }
         }
     } catch (err) {
        console.error(err)

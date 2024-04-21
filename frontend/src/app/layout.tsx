@@ -9,6 +9,7 @@ import { headers } from "next/headers";
 import SiteData from '@/app/_models/siteData'
 import { dbConnect } from "./_utils/db";
 import { Viewport } from "next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 
 const inter = Inter({ subsets: ["latin"] });
@@ -69,6 +70,7 @@ export default function RootLayout({
         <MainHeaderNav></MainHeaderNav>
         {children}
         <MainFooter></MainFooter>
+        <SpeedInsights></SpeedInsights>
         
         </Providers>
         

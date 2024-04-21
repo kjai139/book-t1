@@ -52,8 +52,11 @@ export async function generateMetadata({params}:any) {
         const wt = await Wt.findOne({slug: params.wtName})
        
         return {
-            title: wt.name,
-            description: `Read ${wt.name}`
+            title: `Read ${wt.name}`,
+            description: `Read ${wt.name}`,
+            openGraph: {
+                images: wt.img,
+            }
         }
     } catch (err) {
         console.error(err)
