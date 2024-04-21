@@ -17,7 +17,7 @@ export default function DisqusComments ({slug, identifier, title}:DisqusComments
             <span className="font-semibold p-4">
             <h3>Comments for {title}</h3>
             </span>
-            <Divider></Divider>
+            <Divider className="mb-4"></Divider>
         {/* <CommentCount shortname={process.env.NEXT_PUBLIC_DISQUS_SN as string}
         config={
             {

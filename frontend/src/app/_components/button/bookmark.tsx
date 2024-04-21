@@ -93,12 +93,12 @@ export default function BookmarkBtn () {
                                 
                                 <Button size="lg" variant="light" color="default" onPress={() => removeBm(node.url)} className="w-full text-sm text-default-500 mt-4" aria-label={`delete bookmark of ${node.name}`} startContent={<MdDelete size={20}></MdDelete>}>Delete this bookmark</Button>
                               
-                                <Divider></Divider>
+                                <Divider className="mt-2"></Divider>
                                 </li>
                                 
                             )
                         }): 
-                        <li className="my-4">You have nothing bookmarked.</li>
+                        <li className="m-4">You have nothing bookmarked.</li>
                         }
                         </ul>
                     </ModalBody>
