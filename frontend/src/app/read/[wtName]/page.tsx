@@ -211,9 +211,10 @@ export default async function WtPage({params}:any) {
                
                 
             </div>
+            <DisqusComments slug={`/read/${params.wtName}`} identifier={wt.wt._id} title={wt.wt.name}></DisqusComments>
             
             </div>
-            <DisqusComments slug={`/read/${params.wtName}`} identifier={wt.wt._id} title={wt.wt.name}></DisqusComments>
+            
             <SideRankingDisplay rankingList={rankings}></SideRankingDisplay>
         </div>
         </main>

@@ -1,8 +1,9 @@
 import apiUrl from "@/app/_utils/apiEndpoint";
 import { Button, Input, Link, Popover, PopoverContent, PopoverTrigger } from "@nextui-org/react";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { FaSearch } from "react-icons/fa";
 import NextImage from "next/image";
+import { usePathname } from "next/navigation";
 
 
 
@@ -15,6 +16,7 @@ export default function PbNavSearch () {
     const [isSearchOpen, setIsSearchOpen] = useState(false)
     const [resultError, setResultError] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
+    const pathname = usePathname()
 
     
     
@@ -75,13 +77,20 @@ export default function PbNavSearch () {
         debouncedSearch(value)
     }, [])
 
-    const onOpenChange = useCallback(() => {
+    const onOpenChange = () => {
         setResult(null)
         setQuery('')
         setNoResult(false)
         setIsSearchOpen((prev)=> !prev)
         
-    }, [])
+    }
+
+    useEffect(() => {
+        setResult(null)
+        setQuery('')
+        setNoResult(false)
+        setIsSearchOpen(false)
+    }, [pathname])
 
 
 
@@ -112,7 +121,7 @@ export default function PbNavSearch () {
 
                         return (
                             <li key={`sr${node._id}`} className="flex p-2 justify-center items-center">
-                            <Link href={`/read/${node.slug}`} onPress={onOpenChange} className="w-full">
+                            <Link href={`/read/${node.slug}`} className="w-full flex-1" isBlock isDisabled={pathname === `/read/${node.slug}`}>
                             <div className="relative w-[50px] h-[75px]">
                                 <NextImage fill alt={`Cover of ${node.image}`} src={node.image} sizes="(max-width:400px) 10vw, (max-width:1200) 5vw, 5vw" style={{
                                     objectFit:'cover'

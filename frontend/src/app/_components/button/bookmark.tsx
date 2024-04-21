@@ -1,5 +1,5 @@
 'use client'
-import { Button, Modal, ModalBody, ModalContent, ModalHeader, useDisclosure, Link } from "@nextui-org/react";
+import { Button, Modal, ModalBody, ModalContent, ModalHeader, useDisclosure, Link, Divider } from "@nextui-org/react";
 import { useEffect, useState } from "react";
 import { FaBookmark } from "react-icons/fa";
 import NextImage from "next/image";
@@ -57,10 +57,12 @@ export default function BookmarkBtn () {
 
     return (
         <>
-        <Button aria-label="Open bookmarks" isIconOnly onPress={onOpen}>
+        <Button aria-label="Open bookmarks" isIconOnly onPressStart={onOpen}>
             <FaBookmark></FaBookmark>
         </Button>
-        <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
+        <Modal isOpen={isOpen} onOpenChange={onOpenChange} classNames={{
+            body: 'px-2 sm:px-6'
+        }}>
             {/* modalcontent takes a function as children and takes onclose */}
             <ModalContent>
                 
@@ -70,13 +72,13 @@ export default function BookmarkBtn () {
                         Saved Bookmarks - {bookmarks.length} / 25
                     </ModalHeader>
                     <ModalBody>
-                        <ul className="max-h-[400px] overflow-y-auto bmark-cont flex flex-col my-4">
+                        <ul className="max-h-[400px] overflow-y-auto bmark-cont flex my-4 flex-col">
                         {bookmarks && bookmarks.length > 0 ? bookmarks.map((node, idx) => {
                             return (
-                                <li key={`sr${node.url}-${idx}`} className="flex p-2 justify-center items-center">
-                                <Link href={node.url} isDisabled={node.url === pathname ? true : false}>
-                                <div className="relative h-[100px] w-[60px] sm:h-[140px] sm:w-[100px]">
-                                    <NextImage fill alt={`Cover of ${node.image}`} src={node.image} sizes="(max-width:600px) 15vw, (max-width:1200px) 10vw, 5vw" style={{
+                                <li key={`sr${node.url}-${idx}`} className="flex p-2 justify-center items-center relative flex-col">
+                                <Link href={node.url} isDisabled={node.url === pathname ? true : false} isBlock className="flex">
+                                <div className="relative h-[100px] w-[60px] sm:h-[140px] sm:w-[100px] mr-2">
+                                    <NextImage fill alt={`Cover of ${node.image}`} src={node.image} sizes="(max-width:450px) 15vw, (max-width:1200px) 10vw, 5vw" style={{
                                         objectFit: 'cover'
                                     }}></NextImage>
                                 </div>
@@ -88,8 +90,12 @@ export default function BookmarkBtn () {
                                     </span>
                                 </div>
                                 </Link>
-                                <Button isIconOnly size="lg" variant="light" color="default" onPress={() => removeBm(node.url)}><MdDelete></MdDelete></Button>
+                                
+                                <Button isIconOnly size="lg" variant="light" color="default" onPress={() => removeBm(node.url)} className="w-full text-sm text-default-500 mt-4" aria-label={`delete bookmark of ${node.name}`} ><MdDelete size={20}></MdDelete></Button>
+                              
+                                <Divider></Divider>
                                 </li>
+                                
                             )
                         }): 
                         <li className="my-4">You have nothing bookmarked.</li>

@@ -10,7 +10,7 @@ interface DisqusCommentsProps {
 
 export default function DisqusComments ({slug, identifier, title}:DisqusCommentsProps) {
     return (
-        <div className="disqus-cont bg-inherit font-semibold flex flex-col p-2">
+        <div className="disqus-cont font-semibold flex flex-col p-2">
             <span className="font-semibold p-4">
             <h3>Comments for {title}</h3>
             </span>
