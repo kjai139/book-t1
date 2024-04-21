@@ -1,4 +1,4 @@
-import apiUrl from "@/app/_utils/apiEndpoint"
+
 import { dbConnect } from '@/app/_utils/db'
 import Genre from '@/app/_models/genre'
 
@@ -12,7 +12,7 @@ export async function generateStaticParams() {
         /* const genres = await allGenres.json() */
         /* console.log('genres in static layout', genres) */
         /* console.log('Genres from generating genre params', allGenres) */
-        return allGenres.map((gen:any) => {
+        return allGenres.map((gen:{slug:string}) => {
            
             return (
                 {
