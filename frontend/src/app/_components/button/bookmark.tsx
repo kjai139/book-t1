@@ -15,6 +15,7 @@ export default function BookmarkBtn () {
 
     useEffect(() => {
         if (isOpen) {
+            
             const storedBm = localStorage.getItem('bookmarks')
             if (storedBm) {
                 const parsedBm = JSON.parse(storedBm)
@@ -24,7 +25,7 @@ export default function BookmarkBtn () {
             }
         }
         
-    }, [onOpenChange])
+    }, [isOpen])
 
     useEffect(() => {
         if (isOpen) {
@@ -57,7 +58,7 @@ export default function BookmarkBtn () {
 
     return (
         <>
-        <Button aria-label="Open bookmarks" isIconOnly onPressStart={onOpen}>
+        <Button aria-label="Open bookmarks" isIconOnly onPress={onOpen}>
             <FaBookmark></FaBookmark>
         </Button>
         <Modal isOpen={isOpen} onOpenChange={onOpenChange} classNames={{
