@@ -157,7 +157,7 @@ export default async function WtPage({params}:any) {
                 <SaveBookmarkBtn image={wt.wt.image} wTstatus={wt.wt.status} wtName={wt.wt.name} wtGenres={wt.wt.genres}></SaveBookmarkBtn>
                 </div>
 
-                <div className="flex flex-col max-w-[630px] sm:max-w-[450px] justify-between gap-4">
+                <div className="flex flex-col justify-between gap-4">
                     <div className="flex w-full">
                         <Rating wtId={wt.wt._id}></Rating>
                     </div>

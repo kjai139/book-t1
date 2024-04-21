@@ -47,7 +47,7 @@ export default function SideRankingDisplay ({rankingList}:SideRankingDisplayProp
 
                         </div>
                         <div className="flex flex-col">
-                        <span className="flex-1 flex ranking-txt text-sm">
+                        <span className="flex-1 flex ranking-txt text-sm mb-1">
                             {wt.name}
                         </span>
                         <span className="text-xs text-default-500 ranking-txt">{genres}</span>
