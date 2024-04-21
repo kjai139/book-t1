@@ -74,10 +74,10 @@ export async function middleware(request: NextRequest) {
     console.log('generating nonce...')
     const nonce = Buffer.from(crypto.randomUUID()).toString('base64')
     const cspHeader = `
-        default-src 'self' localhost:4000 www.google-analytics.com;
-        script-src 'self' ${process.env.NODE_ENV === "production" ? ''  : `'unsafe-eval'` } https://www.googletagmanager.com/gtag/js 'unsafe-inline';
-        style-src 'self' 'unsafe-inline';
-        img-src 'self' blob: data: https://wtdb128.s3.us-east-2.amazonaws.com;
+        default-src 'self' www.google-analytics.com c.disquscdn.com;
+        script-src 'self' ${process.env.NODE_ENV === "production" ? ''  : `'unsafe-eval'` } https://www.c.disquscdn.com https://52webtoons-com.disqus.com 'unsafe-inline';
+        style-src 'self' 'unsafe-inline' https://c.disquscdn.com;
+        img-src 'self' blob: data: https://wtdb128.s3.us-east-2.amazonaws.com https://c.disquscdn.com https://referrer.disqus.com;
         font-src 'self';
         object-src 'none';
         base-uri 'self';

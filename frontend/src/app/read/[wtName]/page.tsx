@@ -11,6 +11,7 @@ import Genre from "@/app/_models/genre"
 import Wt from "@/app/_models/wt";
 import Wtc from "@/app/_models/wtChapter";
 import { ThemeSwitcher } from "@/app/_components/themeSwitcher";
+import DisqusComments from "@/app/_components/comments/disqus";
 
 
 
@@ -212,6 +213,7 @@ export default async function WtPage({params}:any) {
             </div>
             
             </div>
+            <DisqusComments slug={`/read/${params.wtName}`} identifier={wt.wt._id} title={wt.wt.name}></DisqusComments>
             <SideRankingDisplay rankingList={rankings}></SideRankingDisplay>
         </div>
         </main>
