@@ -97,7 +97,7 @@ export default function ViewallWt () {
                 <Link href={`/read/${slug}`}>
                 <div className="relative w-full min-h-[200px] overflow-hidden">
                 
-                <NextImage src={node.book.image} alt={`Cover image of ${node.book.image}`} priority={idx <= 4 ? true : false} fill sizes="(max-width:600px) 40vw, (max-width:1200px) 20vw" className="home-c object-cover rounded">
+                <NextImage src={node.book.image} alt={`Cover image of ${node.book.image}`} unoptimized blurDataURL={node.book.image} placeholder="blur" fill sizes="(max-width:600px) 40vw, (max-width:1200px) 20vw" className="home-c object-cover rounded">
 
                 </NextImage>
                 

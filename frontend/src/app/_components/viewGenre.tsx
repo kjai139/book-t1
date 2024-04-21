@@ -77,7 +77,7 @@ export default function ViewGenreWt ({wtsArr, totalPg, genreName}:ViewGenreWtPro
                 <div className="relative w-full min-h-[200px] overflow-hidden">
                 
               
-                <NextImage src={node.book.image} alt={`Cover image of ${node.book.image}`} placeholder="blur" blurDataURL={`${node.book.image}`} fill sizes="(max-width:450px) 50vw, (max-width:600px) 40vw, (max-width:1200px) 10vw" className="home-c object-cover rounded">
+                <NextImage src={node.book.image} alt={`Cover image of ${node.book.image}`} placeholder="blur" blurDataURL={`${node.book.image}`} unoptimized fill sizes="(max-width:450px) 50vw, (max-width:600px) 40vw, (max-width:1200px) 10vw" className="home-c object-cover rounded">
 
                 </NextImage>
                 
