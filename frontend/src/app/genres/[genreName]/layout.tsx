@@ -12,14 +12,9 @@ export async function generateStaticParams() {
         /* const genres = await allGenres.json() */
         /* console.log('genres in static layout', genres) */
         /* console.log('Genres from generating genre params', allGenres) */
-        return allGenres.map((gen:{slug:string}) => {
-           
-            return (
-                {
-                    genreName: gen.slug,
-                }
-            )
-        })
+        return allGenres.map((gen) => ({
+            genreName: gen.slug
+        }))
     } catch (err) {
         console.error(err)
     }
