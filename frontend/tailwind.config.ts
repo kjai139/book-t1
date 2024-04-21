@@ -20,7 +20,7 @@ const config: Config = {
       },
       flex: {
         '2': '2'
-      }
+      },
     },
   },
   darkMode: 'class',

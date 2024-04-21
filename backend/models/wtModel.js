@@ -71,6 +71,10 @@ const WTSchema = new Schema({
         default: 0
 
     },
+    isHot: {
+        type:Boolean,
+        default: false
+    },
    
 })
 

@@ -40,7 +40,7 @@ export default function LastRead ({wtId, wtName}:LastReadProps) {
                 let parts = node.url.split('/')
                 let chNum = parts[parts.length - 1]
                 return (
-                    <li key={`hty${idx}`}>
+                    <li key={`hty${idx}`} className="p-1">
                         <Link href={node.url} aria-label={`Go to chapter ${chNum}`} className="text-sm">{wtName} Chapter {chNum}</Link>
                     </li>
                 )

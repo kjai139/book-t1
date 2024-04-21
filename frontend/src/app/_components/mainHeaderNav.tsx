@@ -9,6 +9,7 @@ import homeIcon from '../apple-icon.png'
 import NextImage from "next/image";
 import { serverLogUserOut, serverVerifyJwt } from "../actions";
 import { useAuth } from "../_contexts/authContext";
+import { ThemeSwitcher } from "./themeSwitcher";
 
 interface MenuItems {
   name: string,
@@ -107,7 +108,7 @@ export default function MainHeaderNav () {
   
     
       return (
-        <Navbar disableAnimation={true} isBordered shouldHideOnScroll onMenuOpenChange={setIsMenuOpen} isMenuOpen={isMenuOpen}>
+        <Navbar disableAnimation={true} isBordered shouldHideOnScroll onMenuOpenChange={setIsMenuOpen} isMenuOpen={isMenuOpen} maxWidth="lg">
           <NavbarContent justify="start">
             <NavbarMenuToggle aria-label={isMenuOpen ? 'Close menu' : 'Open menu'} className="sm:hidden" />
             <NavbarBrand>
@@ -134,6 +135,9 @@ export default function MainHeaderNav () {
             </NavbarItem>
             <NavbarItem>
               <BookmarkBtn></BookmarkBtn>
+            </NavbarItem>
+            <NavbarItem className="hidden sm:block">
+            <ThemeSwitcher></ThemeSwitcher>
             </NavbarItem>
            
           </NavbarContent>
@@ -169,6 +173,12 @@ export default function MainHeaderNav () {
                 }
               </NavbarMenuItem>
             )})}
+            <NavbarMenuItem>
+              <div className="flex gap-2">
+              <span>Light Switch</span>
+              <ThemeSwitcher></ThemeSwitcher>
+              </div>
+            </NavbarMenuItem>
           </NavbarMenu>
         </Navbar>
       );

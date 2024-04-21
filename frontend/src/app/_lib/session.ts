@@ -48,14 +48,15 @@ export async function refreshSession() {
     const payload = await decrypt(session)
 
     if (!session || !payload) {
+        console.log('session: user is not logged in')
         return null
     }
     const expiresAt = new Date(Date.now() + 60 * 60 * 1000)
-    const newSession = await encrypt({payload})
+    /* const newSession = await encrypt({payload}) */
     
    
 
-    cookies().set('session', newSession, {
+    cookies().set('session', session, {
         httpOnly:true,
         secure:true,
         expires: expiresAt,
@@ -63,6 +64,8 @@ export async function refreshSession() {
         path: '/'
 
     })
+    return true
+    
 }
 
 

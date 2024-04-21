@@ -13,7 +13,7 @@ const redis = new Redis({
 
 const ratelimit = new Ratelimit({
     redis: redis,
-    limiter: Ratelimit.slidingWindow(10, '10 s')
+    limiter: Ratelimit.slidingWindow(5, '10 s')
 })
 
 
@@ -42,22 +42,33 @@ export async function middleware(request: NextRequest) {
     const protectedRoutes = ['/dashboard']
     const loginRoutes = ['/login']
     const apiRoute = ['/api']
+  
     const path = request.nextUrl.pathname
     const isProtectedRoute = protectedRoutes.includes(path)
     const isLoginRoute = loginRoutes.includes(path)
     const isApiRoute = apiRoute.includes(path)
     
+    
     if (!success) {
-        return NextResponse.redirect(new URL('/blocked', request.url))
+        if (request.nextUrl.pathname.startsWith('/api')){
+            return NextResponse.json({
+                message: 'Too many requests'
+            }, {
+                status: 429
+            })
+        } else {
+            return NextResponse.redirect(new URL('/blocked', request.url))
+        }
+        
     }
 
-    if (isApiRoute) {
-        console.log('is Api route')
-        return NextResponse.next()
-    }
     const cookie = cookies().get('session')?.value
     const session = await decrypt(cookie)
 
+    
+    
+
+    
 
     //SET CSP NONCE
     console.log('generating nonce...')
@@ -101,6 +112,11 @@ export async function middleware(request: NextRequest) {
             
         
     }
+    //api protected
+    /* if (request.nextUrl.pathname.startsWith('/api/upload') && !session?._id) {
+        console.log('is Api protected route')
+        return NextResponse.redirect(new URL('/login', request.url))
+    } */
     //reroute out of protected
     if (isProtectedRoute && !session?._id) {
         

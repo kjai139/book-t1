@@ -144,13 +144,13 @@ export default async function Home() {
   return (
     <>
     <main className="flex flex-col items-center">
-      <div className="max-w-[1024px] w-full">
+      <div className="w-full mw">
         <div className="px-4 py-2 justify-end flex">
-        <ThemeSwitcher></ThemeSwitcher>
+        {/* <ThemeSwitcher></ThemeSwitcher> */}
         </div>
         <MainDynamicSlide slideArr={updates.slider}></MainDynamicSlide>
         <div className="pt-4 px-4 flex justify-between">
-          <h4>Recently Updated</h4>
+          <h4 className="font-semibold">Recently Updated</h4>
           <Link href="/read" size="sm">View all</Link>
         </div>
         <Divider className="my-4"></Divider>
@@ -167,7 +167,7 @@ export default async function Home() {
             <div className="relative w-full min-h-[200px] overflow-hidden">
               
              
-              <NextImage src={node.book.image} alt={`Cover image of ${node.book.image}`} priority={idx <= 4 ? true : false} fill sizes="(max-width:420px) 50vw,(max-width:600px) 30vw, (max-width:1200px) 10vw, 10vw" className="home-c object-cover rounded">
+              <NextImage src={node.book.image} alt={`Cover image of ${node.book.image}`} priority={idx <= 1 ? true : false} fill sizes="(max-width:420px) 50vw,(max-width:600px) 30vw, (max-width:1200px) 10vw, 10vw" className="home-c object-cover rounded">
 
               </NextImage>
              

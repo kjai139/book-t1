@@ -4,6 +4,8 @@ import { s3Client } from "@/app/_lib/s3Client";
 import { PutObjectCommand, DeleteObjectCommand } from "@aws-sdk/client-s3";
 import WtPage from "@/app/_models/wtPage";
 import Wt from "@/app/_models/wt";
+import { verifySession } from "@/app/_lib/dal";
+import { refreshSession } from "@/app/_lib/session";
 
 async function uploadToS3AndCreatePg(fileBuffer:Buffer, filename:string, fileType:string, pageNum:number, dirName:string, chRef:string, height:string, width:string) {
     try {
@@ -48,6 +50,10 @@ async function uploadToS3AndCreatePg(fileBuffer:Buffer, filename:string, fileTyp
 
 export async function POST(req:NextRequest) {
     try {
+        const isLoggedIn = await verifySession()
+        if (!isLoggedIn) {
+            return NextResponse.redirect(new URL('/login', req.url))
+        }
         const formData = await req.formData()
         const name = formData.get('name')
         const chapterNumber = formData.get('chapterNumber')
@@ -86,7 +92,7 @@ export async function POST(req:NextRequest) {
             updatedParentWT.slug = removeCommaStr.toLowerCase().replace(/\s+/g, '-') 
             await updatedParentWT.save()
         }
-        
+        await refreshSession()
         return NextResponse.json({
             message: 'Chapter upload successful.'
         })

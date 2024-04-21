@@ -150,8 +150,10 @@ export default async function Page({params}:{params: {wtName: string; chNum: str
             <ChSelect wtName={params.wtName} chList={content.chList} curCh={params.chNum}></ChSelect>
             </div>    
             
-            <div className="w-full flex justify-between items-center gap-4 pb-2 px-4">
+            <div className="w-full flex justify-between items-center gap-4 pb-2 px-4 sm:justify-end">
+                <div className="sm:hidden">
                 <ThemeSwitcher></ThemeSwitcher>
+                </div>
                 <div className="flex gap-2">
                 {
                     content.chList[content.chList.length - 1].chapterNumber < Number(params.chNum) ?

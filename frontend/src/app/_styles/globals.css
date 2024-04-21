@@ -166,7 +166,7 @@ main {
 }
 
 .rank-grid-bot {
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
   
   
 }
@@ -174,7 +174,7 @@ main {
 .rank-details {
   display: grid;
   grid-template-columns: 1fr 2fr;
-  gap: .25rem;
+  gap: 1rem;
 }
 
 .txt-gold {
@@ -237,6 +237,7 @@ main {
 .rank-grid {
   grid-template-columns: 1fr 2fr;
   display: grid;
+  gap:1rem;
 }
 
 .rank-li-grid {
@@ -312,6 +313,9 @@ main {
     align-items: center; 
     justify-content: center;
    
+  }
+  .mw {
+    max-width: 1024px;
   }
 }
 

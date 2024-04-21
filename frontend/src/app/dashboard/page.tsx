@@ -1,7 +1,4 @@
 
-
-import UploadTabs from "../_components/tabs/uploadTab"
-import { Button } from "@nextui-org/react"
 import { verifySession } from "../_lib/dal"
 import DashboardUi from "../_components/dashboardUi"
 

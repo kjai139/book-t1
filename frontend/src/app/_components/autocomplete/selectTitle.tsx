@@ -28,6 +28,7 @@ export default function SelectWtcTitle ({value, setValue}:any) {
             }
 
         } catch (err) {
+            
             console.error(err)
         }
     }

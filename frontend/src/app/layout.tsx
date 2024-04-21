@@ -3,12 +3,12 @@ import { Inter } from "next/font/google";
 import './_styles/globals.css'
 import { Providers } from "./provider";
 import MainHeaderNav from "./_components/mainHeaderNav";
-import apiUrl from "./_utils/apiEndpoint";
 import MainFooter from "./_components/footer/mainFooter";
 import GoogleAnalytics from "./_components/gTag";
 import { headers } from "next/headers";
 import SiteData from '@/app/_models/siteData'
 import { dbConnect } from "./_utils/db";
+import { Viewport } from "next";
 
 
 const inter = Inter({ subsets: ["latin"] });
@@ -36,6 +36,14 @@ export async function generateMetadata () {
       console.error(err)
   }
   
+}
+
+export const viewport:Viewport = {
+  themeColor: [
+    { media: '(prefers-color-scheme: light)', color: '#4098D7'},
+    { media: '(prefers-color-scheme: dark)', color: 'black'} 
+  ],
+  colorScheme: 'dark light'
 }
 
 

@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { S3Client, PutObjectCommand, DeleteObjectCommand } from "@aws-sdk/client-s3";
 import Wt from "@/app/_models/wt";
+import { verifySession } from "@/app/_lib/dal";
+import { refreshSession } from "@/app/_lib/session";
 
 const s3Client = new S3Client({
     region: process.env.S3_REGION as string,
@@ -108,6 +110,11 @@ async function uploadFileToS3AndDb(fileBuffer:Buffer, filename:string, fileType:
 
 export async function POST(req:NextRequest) {
     try {
+        const isLoggedIn = await verifySession()
+        if (!isLoggedIn) {
+            return NextResponse.redirect(new URL('/login', req.url))
+        } 
+        
         const formData = await req.formData()
         const image:any = formData.get('image')
         console.log('api:imagefile:', image)
@@ -124,6 +131,7 @@ export async function POST(req:NextRequest) {
         const s3Path = await uploadFileToS3AndDb(buffer, image.name, image.type, formData)
         console.log(`API:File upload success. URL:${s3Path}`)
 
+        await refreshSession()
         return NextResponse.json({
             message: `File upload success. URL:${s3Path}`
         })

@@ -12,10 +12,10 @@ export default function SideRankingDisplay ({rankingList}:SideRankingDisplayProp
 
     return (
         <div className="lg:max-w-[280px] w-full">
-        <div className="flex flex-col mt-1 lg:m-8 lg:mx-0 bg-content1">
+        <div className="flex flex-col lg:mx-0 bg-content1 lg:bg-inherit">
         <div className="lg:max-w-[350px] w-full p-2">
             <h3 className="p-2 font-semibold">
-                Popularity Rankings
+                Popularity Ranking
             </h3>
             <Divider className="mt-2"></Divider>
         </div>
@@ -43,7 +43,7 @@ export default function SideRankingDisplay ({rankingList}:SideRankingDisplayProp
                         <Link className="rank-grid max-w-[320px] gap-2 items-center" href={`/read/${wt.slug}`} color="foreground">
                         
                         <div className="relative w-full flex-1 h-[80px]">
-                            <NextImage src={wt.image} alt={`Cover image of ${wt.name} at rank ${idx}`} fill sizes="(max-width:600px) 15vw, (max-width:1200px) 10vw, 10vw" className="rounded object-contain"></NextImage>
+                            <NextImage src={wt.image} alt={`Cover image of ${wt.name} at rank ${idx}`} fill sizes="(max-width:600px) 15vw, (max-width:1200px) 10vw, 10vw" className="rounded object-cover"></NextImage>
 
                         </div>
                         <div className="flex flex-col">

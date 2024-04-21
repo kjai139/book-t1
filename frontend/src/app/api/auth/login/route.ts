@@ -47,10 +47,10 @@ export async function POST(req:NextRequest) {
                 }
             }
 
-    } catch (err) {
+    } catch (err:any) {
         console.log(err)
         return NextResponse.json({
-            message: err
+            message: err.message
         }, {
             status: 500
         })

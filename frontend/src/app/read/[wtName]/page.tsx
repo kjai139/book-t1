@@ -3,7 +3,6 @@ import SaveBookmarkBtn from "@/app/_components/button/saveBookmark";
 import ChList from "@/app/_components/list/chList";
 import LastRead from "@/app/_components/localstorage/lastRead";
 import Rating from "@/app/_components/rating/starRating";
-import apiUrl from "@/app/_utils/apiEndpoint";
 import { Button, Divider, Image, Link } from "@nextui-org/react";
 import { notFound } from "next/navigation";
 import SideRankingDisplay from "@/app/_components/sidebar/sideRankings";
@@ -11,6 +10,7 @@ import { dbConnect } from "@/app/_utils/db";
 import Genre from "@/app/_models/genre"
 import Wt from "@/app/_models/wt";
 import Wtc from "@/app/_models/wtChapter";
+import { ThemeSwitcher } from "@/app/_components/themeSwitcher";
 
 
 
@@ -129,11 +129,14 @@ export default async function WtPage({params}:any) {
 
     return (
         <main>
+            {/* <div className="w-full justify-end flex mw py-2 px-4">
+            <ThemeSwitcher></ThemeSwitcher>
+            </div> */}
             
-            <div className="flex flex-col lg:flex-row max-w-[1024px] gap-4 p-2 pt-0 w-full">
+            <div className="flex flex-col lg:flex-row max-w-[1024px] gap-4 pt-0 w-full lg:gap-1">
                 
             
-        <div className="lg:max-w-[750px] md:py-8 lg:py-8 lg:my-8 sm:p-8 bg-content1 p-2 rounded lg:shadow flex flex-col gap-4 my-0 w-full">
+        <div className="lg:max-w-[750px] md:py-8 sm:p-8 bg-content1 p-2 lg:shadow flex flex-col gap-4 my-0 w-full">
         {/* <div className="max-w-[1024px] flex justify-end">
             <ThemeSwitcher></ThemeSwitcher>
             </div> */}
@@ -144,7 +147,7 @@ export default async function WtPage({params}:any) {
             </span>
             <div className="items-center flex flex-col gap-8">
                 <BreadCrumbs wtUrl={wt.wt.name}></BreadCrumbs>
-                <div className="flex flex-col sm:flex-row sm:gap-4 gap-4">
+                <div className="flex flex-col sm:flex-row sm:gap-4 gap-4 p-1">
                 <div className="flex flex-col gap-4 justify-between">
                 <Image src={wt.wt.image} alt={`Cover image of ${wt.wt.name}`} className="sm:max-h-[240px]"></Image>
                 <SaveBookmarkBtn image={wt.wt.image} wTstatus={wt.wt.status} wtName={wt.wt.name} wtGenres={wt.wt.genres}></SaveBookmarkBtn>

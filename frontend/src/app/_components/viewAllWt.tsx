@@ -73,14 +73,15 @@ export default function ViewallWt () {
             </div>
             <Divider className="mt-4"></Divider>
             <div className="justify-start flex items-center">
-                {totalWt && isResultOut &&!isLoading &&
+                {totalWt && isResultOut && !isLoading ?
                 <span className="font-semibold">
                     Results: ( {totalWt} )
-                </span>
+                </span> : null
                 }
                 {
-                    !totalWt && isResultOut && !isLoading &&
-                    <span className="font-semibold">No matching results.</span>
+                    !totalWt && isResultOut && !isLoading ?
+                    <span className="font-semibold">No matching results.</span> : 
+                    null
                 }
                 
             </div>

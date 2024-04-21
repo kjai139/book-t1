@@ -10,8 +10,8 @@ import { IoIosAlert } from 'react-icons/io'
 import { useAuth } from '@/app/_contexts/authContext'
 
 const schema = yup.object({
-    username: yup.string().required('A username is required'),
-    password: yup.string().required('A password is required'),
+    username: yup.string().required('A username is required').max(15),
+    password: yup.string().required('A password is required').max(20),
     
     
 })
@@ -90,7 +90,7 @@ export default function LoginForm () {
             </span>
             <div>
             <label htmlFor='username'>Username</label>
-            <input {...register('username')} id='username' autoComplete='off' maxLength={20} className='bg-default w-full rounded p-1'></input>
+            <input {...register('username')} id='username' autoComplete='off' maxLength={15} className='bg-default w-full rounded p-1'></input>
             <p className='text-warning'>{errors.username?.message}</p>
             </div>
             
