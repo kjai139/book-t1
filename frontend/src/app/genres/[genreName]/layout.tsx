@@ -8,15 +8,12 @@ export async function generateStaticParams() {
         const allGenres = await Genre.find()
        
         
-
-        /* const genres = await allGenres.json() */
-        /* console.log('genres in static layout', genres) */
-        console.log('Genres from generating genre params', allGenres)
         return allGenres.map((gen) => ({
             genreName: gen.slug
         }))
     } catch (err) {
         console.error(err)
+        return []
     }
 }
 
