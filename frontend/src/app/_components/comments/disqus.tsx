@@ -1,4 +1,5 @@
 'use client'
+import { Divider } from "@nextui-org/react";
 import { CommentCount, DiscussionEmbed } from "disqus-react";
 
 interface DisqusCommentsProps {
@@ -9,9 +10,12 @@ interface DisqusCommentsProps {
 
 export default function DisqusComments ({slug, identifier, title}:DisqusCommentsProps) {
     return (
-        <div className="p-4 bg-inherit text-default-500">
+        <div className="disqus-cont bg-inherit font-semibold flex flex-col p-2">
+            <span className="font-semibold p-4">
             <h3>Comments for {title}</h3>
-        <CommentCount shortname={process.env.NEXT_PUBLIC_DISQUS_SN as string}
+            </span>
+            <Divider></Divider>
+        {/* <CommentCount shortname={process.env.NEXT_PUBLIC_DISQUS_SN as string}
         config={
             {
                 url:`${process.env.NEXT_PUBLIC_HOME_DOMAIN}/${slug}`,
@@ -21,7 +25,7 @@ export default function DisqusComments ({slug, identifier, title}:DisqusComments
 
         }>
 
-        </CommentCount>
+        </CommentCount> */}
         <DiscussionEmbed 
         shortname={process.env.NEXT_PUBLIC_DISQUS_SN as string}
         config={
