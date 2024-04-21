@@ -140,7 +140,7 @@ export default async function WtPage({params}:any) {
             <div className="flex flex-col lg:flex-row max-w-[1024px] gap-4 pt-0 w-full lg:gap-1">
                 
             
-        <div className="lg:max-w-[750px] md:py-8 sm:p-8 bg-content1 p-2 lg:shadow flex flex-col gap-4 my-0 w-full">
+        <div className="lg:max-w-[750px] bg-content1 p-2 lg:bg-inherit flex flex-col gap-4 my-0 w-full">
         {/* <div className="max-w-[1024px] flex justify-end">
             <ThemeSwitcher></ThemeSwitcher>
             </div> */}
