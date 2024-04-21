@@ -16,6 +16,11 @@ body {
  
 }
 
+/* have to set dark theme color scheme to light because disqus would spawn a white background under white text in dark for some reason */
+.dTheme {
+  color-scheme: light;
+}
+
 html, .bmark-cont {
   scrollbar-width: thin;
 }

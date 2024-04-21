@@ -70,6 +70,7 @@ const config: Config = {
           content2: "#ffffff",
 
         },
+        
       },
       'lTheme': {
         extend: 'light',

@@ -1,6 +1,7 @@
 'use client'
 import { Divider } from "@nextui-org/react";
 import { CommentCount, DiscussionEmbed } from "disqus-react";
+import { useTheme } from "next-themes";
 
 interface DisqusCommentsProps {
     slug:string,
@@ -9,6 +10,8 @@ interface DisqusCommentsProps {
 }
 
 export default function DisqusComments ({slug, identifier, title}:DisqusCommentsProps) {
+
+    const { theme } = useTheme()
     return (
         <div className="disqus-cont font-semibold flex flex-col">
             <span className="font-semibold p-4">
@@ -26,7 +29,7 @@ export default function DisqusComments ({slug, identifier, title}:DisqusComments
         }>
 
         </CommentCount> */}
-        <DiscussionEmbed 
+        <DiscussionEmbed key={theme} 
         shortname={process.env.NEXT_PUBLIC_DISQUS_SN as string}
         config={
             {

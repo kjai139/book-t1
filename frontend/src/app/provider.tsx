@@ -9,7 +9,7 @@ export function Providers({children}: { children: React.ReactNode}) {
     const router = useRouter()
     return (
         <NextUIProvider navigate={router.push}>
-            <NextThemesProvider attribute="class" defaultTheme="dTheme" themes={['dTheme','lTheme']} enableColorScheme={false}>
+            <NextThemesProvider attribute="class" defaultTheme="dTheme" themes={['dTheme','lTheme']}>
                 <AuthProvider>
                 {children}
                 </AuthProvider>
