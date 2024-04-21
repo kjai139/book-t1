@@ -11,7 +11,7 @@ export async function generateStaticParams() {
 
         /* const genres = await allGenres.json() */
         /* console.log('genres in static layout', genres) */
-        /* console.log('Genres from generating genre params', allGenres) */
+        console.log('Genres from generating genre params', allGenres)
         return allGenres.map((gen) => ({
             genreName: gen.slug
         }))
@@ -21,7 +21,7 @@ export async function generateStaticParams() {
 }
 
 
-export default function Layout({children, params}:any) {
+export default function Layout({children, params}:{children:any, params: {genreName:string}}) {
     return (
         <>
         {children}
