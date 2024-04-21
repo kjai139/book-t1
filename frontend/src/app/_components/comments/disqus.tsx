@@ -10,10 +10,10 @@ interface DisqusCommentsProps {
 export default function DisqusComments ({slug, identifier, title}:DisqusCommentsProps) {
     return (
         <>
-        <CommentCount shortname={process.env.DISQUS_SN as string}
+        <CommentCount shortname={process.env.NEXT_PUBLIC_DISQUS_SN as string}
         config={
             {
-                url:`${process.env.HOME_DOMAIN}/${slug}`,
+                url:`${process.env.NEXT_PUBLIC_HOME_DOMAIN}/${slug}`,
                 identifier: identifier,
                 title: title,
             }
@@ -22,10 +22,10 @@ export default function DisqusComments ({slug, identifier, title}:DisqusComments
 
         </CommentCount>
         <DiscussionEmbed 
-        shortname={process.env.DISQUS_SN as string}
+        shortname={process.env.NEXT_PUBLIC_DISQUS_SN as string}
         config={
             {
-                url:`${process.env.HOME_DOMAIN}/${slug}`,
+                url:`${process.env.NEXT_PUBLIC_HOME_DOMAIN}/${slug}`,
                 identifier: identifier,
                 title: title,
                 language: 'en_EN'
