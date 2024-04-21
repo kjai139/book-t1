@@ -9,7 +9,8 @@ interface DisqusCommentsProps {
 
 export default function DisqusComments ({slug, identifier, title}:DisqusCommentsProps) {
     return (
-        <>
+        <div className="p-4 bg-inherit text-default-500">
+            <h3>Comments for {title}</h3>
         <CommentCount shortname={process.env.NEXT_PUBLIC_DISQUS_SN as string}
         config={
             {
@@ -34,6 +35,6 @@ export default function DisqusComments ({slug, identifier, title}:DisqusComments
         }>
 
         </DiscussionEmbed>
-        </>
+        </div>
     )
 }

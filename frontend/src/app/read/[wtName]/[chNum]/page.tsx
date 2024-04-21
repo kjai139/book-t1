@@ -12,6 +12,7 @@ import Wt from "@/app/_models/wt";
 import Wtc from "@/app/_models/wtChapter";
 import WtPage from "@/app/_models/wtPage"
 import { dbConnect } from "@/app/_utils/db";
+import DisqusComments from "@/app/_components/comments/disqus";
 
 export async function generateStaticParams({
     params: { wtName }
@@ -223,6 +224,7 @@ export default async function Page({params}:{params: {wtName: string; chNum: str
 
                 </div>
             </div>
+            <DisqusComments slug={`/read/${params.wtName}/${params.chNum}`} title={content.wtc.name} identifier={content.wtc._id}></DisqusComments>
 
 
         </div>
