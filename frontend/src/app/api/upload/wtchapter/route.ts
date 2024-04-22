@@ -52,7 +52,11 @@ export async function POST(req:NextRequest) {
     try {
         const isLoggedIn = await verifySession()
         if (!isLoggedIn) {
-            return NextResponse.redirect(new URL('/login', req.url))
+            return NextResponse.json({
+                message: 'User is not logged in'
+            }, {
+                status:401
+            })
         }
         const formData = await req.formData()
         const name = formData.get('name')

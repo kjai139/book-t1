@@ -36,7 +36,8 @@ export default function PbNavSearch () {
                 const response = await fetch(`/api/wt/search?name=${input}`, {
                     method: 'GET',
                     next: {
-                        revalidate: 1
+                        revalidate: 60 * 60,
+                        tags: ['updateContent']
                     }
                 })
 
