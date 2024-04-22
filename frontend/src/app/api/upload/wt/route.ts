@@ -3,6 +3,7 @@ import { S3Client, PutObjectCommand, DeleteObjectCommand } from "@aws-sdk/client
 import Wt from "@/app/_models/wt";
 import { verifySession } from "@/app/_lib/dal";
 import { refreshSession } from "@/app/_lib/session";
+import { dbConnect } from "@/app/_utils/db";
 
 const s3Client = new S3Client({
     region: process.env.S3_REGION as string,
@@ -110,6 +111,7 @@ async function uploadFileToS3AndDb(fileBuffer:Buffer, filename:string, fileType:
 
 export async function POST(req:NextRequest) {
     try {
+        await dbConnect()
         const isLoggedIn = await verifySession()
         if (!isLoggedIn) {
             return NextResponse.json({

@@ -6,6 +6,7 @@ import WtPage from "@/app/_models/wtPage";
 import Wt from "@/app/_models/wt";
 import { verifySession } from "@/app/_lib/dal";
 import { refreshSession } from "@/app/_lib/session";
+import { dbConnect } from "@/app/_utils/db";
 
 async function uploadToS3AndCreatePg(fileBuffer:Buffer, filename:string, fileType:string, pageNum:number, dirName:string, chRef:string, height:string, width:string) {
     try {
@@ -50,6 +51,7 @@ async function uploadToS3AndCreatePg(fileBuffer:Buffer, filename:string, fileTyp
 
 export async function POST(req:NextRequest) {
     try {
+        await dbConnect()
         const isLoggedIn = await verifySession()
         if (!isLoggedIn) {
             return NextResponse.json({

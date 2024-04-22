@@ -96,7 +96,7 @@ export default function PbNavSearch () {
 
 
     return (
-        <Popover className="relative p-2" isOpen={isSearchOpen} onOpenChange={onOpenChange}>
+        <Popover className="relative p-2" isOpen={isSearchOpen} onOpenChange={onOpenChange} radius="sm">
             <PopoverTrigger>
             <Button isIconOnly>
                 <FaSearch></FaSearch>
@@ -108,6 +108,7 @@ export default function PbNavSearch () {
                 size="sm"
                 aria-label="Search input"
                 value={query}
+                radius="sm"
                 onValueChange={handleInputChange}
                 className="w-full p-1"
                 isClearable
@@ -116,7 +117,7 @@ export default function PbNavSearch () {
                 </Input>
                 
                 {result &&
-                <ul className="flex flex-col max-h-[400px] overflow-auto">
+                <ul className="flex flex-col max-h-[400px] overflow-auto search-cont">
                     {result.map((node:any) => {
                         const genres = node.genres.map((node:any) => node.name).join(', ')
 
@@ -129,7 +130,7 @@ export default function PbNavSearch () {
                                 }}></NextImage>
                             </div>
                             <div className="flex flex-col flex-1 p-2">
-                                <span className="font-semibold text-xs">{node.name}</span>
+                                <span className="font-semibold text-xs mb-1">{node.name}</span>
                                 <span className="text-xs text-default-500">Status: {node.status}</span>
                                 <span className="text-xs text-default-500 search-txt">
                                     {genres}

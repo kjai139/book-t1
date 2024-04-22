@@ -21,9 +21,6 @@ body {
   color-scheme: light;
 }
 
-html, .bmark-cont {
-  scrollbar-width: thin;
-}
 
 
 
@@ -142,7 +139,44 @@ main {
 .chList-cont::-webkit-scrollbar-thumb {
   background-color: #4098D7;
   border-radius: 8px;
+  width: 5px;
 }
+
+.bmark-cont, .search-cont {
+  scrollbar-width: thin;
+  scrollbar-color: #4098D7 black;
+  border-radius: 8px;
+}
+
+html {
+  scrollbar-width: thin;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+/* .lTheme ::-webkit-scrollbar-track {
+  
+}
+
+
+.lTheme ::-webkit-scrollbar-thumb {
+  
+  border-radius: 8px;
+} */
+
+
+
+.bmark-cont::-webkit-scrollbar {
+  background-color: #4098D7;
+  scrollbar-color: #4098D7 black;
+  border-radius: 8px;
+}
+
+
+
+
 
 .slider-txt-cont {
   backdrop-filter: blur(0.8rem);

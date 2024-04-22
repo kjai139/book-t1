@@ -1,9 +1,9 @@
 import { NextRequest, NextResponse } from "next/server"
-import { object, string, InferType } from 'yup'
+import { object, string } from 'yup'
 import User from "@/app/_models/users"
 const bcrypt = require('bcrypt')
-import { cookies } from "next/headers"
 import { createSession } from "@/app/_lib/session"
+import { dbConnect } from "@/app/_utils/db"
 
 let userSchema = object({
     username: string().required().max(15),
@@ -13,7 +13,9 @@ let userSchema = object({
 export async function POST(req:NextRequest) {
     const body = await req.json()
     try {
+       
         await userSchema.validate(body)
+        await dbConnect()
 
         const normalizedName = body.username.toLowerCase()
         const theUser = await User.findOne({lcname: normalizedName})
