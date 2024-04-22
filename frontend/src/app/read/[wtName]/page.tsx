@@ -10,7 +10,6 @@ import { dbConnect } from "@/app/_utils/db";
 import Genre from "@/app/_models/genre"
 import Wt from "@/app/_models/wt";
 import Wtc from "@/app/_models/wtChapter";
-import { ThemeSwitcher } from "@/app/_components/themeSwitcher";
 import DisqusComments from "@/app/_components/comments/disqus";
 
 
@@ -20,9 +19,8 @@ async function getWts(params:any) {
     console.log('PARAMS IN getWTS:', params)
     try {
         await dbConnect()
-        const wt = await Wt.findOne({slug:params.wtName}).populate({ path:'genres', model: Genre })
+        const wt = await Wt.findOne({slug:params.wtName}).populate({ path:'genres', model: Genre, options: { sort:{name: 'asc'}} })
 
-        /* const wtChapters = await Wtc.find({wtRef: wt._id}).sort({chapterNumber: -1}) */ 
 
         const totalCh = await Wtc.find({wtRef: wt._id}).sort({chapterNumber: -1})
 
@@ -67,7 +65,7 @@ export async function generateMetadata({params}:any) {
 async function getRankings () {
     try {
         await dbConnect()
-        const monthlyRanking = await Wt.find({}).sort({monthlyViews: -1, name: -1}).limit(10).populate({ path:'genres', model: Genre })
+        const monthlyRanking = await Wt.find({}).sort({monthlyViews: -1, name: -1}).limit(10).populate({ path:'genres', model: Genre, options: { sort: {name: 'asc'}} })
         
         const json = {
             rankings: monthlyRanking
@@ -125,9 +123,8 @@ export default async function WtPage({params}:any) {
 
     const lastChapterNum = wt.totalCh[0].chapterNumber
 
-    const sortedGenres = wt.wt.genres.sort((a:any, b:any) => {
-        return (a.name > b.name ? 1 : (a.name === b.name ? 0 : -1))
-    })
+    
+    
 
     
 
@@ -194,7 +191,7 @@ export default async function WtPage({params}:any) {
                 </div>
                 
                 <div className="flex gap-2 flex-wrap max-w-[630px]">
-                {sortedGenres.map((genre:any) => {
+                {wt.wt.genres.map((genre:any) => {
                     return (
                         <Button as={Link} href={`/genres/${genre.slug}`} aria-label={`Check the ${genre.name} genre collection`} key={genre._id} size="sm" radius="full">
                             {genre.name}

@@ -1,6 +1,6 @@
-import apiUrl from "@/app/_utils/apiEndpoint";
+
 import { Button, Input, Link, Popover, PopoverContent, PopoverTrigger } from "@nextui-org/react";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState, useMemo } from "react";
 import { FaSearch } from "react-icons/fa";
 import NextImage from "next/image";
 import { usePathname } from "next/navigation";
@@ -18,16 +18,8 @@ export default function PbNavSearch () {
     const [isLoading, setIsLoading] = useState(false)
     const pathname = usePathname()
 
-    
-    
-    const debounce = useCallback((callback:any, delay:number) => {
-        let timeoutId:any
-    
-        return (...args:any) => {
-            clearTimeout(timeoutId)
-            timeoutId = setTimeout(() => callback(...args), delay)
-        }
-    }, [])
+    console.log('RE RENDER SEARCHBAR')
+
 
     const search = useCallback(async (input:string) => {
         try {
@@ -68,23 +60,34 @@ export default function PbNavSearch () {
             setResultError(true)
         }
     }, [])
-    //useMemo for result of function, useCallback for functions 
-    /* const debouncedSearch = useMemo(() => debounce(search, 3000), [debounce, search]); */
 
-    const debouncedSearch = useCallback(debounce(search, 1500), [search])
+    const debounce = (callback:any, delay:number) => {
+        let timeoutId:any
+    
+        return (...args:any) => {
+            clearTimeout(timeoutId)
+            timeoutId = setTimeout(() => callback(...args), delay)
+        }
+    }
+ 
 
-    const handleInputChange = useCallback((value:any) => {
+    const debouncedSearch = useMemo(() => {
+        return debounce(search, 1500)
+    }, [])
+
+    const handleInputChange = (value:any) => {
         setQuery(value)
         debouncedSearch(value)
-    }, [])
+    }
 
     const onOpenChange = () => {
         setResult(null)
         setQuery('')
         setNoResult(false)
         setIsSearchOpen((prev)=> !prev)
-        
     }
+
+   
 
     useEffect(() => {
         setResult(null)

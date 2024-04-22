@@ -7,7 +7,7 @@ import PbNavSearch from "./button/pbSearch";
 import { usePathname } from "next/navigation";
 import homeIcon from '../apple-icon.png'
 import NextImage from "next/image";
-import { serverLogUserOut, serverVerifyJwt } from "../actions";
+import { serverLogUserOut } from "../actions";
 import { useAuth } from "../_contexts/authContext";
 import { ThemeSwitcher } from "./themeSwitcher";
 
@@ -20,7 +20,6 @@ interface MenuItems {
 
 export default function MainHeaderNav () {
 
-    const pathname = usePathname()
     const [isMenuOpen, setIsMenuOpen] = useState(false)
     const [menuItems, setMenuItems] = useState<MenuItems[]>([])
     const [errorMsg, setErrorMsg] = useState('')
