@@ -18,8 +18,6 @@ export default function PbNavSearch () {
     const [isLoading, setIsLoading] = useState(false)
     const pathname = usePathname()
 
-    console.log('RE RENDER SEARCHBAR')
-
 
     const search = useCallback(async (input:string) => {
         try {
