@@ -1,6 +1,6 @@
 
 import { Button, Input, Link, Popover, PopoverContent, PopoverTrigger } from "@nextui-org/react";
-import { useCallback, useEffect, useState, useMemo } from "react";
+import { useCallback, useEffect, useState, useMemo, useRef } from "react";
 import { FaSearch } from "react-icons/fa";
 import NextImage from "next/image";
 import { usePathname } from "next/navigation";
@@ -17,6 +17,8 @@ export default function PbNavSearch () {
     const [resultError, setResultError] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
     const pathname = usePathname()
+    const searchInputRef = useRef<any>(null)
+    const observerRef = useRef<any>(null)
 
 
     const search = useCallback(async (input:string) => {
@@ -85,6 +87,26 @@ export default function PbNavSearch () {
         setIsSearchOpen((prev)=> !prev)
     }
 
+    useEffect(() => {
+        const handleScroll = () => {
+            if (isSearchOpen) {
+                setIsSearchOpen(false)
+            }
+        }
+        if (isSearchOpen && searchInputRef.current) {
+            searchInputRef.current.focus()
+        }
+        if (isSearchOpen) {
+            window.addEventListener('scroll', handleScroll)
+        }
+        return () => {
+            window.removeEventListener('scroll', handleScroll)
+        }
+        
+
+        
+    }, [isSearchOpen])
+
    
 
     useEffect(() => {
@@ -113,6 +135,7 @@ export default function PbNavSearch () {
                 onValueChange={handleInputChange}
                 className="w-full rounded-lg rounded-b-none"
                 isClearable
+                ref={searchInputRef}
                 
                 >
                 </Input>
