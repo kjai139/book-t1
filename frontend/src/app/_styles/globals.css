@@ -101,6 +101,7 @@ main {
   display: flex;
   flex-direction: column;
   white-space: nowrap;
+  gap:.25rem;
 }
 
 .slick-dots li button:before {
@@ -144,7 +145,7 @@ main {
 
 .bmark-cont, .search-cont {
   scrollbar-width: thin;
-  scrollbar-color: #4098D7 black;
+  scrollbar-color: #4098D7 inherit;
   border-radius: 8px;
 }
 
@@ -156,15 +157,21 @@ html {
   width: 8px;
 }
 
-/* .lTheme ::-webkit-scrollbar-track {
-  
+.dTheme .bmark-cont, .dTheme .search-cont {
+  scrollbar-width: thin;
+  scrollbar-color: #4098D7 black;
+  border-radius: 8px;
+} 
+
+.dTheme ::-webkit-scrollbar-track {
+  color: black;
 }
 
 
 .lTheme ::-webkit-scrollbar-thumb {
   
   border-radius: 8px;
-} */
+}
 
 
 
@@ -309,7 +316,7 @@ html {
     /* filter: brightness(0.5); */
   }
   50% {
-    opacity: 0.75;
+    opacity: 0.65;
     /* filter: brightness(1.2); */
   }
   100% {

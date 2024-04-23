@@ -103,15 +103,15 @@ export default function PbNavSearch () {
                 <FaSearch></FaSearch>
             </Button>
             </PopoverTrigger>
-            <PopoverContent>
+            <PopoverContent className="p-0 shadow">
                 <Input
                 label="Search"
                 size="sm"
                 aria-label="Search input"
                 value={query}
-                radius="sm"
+                radius="none"
                 onValueChange={handleInputChange}
-                className="w-full p-1"
+                className="w-full rounded-lg rounded-b-none"
                 isClearable
                 
                 >

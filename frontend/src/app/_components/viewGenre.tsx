@@ -103,12 +103,12 @@ export default function ViewGenreWt ({wtsArr, totalPg, genreName}:ViewGenreWtPro
                     return (
                     <div key={`${node._id}-gch`}>
                     <Link color="foreground" href={`/read/${slug}/${node.chapterNumber}`} isBlock className="flex gap-1 items-center">
-                    <span className="text-xs sm:text-sm py-1">{`Chapter ${node.chapterNumber}`}</span>
+                    <span className="text-sm py-1">{`Chapter ${node.chapterNumber}`}</span>
                     
                     {formatDateDMY(node.releasedAt) === 'New' ?
 
                     <span className={`text-xs text-danger-600 font-bold pulsate flex-1 text-center`}>
-                        <span className="bg-danger-600 text-white px-2 rounded">
+                        <span className="bg-danger-600 text-white px-2 rounded py-[2px]">
                         {formatDateDMY(node.releasedAt)}
                         </span>
                         </span>:
@@ -130,14 +130,7 @@ export default function ViewGenreWt ({wtsArr, totalPg, genreName}:ViewGenreWtPro
           <Pagination total={totalPages} page={curPg} onChange={setCurPg} className="w-full" showControls>
 
            </Pagination>
-           {/* <div className="flex justify-between">
-            <Button size="sm" variant="flat" onPress={() => setCurPg((prev) => (prev > 1 ? prev - 1 : prev))} isDisabled={curPg === 1 ? true : false}>
-                Prev
-            </Button>
-            <Button size="sm" variant="flat" onPress={() => setCurPg((prev) => (prev < totalPages ? prev + 1 : prev))} isDisabled={curPg < totalPages ? false : true}>
-                Next
-            </Button>
-           </div> */}
+          
            </> : 
            <></>
            }

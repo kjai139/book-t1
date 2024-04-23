@@ -2,11 +2,9 @@
 import { Divider, Link } from "@nextui-org/react"
 import NextImage from "next/image"
 import { formatDateDMY } from './_utils/dates'
-import apiUrl from "./_utils/apiEndpoint"
 import StarsOnly from "./_components/rating/starsDisplayOnly"
 import MainDynamicSlide from "./_components/slider/mainSlider"
 import RankingDisplay from "./_components/footer/ranking"
-import { ThemeSwitcher } from "./_components/themeSwitcher"
 import Wt from "./_models/wt"
 import Wtc from "./_models/wtChapter"
 import Genre from "./_models/genre"
@@ -14,9 +12,6 @@ import { dbConnect } from "./_utils/db"
 
 
 
-interface Updates {
-
-}
 
 async function GetHomeUpdates() {
     await dbConnect()
@@ -195,12 +190,12 @@ export default async function Home() {
                 return (
                   <div key={node._id}>
                   <Link color="foreground" href={`/read/${slug}/${node.chapterNumber}`} className="flex gap-1 items-center" isBlock>
-                  <span className="text-xs sm:text-sm py-1">{`Chapter ${node.chapterNumber}`}</span>
+                  <span className="text-sm py-1">{`Chapter ${node.chapterNumber}`}</span>
                   
                   {formatDateDMY(node.releasedAt) === 'New' ?
 
-                  <span className={`text-xs text-danger-600 font-bold flex-1 text-center`}>
-                    <span className="bg-danger-600 text-foreground px-2 rounded">
+                  <span className={`text-xs sm:text-sm text-danger-600 font-bold flex-1 text-center`}>
+                    <span className="bg-danger-600 text-foreground px-2 py-[2px] rounded">
                       <span className="pulsate">
                     {formatDateDMY(node.releasedAt)}
                     </span>

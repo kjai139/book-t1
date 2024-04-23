@@ -120,16 +120,13 @@ export default function MainHeaderNav () {
           <NavbarContent className="sm:hidden pr-3" justify="center">
             <NavbarBrand>
               
-              {/* <p className="font-bold text-inherit">ACME</p> */}
             </NavbarBrand>
           </NavbarContent>
     
-          {/* <NavbarContent className="hidden sm:flex gap-4" justify="center">
-            
-          </NavbarContent> */}
+         
     
           <NavbarContent justify="end">
-            <NavbarItem>
+            <NavbarItem className="mr-2">
               <PbNavSearch></PbNavSearch>
             </NavbarItem>
             <NavbarItem>

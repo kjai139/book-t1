@@ -130,7 +130,7 @@ export default function ViewallWt () {
                   {formatDateDMY(node.releasedAt) === 'New' ?
 
                   <span className={`text-xs text-danger-600 font-bold flex-1 text-center`}>
-                    <span className="bg-danger-600 text-foreground px-2 rounded">
+                    <span className="bg-danger-600 text-foreground px-2 rounded py-[2px]">
                       <span className="pulsate">
                     {formatDateDMY(node.releasedAt)}
                     </span>
