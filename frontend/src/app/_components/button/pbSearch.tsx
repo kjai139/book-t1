@@ -99,7 +99,7 @@ export default function PbNavSearch () {
     return (
         <Popover className="relative p-2" isOpen={isSearchOpen} onOpenChange={onOpenChange} radius="sm">
             <PopoverTrigger>
-            <Button isIconOnly>
+            <Button isIconOnly aria-label="Toggle Searchbar">
                 <FaSearch></FaSearch>
             </Button>
             </PopoverTrigger>

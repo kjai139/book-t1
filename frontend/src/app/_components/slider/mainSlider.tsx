@@ -27,7 +27,7 @@ export default function MainDynamicSlide ({slideArr}:MainDynamicSlideProps) {
         arrows: false,
         initialSlide: 0,
         pauseonHover: true,
-        lazyLoad: true,
+        /* lazyLoad: true, */
         className: 'w-[100%] p-2',
         appendDots: (dots:any) => (
             <div style={{
@@ -55,8 +55,9 @@ export default function MainDynamicSlide ({slideArr}:MainDynamicSlideProps) {
                     autoplaySpeed: 15000,
                     speed:500,
                     arrows: false,
+                    initialSlide: 0,
                     pauseonHover: true,
-                    lazyLoad:true,
+                    /* lazyLoad:true, */
                     className: 'w-[100%] p-2',
                     appendDots: (dots:any) => (
                         <div style={{
@@ -89,7 +90,8 @@ export default function MainDynamicSlide ({slideArr}:MainDynamicSlideProps) {
                     speed:500,
                     arrows: false,
                     pauseonHover: true,
-                    lazyLoad:true,
+                    /* lazyLoad:true, */
+                    initialSlide: 0,
                     className: 'w-[100%] p-2',
                     appendDots: (dots:any) => (
                         <div style={{
@@ -122,7 +124,7 @@ export default function MainDynamicSlide ({slideArr}:MainDynamicSlideProps) {
                     speed:500,
                     arrows: false,
                     pauseonHover: true,
-                    lazyLoad: true,
+                    /* lazyLoad: true, */
                     initialSlide: 0,
                     className: 'w-[100%] p-2',
                     appendDots: (dots:any) => (
@@ -182,7 +184,7 @@ export default function MainDynamicSlide ({slideArr}:MainDynamicSlideProps) {
                                     </p>
                                 </span>
                                 <div className='pb-2 mt-2 flex justify-center sm:mt-8 sm:pr-4 sm:justify-end'>
-                                <Button variant='solid' color='default' size='sm' radius='full' as={Link} href={`/read/${slide.slug}`} className=' lg:w-[200px] lg:h-[55px] font-semibold lg:text-base' startContent={<FaPlay></FaPlay>}>Start Reading</Button>
+                                <Button variant='solid' color='default' size='sm' radius='full' aria-label={`Read ${slide.name}`} as={Link} href={`/read/${slide.slug}`} className=' lg:w-[200px] lg:h-[55px] font-semibold lg:text-base' startContent={<FaPlay></FaPlay>}>Start Reading</Button>
                                 </div>
                                 </div>
                             </div>
