@@ -5,7 +5,7 @@ import NextImage from "next/image";
 import StarsOnly from "./rating/starsDisplayOnly";
 import { formatDateDMY } from "../_utils/dates";
 import { useEffect, useState } from "react";
-import apiUrl from "../_utils/apiEndpoint";
+
 
 interface ViewGenreWtProps {
     wtsArr: {wts:[{book:any, chapters:[any]}], totalPages:number},

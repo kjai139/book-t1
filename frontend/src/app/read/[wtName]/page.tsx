@@ -150,7 +150,7 @@ export default async function WtPage({params}:any) {
                 <BreadCrumbs wtUrl={wt.wt.name}></BreadCrumbs>
                 <div className="flex flex-col sm:flex-row sm:gap-4 gap-4 p-1">
                 <div className="flex flex-col gap-4 justify-between">
-                <Image src={wt.wt.image} alt={`Cover image of ${wt.wt.name}`} className="sm:max-h-[240px]"></Image>
+                <Image src={wt.wt.image} loading="lazy" alt={`Cover image of ${wt.wt.name}`} className="sm:max-h-[240px]"></Image>
                 <SaveBookmarkBtn image={wt.wt.image} wTstatus={wt.wt.status} wtName={wt.wt.name} wtGenres={wt.wt.genres}></SaveBookmarkBtn>
                 </div>
 

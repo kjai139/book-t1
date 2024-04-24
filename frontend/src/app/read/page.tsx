@@ -13,7 +13,9 @@ export default function Readpg () {
             <div className="p-4">
                 <div className="flex justify-between items-center">
                 <h3>All Webtoons</h3>
+                <div className="sm:hidden">
                 <ThemeSwitcher></ThemeSwitcher>
+                </div>
                 </div>
                 <Divider className="mt-2"></Divider>
             </div>
