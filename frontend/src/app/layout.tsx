@@ -10,6 +10,7 @@ import SiteData from '@/app/_models/siteData'
 import { dbConnect } from "./_utils/db";
 import { Viewport } from "next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
+import NextTopLoader from "nextjs-toploader";
 
 
 const inter = Inter({ subsets: ["latin"] });
@@ -66,11 +67,12 @@ export default function RootLayout({
       <html lang="en" className="dTheme" suppressHydrationWarning>
         <body className={`${inter.className} bg-background-100`}>
         <Providers>
-        
-        <MainHeaderNav></MainHeaderNav>
-        {children}
-        <MainFooter></MainFooter>
-        <SpeedInsights></SpeedInsights>
+          <NextTopLoader color="#4098D7" showSpinner={false}></NextTopLoader>
+          
+          <MainHeaderNav></MainHeaderNav>
+          {children}
+          <MainFooter></MainFooter>
+          <SpeedInsights></SpeedInsights>
         
         </Providers>
         
