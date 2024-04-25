@@ -11,6 +11,7 @@
   "dependencies": {
     "@aws-sdk/client-s3": "^3.556.0",
     "@hookform/resolvers": "^3.3.4",
+    "@next/third-parties": "^14.2.3",
     "@nextui-org/react": "^2.3.5",
     "@upstash/ratelimit": "^1.1.1",
     "@upstash/redis": "^1.29.0",
@@ -21,7 +22,7 @@
     "framer-motion": "^11.1.7",
     "jose": "^5.2.4",
     "mongoose": "^8.3.2",
-    "next": "^14.2.2",
+    "next": "^14.2.3",
     "next-themes": "^0.3.0",
     "nextjs-toploader": "^1.6.12",
     "react": "^18",

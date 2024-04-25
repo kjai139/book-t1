@@ -4,14 +4,13 @@ import './_styles/globals.css'
 import { Providers } from "./provider";
 import MainHeaderNav from "./_components/mainHeaderNav";
 import MainFooter from "./_components/footer/mainFooter";
-import GoogleAnalytics from "./_components/gTag";
 import { headers } from "next/headers";
 import SiteData from '@/app/_models/siteData'
 import { dbConnect } from "./_utils/db";
 import { Viewport } from "next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import NextTopLoader from "nextjs-toploader";
-
+import { GoogleTagManager } from "@next/third-parties/google";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -65,6 +64,7 @@ export default function RootLayout({
 
   return (
       <html lang="en" className="dTheme" suppressHydrationWarning>
+        <GoogleTagManager gtmId="GTM-TLX8N5ZF"></GoogleTagManager>
         <body className={`${inter.className} bg-background-100`}>
         <Providers>
           <NextTopLoader color="#4098D7" showSpinner={false}></NextTopLoader>
@@ -77,7 +77,6 @@ export default function RootLayout({
         </Providers>
         
         </body>
-        <GoogleAnalytics nonce={nonce}></GoogleAnalytics>
       </html>
    
   );
