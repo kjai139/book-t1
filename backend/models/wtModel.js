@@ -75,6 +75,9 @@ const WTSchema = new Schema({
         type:Boolean,
         default: false
     },
+    scUrl: {
+        type:String,
+    }
    
 })
 

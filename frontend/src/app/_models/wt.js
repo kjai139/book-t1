@@ -74,6 +74,9 @@ const WTSchema = new Schema({
     isHot: {
         type:Boolean,
         default: false
+    },
+    scUrl: {
+        type:String,
     }
    
 })
