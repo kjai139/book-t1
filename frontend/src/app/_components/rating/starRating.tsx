@@ -3,7 +3,6 @@
 import { useCallback, useEffect, useState } from "react"
 import Star from "./star"
 import { v4 as uuidv4 } from 'uuid'
-import apiUrl from "@/app/_utils/apiEndpoint"
 
 interface RatingProps {
     wtId: string,
@@ -163,9 +162,7 @@ export default function Rating ({wtId}:RatingProps) {
             </div>
         <div className="flex flex-col">
         
-       {/*  {isDoneLoading && !didUserJustVote && <span className="text-warning-500 text-sm ml-1">
-            {rating}/5 out of {totalRated}
-        </span>} */}
+
        
         </div>
         </div>

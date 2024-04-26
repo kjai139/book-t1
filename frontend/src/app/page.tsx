@@ -4,13 +4,13 @@ import NextImage from "next/image"
 import { formatDateDMY } from './_utils/dates'
 import StarsOnly from "./_components/rating/starsDisplayOnly"
 import MainDynamicSlide from "./_components/slider/mainSlider"
-import RankingDisplay from "./_components/footer/ranking"
+
 import Wt from "./_models/wt"
 import Wtc from "./_models/wtChapter"
 import Genre from "./_models/genre"
 import { dbConnect } from "./_utils/db"
-
-
+import dynamic from "next/dynamic"
+const RankingDisplay = dynamic(() => import('./_components/footer/ranking'))
 
 
 
