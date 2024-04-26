@@ -10,8 +10,8 @@ import Wtc from "./_models/wtChapter"
 import Genre from "./_models/genre"
 import { dbConnect } from "./_utils/db"
 import dynamic from "next/dynamic"
-/* const RankingDisplay = dynamic(() => import('./_components/footer/ranking')) */
-import RankingDisplay from "./_components/footer/ranking"
+const RankingDisplay = dynamic(() => import('./_components/footer/ranking'))
+
 
 
 
