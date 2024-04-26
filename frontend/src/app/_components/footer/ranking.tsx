@@ -44,7 +44,8 @@ export default function RankingDisplay ({rankingList}:RankingDisplayProps) {
                         <Link href={`/read/${wt.slug}`} className="flex w-[80%] rank-details items-center" color="foreground">
                         
                         <div className="relative w-full h-[80px]">
-                            <NextImage src={wt.image} alt={`Cover image of ${wt.name} at rank ${idx}`} fill sizes="(max-width:600px) 15vw, (max-width:1200px) 10vw, 10vw" className="rounded object-cover"></NextImage>
+                            <NextImage src={wt.image} alt={`Cover image of ${wt.name} at rank ${idx}`} fill sizes="(max-width:600px) 15vw, (max-width:1200px) 10vw, 10vw" className="rounded object-cover"
+                            ></NextImage>
 
                         </div>
                         <div className="flex flex-col">
