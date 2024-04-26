@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from "next/server"
 import { Ratelimit } from "@upstash/ratelimit"
 import { Redis } from "@upstash/redis"
-import { serverVerifyJwt } from "./app/actions"
 import { cookies } from "next/headers"
 import { decrypt } from "./app/_lib/session"
 
@@ -75,11 +74,11 @@ export async function middleware(request: NextRequest) {
     const nonce = Buffer.from(crypto.randomUUID()).toString('base64')
     const cspHeader = `
         default-src 'self' https://www.google-analytics.com https://c.disquscdn.com https://disqus.com https://www.googletagmanager.com https://vitals.vercel-insights.com 'unsafe-inline' tagmanager.google.com;
-        connect-src https://links.services.disqus.com 'self' https://vitals.vercel-insights.com localhost:3000;
+        connect-src https://links.services.disqus.com 'self' https://vitals.vercel-insights.com localhost:3000 https://www.google-analytics.com;
         frame-src https://disqus.com https://www.google-analytics.com www.google-analytics.com;
         script-src 'self' ${process.env.NODE_ENV === "production" ? ''  : `'unsafe-eval'` } https://c.disquscdn.com https://52webtoons-com.disqus.com 'unsafe-inline' tagmanager.google.com https://www.googletagmanager.com https://va.vercel-scripts.com https://cdn.vercel-insights.com https://vitals.vercel-insights.com https://vercel.live https://www.google-analytics.com tagmanager.google.com;
-        style-src 'self' 'unsafe-inline' https://c.disquscdn.com;
-        img-src 'self' blob: data: https://wtdb128.s3.us-east-2.amazonaws.com https://c.disquscdn.com https://referrer.disqus.com https://www.google-analytics.com tagmanager.google.com www.google-analytics.com www.googletagmanager.com;
+        style-src 'self' 'unsafe-inline' https://c.disquscdn.com https://www.googletagmanager.com https://fonts.googleapis.com;
+        img-src 'self' blob: data: https://wtdb128.s3.us-east-2.amazonaws.com https://c.disquscdn.com https://referrer.disqus.com https://www.google-analytics.com tagmanager.google.com www.google-analytics.com www.googletagmanager.com https://fonts.gstatic.com;
         font-src 'self';
         object-src 'none';
         base-uri 'self';
