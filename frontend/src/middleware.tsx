@@ -74,12 +74,12 @@ export async function middleware(request: NextRequest) {
     console.log('generating nonce...')
     const nonce = Buffer.from(crypto.randomUUID()).toString('base64')
     const cspHeader = `
-        default-src 'self' https://www.google-analytics.com https://c.disquscdn.com https://disqus.com https://www.googletagmanager.com https://vitals.vercel-insights.com  https://www.googletagmanager.com;
+        default-src 'self' https://www.google-analytics.com https://c.disquscdn.com https://disqus.com https://www.googletagmanager.com https://vitals.vercel-insights.com 'unsafe-inline' tagmanager.google.com;
         connect-src https://links.services.disqus.com 'self' https://vitals.vercel-insights.com localhost:3000;
         frame-src https://disqus.com https://www.google-analytics.com www.google-analytics.com;
-        script-src 'self' ${process.env.NODE_ENV === "production" ? ''  : `'unsafe-eval'` } https://c.disquscdn.com https://52webtoons-com.disqus.com 'unsafe-inline' https://www.googletagmanager.com https://va.vercel-scripts.com https://cdn.vercel-insights.com https://vitals.vercel-insights.com https://vercel.live https://www.google-analytics.com  https://www.googletagmanager.com tagmanager.google.com;
+        script-src 'self' ${process.env.NODE_ENV === "production" ? ''  : `'unsafe-eval'` } https://c.disquscdn.com https://52webtoons-com.disqus.com 'unsafe-inline' tagmanager.google.com https://www.googletagmanager.com https://va.vercel-scripts.com https://cdn.vercel-insights.com https://vitals.vercel-insights.com https://vercel.live https://www.google-analytics.com tagmanager.google.com;
         style-src 'self' 'unsafe-inline' https://c.disquscdn.com;
-        img-src 'self' blob: data: https://wtdb128.s3.us-east-2.amazonaws.com https://c.disquscdn.com https://referrer.disqus.com https://www.google-analytics.com www.google-analytics.com;
+        img-src 'self' blob: data: https://wtdb128.s3.us-east-2.amazonaws.com https://c.disquscdn.com https://referrer.disqus.com https://www.google-analytics.com tagmanager.google.com www.google-analytics.com www.googletagmanager.com;
         font-src 'self';
         object-src 'none';
         base-uri 'self';

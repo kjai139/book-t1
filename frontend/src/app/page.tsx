@@ -13,6 +13,8 @@ import { dbConnect } from "./_utils/db"
 
 
 
+
+
 async function GetHomeUpdates() {
     await dbConnect()
     const sevendaysAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000)
@@ -132,12 +134,14 @@ export default async function Home() {
   const updatesData = GetHomeUpdates()
   const rankingsData = getRankings()
   const [updates, rankings] = await Promise.all([updatesData, rankingsData])
+  
   /* console.log('PROPS RECEIVED FROM SSG', updates) */
   
   
   
   return (
     <>
+    
     <main className="flex flex-col items-center">
       <div className="w-full mw">
         <div className="px-4 py-2 justify-end flex">

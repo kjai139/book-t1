@@ -1,7 +1,7 @@
 import Script from 'next/script'
-import { headers } from 'next/headers'
 
-export default function GoogleAnalytics ({nonce}:{nonce:string}) {
+
+export default function GoogleAnalyticsScript ({nonce}:{nonce:string}) {  
     console.log('nonce:', nonce)
     return (
         <>
