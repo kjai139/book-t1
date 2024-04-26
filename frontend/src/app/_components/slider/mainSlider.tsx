@@ -27,7 +27,7 @@ export default function MainDynamicSlide ({slideArr}:MainDynamicSlideProps) {
         arrows: false,
         initialSlide: 0,
         pauseonHover: true,
-        
+        lazyLoad:false,
         className: 'w-[100%] p-2',
         appendDots: (dots:any) => (
             <div style={{
@@ -124,7 +124,7 @@ export default function MainDynamicSlide ({slideArr}:MainDynamicSlideProps) {
                     speed:500,
                     arrows: false,
                     pauseonHover: true,
-              
+                    lazyLoad: false,
                     initialSlide: 0,
                     className: 'w-[100%] p-2',
                     appendDots: (dots:any) => (
