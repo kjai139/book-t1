@@ -108,7 +108,7 @@ export default function ViewGenreWt ({wtsArr, totalPg, genreName}:ViewGenreWtPro
                     {formatDateDMY(node.releasedAt) === 'New' ?
 
                     <span className={`text-xs text-danger-600 font-bold pulsate flex-1 text-center`}>
-                        <span className="bg-danger-600 text-white px-2 rounded py-[2px]">
+                        <span className="ml-1 bg-danger-600 text-white px-2 rounded py-[2px]">
                         {formatDateDMY(node.releasedAt)}
                         </span>
                         </span>:

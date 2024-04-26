@@ -195,7 +195,7 @@ export default async function Home() {
                   {formatDateDMY(node.releasedAt) === 'New' ?
 
                   <span className={`text-xs sm:text-sm text-danger-600 font-bold flex-1 text-center`}>
-                    <span className="bg-danger-600 text-foreground px-2 py-[2px] rounded">
+                    <span className="ml-1 bg-danger-600 text-foreground px-2 py-[2px] rounded">
                       <span className="pulsate">
                     {formatDateDMY(node.releasedAt)}
                     </span>
