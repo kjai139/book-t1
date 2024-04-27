@@ -97,6 +97,8 @@ async function GetHomeUpdates() {
             }
         ]).sample(6)
 
+        
+
 
         const json = {
             updates: updates,
@@ -134,8 +136,28 @@ export default async function Home() {
   const updatesData = GetHomeUpdates()
   const rankingsData = getRankings()
   const [updates, rankings] = await Promise.all([updatesData, rankingsData])
+
   
   /* console.log('PROPS RECEIVED FROM SSG', updates) */
+  
+  updates.updates = updates.updates.map((node:any) => {
+    const updatedChapters = node.chapters.map((chapter:any) => {
+      console.log('chapter', chapter)
+      const formattedDate = formatDateDMY(chapter.releasedAt)
+
+
+      return {
+        ...chapter,
+        releasedAt: formattedDate
+      }
+      
+    })
+
+    return {
+      ...node,
+      chapters: updatedChapters
+    }
+  })
   
   
   
@@ -195,16 +217,16 @@ export default async function Home() {
                   <Link color="foreground" href={`/read/${slug}/${node.chapterNumber}`} className="flex gap-1 items-center" isBlock>
                   <span className="text-sm py-1">{`Chapter ${node.chapterNumber}`}</span>
                   
-                  {formatDateDMY(node.releasedAt) === 'New' ?
+                  {node.releasedAt === 'New' ?
 
                   <span className={`text-xs sm:text-sm text-danger-600 font-bold flex-1 text-center`}>
                     <span className="ml-1 bg-danger-600 text-foreground px-2 py-[2px] rounded">
                       <span className="pulsate">
-                    {formatDateDMY(node.releasedAt)}
+                    {node.releasedAt}
                     </span>
                     </span>
                     </span>:
-                  <span className={`text-xs text-default-500 flex-1 text-center date-txt`}>{formatDateDMY(node.releasedAt)}</span>
+                  <span className={`text-xs text-default-500 flex-1 text-center date-txt`}>{node.releasedAt}</span>
                   }
                   </Link>
                   

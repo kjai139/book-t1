@@ -4,12 +4,12 @@ import { useEffect, useState } from "react"
 import {Navbar, NavbarBrand, NavbarContent, NavbarItem, NavbarMenuToggle, NavbarMenu, NavbarMenuItem, Link, Button, Divider } from "@nextui-org/react";
 import BookmarkBtn from "./button/bookmark";
 import PbNavSearch from "./button/pbSearch";
-import { usePathname } from "next/navigation";
 import homeIcon from '../apple-icon.png'
 import NextImage from "next/image";
 import { serverLogUserOut } from "../actions";
 import { useAuth } from "../_contexts/authContext";
 import { ThemeSwitcher } from "./themeSwitcher";
+
 
 interface MenuItems {
   name: string,
@@ -24,6 +24,7 @@ export default function MainHeaderNav () {
     const [menuItems, setMenuItems] = useState<MenuItems[]>([])
     const [errorMsg, setErrorMsg] = useState('')
     const { user, setUser } = useAuth()
+   
    
 
     const logUserOut = async () => {
@@ -51,16 +52,6 @@ export default function MainHeaderNav () {
     ]
 
     const publicMenu = [
-     /*  {
-        name: 'Create Account',
-        type: 'link',
-        url: '/register'
-      },
-      {
-        name: 'Log In',
-        type: 'link',
-        url: '/login'
-      } */
       {
         name: 'Home',
         type: 'link',
@@ -88,26 +79,11 @@ export default function MainHeaderNav () {
         
       }, [user])
 
-      /* useEffect(() => {
-        const verifyUser = async () => {
-          const loggedInUser = await serverVerifyJwt()
-          if (loggedInUser) {
-            setMenuItems(loggedInMenu)
-            console.log(loggedInUser)
-        
-          } else {
-            setMenuItems(publicMenu)
-          }
-        }
-        verifyUser()
-      }, []) */
 
-     
-      
   
     
       return (
-        <Navbar disableAnimation={true} isBordered shouldHideOnScroll onMenuOpenChange={setIsMenuOpen} isMenuOpen={isMenuOpen} maxWidth="lg">
+        <Navbar disableAnimation={true} isBordered position={'static'} onMenuOpenChange={setIsMenuOpen} isMenuOpen={isMenuOpen} maxWidth="lg">
           <NavbarContent justify="start">
             <NavbarMenuToggle aria-label={isMenuOpen ? 'Close menu' : 'Open menu'} className="sm:hidden" />
             <NavbarBrand>
@@ -126,7 +102,7 @@ export default function MainHeaderNav () {
          
     
           <NavbarContent justify="end">
-            <NavbarItem className="mr-2">
+            <NavbarItem>
               <PbNavSearch></PbNavSearch>
             </NavbarItem>
             <NavbarItem>

@@ -87,20 +87,6 @@ export async function middleware(request: NextRequest) {
         upgrade-insecure-requests;
     `
 
-    /* const cspHeader = `
-    default-src 'self';
-    script-src 'self' 'nonce-${nonce}' 'strict-dynamic';
-    style-src 'self' 'nonce-${nonce}';
-    img-src 'self' blob: data:;
-    font-src 'self';
-    object-src 'none';
-    base-uri 'self';
-    form-action 'self';
-    frame-ancestors 'none';
-    upgrade-insecure-requests;
-` */
-
-
 
   // Replace newline characters and spaces
     const contentSecurityPolicyHeaderValue = cspHeader
@@ -130,10 +116,7 @@ export async function middleware(request: NextRequest) {
         
     }
     //api protected
-    /* if (request.nextUrl.pathname.startsWith('/api/upload') && !session?._id) {
-        console.log('is Api protected route')
-        return NextResponse.redirect(new URL('/login', request.url))
-    } */
+   
     //reroute out of protected
     if (isProtectedRoute && !session?._id) {
         
@@ -148,7 +131,7 @@ export async function middleware(request: NextRequest) {
         return response
         
     }
-    //alrdy authenticated
+   
 
     if (isLoginRoute && session?._id && !request.nextUrl.pathname.startsWith('/dashboard')) {
             console.log('TRIGGER IN LOGIN ROUTE MW')

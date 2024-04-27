@@ -132,6 +132,36 @@ main {
   
 }
 
+.shudder::before {
+ content: '';
+ position: absolute;
+ height: 160%;
+ width: 140%;
+ top: 88%;
+ left: -120%;
+ background:rgb(0, 96, 223);
+ background:linear-gradient(to right, #00d2ff, #4098D7);
+ transform: rotate(45deg);
+ transition: all .4s ease-in-out;
+}
+
+.shudder:hover svg {
+  transition: all .2s linear;
+  transform: scale(1.2);
+  color: #fff;
+}
+
+.shudder:hover {
+  opacity: 100%;
+}
+
+
+.shudder:hover::before {
+  top: -28%;
+  left: -7%;
+}
+
+
 .chList-cont::-webkit-scrollbar {
   width: 5px;
   background-color: transparent;
