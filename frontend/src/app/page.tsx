@@ -9,13 +9,14 @@ import Wt from "./_models/wt"
 import Wtc from "./_models/wtChapter"
 import Genre from "./_models/genre"
 import { dbConnect } from "./_utils/db"
+import { cache } from 'react'
 import dynamic from "next/dynamic"
 const RankingDisplay = dynamic(() => import('./_components/footer/ranking'))
 
 
+export const revalidate = 3600
 
-
-async function GetHomeUpdates() {
+const GetHomeUpdates = cache(async () => {
     await dbConnect()
     const sevendaysAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000)
 
@@ -113,9 +114,9 @@ async function GetHomeUpdates() {
     }
 
     
-}
+})
 
-async function getRankings () {
+const getRankings =  cache(async() => {
   try {
     await dbConnect()
     const monthlyRanking = await Wt.find({}).sort({monthlyViews: -1, name: -1}).limit(10).populate({path:'genres', model:Genre})
@@ -129,7 +130,7 @@ async function getRankings () {
       console.error(err)
   }
   
-}
+})
 
 
 export default async function Home() {
