@@ -53,7 +53,7 @@ export async function generateMetadata({params}:any) {
             title: `Read ${wt.name}`,
             description: `Read ${wt.name}`,
             openGraph: {
-                images: wt.img,
+                images: [wt.image],
             }
         }
     } catch (err) {
@@ -130,17 +130,13 @@ export default async function WtPage({params}:any) {
 
     return (
         <main>
-            {/* <div className="w-full justify-end flex mw py-2 px-4">
-            <ThemeSwitcher></ThemeSwitcher>
-            </div> */}
+         
             
             <div className="flex flex-col lg:flex-row max-w-[1024px] gap-4 pt-0 w-full lg:gap-1">
                 
             
         <div className="lg:max-w-[750px] bg-content1 p-2 lg:bg-inherit flex flex-col gap-4 my-0 w-full">
-        {/* <div className="max-w-[1024px] flex justify-end">
-            <ThemeSwitcher></ThemeSwitcher>
-            </div> */}
+      
             
             <span className="my-4">
             

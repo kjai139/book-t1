@@ -45,7 +45,7 @@ export async function middleware(request: NextRequest) {
     const path = request.nextUrl.pathname
     const isProtectedRoute = protectedRoutes.includes(path)
     const isLoginRoute = loginRoutes.includes(path)
-    const isApiRoute = apiRoute.includes(path)
+
     
     
     if (!success) {
@@ -65,52 +65,13 @@ export async function middleware(request: NextRequest) {
     const session = await decrypt(cookie)
 
     
-    
-
-    
-
-    //SET CSP NONCE
-    console.log('generating nonce...')
-    const nonce = Buffer.from(crypto.randomUUID()).toString('base64')
-    const cspHeader = `
-        default-src 'self' https://www.google-analytics.com https://c.disquscdn.com https://disqus.com https://www.googletagmanager.com https://vitals.vercel-insights.com 'unsafe-inline' tagmanager.google.com;
-        connect-src https://links.services.disqus.com 'self' https://vitals.vercel-insights.com localhost:3000 https://www.google-analytics.com;
-        frame-src https://disqus.com https://www.google-analytics.com www.google-analytics.com;
-        script-src 'self' ${process.env.NODE_ENV === "production" ? ''  : `'unsafe-eval'` } https://c.disquscdn.com https://52webtoons-com.disqus.com 'unsafe-inline' tagmanager.google.com https://www.googletagmanager.com https://va.vercel-scripts.com https://cdn.vercel-insights.com https://vitals.vercel-insights.com https://vercel.live https://www.google-analytics.com tagmanager.google.com;
-        style-src 'self' 'unsafe-inline' https://c.disquscdn.com https://www.googletagmanager.com https://fonts.googleapis.com;
-        img-src 'self' blob: data: https://wtdb128.s3.us-east-2.amazonaws.com https://c.disquscdn.com https://referrer.disqus.com https://www.google-analytics.com tagmanager.google.com www.google-analytics.com www.googletagmanager.com https://fonts.gstatic.com;
-        font-src 'self';
-        object-src 'none';
-        base-uri 'self';
-        form-action 'self';
-        frame-ancestors 'none';
-        upgrade-insecure-requests;
-    `
-
-
-  // Replace newline characters and spaces
-    const contentSecurityPolicyHeaderValue = cspHeader
-        .replace(/\s{2,}/g, ' ')
-        .trim()
-    
-    const requestHeaders = new Headers(request.headers)
-    requestHeaders.set('x-nonce', nonce)
-    
-    requestHeaders.set(
-        'Content-Security-Policy',
-        contentSecurityPolicyHeaderValue
-    )
 
 
     if (request.nextUrl.pathname !== request.nextUrl.pathname.toLowerCase()) {
     
        
-        const response = NextResponse.redirect(new URL(origin + request.nextUrl.pathname.toLowerCase()), {
-            headers: requestHeaders
-        })
-        response.headers.set(
-            'Content-Security-Policy', contentSecurityPolicyHeaderValue
-        )
+        const response = NextResponse.redirect(new URL(origin + request.nextUrl.pathname.toLowerCase()))
+        
         return response
             
         
@@ -122,12 +83,8 @@ export async function middleware(request: NextRequest) {
         
         console.log('TRIGGERE IN PROTECT ROUTE MW')
        
-        const response = NextResponse.redirect(new URL('/login', request.url), {
-            headers: requestHeaders
-        })
-        response.headers.set(
-            'Content-Security-Policy', contentSecurityPolicyHeaderValue
-        )
+        const response = NextResponse.redirect(new URL('/login', request.url))
+      
         return response
         
     }
@@ -135,25 +92,14 @@ export async function middleware(request: NextRequest) {
 
     if (isLoginRoute && session?._id && !request.nextUrl.pathname.startsWith('/dashboard')) {
             console.log('TRIGGER IN LOGIN ROUTE MW')
-            const response = NextResponse.redirect(new URL('/dashboard', request.url), {
-                headers: requestHeaders
-            })
-            response.headers.set(
-                'Content-Security-Policy', contentSecurityPolicyHeaderValue
-            )
+            const response = NextResponse.redirect(new URL('/dashboard', request.url))
+           
             return response
     }
     
     console.log('TRIGGER IN NEITHER LOGIN OR DASH')
-    const response = NextResponse.next({
-        request: {
-        headers: requestHeaders,
-        },
-    })
-    response.headers.set(
-        'Content-Security-Policy',
-        contentSecurityPolicyHeaderValue
-    )
+    const response = NextResponse.next()
+    
     return response
 
 }

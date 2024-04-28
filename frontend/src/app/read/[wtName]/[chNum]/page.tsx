@@ -55,7 +55,7 @@ export async function generateMetadata ({params}:any, parent:ResolvingMetadata) 
             title: `${wt.name} Chapter ${params.chNum}`,
             description: `Read ${wt.name} Chapter ${params.chNum}`,
             openGraph: {
-                images: wt.img,
+                images: [wt.image],
             }
         }
     } catch (err) {

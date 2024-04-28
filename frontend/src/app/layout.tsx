@@ -4,7 +4,6 @@ import './_styles/globals.css'
 import { Providers } from "./provider";
 import MainHeaderNav from "./_components/mainHeaderNav";
 import MainFooter from "./_components/footer/mainFooter";
-import { headers } from "next/headers";
 import SiteData from '@/app/_models/siteData'
 import { dbConnect } from "./_utils/db";
 import { Viewport } from "next";
@@ -59,7 +58,7 @@ export default function RootLayout({
   children: React.ReactNode;
   params: any
 }>) {
-  const nonce:any = headers().get('x-nonce')
+  
 
 
   return (
