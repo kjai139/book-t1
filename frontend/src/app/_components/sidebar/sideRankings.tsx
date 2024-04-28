@@ -1,14 +1,14 @@
 import { FaChessKing, FaChessRook, FaChessQueen } from "react-icons/fa"
 import NextImage from "next/image"
 import { Divider, Link } from "@nextui-org/react"
+import { getRankings } from "@/app/_utils/getRankings"
 
-interface SideRankingDisplayProps {
-    rankingList: {rankings: [any]}
-}
 
-export default function SideRankingDisplay ({rankingList}:SideRankingDisplayProps) {
+export const revalidate = 3600
 
-    
+export default async function SideRankingDisplay () {
+
+    const rankingList = await getRankings()
 
     return (
         <div className="lg:max-w-[280px] w-full">
@@ -21,7 +21,7 @@ export default function SideRankingDisplay ({rankingList}:SideRankingDisplayProp
         </div>
         
         <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 p-4 w-full gap-4 lg:max-w-[300px] rank-grid-bot">
-            {rankingList && rankingList.rankings.map((wt, idx) => {
+            {rankingList && rankingList.rankings.map((wt:any, idx:number) => {
                 const genres = wt.genres.map((node:any) => node.name).join(', ')
                 return (
                     <li key={wt._id} className="items-center rank-li-grid gap-2">

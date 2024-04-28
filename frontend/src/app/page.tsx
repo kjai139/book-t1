@@ -7,7 +7,7 @@ import MainDynamicSlide from "./_components/slider/mainSlider"
 
 import Wt from "./_models/wt"
 import Wtc from "./_models/wtChapter"
-import Genre from "./_models/genre"
+
 import { dbConnect } from "./_utils/db"
 import { cache } from 'react'
 import dynamic from "next/dynamic"
@@ -116,27 +116,11 @@ const GetHomeUpdates = cache(async () => {
     
 })
 
-const getRankings =  cache(async() => {
-  try {
-    await dbConnect()
-    const monthlyRanking = await Wt.find({}).sort({monthlyViews: -1, name: -1}).limit(10).populate({path:'genres', model:Genre})
-   
-    const json = {
-        rankings:monthlyRanking
-    }
-
-    return JSON.parse(JSON.stringify(json))
-  } catch (err:any) {
-      console.error(err)
-  }
-  
-})
 
 
 export default async function Home() {
-  const updatesData = GetHomeUpdates()
-  const rankingsData = getRankings()
-  const [updates, rankings] = await Promise.all([updatesData, rankingsData])
+  const updates = await GetHomeUpdates()
+  
 
   
   /* console.log('PROPS RECEIVED FROM SSG', updates) */
@@ -246,7 +230,7 @@ export default async function Home() {
         </div>
       </div>
       
-      <RankingDisplay rankingList={rankings}></RankingDisplay>
+      <RankingDisplay></RankingDisplay>
 
       
       

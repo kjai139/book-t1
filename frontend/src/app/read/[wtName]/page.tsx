@@ -5,17 +5,20 @@ import LastRead from "@/app/_components/localstorage/lastRead";
 import Rating from "@/app/_components/rating/starRating";
 import { Button, Divider, Image, Link } from "@nextui-org/react";
 import { notFound } from "next/navigation";
-import SideRankingDisplay from "@/app/_components/sidebar/sideRankings";
 import { dbConnect } from "@/app/_utils/db";
 import Genre from "@/app/_models/genre"
 import Wt from "@/app/_models/wt";
 import Wtc from "@/app/_models/wtChapter";
 import DisqusComments from "@/app/_components/comments/disqus";
+import { cache } from "react";
+import { getRankings } from "@/app/_utils/getRankings";
+import dynamic from "next/dynamic";
 
+const SideRankingDisplay = dynamic(() => import('@/app/_components/sidebar/sideRankings'))
 
+export const revalidate = 3600
 
-
-async function getWts(params:any) {
+async function getWts (params:any) {
     console.log('PARAMS IN getWTS:', params)
     try {
         await dbConnect()
@@ -42,6 +45,21 @@ async function getWts(params:any) {
 
 }
 
+const getChapterList:any = cache(async function (params:any) {
+    try {
+        const wt = await Wt.findOne({slug:params.wtName})
+        const totalCh = await Wtc.find({wtRef: wt._id}).sort({chapterNumber: -1})
+
+        const json = {
+            totalCh: totalCh
+        }
+
+        return JSON.parse(JSON.stringify(json))
+    } catch (err) {
+        console.error(err)
+    }
+})
+
 export async function generateMetadata({params}:any) {
     
     /* console.log('GENERATE META PARAM', params) */
@@ -62,26 +80,13 @@ export async function generateMetadata({params}:any) {
    
 }
 
-async function getRankings () {
-    try {
-        await dbConnect()
-        const monthlyRanking = await Wt.find({}).sort({monthlyViews: -1, name: -1}).limit(10).populate({ path:'genres', model: Genre, options: { sort: {name: 'asc'}} })
-        
-        const json = {
-            rankings: monthlyRanking
-        }
-        return JSON.parse(JSON.stringify(json))
-     
-  
-    } catch (err) {
-      console.error('Error fetching rankings')
-    }
-  }
+
 
 export default async function WtPage({params}:any) {
     const wtPromise = getWts(params)
-    const rankingPromise = getRankings()
-    const [wt, rankings] = await Promise.all([wtPromise, rankingPromise])
+   
+    const chListPromise = getChapterList(params)
+    const [wt, chList] = await Promise.all([wtPromise, chListPromise])
 
     /* console.log('RANKINGS: IN WTPAGE', rankings) */
     
@@ -146,7 +151,7 @@ export default async function WtPage({params}:any) {
                 <BreadCrumbs wtUrl={wt.wt.name}></BreadCrumbs>
                 <div className="flex flex-col sm:flex-row sm:gap-4 gap-4 p-1">
                 <div className="flex flex-col gap-4 justify-between items-center">
-                <Image src={wt.wt.image} loading="lazy" alt={`Cover image of ${wt.wt.name}`} className="sm:max-h-[240px]"></Image>
+                <Image src={wt.wt.image} loading="eager" alt={`Cover image of ${wt.wt.name}`} className="sm:max-h-[240px]"></Image>
                 <SaveBookmarkBtn image={wt.wt.image} wTstatus={wt.wt.status} wtName={wt.wt.name} wtGenres={wt.wt.genres}></SaveBookmarkBtn>
                 </div>
 
@@ -202,7 +207,7 @@ export default async function WtPage({params}:any) {
                     <h3 className="font-semibold">{`Chapters for ${wt.wt.name}`}</h3>
                     <Divider className="mt-4"></Divider>
                 </div>
-                <ChList chs={wt.totalCh} curSlug={params.wtName}></ChList>
+                <ChList chs={chList.totalCh} curSlug={params.wtName}></ChList>
 
                
                 
@@ -211,7 +216,7 @@ export default async function WtPage({params}:any) {
             
             </div>
             
-            <SideRankingDisplay rankingList={rankings}></SideRankingDisplay>
+            <SideRankingDisplay></SideRankingDisplay>
         </div>
         </main>
     )
