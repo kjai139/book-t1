@@ -11,12 +11,11 @@ import Wt from "@/app/_models/wt";
 import Wtc from "@/app/_models/wtChapter";
 import DisqusComments from "@/app/_components/comments/disqus";
 import { cache } from "react";
-import { getRankings } from "@/app/_utils/getRankings";
 import dynamic from "next/dynamic";
 
 const SideRankingDisplay = dynamic(() => import('@/app/_components/sidebar/sideRankings'))
 
-export const revalidate = 3600
+export const revalidate = 1
 
 async function getWts (params:any) {
     console.log('PARAMS IN getWTS:', params)
