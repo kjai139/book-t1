@@ -10,12 +10,11 @@ import Genre from "@/app/_models/genre"
 import Wt from "@/app/_models/wt";
 import Wtc from "@/app/_models/wtChapter";
 import DisqusComments from "@/app/_components/comments/disqus";
-import { cache } from "react";
 import dynamic from "next/dynamic";
 
 const SideRankingDisplay = dynamic(() => import('@/app/_components/sidebar/sideRankings'))
 
-export const revalidate = 1
+
 
 async function getWts (params:any) {
     console.log('PARAMS IN getWTS:', params)
@@ -44,7 +43,7 @@ async function getWts (params:any) {
 
 }
 
-const getChapterList:any = cache(async function (params:any) {
+async function getChapterList(params:any) {
     try {
         const wt = await Wt.findOne({slug:params.wtName})
         const totalCh = await Wtc.find({wtRef: wt._id}).sort({chapterNumber: -1})
@@ -57,7 +56,7 @@ const getChapterList:any = cache(async function (params:any) {
     } catch (err) {
         console.error(err)
     }
-})
+}
 
 export async function generateMetadata({params}:any) {
     
