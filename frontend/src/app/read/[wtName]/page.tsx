@@ -12,6 +12,8 @@ import Wtc from "@/app/_models/wtChapter";
 import DisqusComments from "@/app/_components/comments/disqus";
 import dynamic from "next/dynamic";
 
+export const revalidate = 3600
+
 const SideRankingDisplay = dynamic(() => import('@/app/_components/sidebar/sideRankings'))
 
 
@@ -81,6 +83,7 @@ export async function generateMetadata({params}:any) {
 
 
 export default async function WtPage({params}:any) {
+    /* const wt = await getWts(params) */
     const wtPromise = getWts(params)
    
     const chListPromise = getChapterList(params)

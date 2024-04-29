@@ -4,24 +4,24 @@ import { Link } from "@nextui-org/react"
 import { formatDateDMY } from "@/app/_utils/dates"
 
 
+
 interface ChListProps{
-    chs: any,
+    chs: [],
     curSlug: string,
 }
 
 
-export default function ChList ({chs, curSlug}:ChListProps) {
 
-    
+
+export default function ChList ({chs, curSlug}:ChListProps) {
    
-    
 
 
 
     return (
         <div className="flex flex-col chList-cont max-h-[300px] overflow-y-auto w-full max-w-[630px] mb-4">
-            <ul className="grid grid-cols-1 gap-2 auto-rows-auto">
-                {chs.map((ch:any) => {
+            <ul className="grid grid-cols-1 gap-2 auto-rows-auto px-2">
+                {chs && chs.map((ch:any) => {
                     return (
                         <li key={ch._id} aria-label={`Chapter ${ch.chapterNumber}`}>
                             <div>

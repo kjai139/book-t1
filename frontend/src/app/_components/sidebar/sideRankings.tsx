@@ -4,8 +4,6 @@ import { Divider, Link } from "@nextui-org/react"
 import { getRankings } from "@/app/_utils/getRankings"
 
 
-export const revalidate = 3600
-
 export default async function SideRankingDisplay () {
 
     const rankingList = await getRankings()

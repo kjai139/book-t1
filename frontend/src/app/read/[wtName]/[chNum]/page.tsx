@@ -95,19 +95,6 @@ async function getChContent (params:any) {
         return JSON.parse(JSON.stringify(json))
     
        
-       /*  const response = await fetch(`${apiUrl}/api/wtpage/getch?name=${params.wtName}&num=${params.chNum}`, {
-            method:'GET',
-            next: {
-                revalidate:1
-            }
-        })
-
-        if (!response.ok) {
-            throw new Error(`Error getting chContent`)
-        } else {
-            const chContent = await response.json()
-            return chContent
-        } */
 
     } catch (err) {
         console.error(err)

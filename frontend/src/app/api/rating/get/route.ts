@@ -1,5 +1,4 @@
 import { NextRequest, NextResponse } from "next/server";
-import mongoose from "mongoose";
 import { dbConnect } from "@/app/_utils/db";
 import Wt from "@/app/_models/wt";
 import Rating from "@/app/_models/rating"
