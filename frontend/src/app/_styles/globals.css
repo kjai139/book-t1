@@ -161,6 +161,44 @@ main {
   left: -7%;
 }
 
+.nav-sb {
+  padding: 0;
+  position: relative;
+  opacity: 0;
+  visibility: hidden;
+  height: 0;
+  /* transform-origin: top;
+  -webkit-transform-origin: top; */
+  transition: height .2s, visibility .2s, opacity .2s, transform 0s .2s;
+  -webkit-transition: height .2s, visibility .2s, opacity .2s, -webkit-transform 0s .2s;
+  /* -webkit-animation-duration: .2s;
+  animation-duration: .2s; */
+  top: 100%;
+  padding-top: 0;
+  margin-bottom: 0;
+  z-index: 1;
+}
+
+
+.nav-sb.active {
+  position: relative;
+  /* animation: slide-in .25s forwards ease-out; */
+  height: 50px;
+  opacity:1;
+  visibility: visible;
+  z-index: 20;
+  pointer-events: auto;
+  transition: height .2s, visibility .2s, opacity .2s, transform 0s .2s;
+  -webkit-transition: height .2s, visibility .2s, opacity .2s, -webkit-transform 0s .2s;
+  /* -webkit-animation-duration: .2s; */
+  
+  
+}
+
+
+
+
+
 
 .chList-cont::-webkit-scrollbar {
   width: 5px;
@@ -172,6 +210,8 @@ main {
   border-radius: 8px;
   width: 5px;
 }
+
+
 
 .bmark-cont, .search-cont {
   scrollbar-width: thin;

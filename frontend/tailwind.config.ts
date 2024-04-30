@@ -68,6 +68,7 @@ const config: Config = {
           },
           content1: '#18181B',
           content2: "#ffffff",
+          content3: "#18181B"
 
         },
         
@@ -97,7 +98,8 @@ const config: Config = {
             100: "#F0F4F8",
             
           },
-          content2: "#ffffff"
+          content2: "#ffffff",
+          content3: "#ffffff"
           
         }
       }

@@ -13,6 +13,7 @@ import Wtc from "@/app/_models/wtChapter";
 import WtPage from "@/app/_models/wtPage"
 import { dbConnect } from "@/app/_utils/db";
 import DisqusComments from "@/app/_components/comments/disqus";
+import { unstable_noStore } from "next/cache";
 
 export async function generateStaticParams({
     params: { wtName }
@@ -82,14 +83,14 @@ async function getChContent (params:any) {
             return null
         }
 
-        const allWtc = await Wtc.find({wtRef: wt._id}).sort({
+        /* const allWtc = await Wtc.find({wtRef: wt._id}).sort({
             chapterNumber: -1
-        })
+        }) */
 
         const json = {
             wtc: wtc,
             images: wtPages,
-            chList: allWtc
+            /* chList: allWtc */
         }
 
         return JSON.parse(JSON.stringify(json))
@@ -101,11 +102,36 @@ async function getChContent (params:any) {
     }
 }
 
+async function getChList (params:any) {
+    unstable_noStore()
+    const wt = await Wt.findOne({slug: params.wtName })
+    if (!wt) {
+        console.log('wt not found in get content')
+        return null
+    }
+    const allWtc = await Wtc.find({wtRef: wt._id}).sort({
+        chapterNumber: -1
+    })
+    if (!allWtc) {
+        console.log('allWtc not found in get content')
+        return null
+    }
+
+    const json = {
+        chList:allWtc
+    }
+    return JSON.parse(JSON.stringify(json))
+}
+
 
 export default async function Page({params}:{params: {wtName: string; chNum: string}}) {
 
     /* console.log('PARAMS FROM PG', params) */
-    const content = await getChContent(params)
+    const pageData = getChContent(params)
+    const chListData = getChList(params)
+
+    const [content, chList] = await Promise.all([pageData, chListData])
+    /* const content = await getChContent(params) */
     if (!content) {
         notFound()
     }
@@ -138,7 +164,7 @@ export default async function Page({params}:{params: {wtName: string; chNum: str
             
             <div className="flex flex-col w-full gap-4">
             <div className="w-full flex flex-col py-2 px-4 items-end">
-            <ChSelect wtName={params.wtName} chList={content.chList} curCh={params.chNum}></ChSelect>
+            <ChSelect wtName={params.wtName} chList={chList.chList} curCh={params.chNum}></ChSelect>
             </div>    
             
             <div className="w-full flex justify-between items-center gap-4 pb-2 px-4 sm:justify-end">
@@ -147,7 +173,7 @@ export default async function Page({params}:{params: {wtName: string; chNum: str
                 </div>
                 <div className="flex gap-2">
                 {
-                    content.chList[content.chList.length - 1].chapterNumber < Number(params.chNum) ?
+                    chList.chList[chList.chList.length - 1].chapterNumber < Number(params.chNum) ?
                     <Button as={Link} href={`/read/${params.wtName}/${getPrev(params.chNum)}`} size="sm" className="text-default-500 font-semibold">
                         {`< Prev`}
                     </Button> :
@@ -159,7 +185,7 @@ export default async function Page({params}:{params: {wtName: string; chNum: str
 
                 }
                 {
-                    content.chList[0].chapterNumber > Number(params.chNum) ?
+                    chList.chList[0].chapterNumber > Number(params.chNum) ?
                     <Button as={Link} href={`/read/${params.wtName}/${getNext(params.chNum)}`} size="sm" className="text-default-500 font-semibold">
                         {`Next >`}
                     </Button>  :
@@ -185,12 +211,12 @@ export default async function Page({params}:{params: {wtName: string; chNum: str
             <BreadCrumbs wtUrl={params.wtName} wtcUrl={params.chNum.toString()}></BreadCrumbs>
             <div className="flex flex-col w-full gap-4">
                 <div className="w-full flex flex-col py-1 px-4 items-end">
-                <ChSelect wtName={params.wtName} chList={content.chList} curCh={params.chNum}></ChSelect>
+                <ChSelect wtName={params.wtName} chList={chList.chList} curCh={params.chNum}></ChSelect>
                 </div>
 
                 <div className="w-full flex pb-2 px-4 justify-end gap-4">
                     {
-                        content.chList[content.chList.length - 1].chapterNumber < Number(params.chNum) ?
+                        chList.chList[chList.chList.length - 1].chapterNumber < Number(params.chNum) ?
                         <Button as={Link} href={`/read/${params.wtName}/${getPrev(params.chNum)}`} size="sm" className="text-default-500 font-semibold">
                             {`< Prev`}
                         </Button> :
@@ -202,7 +228,7 @@ export default async function Page({params}:{params: {wtName: string; chNum: str
 
                     }
                     {
-                        content.chList[0].chapterNumber > Number(params.chNum) ?
+                        chList.chList[0].chapterNumber > Number(params.chNum) ?
                         <Button as={Link} href={`/read/${params.wtName}/${getNext(params.chNum)}`} size="sm" className="text-default-500 font-semibold">
                             {`Next >`}
                         </Button>  :
