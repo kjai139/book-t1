@@ -88,18 +88,14 @@ export default function SlideSearchBar ({isSearchOpen, setIsSearchOpen}:SlideSea
         if (isSearchOpen && searchInputRef.current) {
             const timeoutId = setTimeout(() => {
                 searchInputRef.current.focus()
+                window.addEventListener('scroll', handleScroll)
             }, 300)
 
             return () => {
                 clearTimeout(timeoutId)
+                window.removeEventListener('scroll', handleScroll)
             }
             
-        }
-        if (isSearchOpen) {
-            window.addEventListener('scroll', handleScroll)
-        }
-        return () => {
-            window.removeEventListener('scroll', handleScroll)
         }
         
 
@@ -123,9 +119,9 @@ export default function SlideSearchBar ({isSearchOpen, setIsSearchOpen}:SlideSea
 
 
     return (
-        <div className={`max-w-[750px] w-full items-center flex justify-center nav-sb ${isSearchOpen ? 'active' : 'inactive'}`}>
+        <div className={`max-w-[1024px] lg:max-w-[750px] w-full items-center flex justify-center nav-sb ${isSearchOpen ? 'active' : 'inactive'} lg:mt-8 lg:mb-4`}>
             <div className="w-full">
-        <Input size="lg" placeholder="Start typing..." value={query} onValueChange={handleInputChange} radius="sm" ref={searchInputRef} endContent={isLoading && <Spinner></Spinner>} autoComplete="off" classNames={{
+        <Input size="lg" placeholder="Start typing..." value={query} onValueChange={handleInputChange} radius="none" ref={searchInputRef} endContent={isLoading && <Spinner></Spinner>} autoComplete="off" classNames={{
           innerWrapper: "bg-transparent",
           inputWrapper: [
             "bg-content3",
