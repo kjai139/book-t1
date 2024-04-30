@@ -151,8 +151,6 @@ export default async function Home() {
     
     <main className="flex flex-col items-center">
       <div className="w-full mw">
-        <div className="px-4 py-2 justify-end flex">
-        </div>
         <MainDynamicSlide slideArr={updates.slider}></MainDynamicSlide>
         <div className="pt-4 px-4 flex justify-between">
           <h4 className="font-semibold">Recently Updated</h4>

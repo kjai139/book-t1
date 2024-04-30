@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useState } from "react"
-import {Navbar, NavbarBrand, NavbarContent, NavbarItem, NavbarMenuToggle, NavbarMenu, NavbarMenuItem, Link, Button, Divider } from "@nextui-org/react";
+import {Navbar, NavbarBrand, NavbarContent, NavbarItem, NavbarMenuToggle, NavbarMenu, NavbarMenuItem, Link, Button, Divider, Input } from "@nextui-org/react";
 import BookmarkBtn from "./button/bookmark";
 import PbNavSearch from "./button/pbSearch";
 import homeIcon from '../apple-icon.png'
@@ -9,7 +9,8 @@ import NextImage from "next/image";
 import { serverLogUserOut } from "../actions";
 import { useAuth } from "../_contexts/authContext";
 import { ThemeSwitcher } from "./themeSwitcher";
-
+import { FaSearch } from "react-icons/fa";
+import SlideSearchBar from "./button/slideSearch";
 
 interface MenuItems {
   name: string,
@@ -24,6 +25,8 @@ export default function MainHeaderNav () {
     const [menuItems, setMenuItems] = useState<MenuItems[]>([])
     const [errorMsg, setErrorMsg] = useState('')
     const { user, setUser } = useAuth()
+
+    const [isSearchOpen, setIsSearchOpen] = useState(false)
    
    
 
@@ -83,6 +86,8 @@ export default function MainHeaderNav () {
   
     
       return (
+        <div className="flex flex-col items-center">
+          
         <Navbar disableAnimation={true} isBordered position={'static'} onMenuOpenChange={setIsMenuOpen} isMenuOpen={isMenuOpen} maxWidth="lg">
           <NavbarContent justify="start">
             <NavbarMenuToggle aria-label={isMenuOpen ? 'Close menu' : 'Open menu'} className="sm:hidden" />
@@ -103,7 +108,10 @@ export default function MainHeaderNav () {
     
           <NavbarContent justify="end">
             <NavbarItem>
-              <PbNavSearch></PbNavSearch>
+            <Button isIconOnly aria-label="Toggle Searchbar" onPress={() => setIsSearchOpen(prev => !prev)}>
+                <FaSearch></FaSearch>
+            </Button>
+              {/* <PbNavSearch></PbNavSearch> */}
             </NavbarItem>
             <NavbarItem>
               <BookmarkBtn></BookmarkBtn>
@@ -153,5 +161,9 @@ export default function MainHeaderNav () {
             </NavbarMenuItem>
           </NavbarMenu>
         </Navbar>
+       
+        <SlideSearchBar isSearchOpen={isSearchOpen} setIsSearchOpen={setIsSearchOpen}></SlideSearchBar>
+        
+        </div>
       );
 }
