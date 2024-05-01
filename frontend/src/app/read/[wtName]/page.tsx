@@ -11,8 +11,9 @@ import Wt from "@/app/_models/wt";
 import Wtc from "@/app/_models/wtChapter";
 import DisqusComments from "@/app/_components/comments/disqus";
 import dynamic from "next/dynamic";
+import { unstable_noStore } from "next/cache";
 
-export const revalidate = 3600
+
 
 const SideRankingDisplay = dynamic(() => import('@/app/_components/sidebar/sideRankings'))
 
@@ -46,6 +47,7 @@ async function getWts (params:any) {
 }
 
 async function getChapterList(params:any) {
+    unstable_noStore()
     try {
         const wt = await Wt.findOne({slug:params.wtName})
         const totalCh = await Wtc.find({wtRef: wt._id}).sort({chapterNumber: -1})
