@@ -4,7 +4,6 @@ import { startOfDay, isToday, startOfMonth, endOfMonth, isSameDay } from "date-f
 import SiteData from "@/app/_models/siteData"
 import Wt from "./_models/wt"
 import { dbConnect } from "./_utils/db"
-import { cookies } from "next/headers"
 import { verifySession } from "./_lib/dal"
 import { deleteSession } from "./_lib/session"
 
