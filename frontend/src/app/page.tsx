@@ -7,6 +7,7 @@ import MainDynamicSlide from "./_components/slider/mainSlider"
 
 import Wt from "./_models/wt"
 import Wtc from "./_models/wtChapter"
+import { IoIosAlert } from "react-icons/io"
 
 import { dbConnect } from "./_utils/db"
 import { cache } from 'react'
@@ -152,6 +153,12 @@ export default async function Home() {
     <main className="flex flex-col items-center">
       <div className="w-full mw">
         <MainDynamicSlide slideArr={updates.slider}></MainDynamicSlide>
+        <div>
+                
+                <span className='text-xs text-default-500 flex p-4 justify-center gap-1'>
+                <IoIosAlert size={16} color="#73737C"></IoIosAlert> Please share the site with your friends if you enjoyed reading here!
+                </span>
+        </div>
         <div className="pt-4 px-4 flex justify-between">
           <h4 className="font-semibold">Recently Updated</h4>
           <Link href="/read" size="sm">View all</Link>

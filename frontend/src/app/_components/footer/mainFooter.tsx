@@ -1,5 +1,5 @@
 import apiUrl from "@/app/_utils/apiEndpoint";
-import { Divider } from "@nextui-org/react";
+import { Divider, Link } from "@nextui-org/react";
 import SiteData from "@/app/_models/siteData"
 
 async function getFooterData () {
@@ -45,6 +45,14 @@ export default async function MainFooter () {
                 <p className="text-sm text-center">
                     {siteData.siteData.footerTxt}
                 </p>
+                <ul className="flex gap-2">
+                    <li>
+                        <Link href="/privacy" className="text-xs text-default-500">Privacy</Link>
+                    </li>
+                    <li>
+                        <Link href="/contact" className="text-xs text-default-500">Contact</Link>
+                    </li>
+                </ul>
                 
             </span>
 
