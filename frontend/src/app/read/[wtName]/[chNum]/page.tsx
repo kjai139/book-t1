@@ -243,7 +243,7 @@ export default async function Page({params}:{params: {wtName: string; chNum: str
                 </div>
             </div>
             <div className="text-default-500 text-xs p-4">
-                <h3>{`You are reading the Manhwa/Manga/Manhua - ${content?.wt?.altName},${content.wtc.name}`}</h3>
+                <h3>{`You are reading the Manhwa/Manga/Manhua - ${content?.wt?.altName ? content?.wt?.altName + ',' : ''} ${content.wtc.name}`}</h3>
             </div>
             <DisqusComments slug={`/read/${params.wtName}/${params.chNum}`} title={content.wtc.name} identifier={content.wtc._id}></DisqusComments>
 
