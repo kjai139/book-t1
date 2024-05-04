@@ -13,7 +13,7 @@ export default function DisqusComments ({slug, identifier, title}:DisqusComments
 
     const { theme } = useTheme()
     return (
-        <div className="disqus-cont font-semibold flex flex-col">
+        <div className="disqus-cont font-semibold flex flex-col w-full">
             <span className="font-semibold p-4">
             <h3>Comments for {title}</h3>
             </span>

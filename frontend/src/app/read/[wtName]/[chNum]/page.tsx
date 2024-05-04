@@ -54,7 +54,7 @@ export async function generateMetadata ({params}:any, parent:ResolvingMetadata) 
         const wt = await Wt.findOne({slug: params.wtName})
         return {
             title: `${wt.name} Chapter ${params.chNum}`,
-            description: `Read ${wt.name} Chapter ${params.chNum}`,
+            description: `Read Manhwa/Manga/Manhua - ${wt?.altName},${wt.name} Chapter ${params.chNum}`,
             openGraph: {
                 images: [wt.image],
             }
@@ -90,6 +90,7 @@ async function getChContent (params:any) {
         const json = {
             wtc: wtc,
             images: wtPages,
+            wt: wt
             /* chList: allWtc */
         }
 
@@ -158,6 +159,7 @@ export default async function Page({params}:{params: {wtName: string; chNum: str
             <div className="px-4 py-2 text-center font-bold text-lg mt-8">
                 <h3>{content.wtc.name}</h3>
             </div>
+            
             
             <BreadCrumbs wtUrl={params.wtName} wtcUrl={params.chNum.toString()}></BreadCrumbs>
         
@@ -239,6 +241,9 @@ export default async function Page({params}:{params: {wtName: string; chNum: str
                     }
 
                 </div>
+            </div>
+            <div className="text-default-500 text-xs p-4">
+                <h3>{`You are reading the Manhwa/Manga/Manhua - ${content?.wt?.altName},${content.wtc.name}`}</h3>
             </div>
             <DisqusComments slug={`/read/${params.wtName}/${params.chNum}`} title={content.wtc.name} identifier={content.wtc._id}></DisqusComments>
 

@@ -155,6 +155,11 @@ main {
   opacity: 100%;
 }
 
+.altNames {
+  position: absolute;
+  left: -9999px;
+}
+
 
 .shudder:hover::before {
   top: -28%;

@@ -71,7 +71,7 @@ export async function generateMetadata({params}:any) {
        
         return {
             title: `Read ${wt.name}`,
-            description: `Read ${wt.name}`,
+            description: `Read ${wt.name}, ${wt?.altName}`,
             openGraph: {
                 images: [wt.image],
             }

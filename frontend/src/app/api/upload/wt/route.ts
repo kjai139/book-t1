@@ -42,6 +42,7 @@ async function uploadFileToS3AndDb(fileBuffer:Buffer, filename:string, fileType:
         
             
             const s3Url = `https://${params.Bucket}.s3.us-east-2.amazonaws.com/${params.Key}`
+            const s3CloudFrontUrl = `${process.env.S3_CLOUDFRONT}/${params.Key}`
             const genresJSON = JSON.parse(genres)
             const genresArr = genresJSON.genres
 
@@ -57,7 +58,7 @@ async function uploadFileToS3AndDb(fileBuffer:Buffer, filename:string, fileType:
                 altName: altName,
                 releasedYear: releasedYr,
                 artist: artist,
-                image: s3Url,
+                image: s3CloudFrontUrl,
                 tlGroup: tlGroup
     
     
