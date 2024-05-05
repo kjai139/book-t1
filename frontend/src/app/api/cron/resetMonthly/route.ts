@@ -27,7 +27,7 @@ export async function POST () {
         }
 
         await Wt.updateMany({}, {
-            $set: {isHot: false}
+            $set: {isHot: 'No'}
         })
 
         console.log('Hot status reset for all')
