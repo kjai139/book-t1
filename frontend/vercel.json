@@ -3,10 +3,6 @@
         {
             "path": "/api/cron/resetMonthly",
             "schedule": "0 4 1 * *"
-        },
-        {
-            "path": "/api/cron/updateRanks",
-            "schedule": "0 */4 * * *"
         }
     ]
 }

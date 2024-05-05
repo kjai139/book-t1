@@ -2,25 +2,38 @@
 import { dbConnect } from "./db"
 import Wt from "../_models/wt"
 import Genre from "../_models/genre"
-import SiteData from "../_models/siteData"
+
 
 
 
 export const getRankings = async() => {
     try {
-      await dbConnect()
-      const monthlyRanking = await SiteData.findOne().populate({
-        path: 'monthlyRanking',
-        populate: {
-            path:'genres', 
-            model:Genre
+        await dbConnect()
+        const monthlyRanking = await Wt.find({}).sort({monthlyViews: -1, name: -1}).limit(10).populate({
+            path: 'genres',
+            model: Genre
+        })
+        let index = 0
+
+        for (const node of monthlyRanking) {
+            if (index <= 2) {
+                node.isHot = 'Red'
+                await node.save()
+            } else if (index > 2 && index < 7) {
+                node.isHot = 'Orange'  
+                await node.save()
+            } else if (index >= 7) {
+                node.isHot = 'Yellow'   
+                await node.save()
+            }
+            index += 1
         }
-      })
+      
       
         
      
       const json = {
-          rankings:monthlyRanking.monthlyRanking
+          rankings:monthlyRanking
       }
       console.log('JSON FROM RANKING', json)
   
