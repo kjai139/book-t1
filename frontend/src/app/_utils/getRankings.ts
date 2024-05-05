@@ -5,7 +5,6 @@ import Genre from "../_models/genre"
 
 
 
-
 export const getRankings = async() => {
     try {
         await dbConnect()
