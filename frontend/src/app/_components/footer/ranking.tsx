@@ -8,13 +8,13 @@ import { unstable_cache } from "next/cache"
 const getCachedRanking = unstable_cache(
     async() => getRankings(),
     ['rankings'],
-    { revalidate: 14400 }
+    { revalidate: 1 }
 )
 
 
 export default async function RankingDisplay () {
     const rankingList = await getCachedRanking()
-    /* console.log('RANKING LIST........', rankingList) */
+    console.log('RANKING LIST........', rankingList)
 
     return (
         <div className="w-full max-w-[1024px]">

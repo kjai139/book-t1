@@ -5,6 +5,7 @@ import NextImage from "next/image";
 import StarsOnly from "./rating/starsDisplayOnly";
 import { formatDateDMY } from "../_utils/dates";
 import { useEffect, useState } from "react";
+import HotIcon from "./icons/hotIcon";
 
 
 interface ViewGenreWtProps {
@@ -80,6 +81,11 @@ export default function ViewGenreWt ({wtsArr, totalPg, genreName}:ViewGenreWtPro
                 <NextImage src={node.book.image} alt={`Cover image of ${node.book.image}`} placeholder="blur" blurDataURL={`${node.book.image}`} unoptimized fill sizes="(max-width:450px) 50vw, (max-width:600px) 40vw, (max-width:1200px) 10vw" className="home-c object-cover rounded">
 
                 </NextImage>
+                {
+                    node.book.isHot !== 'No' ? 
+                    <HotIcon level={node.book.isHot}></HotIcon>
+                    : null
+                }
                 
               
                 </div>

@@ -41,7 +41,13 @@ const siteDataSchema = new Schema({
     },
     about: {
         type:String
-    }
+    },
+    monthlyRanking: [
+        {
+            type: Schema.Types.ObjectId,
+            ref: 'WT'
+        }
+    ]
 
 })
 

@@ -8,6 +8,7 @@ import { formatDateDMY } from "../_utils/dates"
 import NextImage from "next/image"
 import StarsOnly from "./rating/starsDisplayOnly"
 import SortByRadio from "./radio/sortByRadio"
+import HotIcon from "./icons/hotIcon"
 
 
 export default function ViewallWt () {
@@ -99,6 +100,11 @@ export default function ViewallWt () {
                 <NextImage src={node.book.image} alt={`Cover image of ${node.book.image}`} unoptimized blurDataURL={node.book.image} placeholder="blur" fill sizes="(max-width:600px) 40vw, (max-width:1200px) 20vw" className="home-c object-cover rounded">
 
                 </NextImage>
+                {
+                    node.book.isHot !== 'No' ? 
+                    <HotIcon level={node.book.isHot}></HotIcon>
+                    : null
+                }
                 
                 </div>
                 </Link>

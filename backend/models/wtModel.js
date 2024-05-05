@@ -72,8 +72,9 @@ const WTSchema = new Schema({
 
     },
     isHot: {
-        type:Boolean,
-        default: false
+        type:String,
+        enum: ['Red', 'Orange', 'Yellow', 'No'],
+        default: 'No'
     },
     scUrl: {
         type:String,
