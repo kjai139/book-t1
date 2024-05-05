@@ -12,6 +12,9 @@ import { IoIosAlert } from "react-icons/io"
 import { dbConnect } from "./_utils/db"
 import { cache } from 'react'
 import dynamic from "next/dynamic"
+import { FaHotjar } from "react-icons/fa"
+import { BsFire } from "react-icons/bs"
+import HotIcon from "./_components/icons/hotIcon"
 const RankingDisplay = dynamic(() => import('./_components/footer/ranking'))
 
 
@@ -180,6 +183,10 @@ export default async function Home() {
               <NextImage src={node.book.image} alt={`Cover image of ${node.book.name}`} priority={idx <= 1 ? true : false} fill sizes="(max-width:420px) 50vw,(max-width:600px) 30vw, (max-width:1200px) 10vw, 10vw" className="home-c object-cover rounded">
 
               </NextImage>
+              {node.book?.isHot !== 'No' ? 
+              <HotIcon level={node.book.isHot}></HotIcon>
+              : null
+              }
              
             </div>
             </Link>
@@ -204,7 +211,7 @@ export default async function Home() {
               {node.chapters.map((node:any) => {
                 return (
                   <div key={node._id}>
-                  <Link color="foreground" href={`/read/${slug}/${node.chapterNumber}`} className="flex gap-1 items-center" isBlock>
+                  <Link color="foreground" href={`/read/${slug}/${node.chapterNumber}`} className="ch-links flex gap-1 items-center" isBlock>
                   <span className="text-sm py-1">{`Chapter ${node.chapterNumber}`}</span>
                   
                   {node.releasedAt === 'New' ?

@@ -9,34 +9,34 @@ interface StarProps {
 
 
 export default function Star ({remain, idx, isDisabled, onClickFunc}:StarProps) {
-    
+    let size = 20
 
     return (
         
         <span>
             {remain == 0 &&
-            <button onClick={() => onClickFunc(idx)} className={`${isDisabled ? 'dStar' : 'undefined'}`}>
-                <FaStar color="#F7C948"></FaStar>
+            <button onClick={() => onClickFunc(idx)} className={`${isDisabled ? 'dStar' : 'undefined'} p-1 px-2`}>
+                <FaStar color="#F7C948" size={size}></FaStar>
             </button> 
                 
             }
             {
                 
                 remain >= 1 &&
-                <button onClick={() => onClickFunc(idx)} className={`${isDisabled ? 'dStar' : 'undefined'}`}>
-                <FaStar color="#F7C948"></FaStar>
+                <button onClick={() => onClickFunc(idx)} className={`${isDisabled ? 'dStar' : 'undefined'} p-1 px-2`}>
+                <FaStar color="#F7C948" size={size}></FaStar>
                 </button> 
             }
             {
                 remain < 0 &&
-                <button onClick={() => onClickFunc(idx)} className={`${isDisabled ? 'dStar' : 'undefined'}`}>
-                <FaRegStar></FaRegStar>
+                <button onClick={() => onClickFunc(idx)} className={`${isDisabled ? 'dStar' : 'undefined'} p-1 px-2`}>
+                <FaRegStar size={size}></FaRegStar>
                 </button> 
             }
             {
                 remain > 0 && remain < 1 &&
-                <button onClick={() => onClickFunc(idx)} className={`${isDisabled ? 'dStar' : 'undefined'}`}>
-                <FaRegStarHalfStroke color="#F7C948"></FaRegStarHalfStroke>
+                <button onClick={() => onClickFunc(idx)} className={`${isDisabled ? 'dStar' : 'undefined'} p-1 px-2`}>
+                <FaRegStarHalfStroke color="#F7C948" size={size}></FaRegStarHalfStroke>
                 </button> 
             }
         </span>

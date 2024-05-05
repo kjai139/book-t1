@@ -384,6 +384,12 @@ html {
   color:#4098D7;
 }
 
+.lTheme .ch-links:visited {
+  color:#2e75a8;
+}
+
+
+
 
 @keyframes pulsate {
   0% {

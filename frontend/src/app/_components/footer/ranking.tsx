@@ -14,7 +14,7 @@ const getCachedRanking = unstable_cache(
 
 export default async function RankingDisplay () {
     const rankingList = await getCachedRanking()
-    /* console.log('RANKING LIST........', rankingList) */
+    console.log('RANKING LIST........', rankingList)
 
     return (
         <div className="w-full max-w-[1024px]">
