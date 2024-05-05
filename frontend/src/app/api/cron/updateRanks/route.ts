@@ -24,7 +24,7 @@ export async function POST() {
             index += 1
         }
 
-        const rankingIdArr = monthlyRanking.map((node) => {
+        const rankingIdArr = monthlyRanking.map((node:any) => {
             return node._id
         })
 
