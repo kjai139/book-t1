@@ -12,8 +12,6 @@ import { IoIosAlert } from "react-icons/io"
 import { dbConnect } from "./_utils/db"
 import { cache } from 'react'
 import dynamic from "next/dynamic"
-import { FaHotjar } from "react-icons/fa"
-import { BsFire } from "react-icons/bs"
 import HotIcon from "./_components/icons/hotIcon"
 const RankingDisplay = dynamic(() => import('./_components/footer/ranking'))
 

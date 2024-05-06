@@ -8,7 +8,7 @@ import { unstable_cache } from "next/cache"
 const getCachedRanking = unstable_cache(
     async() => getRankings(),
     ['rankings'],
-    { revalidate: 14400 }
+    { revalidate: 14400, tags: ['rankings'] }
 )
 
 
