@@ -97,6 +97,16 @@ main {
   text-overflow: ellipsis;
 }
 
+.card-txt > a {
+  display: -webkit-box;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  width: 100%;
+  white-space: normal;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+}
+
 .ch-btns {
   display: flex;
   flex-direction: column;

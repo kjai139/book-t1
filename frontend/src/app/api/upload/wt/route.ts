@@ -60,7 +60,6 @@ async function uploadFileToS3AndDb(fileBuffer:Buffer, filename:string, fileType:
                 artist: artist,
                 image: s3CloudFrontUrl,
                 tlGroup: tlGroup,
-                isHot: 'No'
     
     
     
