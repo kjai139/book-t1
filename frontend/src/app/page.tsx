@@ -178,7 +178,7 @@ export default async function Home() {
             <div className="relative w-full min-h-[200px] overflow-hidden">
               
              
-              <NextImage src={node.book.image} alt={`Cover image of ${node.book.name}`} priority={idx <= 1 ? true : false} fill sizes="(max-width:420px) 50vw,(max-width:600px) 30vw, (max-width:1200px) 10vw, 10vw" className="home-c object-cover rounded">
+              <NextImage src={node.book.image} alt={`Cover image of ${node.book.name}`} priority={idx <= 1 ? true : false} fill sizes="(max-width:420px) 50vw,(max-width:600px) 33vw, (max-width:1200px) 10vw, 10vw" className="home-c object-cover rounded">
 
               </NextImage>
               {node.book?.isHot !== 'No' ? 

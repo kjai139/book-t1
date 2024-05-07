@@ -42,9 +42,6 @@ export default async function MainFooter () {
                 <p>
                 {siteData.siteData.siteC}
                 </p>
-                <p className="text-sm text-center">
-                    {siteData.siteData.footerTxt}
-                </p>
                 <ul className="flex gap-2">
                     <li>
                         <Link href="/privacy" className="text-xs text-default-500">Privacy</Link>
@@ -53,6 +50,10 @@ export default async function MainFooter () {
                         <Link href="/contact" className="text-xs text-default-500">Contact</Link>
                     </li>
                 </ul>
+                <p className="text-sm text-center">
+                    {siteData.siteData.footerTxt}
+                </p>
+                
                 
             </span>
 
