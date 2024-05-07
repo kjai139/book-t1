@@ -18,7 +18,7 @@ export default async function sitemap() {
     const wt = await getWts()
 
 
-    const wtPosts = wt.map((node) => ({
+    const wtPosts = wt.map((node:any) => ({
         
             url:`${process.env.NEXT_PUBLIC_HOME_DOMAIN}/read/${node.slug}`,
             lastModified: new Date(),
