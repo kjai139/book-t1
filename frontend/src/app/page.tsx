@@ -165,7 +165,7 @@ export default async function Home() {
           <Link href="/read" size="sm">View all</Link>
         </div>
         <Divider className="my-4"></Divider>
-        <div className="cards-cont gap-4 sm:gap-6 lg:gap-6 p-2">
+        <div className="cards-cont gap-4 lg:gap-6 p-2">
       
       {updates && updates.updates.map((node:any, idx:any) => {
         /* console.log('BOOK:', node.book)
