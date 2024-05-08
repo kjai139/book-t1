@@ -10,15 +10,22 @@ export async function GET(req:NextRequest) {
         await dbConnect()
         const limit = 20
         const searchParams = req.nextUrl.searchParams
-        const status = searchParams.get('status')
+        const statusData = searchParams.get('status')
         const order = searchParams.get('order')
         const page = Number(searchParams.get('page'))
         const genresData = searchParams.get('genres')
         let genres
+        let status
         if (genresData) {
             genres = JSON.parse(genresData)
         }
-        const genresObjIds = genres.map((id:string) => mongoose.Types.ObjectId.createFromHexString(id))
+        if (statusData) {
+            status = JSON.parse(statusData)
+        }
+        console.log('statusData', statusData)
+        console.log('genresData', genresData)
+        const genresObjIds = genres?.map((id:string) => mongoose.Types.ObjectId.createFromHexString(id))
+        const statusObjIds = status?.map((id:string) => mongoose.Types.ObjectId.createFromHexString(id))
         let matchStage:any = {
             $match: {
                 
@@ -34,9 +41,10 @@ export async function GET(req:NextRequest) {
 
         }
         const skip = (page - 1) * limit
-        if (status) {
-            matchStage.$match.status = status
-            countQuery.status = status
+        if (status.length > 0) {
+            console.log(statusObjIds)
+            matchStage.$match.wtStatus = {$in: statusObjIds}
+            countQuery.wtStatus = {$in: statusObjIds}
         }
         if (genres.length > 0) {
             matchStage.$match.genres = {
@@ -114,6 +122,8 @@ export async function GET(req:NextRequest) {
                 $sort: aggreSortCondition
             }
         ])
+
+        
 
         return NextResponse.json({
             wts: updates,

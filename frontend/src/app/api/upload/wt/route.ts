@@ -46,6 +46,18 @@ async function uploadFileToS3AndDb(fileBuffer:Buffer, filename:string, fileType:
             const genresJSON = JSON.parse(genres)
             const genresArr = genresJSON.genres
 
+            const setWtStatus = (status:string) => {
+                if (status === 'Ongoing') {
+                    return '663aa1c2c4d589dfd10a3384'
+                } else if (status === 'Finished') {
+                    return '663aa1c2c4d589dfd10a3385'
+                } else if (status === 'Hiatus') {
+                    return '663aa1c2c4d589dfd10a3386'
+                } else {
+                    return '663aa1c2c4d589dfd10a3384'
+                }
+            }
+
     
             
     
@@ -60,7 +72,7 @@ async function uploadFileToS3AndDb(fileBuffer:Buffer, filename:string, fileType:
                 artist: artist,
                 image: s3CloudFrontUrl,
                 tlGroup: tlGroup,
-    
+                wtStatus: setWtStatus(status)
     
     
             })

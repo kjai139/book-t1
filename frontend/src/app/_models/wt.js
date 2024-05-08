@@ -78,7 +78,12 @@ const WTSchema = new Schema({
     },
     scUrl: {
         type:String,
+    },
+    wtStatus: {
+        type: Schema.Types.ObjectId,
+        ref: 'Status',
     }
+
    
 })
 

@@ -30,7 +30,7 @@ export default function ViewallWt () {
     const getWts = async () => {
         setIsLoading(true)
         try {
-            const response = await fetch(`/api/wt/query/get?genres=${encodeURIComponent(JSON.stringify(genres))}&status=${status}&order=${sortBy}&page=${curPg}`, {
+            const response = await fetch(`/api/wt/query/get?genres=${encodeURIComponent(JSON.stringify(genres))}&status=${encodeURIComponent(JSON.stringify(status))}&order=${sortBy}&page=${curPg}`, {
                 next: {
                     revalidate: 900,
                     tags: ['updateContent']
@@ -44,15 +44,21 @@ export default function ViewallWt () {
                 setTotalPages(data.totalPages)
                 setTotalWt(data.totalWt)
                 setIsResultOut(true)
-                setIsLoading(false)
                 
+                
+            } else {
+                const data = await response.json()
+                console.log(data)
             }
+            setIsLoading(false)
 
-        } catch (err) {
+        } catch (err:any) {
             setTotalWt(0)
             setIsResultOut(true)
             setIsLoading(false)
+  
             console.error(err)
+        
         }
     }
 
@@ -61,6 +67,10 @@ export default function ViewallWt () {
             getWts()
         }
     }, [curPg])
+
+    useEffect(() => {
+        console.log(status)
+    }, [status])
 
     return (
         <div className="p-2 flex flex-col gap-6 relative">
@@ -76,7 +86,9 @@ export default function ViewallWt () {
                 {totalWt && isResultOut && !isLoading ?
                 <span className="font-semibold">
                     Results: ( {totalWt} )
-                </span> : null
+                </span> : <span className="font-semibold">
+                    Results: ( ... )
+                </span>
                 }
                 {
                     !totalWt && isResultOut && !isLoading ?
@@ -86,9 +98,10 @@ export default function ViewallWt () {
                 
             </div>
             </div>
-            <div className="cards-cont gap-4 sm:gap-6">
+            <div className="cards-cont gap-4 lg:gap-6 p-2 relative">
+               {isLoading && <div className="overlay-g"></div>}
       
-        {!isLoading && updates && updates.wts.map((node:any, idx:number) => {
+        {updates && updates.wts.map((node:any, idx:number) => {
             
             let slug = node.book.slug
             return (

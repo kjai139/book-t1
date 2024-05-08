@@ -67,7 +67,8 @@ export default function ViewGenreWt ({wtsArr, totalPg, genreName}:ViewGenreWtPro
     return (
         <div className="flex flex-col gap-6">
             <SortByRadio value={sortBy} setValue={setSortBy}></SortByRadio>
-            <div className="cards-cont gap-2 sm:gap-8">
+            <div className="cards-cont gap-4 lg:gap-6 p-2 relative">
+            {isLoading && <div className="overlay-g"></div>}
             {updates && updates.wts.map((node:any, idx:number) => {
             
             let slug = node.book.slug

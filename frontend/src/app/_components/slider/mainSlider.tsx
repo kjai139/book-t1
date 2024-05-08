@@ -170,7 +170,7 @@ export default function MainDynamicSlide ({slideArr}:MainDynamicSlideProps) {
                             </NextImage>
                             <div className='flex flex-col flex-1 justify-end items-center z-10 text-foreground slider-ol sm:l-slider-ol sm:pl-[320px] sm:justify-center'>
                                 <div className='flex flex-col p-2 gap-2 w-full'>
-                                    <div className='flex justify-start'>
+                                    <div className=' slider-about'>
                                 <span className='font-bold text-content2 text-start lg:text-4xl sm:text-2xl md:text-3xl'>
                                     {slide.name}
                                 </span>
