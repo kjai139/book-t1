@@ -2,18 +2,18 @@ import { FaChessKing, FaChessRook, FaChessQueen } from "react-icons/fa"
 import NextImage from "next/image"
 import { Divider, Link } from "@nextui-org/react"
 import { getRankings } from "@/app/_utils/getRankings"
-import { unstable_cache } from "next/cache"
+/* import { unstable_cache } from "next/cache"
 
 
 const getCachedRanking = unstable_cache(
     async() => getRankings(),
     ['rankings'],
     { revalidate: 14400, tags: ['rankings'] }
-)
+) */
 
 
 export default async function RankingDisplay () {
-    const rankingList = await getCachedRanking()
+    const rankingList = await getRankings()
     console.log('RANKING LIST........', rankingList)
 
     return (
