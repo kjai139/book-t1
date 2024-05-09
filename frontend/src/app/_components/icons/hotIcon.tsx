@@ -18,7 +18,7 @@ export default function HotIcon ({level}:HotIconProps) {
 
     return (
         
-        <div className="absolute top-1 left-1 p-1 bg-content3 rounded-full -rotate-30">
+        <div className={`bg-black rounded-full -rotate-30 p-1`}>
             <AiFillFire color={color}></AiFillFire>
         </div>
             

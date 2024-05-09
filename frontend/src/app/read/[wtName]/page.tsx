@@ -165,7 +165,7 @@ export default async function WtPage({params}:any) {
                     <span className="text-sm text-default-500 whitespace-pre-line">
                         <p>{wt.wt.about}</p>
                     </span>
-                    <div className="flex gap-2 justify-evenly">
+                    <div className="flex gap-2 justify-evenly ng">
                         <Button as={Link} href={`/read/${params.wtName}/${firstChapterNum}`} aria-label="First Chapter" fullWidth>
                             First Chapter
                         </Button>

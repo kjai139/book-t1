@@ -9,6 +9,7 @@ import NextImage from "next/image"
 import StarsOnly from "./rating/starsDisplayOnly"
 import SortByRadio from "./radio/sortByRadio"
 import HotIcon from "./icons/hotIcon"
+import NewIcon from "./icons/newIcon"
 
 
 export default function ViewallWt () {
@@ -68,9 +69,9 @@ export default function ViewallWt () {
         }
     }, [curPg])
 
-    useEffect(() => {
+    /* useEffect(() => {
         console.log(status)
-    }, [status])
+    }, [status]) */
 
     return (
         <div className="p-2 flex flex-col gap-6 relative">
@@ -113,11 +114,15 @@ export default function ViewallWt () {
                 <NextImage src={node.book.image} alt={`Cover image of ${node.book.image}`} unoptimized blurDataURL={node.book.image} placeholder="blur" fill sizes="(max-width:600px) 40vw, (max-width:1200px) 20vw" className="home-c object-cover rounded">
 
                 </NextImage>
-                {
-                    node.book.isHot !== 'No' ? 
-                    <HotIcon level={node.book.isHot}></HotIcon>
-                    : null
+                <span className="flex absolute top-1 left-1 gap-1 items-center">
+                {node.book?.isHot !== 'No' ? 
+                <HotIcon level={node.book.isHot}></HotIcon>
+                : null
                 }
+                {node.book?.isTitleNew !== false ?
+                <NewIcon></NewIcon> : null
+                }
+                </span>
                 
                 </div>
                 </Link>

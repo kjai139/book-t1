@@ -53,7 +53,9 @@ export default function SelectGenres ({value, setValue}:any) {
              color="primary"
              value={value}
              onValueChange={setValue}
-             orientation="horizontal"
+             classNames={{
+                wrapper: 'qlabel'
+             }}
              >
                 {defaultItems.map((node:any, idx:number) => {
                 return (

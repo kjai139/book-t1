@@ -91,7 +91,7 @@ export default function MainHeaderNav () {
         <Navbar disableAnimation={true} isBordered position={'static'} onMenuOpenChange={setIsMenuOpen} isMenuOpen={isMenuOpen} maxWidth="lg">
           <NavbarContent justify="start">
             <NavbarMenuToggle aria-label={isMenuOpen ? 'Close menu' : 'Open menu'} className="sm:hidden" />
-            <NavbarBrand>
+            <NavbarBrand className="ng">
               <Button variant="flat" as={Link} href="/" isIconOnly>
                 <NextImage src={homeIcon} alt="Home Icon Image" priority></NextImage>
               </Button>
@@ -107,7 +107,7 @@ export default function MainHeaderNav () {
          
     
           <NavbarContent justify="end">
-            <NavbarItem>
+            <NavbarItem className="ng">
             <Button isIconOnly aria-label="Toggle Searchbar" onPress={() => setIsSearchOpen(prev => !prev)}>
                 <FaSearch></FaSearch>
             </Button>

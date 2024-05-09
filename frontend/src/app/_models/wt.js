@@ -82,6 +82,10 @@ const WTSchema = new Schema({
     wtStatus: {
         type: Schema.Types.ObjectId,
         ref: 'Status',
+    },
+    isTitleNew: {
+        type:Boolean,
+        default: false
     }
 
    
