@@ -121,7 +121,7 @@ export default function SlideSearchBar ({isSearchOpen, setIsSearchOpen}:SlideSea
     return (
         <div className={`max-w-[1024px] lg:max-w-[750px] w-full items-center flex justify-center nav-sb ${isSearchOpen ? 'active' : 'inactive'} lg:mt-8 lg:mb-4`}>
             <div className="w-full">
-        <Input size="lg" placeholder="Start typing..." value={query} onValueChange={handleInputChange} radius="none" ref={searchInputRef} endContent={isLoading && <Spinner></Spinner>} autoComplete="off" classNames={{
+        <Input size="lg" placeholder="Enter a title..." value={query} onValueChange={handleInputChange} aria-label="Search input" radius="none" ref={searchInputRef} endContent={isLoading && <Spinner></Spinner>} autoComplete="off" classNames={{
           innerWrapper: "bg-transparent",
           inputWrapper: [
             "bg-content3",

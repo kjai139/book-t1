@@ -157,7 +157,7 @@ export default function Rating ({wtId}:RatingProps) {
                 <span className="sm:text-sm text-xs text-default-500 italic py-1 px-2">Give it a rating!</span>
                 }
                 {didUserJustVote &&
-                <span className="sm:text-sm text-xs text-default-500 italic px-2 py-1">Thanks for your rating!</span>
+                <span className="sm:text-sm text-xs italic py-1 text-warning">Thanks for your rating!</span>
                 }
             </div>
         <div className="flex flex-col">

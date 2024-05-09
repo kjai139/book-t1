@@ -216,7 +216,7 @@ export default async function Page({params}:{params: {wtName: string; chNum: str
                 <ChSelect wtName={params.wtName} chList={chList.chList} curCh={params.chNum}></ChSelect>
                 </div>
 
-                <div className="w-full flex pb-2 px-4 justify-end gap-4">
+                <div className="w-full flex pb-2 px-4 justify-end gap-4 ng">
                     {
                         chList.chList[chList.chList.length - 1].chapterNumber < Number(params.chNum) ?
                         <Button as={Link} href={`/read/${params.wtName}/${getPrev(params.chNum)}`} size="sm" className="text-default-500 font-semibold">

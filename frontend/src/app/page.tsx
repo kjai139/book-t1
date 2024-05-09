@@ -13,6 +13,7 @@ import { dbConnect } from "./_utils/db"
 import { cache } from 'react'
 import dynamic from "next/dynamic"
 import HotIcon from "./_components/icons/hotIcon"
+import NewIcon from "./_components/icons/newIcon"
 const RankingDisplay = dynamic(() => import('./_components/footer/ranking'))
 
 
@@ -122,11 +123,7 @@ const GetHomeUpdates = cache(async () => {
 
 export default async function Home() {
   const updates = await GetHomeUpdates()
-  
-
-  
-  /* console.log('PROPS RECEIVED FROM SSG', updates) */
-  
+ 
   updates.updates = updates.updates.map((node:any) => {
     const updatedChapters = node.chapters.map((chapter:any) => {
       console.log('chapter', chapter)
@@ -145,7 +142,8 @@ export default async function Home() {
       chapters: updatedChapters
     }
   })
-  
+
+ 
   
   
   return (
@@ -181,10 +179,15 @@ export default async function Home() {
               <NextImage src={node.book.image} alt={`Cover image of ${node.book.name}`} priority={idx <= 1 ? true : false} fill sizes="(max-width:420px) 50vw,(max-width:600px) 33vw, (max-width:1200px) 10vw, 10vw" className="home-c object-cover rounded">
 
               </NextImage>
+              <span className="flex absolute top-1 left-1 gap-1 items-center">
               {node.book?.isHot !== 'No' ? 
               <HotIcon level={node.book.isHot}></HotIcon>
               : null
               }
+              {node.book?.isTitleNew !== false ?
+              <NewIcon></NewIcon> : null
+              }
+              </span>
              
             </div>
             </Link>
