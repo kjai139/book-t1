@@ -498,8 +498,3 @@ html {
   }
 }
 
-@supports not (gap:1rem) {
-  .ng {
-    margin: 0.25rem;
-  }
-}
