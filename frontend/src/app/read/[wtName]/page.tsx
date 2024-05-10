@@ -152,19 +152,21 @@ export default async function WtPage({params}:any) {
             </span>
             <div className="items-center flex flex-col gap-8">
                 <BreadCrumbs wtUrl={wt.wt.name}></BreadCrumbs>
-                <div className="flex flex-col sm:flex-row sm:gap-4 gap-4 p-1">
+                <div className="flex flex-col w-full sm:flex-row sm:gap-4 gap-4 p-1">
                 <div className="flex flex-col gap-4 justify-between items-center">
-                <Image src={wt.wt.image} loading="eager" alt={`Cover image of ${wt.wt.name}`} className="sm:max-h-[240px]"></Image>
+                <Image src={wt.wt.image} loading="eager" alt={`Cover image of ${wt.wt.name}`} className="p-2 w-full max-w-[350px] sm:max-w-[240px]"></Image>
                 <SaveBookmarkBtn image={wt.wt.image} wTstatus={wt.wt.status} wtName={wt.wt.name} wtGenres={wt.wt.genres}></SaveBookmarkBtn>
                 </div>
 
-                <div className="flex flex-col justify-between gap-4">
+                <div className="flex flex-col justify-between gap-4 flex-1">
+                    <div className="flex flex-col">
                     <div className="flex w-full">
                         <Rating wtId={wt.wt._id}></Rating>
                     </div>
-                    <span className="text-sm text-default-500 whitespace-pre-line">
+                    <span className="text-sm text-default-500 whitespace-pre-line p-2 mt-4">
                         <p>{wt.wt.about}</p>
                     </span>
+                    </div>
                     <div className="flex gap-2 justify-evenly ng">
                         <Button as={Link} href={`/read/${params.wtName}/${firstChapterNum}`} aria-label="First Chapter" fullWidth>
                             First Chapter
@@ -176,7 +178,7 @@ export default async function WtPage({params}:any) {
                 </div>
                 </div>
 
-                <div className="flex flex-col w-full max-w-[400px]">
+                <div className="flex flex-col w-full text-center">
                     <table>
                         <tbody className="text-sm">
                             {table.map((node, idx) => {
@@ -194,7 +196,7 @@ export default async function WtPage({params}:any) {
                     </table>
                 </div>
                 
-                <div className="flex gap-2 flex-wrap max-w-[630px]">
+                <div className="flex gap-2 flex-wrap">
                 {wt.wt.genres.map((genre:any) => {
                     return (
                         <Button as={Link} href={`/genres/${genre.slug}`} aria-label={`Check the ${genre.name} genre collection`} key={genre._id} size="sm" radius="full">
@@ -203,7 +205,7 @@ export default async function WtPage({params}:any) {
                     )
                 })}
                 </div>
-                <div className="max-w-[630px] w-full">
+                <div className="w-full">
                 <LastRead wtId={wt.wt._id} wtName={wt.wt.name}></LastRead>
                 </div>
                 <div className="w-full">
