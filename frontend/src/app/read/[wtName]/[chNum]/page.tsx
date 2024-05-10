@@ -204,7 +204,7 @@ export default async function Page({params}:{params: {wtName: string; chNum: str
                     console.log('CONTENT IMGS MAP', node)
                     return (
                         
-                        <div key={node._id}>
+                        <div key={node._id} className="flex flex-col items-center">
                             <Image src={node.url} priority={idx === 0 ? true : false} alt="image" width={node.imgWidth} height={node.imgHeight} sizes="(max-width:800px) 100vw, (max-width:1200px) 80vw, 80vw" placeholder="blur" blurDataURL={node.url} quality={100} unoptimized></Image>
                         </div>
                     )
