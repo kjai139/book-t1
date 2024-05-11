@@ -162,7 +162,7 @@ export default function MainDynamicSlide ({slideArr}:MainDynamicSlideProps) {
                     return (
                         <div key={`slide-${slide._id}`} className='h-[400px] w-full'>
                             <span className='relative h-[400px] flex flex-col lg:m-2 sm:m-2 md:m-2'>
-                            <NextImage src={slide.image} fill  sizes="(max-width:640px) 80vw, (max-width:768px) 30vw, (max-width:1200px) 15vw, 10vw" priority={idx === 0} 
+                            <NextImage src={slide.image} fill  sizes="(max-width:640px) 80vw, (max-width:768px) 30vw, (max-width:1200px) 15vw, 10vw" priority={idx === 0} unoptimized 
                             placeholder='blur' blurDataURL={slide.image} alt={`Cover Image of ${slide.name}`} className='rounded shadow slider-img sm:max-w-[300px]' style={{
                                 objectFit: 'cover'
                             }}>
