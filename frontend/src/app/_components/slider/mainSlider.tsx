@@ -88,7 +88,7 @@ export default function MainDynamicSlide ({slideArr}:MainDynamicSlideProps) {
                     slidesToShow: 1,
                     slidesToScroll: 1,
                     dots:true,
-                    autoplay: false,
+                    autoplay: true,
                     autoplaySpeed: 15000,
                     speed:500,
                     arrows: false,
