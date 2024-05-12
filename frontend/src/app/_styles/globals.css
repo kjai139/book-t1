@@ -133,6 +133,11 @@ main {
   gap:.25rem;
 }
 
+.slider-wp {
+  max-width: 640px !important;
+  width: 100%;
+}
+
 .slick-dots li button:before {
   color: white;
 }
@@ -476,7 +481,7 @@ html {
     width: 100%; 
     padding: 10px;
     
-    background: linear-gradient(to top, rgba(0, 0, 0, 0.4) 50%, rgba(0, 0, 0, 0) 100%);
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.4) 50%, rgba(0, 0, 0, 0.1) 100%);
     
     /* font-size: 1em; */
     display: flex;

@@ -7,7 +7,6 @@ import MainFooter from "./_components/footer/mainFooter";
 import SiteData from '@/app/_models/siteData'
 import { dbConnect } from "./_utils/db";
 import { Viewport } from "next";
-import { SpeedInsights } from "@vercel/speed-insights/next";
 import NextTopLoader from "nextjs-toploader";
 import { GoogleTagManager } from "@next/third-parties/google";
 
@@ -71,7 +70,7 @@ export default function RootLayout({
           <MainHeaderNav></MainHeaderNav>
           {children}
           <MainFooter></MainFooter>
-          <SpeedInsights></SpeedInsights>
+          {/* <SpeedInsights></SpeedInsights> */}
         
         </Providers>
         
