@@ -8,6 +8,7 @@ import { Button, Link } from '@nextui-org/react'
 import StarsOnly from '../rating/starsDisplayOnly'
 import { GoDotFill } from 'react-icons/go'
 import { FaPlay } from 'react-icons/fa'
+import { Image } from '@nextui-org/react'
 
 interface MainDynamicSlideProps {
     slideArr: []
@@ -27,7 +28,7 @@ export default function MainDynamicSlide ({slideArr}:MainDynamicSlideProps) {
         arrows: false,
         initialSlide: 0,
         pauseonHover: true,
-        lazyLoad:false,
+        lazyLoad: false,
         className: 'w-[100%] p-2',
         appendDots: (dots:any) => (
             <div style={{
@@ -57,6 +58,7 @@ export default function MainDynamicSlide ({slideArr}:MainDynamicSlideProps) {
                     arrows: false,
                     initialSlide: 0,
                     pauseonHover: true,
+                    lazyLoad: true,
                   
                     className: 'w-[100%] p-2',
                     appendDots: (dots:any) => (
@@ -90,7 +92,7 @@ export default function MainDynamicSlide ({slideArr}:MainDynamicSlideProps) {
                     speed:500,
                     arrows: false,
                     pauseonHover: true,
-                
+                    lazyLoad: false,
                     initialSlide: 0,
                     className: 'w-[100%] p-2',
                     appendDots: (dots:any) => (
@@ -162,12 +164,20 @@ export default function MainDynamicSlide ({slideArr}:MainDynamicSlideProps) {
                     return (
                         <div key={`slide-${slide._id}`} className='h-[400px] w-full'>
                             <span className='relative h-[400px] flex flex-col lg:m-2 sm:m-2 md:m-2'>
-                            <NextImage src={slide.image} fill  sizes="(max-width:640px) 80vw, (max-width:768px) 30vw, (max-width:1200px) 15vw, 10vw" priority={idx === 0} unoptimized 
+                            {/* <NextImage src={slide.image}  fill  sizes="(max-width:640px) 80vw, (max-width:768px) 30vw, (max-width:1200px) 15vw, 10vw" priority={idx === 0} unoptimized 
                             placeholder='blur' blurDataURL={slide.image} alt={`Cover Image of ${slide.name}`} className='rounded shadow slider-img sm:max-w-[300px]' style={{
                                 objectFit: 'cover'
                             }}>
 
-                            </NextImage>
+                            </NextImage> */}
+                            <Image as={NextImage} src={slide.image} width={300} height={400} priority={idx === 0} alt={`Cover Image of ${slide.name}`} shadow='none' className='slider-img' classNames={{
+                                wrapper:'h-[400px] absolute w-full max-w-[640px] sm:max-w-[300px]'
+                            }} style={{
+                                width:'100%',
+                                maxWidth: '640px'
+                            }}>
+
+                            </Image>
                             <div className='flex flex-col flex-1 justify-end items-center z-10 text-foreground slider-ol sm:l-slider-ol sm:pl-[320px] sm:justify-center'>
                                 <div className='flex flex-col p-2 gap-2 w-full'>
                                     <div className=' slider-about'>

@@ -34,6 +34,7 @@
     "react-slick": "^0.30.2",
     "sharp": "^0.33.3",
     "slick-carousel": "^1.8.1",
+    "swiper": "^11.1.1",
     "uuid": "^9.0.1",
     "yup": "^1.4.0"
   },
