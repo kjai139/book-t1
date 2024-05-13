@@ -44,7 +44,7 @@ export function ThemeSwitcher() {
 
     return (
         <>
-            <Switch isSelected={theme === 'lTheme'} onValueChange={toggleTheme} size="md" endContent={<IoSunnySharp></IoSunnySharp>} startContent={<IoMoonSharp></IoMoonSharp>}></Switch>
+            <Switch aria-label="Light mode Dark mode Toggle" isSelected={theme === 'lTheme'} onValueChange={toggleTheme} size="md" endContent={<IoSunnySharp></IoSunnySharp>} startContent={<IoMoonSharp></IoMoonSharp>}></Switch>
           
         </>
     )

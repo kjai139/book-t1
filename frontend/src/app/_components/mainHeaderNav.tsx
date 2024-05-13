@@ -92,6 +92,7 @@ export default function MainHeaderNav () {
           <NavbarContent justify="start">
             <NavbarMenuToggle aria-label={isMenuOpen ? 'Close menu' : 'Open menu'} className="sm:hidden" />
             <NavbarBrand className="ng">
+              
               <Button variant="flat" as={Link} href="/" isIconOnly>
                 <NextImage src={homeIcon} alt="Home Icon Image" priority></NextImage>
               </Button>
