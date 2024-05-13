@@ -4,11 +4,11 @@ import "slick-carousel/slick/slick.css"
 import "slick-carousel/slick/slick-theme.css"
 import { useState } from 'react'
 import NextImage from 'next/image'
-import { Button, Link, Skeleton } from '@nextui-org/react'
+import { Button, Link } from '@nextui-org/react'
 import StarsOnly from '../rating/starsDisplayOnly'
 import { GoDotFill } from 'react-icons/go'
 import { FaPlay } from 'react-icons/fa'
-import { Image } from '@nextui-org/react'
+
 
 interface MainDynamicSlideProps {
     slideArr: []
@@ -17,7 +17,6 @@ interface MainDynamicSlideProps {
 export default function MainDynamicSlide ({slideArr}:MainDynamicSlideProps) {
 
     const [slides, setSlides] = useState<any[]>(slideArr)
-    const [isImgDoneLoading, setIsImgDoneLoading] = useState(false)
 
     const settings = {
         slidesToShow: 1,
@@ -165,24 +164,14 @@ export default function MainDynamicSlide ({slideArr}:MainDynamicSlideProps) {
                     return (
                         <div key={`slide-${slide._id}`} className='h-[400px] w-full'>
                             <span className='relative h-[400px] flex flex-col lg:m-2 sm:m-2 md:m-2'>
-                                 <Skeleton isLoaded={isImgDoneLoading} className='absolute w-full h-full sm:max-w-[300px]'></Skeleton>
-                            {/* <NextImage src={slide.image}  fill  sizes="(max-width:640px) 100vw, (max-width:768px) 30vw, (max-width:1200px) 15vw, 15vw" priority={idx === 0}
+                            
+                            <NextImage src={slide.image}  fill  sizes="(max-width:640px) 100vw, (max-width:768px) 30vw,
+                            (max-width:1024px) 30vw, (max-width:1200px) 15vw, 15vw" priority={idx === 0}
                             placeholder='blur' blurDataURL={slide.image} alt={`Cover Image of ${slide.name}`} className='rounded shadow slider-img sm:max-w-[300px]' style={{
                                 objectFit: 'cover'
                             }}>
 
-                            </NextImage> */}
-                        
-                            <Image src={slide.image} width={300} height={400} alt={`Cover Image of ${slide.name}`} disableSkeleton shadow='none' onLoad={idx === 0 ? () => setIsImgDoneLoading(true) : undefined} className='sm:p-2 sm:max-w-[300px] slider-img' loading={ idx === 0 ? 'eager' : 'lazy'} classNames={{
-                                
-                                wrapper: 'static w-full h-full z-100'
-                            }} style={{
-                               objectFit:'cover',
-                               width:'100%',
-                               position:'absolute'
-                            }}>
-
-                            </Image>
+                            </NextImage>
                             <div className='flex flex-col flex-1 justify-end items-center z-10 text-foreground slider-ol sm:l-slider-ol sm:pl-[320px] sm:justify-center sm:shadow'>
                                 <div className='flex flex-col p-2 gap-2 w-full'>
                                     <div className=' slider-about'>
