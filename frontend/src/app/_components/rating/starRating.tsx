@@ -26,7 +26,7 @@ export default function Rating ({wtId}:RatingProps) {
     const [tempId, setTempId] = useState<string | null>('temp')
     const [isDoneLoading, setIsDoneLoading] = useState(false)
     const [didUserJustVote, setDidUserJustVote] = useState(false)
-    
+    const [userRating, setUserRating] = useState<number | null>(null)
 
     useEffect(() => {
         if (tempId === 'temp') {
@@ -64,7 +64,7 @@ export default function Rating ({wtId}:RatingProps) {
                     setTotalRated(json.totalRated)
                 }
                 if (json.didUserRate) {
-                    
+                    setUserRating(json.didUserRate.rating)
                     setHasUserVoted(true)
                 
                 }
@@ -101,6 +101,7 @@ export default function Rating ({wtId}:RatingProps) {
 
             if (response.ok) {
                 setIsLoading(false)
+                setRating(rating)
                 setDidUserJustVote(true)
                 console.log(`User rated ${wtId} ${rating} stars`)
             } else {
@@ -120,6 +121,7 @@ export default function Rating ({wtId}:RatingProps) {
             
         }
     }, [tempId])
+
 
    
     for (let i = 1; i <= 5; i++) {
@@ -152,7 +154,7 @@ export default function Rating ({wtId}:RatingProps) {
                 </span>}
                 </div>}
                 {isDoneLoading && hasUserVoted && 
-                <span className="text-xs text-default-500 italic py-1 px-2">You have already rated this.</span>}
+                <span className="text-xs text-default-500 italic py-1 px-2">You have already rated this a {userRating}.</span>}
                 {isDoneLoading && !hasUserVoted && !didUserJustVote &&
                 <span className="sm:text-sm text-xs text-default-500 italic py-1 px-2">Give it a rating!</span>
                 }
