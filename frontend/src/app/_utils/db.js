@@ -26,16 +26,8 @@ export const dbConnect = async () => {
             return cached.conn
         } */
         if (!cached.promise) {
-            const opts = {
-              useNewUrlParser: true,
-              useUnifiedTopology: true,
-              bufferCommands: false,
-              bufferMaxEntries: 0,
-              useFindAndModify: true,
-              useCreateIndex: true
-            }
-        
-            cached.promise = mongoose.connect(MONGO_DB, opts).then(mongoose => {
+            
+            cached.promise = mongoose.connect(MONGO_DB).then(mongoose => {
               return mongoose
             })
         }
