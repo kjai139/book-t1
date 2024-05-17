@@ -16,7 +16,7 @@ export async function POST(req:NextRequest) {
        
         await userSchema.validate(body)
         await dbConnect()
-        const escapedTxt = body.username.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
+        const escapedTxt = body.username.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&")
 
         const normalizedName = escapedTxt.toLowerCase()
         
