@@ -4,10 +4,10 @@ import Genre from "@/app/_models/genre";
 import { dbConnect } from "@/app/_utils/db";
 
 export async function GET(req:NextRequest) {
-
+    const name:any = req.nextUrl.searchParams.get('name')
     try {
         await dbConnect()
-        const name:any = req.nextUrl.searchParams.get('name')
+        
         if (!name || typeof name !== 'string' || name.trim() === '') {
             throw new Error('invalid query type')
         }
@@ -34,6 +34,7 @@ export async function GET(req:NextRequest) {
     
         
     } catch (err:any) {
+        console.error(err)
         return NextResponse.json({
             message: err.message
         }, {
