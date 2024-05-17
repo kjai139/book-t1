@@ -16,7 +16,6 @@ export async function POST(req:NextRequest) {
        
         await userSchema.validate(body)
         await dbConnect()
-        
         const normalizedName = body.username.toLowerCase()
         
         const theUser = await User.findOne({lcname: normalizedName})
