@@ -35,7 +35,7 @@ export const dbConnect = async () => {
               useCreateIndex: true
             }
         
-            cached.promise = mongoose.connect(MONGODB_URI, opts).then(mongoose => {
+            cached.promise = mongoose.connect(MONGO_DB, opts).then(mongoose => {
               return mongoose
             })
         }
