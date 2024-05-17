@@ -27,7 +27,7 @@ export const dbConnect = async () => {
         } */
         if (!cached.promise) {
             
-            cached.promise = mongoose.connect(MONGO_DB, { socketTimeoutMS: 30000}).then(mongoose => {
+            cached.promise = mongoose.connect(MONGO_DB).then(mongoose => {
               return mongoose
             })
         }
