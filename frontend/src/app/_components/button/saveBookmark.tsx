@@ -84,7 +84,7 @@ export default function SaveBookmarkBtn ({wtGenres, chNum, image, wTstatus, wtNa
 
     return (
         <>
-        {isDoneLoading && <Button onPress={toggleBm} startContent={<FaBookmark></FaBookmark>} variant="solid" fullWidth className={`ext-md font-semibold`} color={`${isMarked ? 'success' : 'default'}`} aria-label="Add to Bookmark">{isMarked ? 'Bookmarked' : 'Bookmark'}</Button>}
+        {isDoneLoading && <Button onPress={toggleBm} startContent={<FaBookmark></FaBookmark>} variant="solid" fullWidth className={`ext-md font-semibold max-w-[350px]`} color={`${isMarked ? 'success' : 'default'}`} aria-label="Add to Bookmark">{isMarked ? 'Bookmarked' : 'Bookmark'}</Button>}
         {errorMsg &&
         <span className="text-xs text-danger">{errorMsg}</span> 
         }

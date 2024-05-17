@@ -150,16 +150,22 @@ export default async function WtPage({params}:any) {
             
                 <h3 className="text-center w-full text-lg font-semibold lg:text-2xl sm:text-xl">{wt.wt.name}</h3>
             </span>
+            
             <div className="items-center flex flex-col gap-8">
-                <BreadCrumbs wtUrl={wt.wt.name}></BreadCrumbs>
+                {/* <BreadCrumbs wtUrl={wt.wt.name}></BreadCrumbs> */}
                 <div className="flex flex-col w-full sm:flex-row sm:gap-4 gap-4 p-1">
                 <div className="flex flex-col gap-4 justify-between items-center">
-                <Image src={wt.wt.image} loading="eager" alt={`Cover image of ${wt.wt.name}`} className="p-2 w-full max-w-[350px] sm:max-w-[240px]"></Image>
+                <Image src={wt.wt.image} loading="eager" alt={`Cover image of ${wt.wt.name}`} className="p-2 w-full max-w-[350px] sm:max-w-[240px] sm:shadow"></Image>
                 <SaveBookmarkBtn image={wt.wt.image} wTstatus={wt.wt.status} wtName={wt.wt.name} wtGenres={wt.wt.genres}></SaveBookmarkBtn>
                 </div>
 
                 <div className="flex flex-col justify-between gap-4 flex-1">
                     <div className="flex flex-col">
+                       
+                        <h4 className="p-2 text-sm">
+                        {wt.wt.altName}
+                        </h4>
+                       
                     <div className="flex w-full">
                         <Rating wtId={wt.wt._id}></Rating>
                     </div>

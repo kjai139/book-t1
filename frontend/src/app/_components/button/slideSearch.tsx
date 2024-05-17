@@ -34,7 +34,7 @@ export default function SlideSearchBar ({isSearchOpen, setIsSearchOpen}:SlideSea
 
                 if (response.ok) {
                     const data = await response.json()
-                    /* console.log(data) */
+                    console.log(data)
                     setResult(data.results)
                     if (data.results.length === 0) {
                         setIsLoading(false)
@@ -44,6 +44,8 @@ export default function SlideSearchBar ({isSearchOpen, setIsSearchOpen}:SlideSea
                         setIsLoading(false)
                     }
                 } else {
+                    const data = await response.json()
+                    console.log(data)
                     setIsLoading(false)
                     setResult(null)
                     setNoResult(true)
@@ -121,7 +123,7 @@ export default function SlideSearchBar ({isSearchOpen, setIsSearchOpen}:SlideSea
     return (
         <div className={`max-w-[1024px] lg:max-w-[750px] w-full items-center flex justify-center nav-sb ${isSearchOpen ? 'active' : 'inactive'} lg:mt-8 lg:mb-4`}>
             <div className="w-full">
-        <Input size="lg" placeholder="Enter a title..." value={query} onValueChange={handleInputChange} aria-label="Search input" radius="none" ref={searchInputRef} endContent={isLoading && <Spinner></Spinner>} autoComplete="off" classNames={{
+        <Input size="lg" placeholder="Enter a title..." value={query} onValueChange={handleInputChange} maxLength={40} isClearable aria-label="Search input" radius="none" ref={searchInputRef} endContent={isLoading && <Spinner></Spinner>} autoComplete="off" classNames={{
           innerWrapper: "bg-transparent",
           inputWrapper: [
             "bg-content3",

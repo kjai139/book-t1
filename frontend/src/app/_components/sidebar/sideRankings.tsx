@@ -18,7 +18,7 @@ export default async function SideRankingDisplay () {
         <div className="lg:max-w-[280px] w-full">
         <div className="flex flex-col lg:mx-0 bg-content1 lg:bg-inherit">
         <div className="lg:max-w-[350px] w-full p-2">
-            <h3 className="p-2 font-semibold">
+            <h3 className="p-2 font-semibold text-sm">
                 Popularity Ranking
             </h3>
             <Divider className="mt-2"></Divider>

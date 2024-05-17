@@ -8,6 +8,16 @@ export async function GET(req:NextRequest) {
     try {
         await dbConnect()
         const name:any = req.nextUrl.searchParams.get('name')
+        if (!name || typeof name !== 'string' || name.trim() === '') {
+            throw new Error('invalid query type')
+        }
+
+        const isValidString = /^[a-zA-Z0-9\s]*$/g.test(name);
+
+        if (!isValidString) {
+            throw new Error('wtf you doing')
+        }
+
         const escapedTxt = name.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
         
         const regex = new RegExp(escapedTxt, 'i')

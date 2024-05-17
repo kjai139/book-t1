@@ -16,8 +16,10 @@ export async function POST(req:NextRequest) {
        
         await userSchema.validate(body)
         await dbConnect()
+        const escapedTxt = body.username.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
 
-        const normalizedName = body.username.toLowerCase()
+        const normalizedName = escapedTxt.toLowerCase()
+        
         const theUser = await User.findOne({lcname: normalizedName})
             if (!theUser) {
                 return NextResponse.json({
