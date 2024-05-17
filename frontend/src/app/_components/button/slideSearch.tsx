@@ -34,7 +34,7 @@ export default function SlideSearchBar ({isSearchOpen, setIsSearchOpen}:SlideSea
 
                 if (response.ok) {
                     const data = await response.json()
-                    console.log(data)
+                    /* console.log(data) */
                     setResult(data.results)
                     if (data.results.length === 0) {
                         setIsLoading(false)
@@ -45,7 +45,7 @@ export default function SlideSearchBar ({isSearchOpen, setIsSearchOpen}:SlideSea
                     }
                 } else {
                     const data = await response.json()
-                    console.log(data)
+                    /* console.log(data) */
                     setIsLoading(false)
                     setResult(null)
                     setNoResult(true)

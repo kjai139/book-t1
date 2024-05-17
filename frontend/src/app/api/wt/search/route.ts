@@ -8,7 +8,7 @@ export async function GET(req:NextRequest) {
     try {
         await dbConnect()
         const name:any = req.nextUrl.searchParams.get('name')
-        if (!name || typeof name !== 'string' || name.trim() === '') {
+        /* if (!name || typeof name !== 'string' || name.trim() === '') {
             throw new Error('invalid query type')
         }
 
@@ -16,7 +16,7 @@ export async function GET(req:NextRequest) {
 
         if (!isValidString) {
             throw new Error('wtf you doing')
-        }
+        } */
 
         const escapedTxt = name.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
         
