@@ -27,6 +27,7 @@ export const dbConnect = async () => {
         }
         
     } catch (err) {
+        console.error(err)
         throw new Error('connection to db failed!')
     }
 }
