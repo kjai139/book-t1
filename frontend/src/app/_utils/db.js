@@ -1,7 +1,7 @@
 import mongoose from 'mongoose'
 
-/* const { MONGO_DB } = process.env */
-const MONGO_DB = process.env.MONGO_URI
+const { MONGO_DB } = process.env
+/* const MONGO_DB = process.env.MONGO_URI */
 
 if (!MONGO_DB) {
     throw new Error('MONGO_DB IS NOT DEFINED.')
