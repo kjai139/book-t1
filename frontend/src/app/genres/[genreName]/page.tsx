@@ -149,7 +149,7 @@ export default async function Page ({params}:any) {
     return (
         <main>
         <div className="max-w-[1024px] flex flex-col p-2 w-full gap-4">
-            <div>
+            <div className="p-2">
                 <div className="flex gap-2 items-center pt-4 pb-2">
                 <h3 className="text-lg font-bold">
                 {wts.genre[0].name}

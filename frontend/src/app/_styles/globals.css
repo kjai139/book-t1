@@ -393,7 +393,7 @@ html {
 .qlabel {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
-  gap:.85rem;
+  gap:.55rem;
 }
 
 
@@ -425,6 +425,8 @@ html {
 .lTheme .ch-links:visited {
   color:#2e75a8;
 }
+
+
 
 
 
@@ -486,7 +488,8 @@ html {
     /* font-size: 1em; */
     display: flex;
     align-items: center; 
-    justify-content: center;
+    height: 100%;
+    justify-content: flex-end;
    
   }
   .mw {

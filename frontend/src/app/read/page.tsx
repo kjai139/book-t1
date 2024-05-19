@@ -1,10 +1,24 @@
 import { Divider } from "@nextui-org/react";
 import ViewallWt from "../_components/viewAllWt";
 import { ThemeSwitcher } from "../_components/themeSwitcher";
+import { dbConnect } from "../_utils/db";
+import Genre from "../_models/genre";
+
+
+async function getSearchProps() {
+    await dbConnect()
+    const allGenres = await Genre.find().sort({name: 1})
+
+    return JSON.parse(JSON.stringify(allGenres))
+
+    
+}
 
 
 
-export default function Readpg () {
+export default async function Readpg () {
+
+    const allGenres = await getSearchProps()
 
 
     return (
@@ -19,7 +33,7 @@ export default function Readpg () {
                 </div>
                 <Divider className="mt-2"></Divider>
             </div>
-            <ViewallWt></ViewallWt>
+            <ViewallWt allGenres={allGenres}></ViewallWt>
             
 
         </div>

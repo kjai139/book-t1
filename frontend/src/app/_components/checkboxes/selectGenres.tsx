@@ -1,52 +1,17 @@
-'use client'
 
 import {CheckboxGroup, Checkbox} from "@nextui-org/react";
-import { useEffect, useState } from "react";
 
 
 
+export default function SelectGenres ({value, setValue, allGenres}:any) {
 
-export default function SelectGenres ({value, setValue}:any) {
-
-    const [defaultItems, setDefaultItems] = useState<any>()
-
-
-    const getGenres = async () => {
-        try {
-            const response = await fetch(`/api/genre/all/get`, {
-                method: 'GET',
-                next: {
-                    revalidate: 60 * 60 * 24 * 7,
-                    tags: ['updateContent']
-                }
-
-            })
-
-            if (response.ok) {
-                const responseData = await response.json()
-                setDefaultItems(responseData.genres)
-                /* console.log(responseData) */
-              
-            }
-
-        } catch (err) {
-            console.error(err)
-        }
-    }
-
-    useEffect(() => {
-        getGenres()
-    }, [])
-
-    /* useEffect(() => {
-        console.log(value)
-    }, [value]) */
+    
 
 
 
     return (
        <div className="flex w-full flex-col gap-2">
-             { defaultItems &&
+             { allGenres &&
              <>
              <CheckboxGroup
              label="By Genres"
@@ -57,7 +22,7 @@ export default function SelectGenres ({value, setValue}:any) {
                 wrapper: 'qlabel'
              }}
              >
-                {defaultItems.map((node:any, idx:number) => {
+                {allGenres.map((node:any, idx:number) => {
                 return (
                     <Checkbox key={`check-${idx}`} value={node._id}>{node.name}</Checkbox>
                 )

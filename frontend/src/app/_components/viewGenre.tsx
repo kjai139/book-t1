@@ -7,6 +7,7 @@ import { formatDateDMY } from "../_utils/dates";
 import { useEffect, useState } from "react";
 import HotIcon from "./icons/hotIcon";
 import NewIcon from "./icons/newIcon";
+import { useInView } from "./observer/useInView";
 
 
 interface ViewGenreWtProps {
@@ -25,6 +26,7 @@ export default function ViewGenreWt ({wtsArr, totalPg, genreName}:ViewGenreWtPro
     const [isResultOut, setIsResultOut] = useState(false)
     const [initialPg, setInitialPage] = useState(1)
     const [isLoading, setIsLoading] = useState(false)
+    const [isInView, ref] = useInView()
 
     const getPage = async () => {
         try {
@@ -56,6 +58,13 @@ export default function ViewGenreWt ({wtsArr, totalPg, genreName}:ViewGenreWtPro
         if (curPg !== initialPg) {
             /* console.log('trigger from curpg') */
             getPage()
+            if (!isLoading && isResultOut && !isInView && ref.current) {    
+                ref.current.scrollIntoView({
+                    behavior: 'instant',
+                    block:'center'
+                })
+            
+            }
         }
     },[curPg])
 
@@ -66,6 +75,8 @@ export default function ViewGenreWt ({wtsArr, totalPg, genreName}:ViewGenreWtPro
     }, [sortBy])
 
     return (
+        <>
+        <div ref={ref}></div>
         <div className="flex flex-col gap-6">
             <SortByRadio value={sortBy} setValue={setSortBy}></SortByRadio>
             <div className="cards-cont gap-4 lg:gap-6 p-2 relative">
@@ -139,7 +150,11 @@ export default function ViewGenreWt ({wtsArr, totalPg, genreName}:ViewGenreWtPro
         </div>
         {curPg && totalPages && !isLoading ? 
           <>
-          <Pagination total={totalPages} page={curPg} onChange={setCurPg} className="w-full" showControls>
+          <Pagination total={totalPages} page={curPg} onChange={setCurPg} className="w-full" showControls classNames={{
+            item:'pg-btns shadow',
+            next: 'shadow',
+            prev: 'shadow'
+          }}>
 
            </Pagination>
           
@@ -152,5 +167,6 @@ export default function ViewGenreWt ({wtsArr, totalPg, genreName}:ViewGenreWtPro
 
            }
         </div>
+        </>
     )
 }
