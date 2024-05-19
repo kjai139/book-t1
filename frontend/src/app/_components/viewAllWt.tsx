@@ -1,6 +1,6 @@
 'use client'
 
-import { RefObject, useEffect, useRef, useState } from "react"
+import { useEffect, useState } from "react"
 import SelectGenres from "./checkboxes/selectGenres"
 import SelectStatusCheckbox from "./checkboxes/selectStatus"
 import { Button, Divider, Link, Pagination } from "@nextui-org/react"
@@ -114,7 +114,7 @@ export default function ViewallWt ({allGenres}:ViewAllWtProps) {
             <Divider className="mt-4"></Divider>
             <div className="justify-start flex flex-col">
                 {totalWt && isResultOut && !isLoading ?
-                <span className="font-semibold flex justify-between">
+                <span className="font-semibold flex justify-between items-center">
                     <span>
                     Results: ( {totalWt} )
                     </span>
@@ -125,12 +125,12 @@ export default function ViewallWt ({allGenres}:ViewAllWtProps) {
                         
                         </div> 
                     
-                </span> : <span className="font-semibold flex justify-between">
+                </span> : <span className="font-semibold flex justify-between items-center">
                     <span>
                     Results: ( ... )
                     </span>
                     <div className="flex">
-                        <Button isIconOnly isDisabled>{`<`}</Button>
+                        <Button isIconOnly isDisabled className="mr-4">{`<`}</Button>
                         <Button isIconOnly isDisabled>{`>`}</Button>
                         
                         </div> 
@@ -144,7 +144,7 @@ export default function ViewallWt ({allGenres}:ViewAllWtProps) {
                 
             </div>
             </div>
-            <div className="cards-cont gap-4 lg:gap-6 p-2 relative">
+            <div className="cards-cont gap-4 lg:gap-6 p-0 relative">
                {isLoading && <div className="overlay-g"></div>}
       
         {updates && updates.wts.map((node:any, idx:number) => {
@@ -219,7 +219,11 @@ export default function ViewallWt ({allGenres}:ViewAllWtProps) {
       </div>
           {curPg && totalPages && isResultOut ? 
           <>
-          <Pagination total={totalPages} showControls page={curPg} onChange={setCurPg} className="w-full">
+          <Pagination total={totalPages} showControls page={curPg} onChange={setCurPg} className="w-full"  classNames={{
+            item:'pg-btns shadow',
+            next: 'shadow',
+            prev: 'shadow'
+          }}>
 
            </Pagination>
           

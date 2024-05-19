@@ -429,6 +429,8 @@ html {
 
 
 
+
+
 @keyframes pulsate {
   0% {
     opacity: 1;
@@ -486,7 +488,8 @@ html {
     /* font-size: 1em; */
     display: flex;
     align-items: center; 
-    justify-content: center;
+    height: 100%;
+    justify-content: flex-end;
    
   }
   .mw {
