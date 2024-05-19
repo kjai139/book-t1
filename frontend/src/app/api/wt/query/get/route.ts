@@ -47,6 +47,7 @@ export async function GET(req:NextRequest) {
             countQuery.wtStatus = {$in: statusObjIds}
         }
         if (genres.length > 0) {
+            console.log(genresObjIds)
             matchStage.$match.genres = {
                 $all: genresObjIds
             }

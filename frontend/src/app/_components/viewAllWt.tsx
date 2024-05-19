@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from "react"
+import { RefObject, useEffect, useRef, useState } from "react"
 import SelectGenres from "./checkboxes/selectGenres"
 import SelectStatusCheckbox from "./checkboxes/selectStatus"
 import { Button, Divider, Link, Pagination } from "@nextui-org/react"
@@ -10,9 +10,14 @@ import StarsOnly from "./rating/starsDisplayOnly"
 import SortByRadio from "./radio/sortByRadio"
 import HotIcon from "./icons/hotIcon"
 import NewIcon from "./icons/newIcon"
+import { useInView } from "./observer/useInView"
+
+interface ViewAllWtProps {
+    allGenres: any[]
+}
 
 
-export default function ViewallWt () {
+export default function ViewallWt ({allGenres}:ViewAllWtProps) {
 
     const [genres, setGenres] = useState([])
     const [status, setStatus] = useState<String[]>([])
@@ -25,6 +30,10 @@ export default function ViewallWt () {
     const [sortBy, setSortBy] = useState('latest')
     const [isResultOut, setIsResultOut] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
+
+    
+    const [isInView, ref] = useInView()
+   
     //for errors
 
 
@@ -40,7 +49,7 @@ export default function ViewallWt () {
 
             if (response.ok) {
                 const data = await response.json()
-                /* console.log(data) */
+                console.log(data)
                 setUpdates(data)
                 setTotalPages(data.totalPages)
                 setTotalWt(data.totalWt)
@@ -52,6 +61,7 @@ export default function ViewallWt () {
                 console.log(data)
             }
             setIsLoading(false)
+          
 
         } catch (err:any) {
             setTotalWt(0)
@@ -61,6 +71,15 @@ export default function ViewallWt () {
             console.error(err)
         
         }
+    }
+
+    const filterSearch = () => {
+        if (curPg !== 1) {
+            setCurPg(1)
+        } else {
+            getWts()
+        }
+        
     }
 
     useEffect(() => {
@@ -73,27 +92,53 @@ export default function ViewallWt () {
         console.log(status)
     }, [status]) */
 
+    useEffect(() => {
+        if (!isLoading && isResultOut && !isInView && ref.current) {    
+            ref.current.scrollIntoView({
+                behavior: 'instant'
+            })
+        
+        }
+
+    }, [curPg])
+
     return (
         <div className="p-2 flex flex-col gap-6 relative">
-            <div className="flex flex-col gap-4 p-2">
-            <SelectGenres value={genres} setValue={setGenres}></SelectGenres>
+            <div className="flex flex-col gap-4 p-2" ref={ref}>
+            <SelectGenres value={genres} setValue={setGenres} allGenres={allGenres}></SelectGenres>
             <SelectStatusCheckbox value={status} setValue={setStatus}></SelectStatusCheckbox>
             <SortByRadio value={sortBy} setValue={setSortBy}></SortByRadio>
             <div className="justify-end flex">
-            <Button  color="primary" size="sm" onPress={getWts} isLoading={isLoading}>Filter</Button>
+            <Button  color="primary" size="sm" onPress={filterSearch} isLoading={isLoading}>Filter</Button>
             </div>
             <Divider className="mt-4"></Divider>
-            <div className="justify-start flex items-center">
+            <div className="justify-start flex flex-col">
                 {totalWt && isResultOut && !isLoading ?
-                <span className="font-semibold">
+                <span className="font-semibold flex justify-between">
+                    <span>
                     Results: ( {totalWt} )
-                </span> : <span className="font-semibold">
+                    </span>
+                    
+                        <div className="flex">
+                        <Button isIconOnly onPress={() => setCurPg((prev) => prev - 1)} className="mr-4" isDisabled={curPg === 1}>{`<`}</Button>
+                        <Button isIconOnly onPress={() => setCurPg((prev) => prev + 1)} isDisabled={curPg === totalPages}>{`>`}</Button>
+                        
+                        </div> 
+                    
+                </span> : <span className="font-semibold flex justify-between">
+                    <span>
                     Results: ( ... )
+                    </span>
+                    <div className="flex">
+                        <Button isIconOnly isDisabled>{`<`}</Button>
+                        <Button isIconOnly isDisabled>{`>`}</Button>
+                        
+                        </div> 
                 </span>
                 }
                 {
                     !totalWt && isResultOut && !isLoading ?
-                    <span className="font-semibold">No matching results.</span> : 
+                    <span className="font-semibold mt-8">No matching results.</span> : 
                     null
                 }
                 
@@ -172,7 +217,7 @@ export default function ViewallWt () {
             )
         })}
       </div>
-          {curPg && totalPages && !isLoading && isResultOut ? 
+          {curPg && totalPages && isResultOut ? 
           <>
           <Pagination total={totalPages} showControls page={curPg} onChange={setCurPg} className="w-full">
 
