@@ -24,6 +24,7 @@ export default function UploadTabs () {
     const [wtStatus, setWtStatus] = useState('')
     const [wtCover, setWtCover] = useState<any[]>([])
     const [tlGroup, setTlGroup] = useState('')
+    const [genreArr, setGenreArr] = useState<any[]>()
 
 
     //wtc states
@@ -51,6 +52,26 @@ export default function UploadTabs () {
         setParentRef('')
         setWtcNumber('')
         setWtcImages([])
+    }
+
+    const getAllGenres = async () => {
+        try {
+            const response = await fetch('/api/genre/all/get', {
+                method: 'GET',
+                next: {
+                    revalidate: 0
+                }
+            })
+
+            if (response.ok) {
+                const json = await response.json()
+                setGenreArr(json.genres)
+                console.log(json.genres)
+            }
+        } catch (err) {
+            console.log('error fetching genres')
+            console.error(err)
+        }
     }
 
     const uploadWT = async () => {
@@ -146,6 +167,10 @@ export default function UploadTabs () {
         console.log('WTC IMGS', wtcImages)
     }, [wtcImages])
 
+    useEffect(() => {
+        getAllGenres()
+    }, [])
+
 
     return (
         <div className='max-w-[1024px] p-8'>
@@ -163,7 +188,7 @@ export default function UploadTabs () {
                             label='WT Title'
                             description={`Enter the WT's title`}
                             ></Input>
-                            <SelectGenres value={wtGenre}setValue={setWtGenre}></SelectGenres>
+                            <SelectGenres value={wtGenre} allGenres={genreArr} setValue={setWtGenre}></SelectGenres>
         
                             <Textarea label="About" placeholder='synopsis' value={wtAbout} onValueChange={setWtAbout}>
 
