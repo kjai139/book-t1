@@ -33,12 +33,14 @@ export default function ViewallWt ({allGenres}:ViewAllWtProps) {
 
     
     const [isInView, ref] = useInView()
+    const [isDisabled, setIsDisabled] = useState(false)
    
     //for errors
 
 
     const getWts = async () => {
         setIsLoading(true)
+        setIsDisabled(true)
         try {
             const response = await fetch(`/api/wt/query/get?genres=${encodeURIComponent(JSON.stringify(genres))}&status=${encodeURIComponent(JSON.stringify(status))}&order=${sortBy}&page=${curPg}`, {
                 next: {
@@ -56,18 +58,20 @@ export default function ViewallWt ({allGenres}:ViewAllWtProps) {
                 setIsResultOut(true)
                 
                 
+                
             } else {
                 const data = await response.json()
                 console.log(data)
             }
             setIsLoading(false)
+            setIsDisabled(false)
           
 
         } catch (err:any) {
             setTotalWt(0)
             setIsResultOut(true)
             setIsLoading(false)
-  
+            setIsDisabled(false)
             console.error(err)
         
         }
@@ -93,10 +97,14 @@ export default function ViewallWt ({allGenres}:ViewAllWtProps) {
     }, [status]) */
 
     useEffect(() => {
-        if (!isLoading && isResultOut && !isInView && ref.current) {    
+        if (!isLoading && isResultOut && !isInView && ref.current) { 
+            setIsDisabled(true)   
             ref.current.scrollIntoView({
                 behavior: 'instant'
             })
+            setTimeout(() => {
+                setIsDisabled(false)
+            }, 1000)
         
         }
 
@@ -104,10 +112,12 @@ export default function ViewallWt ({allGenres}:ViewAllWtProps) {
 
     return (
         <div className="p-2 flex flex-col gap-6 relative">
+            
             <div className="flex flex-col gap-4 p-2" ref={ref}>
-            <SelectGenres value={genres} setValue={setGenres} allGenres={allGenres}></SelectGenres>
-            <SelectStatusCheckbox value={status} setValue={setStatus}></SelectStatusCheckbox>
-            <SortByRadio value={sortBy} setValue={setSortBy}></SortByRadio>
+           
+            <SelectGenres isDisabled={isDisabled} value={genres} setValue={setGenres} allGenres={allGenres}></SelectGenres>
+            <SelectStatusCheckbox isDisabled={isDisabled} value={status} setValue={setStatus}></SelectStatusCheckbox>
+            <SortByRadio isDisabled={isDisabled} value={sortBy} setValue={setSortBy}></SortByRadio>
             <div className="justify-end flex">
             <Button  color="primary" size="sm" onPress={filterSearch} isLoading={isLoading}>Filter</Button>
             </div>
@@ -145,7 +155,7 @@ export default function ViewallWt ({allGenres}:ViewAllWtProps) {
             </div>
             </div>
             <div className="cards-cont gap-4 lg:gap-6 p-0 relative">
-               {isLoading && <div className="overlay-g"></div>}
+               
       
         {updates && updates.wts.map((node:any, idx:number) => {
             
@@ -153,7 +163,7 @@ export default function ViewallWt ({allGenres}:ViewAllWtProps) {
             return (
             <div key={`${node.book._id}-qry`} className="cg">
             
-                <Link href={`/read/${slug}`}>
+                <Link href={`/read/${slug}`} isDisabled={isDisabled}>
                 <div className="relative w-full min-h-[200px] overflow-hidden">
                 
                 <NextImage src={node.book.image} alt={`Cover image of ${node.book.image}`} unoptimized blurDataURL={node.book.image} placeholder="blur" fill sizes="(max-width:600px) 40vw, (max-width:1200px) 20vw" className="home-c object-cover rounded">
@@ -175,12 +185,12 @@ export default function ViewallWt ({allGenres}:ViewAllWtProps) {
                 
                 
                 <span className="card-txt">
-                <Link href={`/read/${slug}`} color="foreground">
+                <Link href={`/read/${slug}`} isDisabled={isDisabled} color="foreground">
                 {node.book.name}
                 </Link>
                 
                 </span>
-                <span className="my-[5px] flex gap-2">
+                <span className={`my-[5px] flex gap-2 ${isDisabled ? 'brightness-50' : ''}`}>
                 <StarsOnly rating={node.book.avgRating ? node.book.avgRating : 0}></StarsOnly>
                 <span className="text-foreground font-semibold text-xs">
                 {node.book.avgRating ? node.book.avgRating : ''}
@@ -192,7 +202,7 @@ export default function ViewallWt ({allGenres}:ViewAllWtProps) {
                 {node.chapters.map((node:any) => {
                     return (
                     <div key={`${node._id}-qry`}>
-                   <Link color="foreground" href={`/read/${slug}/${node.chapterNumber}`} className="flex gap-1 items-center" isBlock>
+                   <Link isDisabled={isDisabled} color="foreground" href={`/read/${slug}/${node.chapterNumber}`} className="flex gap-1 items-center" isBlock>
                   <span className="text-sm sm:text-sm py-1">{`Chapter ${node.chapterNumber}`}</span>
                   
                   {formatDateDMY(node.releasedAt) === 'New' ?

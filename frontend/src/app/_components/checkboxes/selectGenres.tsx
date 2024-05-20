@@ -3,7 +3,7 @@ import {CheckboxGroup, Checkbox} from "@nextui-org/react";
 
 
 
-export default function SelectGenres ({value, setValue, allGenres}:any) {
+export default function SelectGenres ({value, setValue, allGenres, isDisabled}:any) {
 
     
 
@@ -17,6 +17,7 @@ export default function SelectGenres ({value, setValue, allGenres}:any) {
              label="By Genres"
              color="primary"
              value={value}
+             isDisabled={isDisabled}
              onValueChange={setValue}
              classNames={{
                 wrapper: 'qlabel'

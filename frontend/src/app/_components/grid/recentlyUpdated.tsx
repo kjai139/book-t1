@@ -25,6 +25,8 @@ export default function RecentlyDisplayed({updatesArr}:RecentlyDisplayedProps){
     const [isInView, ref] = useInView()
     const [isNotInitialLoad, setIsNotInitialLoad] = useState(false)
 
+    const [isClickDisabled, setIsClickDisabled] = useState(false)
+
     const getPage = () => {
         const startIndex = (curPage - 1 ) * wtPerPage
         const endIndex = startIndex + wtPerPage
@@ -48,10 +50,14 @@ export default function RecentlyDisplayed({updatesArr}:RecentlyDisplayedProps){
             getPage()
             if (!isInView && ref.current) {
                 console.log('ref not in view')
+                setIsClickDisabled(true)
                 ref.current.scrollIntoView({
                     behavior:'instant',
                     block:'center'
                 })
+                setTimeout(() => {
+                  setIsClickDisabled(false)
+                }, 500)
             }
             
         }
@@ -72,7 +78,7 @@ export default function RecentlyDisplayed({updatesArr}:RecentlyDisplayedProps){
           return (
             <div key={node.book._id} className="cg">
              
-              <Link href={`/read/${node.book.slug}`}>
+              <Link href={`/read/${node.book.slug}`} isDisabled={isClickDisabled}>
               <div className="relative w-full min-h-[200px] overflow-hidden">
                 
                
@@ -95,12 +101,12 @@ export default function RecentlyDisplayed({updatesArr}:RecentlyDisplayedProps){
                 
               
               <span className="card-txt">
-              <Link href={`/read/${node.book.slug}`} color="foreground">
+              <Link href={`/read/${node.book.slug}`} isDisabled={isClickDisabled} color="foreground">
               {node.book.name}
               </Link>
               
               </span>
-              <span className="my-[5px] flex gap-2 items-center">
+              <span className={`my-[5px] flex gap-2 items-center ${isClickDisabled ? 'brightness-50' : ''}`}>
                 <StarsOnly rating={node.book.avgRating ? node.book.avgRating : 0}></StarsOnly>
                 <span className="text-foreground font-semibold text-xs">
                   {node.book.avgRating ? node.book.avgRating : ''}
@@ -112,7 +118,7 @@ export default function RecentlyDisplayed({updatesArr}:RecentlyDisplayedProps){
                 {node.chapters.map((node:any) => {
                   return (
                     <div key={node._id}>
-                    <Link color="foreground" href={`/read/${slug}/${node.chapterNumber}`} className="ch-links flex gap-1 items-center" isBlock>
+                    <Link color="foreground" isDisabled={isClickDisabled} href={`/read/${slug}/${node.chapterNumber}`} className="ch-links flex gap-1 items-center" isBlock>
                     <span className="text-sm py-1">{`Chapter ${node.chapterNumber}`}</span>
                     
                     {node.releasedAt === 'New' ?
@@ -142,8 +148,8 @@ export default function RecentlyDisplayed({updatesArr}:RecentlyDisplayedProps){
         {totalPages > 1 ?
                 <div className="flex justify-end p-2">
                  
-                 <Button radius="none" onPress={getPrev} isDisabled={curPage === 1} className="flex-1 sm:max-w-[60px]"><FcPrevious color="#4098D7" /></Button>
-                 <Button className="flex-1 sm:max-w-[60px]" radius="none" onPress={getNext} isDisabled={curPage === totalPages}><FcNext color="#4098D7"></FcNext></Button>
+                 <Button aria-label="Previous button for recently updated" radius="none" onPress={getPrev} isDisabled={curPage === 1} className="flex-1 sm:max-w-[60px]"><FcPrevious color="#4098D7" /></Button>
+                 <Button aria-label="Next button for recently updated" className="flex-1 sm:max-w-[60px]" radius="none" onPress={getNext} isDisabled={curPage === totalPages}><FcNext color="#4098D7"></FcNext></Button>
                  
                  
                  </div> : null
