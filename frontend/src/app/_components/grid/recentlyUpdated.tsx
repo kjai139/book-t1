@@ -57,7 +57,7 @@ export default function RecentlyDisplayed({updatesArr}:RecentlyDisplayedProps){
                 })
                 setTimeout(() => {
                   setIsClickDisabled(false)
-                }, 500)
+                }, 750)
             }
             
         }

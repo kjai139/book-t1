@@ -62,15 +62,19 @@ export default function ViewGenreWt ({wtsArr, totalPg, genreName}:ViewGenreWtPro
     useEffect(() => {
         
         if (curPg !== initialPg) {
+            setIsDisabled(true)
             /* console.log('trigger from curpg') */
             getPage()
             if (!isLoading && isResultOut && !isInView && ref.current) {    
-                setIsDisabled(true)
-                ref.current.scrollIntoView({
-                    behavior: 'instant',
-                    block:'center'
-                })
+                
+                
                 setTimeout(() => {
+                    if (ref.current) {
+                        ref.current.scrollIntoView({
+                            behavior: 'instant',
+                            block:'center'
+                        })
+                    }
                     setIsDisabled(false)
                 }, 1000)
             
@@ -88,7 +92,10 @@ export default function ViewGenreWt ({wtsArr, totalPg, genreName}:ViewGenreWtPro
         <>
         <div ref={ref}></div>
         <div className="flex flex-col gap-6">
-            <SortByRadio isDisabled={isDisabled} value={sortBy} setValue={setSortBy}></SortByRadio>
+            <SortByRadio isDisabled={isDisabled || isLoading} value={sortBy} setValue={setSortBy}></SortByRadio>
+            <span className="text-xs text-default-500 px-2 sm:text-base">
+                        Page: {curPg} / {totalPages}
+            </span>
             <div className="cards-cont gap-4 lg:gap-6 p-2 relative">
             {isLoading && <div className="overlay-g"></div>}
             {updates && updates.wts.map((node:any, idx:number) => {
@@ -97,7 +104,7 @@ export default function ViewGenreWt ({wtsArr, totalPg, genreName}:ViewGenreWtPro
             return (
             <div key={`${node.book._id}-g`} className="cg">
             
-                <Link href={`/read/${slug}`} isDisabled={isDisabled}>
+                <Link href={`/read/${slug}`} isDisabled={isDisabled || isLoading}>
                 <div className="relative w-full min-h-[200px] overflow-hidden">
                 
               
@@ -121,12 +128,12 @@ export default function ViewGenreWt ({wtsArr, totalPg, genreName}:ViewGenreWtPro
                 
                 
                 <span className="card-txt">
-                <Link href={`/read/${slug}`} color="foreground" isDisabled={isDisabled}>
+                <Link href={`/read/${slug}`} color="foreground" isDisabled={isDisabled || isLoading}>
                 {node.book.name}
                 </Link>
                 
                 </span>
-                <span className={`my-[5px] ${isDisabled ? 'brightness-50' : ''}`}>
+                <span className={`my-[5px] ${isDisabled || isLoading ? 'brightness-50' : ''}`}>
                 <StarsOnly rating={node.book.avgRating ? node.book.avgRating : 0}></StarsOnly>
                 </span>
                 
@@ -135,7 +142,7 @@ export default function ViewGenreWt ({wtsArr, totalPg, genreName}:ViewGenreWtPro
                 {node.chapters.map((node:any) => {
                     return (
                     <div key={`${node._id}-gch`}>
-                    <Link color="foreground" isDisabled={isDisabled} href={`/read/${slug}/${node.chapterNumber}`} isBlock className="flex gap-1 items-center">
+                    <Link color="foreground" isDisabled={isDisabled || isLoading} href={`/read/${slug}/${node.chapterNumber}`} isBlock className="flex gap-1 items-center">
                     <span className="text-sm py-1">{`Chapter ${node.chapterNumber}`}</span>
                     
                     {formatDateDMY(node.releasedAt) === 'New' ?

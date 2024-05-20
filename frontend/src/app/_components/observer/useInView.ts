@@ -12,10 +12,12 @@ export const useInView = (rootMargin = '0px 0px 0px 0px') : [boolean, React.RefO
         const observer = new IntersectionObserver(([entry]) => {
         
             setInView(entry.isIntersecting)
+           
           
             
         }, {
-            rootMargin
+            rootMargin,
+            threshold: 0.5
         })
 
         if (ref.current) {

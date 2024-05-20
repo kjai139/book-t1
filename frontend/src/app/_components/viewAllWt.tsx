@@ -97,12 +97,24 @@ export default function ViewallWt ({allGenres}:ViewAllWtProps) {
     }, [status]) */
 
     useEffect(() => {
+        console.log('isINVIEW', isInView)
+    }, [isInView])
+
+    useEffect(() => {
+        setIsDisabled(true)   
         if (!isLoading && isResultOut && !isInView && ref.current) { 
-            setIsDisabled(true)   
-            ref.current.scrollIntoView({
+            /* ref.current.scrollIntoView({
                 behavior: 'instant'
-            })
+            }) */
+            
             setTimeout(() => {
+                if (ref.current && !isInView) {
+                    ref.current.scrollIntoView({
+                        behavior: 'instant',
+                        block:'end'
+                    })
+                }
+                
                 setIsDisabled(false)
             }, 1000)
         
@@ -113,7 +125,7 @@ export default function ViewallWt ({allGenres}:ViewAllWtProps) {
     return (
         <div className="p-2 flex flex-col gap-6 relative">
             
-            <div className="flex flex-col gap-4 p-2" ref={ref}>
+            <div className="flex flex-col gap-4 p-2">
            
             <SelectGenres isDisabled={isDisabled} value={genres} setValue={setGenres} allGenres={allGenres}></SelectGenres>
             <SelectStatusCheckbox isDisabled={isDisabled} value={status} setValue={setStatus}></SelectStatusCheckbox>
@@ -122,16 +134,21 @@ export default function ViewallWt ({allGenres}:ViewAllWtProps) {
             <Button  color="primary" size="sm" onPress={filterSearch} isLoading={isLoading}>Filter</Button>
             </div>
             <Divider className="mt-4"></Divider>
-            <div className="justify-start flex flex-col">
+            <div className="justify-start flex flex-col" ref={ref}>
                 {totalWt && isResultOut && !isLoading ?
                 <span className="font-semibold flex justify-between items-center">
                     <span>
+                    <h3>
                     Results: ( {totalWt} )
+                    </h3>
+                    <span className="text-xs text-default-500">
+                        Page: {curPg} / {totalPages}
+                    </span>
                     </span>
                     
                         <div className="flex">
-                        <Button isIconOnly onPress={() => setCurPg((prev) => prev - 1)} className="mr-4" isDisabled={curPg === 1}>{`<`}</Button>
-                        <Button isIconOnly onPress={() => setCurPg((prev) => prev + 1)} isDisabled={curPg === totalPages}>{`>`}</Button>
+                        <Button isIconOnly onPress={() => setCurPg((prev) => prev - 1)} className="mr-4" isDisabled={curPg === 1 || isDisabled || isLoading}>{`<`}</Button>
+                        <Button isIconOnly onPress={() => setCurPg((prev) => prev + 1)} isDisabled={curPg === totalPages || isDisabled || isLoading}>{`>`}</Button>
                         
                         </div> 
                     
@@ -163,7 +180,7 @@ export default function ViewallWt ({allGenres}:ViewAllWtProps) {
             return (
             <div key={`${node.book._id}-qry`} className="cg">
             
-                <Link href={`/read/${slug}`} isDisabled={isDisabled}>
+                <Link href={`/read/${slug}`} isDisabled={isDisabled || isLoading}>
                 <div className="relative w-full min-h-[200px] overflow-hidden">
                 
                 <NextImage src={node.book.image} alt={`Cover image of ${node.book.image}`} unoptimized blurDataURL={node.book.image} placeholder="blur" fill sizes="(max-width:600px) 40vw, (max-width:1200px) 20vw" className="home-c object-cover rounded">
@@ -185,12 +202,12 @@ export default function ViewallWt ({allGenres}:ViewAllWtProps) {
                 
                 
                 <span className="card-txt">
-                <Link href={`/read/${slug}`} isDisabled={isDisabled} color="foreground">
+                <Link href={`/read/${slug}`} isDisabled={isDisabled || isLoading} color="foreground">
                 {node.book.name}
                 </Link>
                 
                 </span>
-                <span className={`my-[5px] flex gap-2 ${isDisabled ? 'brightness-50' : ''}`}>
+                <span className={`my-[5px] flex gap-2 ${isDisabled || isLoading ? 'brightness-50' : ''}`}>
                 <StarsOnly rating={node.book.avgRating ? node.book.avgRating : 0}></StarsOnly>
                 <span className="text-foreground font-semibold text-xs">
                 {node.book.avgRating ? node.book.avgRating : ''}
@@ -202,7 +219,7 @@ export default function ViewallWt ({allGenres}:ViewAllWtProps) {
                 {node.chapters.map((node:any) => {
                     return (
                     <div key={`${node._id}-qry`}>
-                   <Link isDisabled={isDisabled} color="foreground" href={`/read/${slug}/${node.chapterNumber}`} className="flex gap-1 items-center" isBlock>
+                   <Link isDisabled={isDisabled || isLoading} color="foreground" href={`/read/${slug}/${node.chapterNumber}`} className="flex gap-1 items-center" isBlock>
                   <span className="text-sm sm:text-sm py-1">{`Chapter ${node.chapterNumber}`}</span>
                   
                   {formatDateDMY(node.releasedAt) === 'New' ?
