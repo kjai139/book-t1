@@ -76,9 +76,9 @@ export default function BookmarkBtn () {
                         {bookmarks && bookmarks.length > 0 ? bookmarks.map((node, idx) => {
                             return (
                                 <li key={`sr${node.url}-${idx}`} className="flex p-2 justify-center items-center relative flex-col">
-                                <Link href={node.url} isDisabled={node.url === pathname ? true : false} isBlock className="flex">
-                                <div className="relative h-[100px] w-[60px] sm:h-[140px] sm:w-[100px] mr-2">
-                                    <NextImage fill alt={`Cover of ${node.image}`} src={node.image} sizes="(max-width:450px) 15vw, (max-width:1200px) 10vw, 5vw" unoptimized style={{
+                                <Link href={node.url} isDisabled={node.url === pathname ? true : false} isBlock className="flex w-full">
+                                <div className="relative mr-2">
+                                    <NextImage width={56} height={80} alt={`Cover of ${node.image}`} src={node.image} unoptimized style={{
                                         objectFit: 'cover'
                                     }}></NextImage>
                                 </div>
