@@ -9,16 +9,11 @@ interface StarProps {
 
 export default function DisabledStar ({remain, isOnCard}:StarProps) {
     
+    
 
     return (
         
         <span>
-            {remain == 0 &&
-           
-                <FaStar color="#F7C948"></FaStar>
-            
-                
-            }
             {
                 
                 remain >= 1 &&
@@ -27,7 +22,7 @@ export default function DisabledStar ({remain, isOnCard}:StarProps) {
                
             }
             {
-                remain < 0 &&
+                remain <= 0 &&
               
                 <FaRegStar className={`${isOnCard ? 'onCard' : 'undefined'}`}></FaRegStar>
                 

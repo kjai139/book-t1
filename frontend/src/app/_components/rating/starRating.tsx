@@ -59,7 +59,10 @@ export default function Rating ({wtId}:RatingProps) {
                 const json = await response.json()
                 console.log(json)
                 if (json) {
-                    setRating(json.results)
+                    if (json.results){
+                        setRating(json.results)
+                    }
+                    
                     setIsDoneLoading(true)
                     setTotalRated(json.totalRated)
                 }
@@ -124,19 +127,19 @@ export default function Rating ({wtId}:RatingProps) {
 
 
    
-    for (let i = 1; i <= 5; i++) {
+    for (let i = 0; i < 5; i++) {
         starsDisabled.push(
         <Star idx={i} key={`star-disc-${i}`}
-        remain={rating - i} isDisabled={true}
+        remain={rating === 0 ? -1 : rating - i} isDisabled={true}
         ></Star>
         )
     
     }
 
-    for (let i = 1; i <= 5; i++) {
+    for (let i = 0; i < 5; i++) {
         stars.push(
         <Star idx={i} key={`star${i}`}
-        remain={rating - i} isDisabled={hasUserVoted || didUserJustVote} onClickFunc={rateWt}
+        remain={rating === 0 ? -1 : rating - i} isDisabled={hasUserVoted || didUserJustVote} onClickFunc={rateWt}
         ></Star>
         )
     
@@ -159,7 +162,7 @@ export default function Rating ({wtId}:RatingProps) {
                 <span className="sm:text-sm text-xs text-default-500 italic py-1 px-2">Give it a rating!</span>
                 }
                 {didUserJustVote &&
-                <span className="sm:text-sm text-xs italic py-1 text-warning">Thanks for your rating!</span>
+                <span className="sm:text-sm text-xs italic py-2 px-2 text-warning">Thanks for your rating! Please consider leaving a review in the comments below.</span>
                 }
             </div>
         <div className="flex flex-col">
