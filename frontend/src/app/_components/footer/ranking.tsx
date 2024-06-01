@@ -2,6 +2,7 @@ import { FaChessKing, FaChessRook, FaChessQueen } from "react-icons/fa"
 import NextImage from "next/image"
 import { Divider, Link } from "@nextui-org/react"
 import { getRankings } from "@/app/_utils/getRankings"
+import RankingTabs from "../tabs/rankingTab"
 /* import { unstable_cache } from "next/cache"
 
 
@@ -18,14 +19,10 @@ export default async function RankingDisplay () {
 
     return (
         <div className="w-full max-w-[1024px]">
-        <div className="max-w-[1024px] w-full p-2">
-            <h3 className="font-semibold p-2">
-                Popularity Ranking
-            </h3>
-            <Divider className="mt-2"></Divider>
-        </div>
         
-        <ul className="grid grid-cols-1 lg:grid-cols-3 p-4 w-full gap-4 lg:max-w-[1024px] ml-auto mr-auto rank-grid-bot sm:grid-cols-2">
+        <RankingTabs rankings={rankingList}></RankingTabs>
+        
+        {/* <ul className="grid grid-cols-1 lg:grid-cols-3 p-4 w-full gap-4 lg:max-w-[1024px] ml-auto mr-auto rank-grid-bot sm:grid-cols-2">
             {rankingList && rankingList.rankings.map((wt:any, idx:number) => {
                 
                 const genres = wt.genres.map((node:any) => node.name).join(', ')
@@ -69,7 +66,7 @@ export default async function RankingDisplay () {
                 )
             })}
 
-        </ul>
+        </ul> */}
         </div>
     )
 }

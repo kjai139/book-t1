@@ -13,6 +13,10 @@ export const getRankings = cache(async() => {
             path: 'genres',
             model: Genre
         })
+        const totalRanking = await Wt.find().sort({totalViews: -1, name: -1}).limit(10).populate({
+            path: 'genres',
+            model: Genre
+        })
         let index = 0
 
         for (const node of monthlyRanking) {
@@ -33,7 +37,8 @@ export const getRankings = cache(async() => {
         
      
       const json = {
-          rankings:monthlyRanking
+          rankings:monthlyRanking,
+          trankings: totalRanking
       }
       console.log('JSON FROM RANKING', json)
   
