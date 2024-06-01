@@ -71,6 +71,10 @@ const WTSchema = new Schema({
         default: 0
 
     },
+    totalViews: {
+        type:Number,
+        default: 0
+    },
     isHot: {
         type:String,
         enum: ['Red', 'Orange', 'Yellow', 'No'],

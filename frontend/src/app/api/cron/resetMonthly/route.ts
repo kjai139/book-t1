@@ -26,12 +26,7 @@ export async function POST () {
             
         }
 
-        await Wt.updateMany({}, {
-            $set: {isHot: 'No'}
-        })
-
-        console.log('Hot status reset for all')
-        
+    
         return NextResponse.json({
             message: `New expire date for views updated to ${newExpire}`
         })
