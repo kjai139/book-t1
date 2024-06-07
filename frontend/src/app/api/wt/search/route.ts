@@ -12,7 +12,7 @@ export async function GET(req:NextRequest) {
             throw new Error('invalid query type')
         }
 
-        const isValidString = /^[a-zA-Z0-9\s]*$/g.test(name);
+        const isValidString = /^[a-zA-Z0-9\s']*$/g.test(name);
 
         if (!isValidString) {
             throw new Error('wtf you doing')
