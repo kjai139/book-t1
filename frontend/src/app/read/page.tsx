@@ -3,13 +3,20 @@ import ViewallWt from "../_components/viewAllWt";
 import { ThemeSwitcher } from "../_components/themeSwitcher";
 import { dbConnect } from "../_utils/db";
 import Genre from "../_models/genre";
+import ServerError from "../_components/serverError";
 
 
 async function getSearchProps() {
-    await dbConnect()
-    const allGenres = await Genre.find().sort({name: 1})
+    try {
+        await dbConnect()
+        const allGenres = await Genre.find().sort({name: 1})
 
-    return JSON.parse(JSON.stringify(allGenres))
+        return JSON.parse(JSON.stringify(allGenres))
+    } catch (err) {
+        console.error(err)
+        throw new Error('Error fetching genres')
+    }
+    
 
     
 }
@@ -17,8 +24,14 @@ async function getSearchProps() {
 
 
 export default async function Readpg () {
-
-    const allGenres = await getSearchProps()
+    let allGenres
+    try {
+        allGenres = await getSearchProps()
+    } catch (err) {
+        console.error(err)
+        return <ServerError></ServerError>
+    }
+    
 
 
     return (

@@ -6,6 +6,7 @@ import Genre from "@/app/_models/genre"
 import Wt from "@/app/_models/wt"
 import Wtc from '@/app/_models/wtChapter'
 import { dbConnect } from "@/app/_utils/db"
+import ServerError from "@/app/_components/serverError"
 
 async function getWts(params:any) {
     try {
@@ -133,13 +134,21 @@ async function getWts(params:any) {
 
     } catch (err) {
         console.error(err)
+        throw new Error('Error fetching the genre page')
     }
 }
 
 
 export default async function Page ({params}:any) {
     /* console.log('PARAMS FROM PAGE GENRE', params) */
-    const wts = await getWts(params)
+    let wts
+    try {
+        wts = await getWts(params)
+    } catch (err) {
+        console.error(err)
+        return <ServerError></ServerError>
+    }
+    
     /* console.log('wts by genre', wts) */
     if (!wts) {
         notFound()

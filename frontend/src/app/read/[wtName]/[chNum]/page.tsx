@@ -14,6 +14,7 @@ import WtPage from "@/app/_models/wtPage"
 import { dbConnect } from "@/app/_utils/db";
 import DisqusComments from "@/app/_components/comments/disqus";
 import { unstable_noStore } from "next/cache";
+import ServerError from "@/app/_components/serverError";
 
 export async function generateStaticParams({
     params: { wtName }
@@ -42,6 +43,7 @@ export async function generateStaticParams({
         
     } catch (err) {
         console.error(err)
+        return []
         
     }
    
@@ -61,6 +63,10 @@ export async function generateMetadata ({params}:any, parent:ResolvingMetadata) 
         }
     } catch (err) {
        console.error(err)
+       return {
+        title:`Error Fetching Page`,
+        description: `An server error has occured. Please try refreshing page`
+       }
     }
 }
 
@@ -100,6 +106,7 @@ async function getChContent (params:any) {
 
     } catch (err) {
         console.error(err)
+        throw new Error('An error has occured getting chContent')
     }
 }
 
@@ -126,12 +133,17 @@ async function getChList (params:any) {
 
 
 export default async function Page({params}:{params: {wtName: string; chNum: string}}) {
-
+    let content, chList
     /* console.log('PARAMS FROM PG', params) */
     const pageData = getChContent(params)
     const chListData = getChList(params)
-
-    const [content, chList] = await Promise.all([pageData, chListData])
+    try {
+        [content, chList] = await Promise.all([pageData, chListData])
+    } catch (err) {
+        console.error('Database Error fetching page')
+        return <ServerError></ServerError>
+    }
+    /* const [content, chList] = await Promise.all([pageData, chListData]) */
     /* const content = await getChContent(params) */
     if (!content) {
         notFound()
