@@ -46,7 +46,7 @@ export async function middleware(request: NextRequest) {
     const isProtectedRoute = protectedRoutes.includes(path)
     const isLoginRoute = loginRoutes.includes(path)
 
-    if (request.nextUrl.pathname.startsWith('/api/cron/')) {
+    if (request.nextUrl.pathname.startsWith('/api/cron/') || request.nextUrl.pathname.startsWith('/serverError')) {
         return NextResponse.next()
     }
     

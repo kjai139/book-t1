@@ -12,6 +12,7 @@ import Wtc from "@/app/_models/wtChapter";
 import DisqusComments from "@/app/_components/comments/disqus";
 import dynamic from "next/dynamic";
 import { unstable_noStore } from "next/cache";
+import ServerError from "@/app/_components/serverError";
 
 
 
@@ -39,6 +40,7 @@ async function getWts (params:any) {
 
     } catch (err) {
         console.error(err)
+        throw new Error('Error fetching Wts')
     }
    
     
@@ -59,6 +61,7 @@ async function getChapterList(params:any) {
         return JSON.parse(JSON.stringify(json))
     } catch (err) {
         console.error(err)
+        throw new Error('Error fetching chList')
     }
 }
 
@@ -78,6 +81,10 @@ export async function generateMetadata({params}:any) {
         }
     } catch (err) {
         console.error(err)
+        return {
+            title: `Error getting Data`,
+            description: 'Encountered a server error, please refresh page or try again later.'
+        }
     }
    
 }
@@ -86,10 +93,18 @@ export async function generateMetadata({params}:any) {
 
 export default async function WtPage({params}:any) {
     /* const wt = await getWts(params) */
+    let wt:any
+    let chList:any
     const wtPromise = getWts(params)
-   
     const chListPromise = getChapterList(params)
-    const [wt, chList] = await Promise.all([wtPromise, chListPromise])
+    try {
+
+        [wt, chList] = await Promise.all([wtPromise, chListPromise])
+        
+    } catch (err) {
+        return <ServerError></ServerError>
+    }
+    /* const [wt, chList] = await Promise.all([wtPromise, chListPromise]) */
 
     /* console.log('RANKINGS: IN WTPAGE', rankings) */
     
