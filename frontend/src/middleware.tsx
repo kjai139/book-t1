@@ -10,10 +10,10 @@ const redis = new Redis({
 
 })
 
-/* const ratelimit = new Ratelimit({
+const ratelimit = new Ratelimit({
     redis: redis,
     limiter: Ratelimit.slidingWindow(7, '10 s')
-}) */
+})
 
 
 export const config = {
@@ -36,8 +36,8 @@ export const config = {
 export async function middleware(request: NextRequest) {
 
     const ip = request.ip ?? '127.0.0.1'
-    /* const { success, pending, limit, reset, remaining } = await ratelimit.limit(ip)
-    console.log(`status:${success}, limit:${limit}, remaining:${remaining}`) */
+    const { success, limit, remaining } = await ratelimit.limit(ip)
+    console.log(`status:${success}, limit:${limit}, remaining:${remaining}`)
     const protectedRoutes = ['/dashboard']
     const loginRoutes = ['/login']
     
@@ -50,7 +50,7 @@ export async function middleware(request: NextRequest) {
         return NextResponse.next()
     }
     
-    /* if (!success) {
+    if (!success) {
         if (request.nextUrl.pathname.startsWith('/api')){
             return NextResponse.json({
                 message: 'Too many requests'
@@ -61,7 +61,7 @@ export async function middleware(request: NextRequest) {
             return NextResponse.redirect(new URL('/blocked', request.url))
         }
         
-    } */
+    }
 
     const cookie = cookies().get('session')?.value
     const session = await decrypt(cookie)
