@@ -3,6 +3,7 @@ import { Ratelimit } from "@upstash/ratelimit"
 import { Redis } from "@upstash/redis"
 import { cookies } from "next/headers"
 import { decrypt } from "./app/_lib/session"
+import { auth } from "./auth"
 
 const redis = new Redis({
     url: `${process.env.UPSTASH_REDIS_REST_URL}`,
@@ -65,8 +66,17 @@ export async function middleware(request: NextRequest) {
 
     const cookie = cookies().get('session')?.value
     const session = await decrypt(cookie)
+    const oauthSess = await auth()
 
-    
+    if (!oauthSess?.user && !session?._id) {
+        console.log('User is not logged in')
+    } else {
+        if (oauthSess?.user) {
+            console.log('User is logged in via oauth', oauthSess)
+        } else if (session?._id) {
+            console.log('User is logged in via user/pw', session)
+        }
+    }
 
 
     if (request.nextUrl.pathname !== request.nextUrl.pathname.toLowerCase()) {

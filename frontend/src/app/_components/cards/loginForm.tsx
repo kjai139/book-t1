@@ -8,7 +8,7 @@ import ResultModal from '../../_components/modals/resultModal'
 import { Button } from '@nextui-org/react'
 import { IoIosAlert } from 'react-icons/io'
 import { useAuth } from '@/app/_contexts/authContext'
-import { FcGoogle } from 'react-icons/fc'
+import { GoogleBtn } from '../button/googleBtn'
 
 const schema = yup.object({
     username: yup.string().required('A username is required').max(15),
@@ -35,7 +35,7 @@ export default function LoginForm () {
     const onSubmit = async (data:any) => {
         try {
             setIsLoading(true)
-            const response = await fetch(`/api/auth/login`, {
+            const response = await fetch(`/api/login`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -114,9 +114,7 @@ export default function LoginForm () {
                     {isLoading ? 'Loading' : 'Log in'}
                 </Button>
             </form>
-                <Button startContent={
-                <FcGoogle></FcGoogle>
-            }>Log in with Google</Button>
+                <GoogleBtn></GoogleBtn>
                 </div>
                 <div>
                 
