@@ -11,6 +11,7 @@ import { useAuth } from "../_contexts/authContext";
 import { ThemeSwitcher } from "./themeSwitcher";
 import { FaSearch } from "react-icons/fa";
 import SlideSearchBar from "./button/slideSearch";
+import UserAvatar from "./avatar/userAvatar";
 
 interface MenuItems {
   name: string,
@@ -119,6 +120,9 @@ export default function MainHeaderNav () {
             </NavbarItem>
             <NavbarItem className="hidden sm:block">
             <ThemeSwitcher></ThemeSwitcher>
+            </NavbarItem>
+            <NavbarItem>
+              <UserAvatar></UserAvatar>
             </NavbarItem>
            
           </NavbarContent>

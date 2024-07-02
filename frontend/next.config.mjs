@@ -11,7 +11,7 @@ const cspHeader = `
         frame-src https://disqus.com https://www.google-analytics.com www.google-analytics.com;
         script-src 'self' ${process.env.NODE_ENV === "production" ? ''  : `'unsafe-eval'` } https://c.disquscdn.com https://52webtoons-com.disqus.com 'unsafe-inline' tagmanager.google.com https://www.googletagmanager.com https://www.google-analytics.com tagmanager.google.com;
         style-src 'self' 'unsafe-inline' https://c.disquscdn.com https://www.googletagmanager.com https://fonts.googleapis.com;
-        img-src 'self' blob: data: https://c.disquscdn.com https://referrer.disqus.com https://www.google-analytics.com tagmanager.google.com www.google-analytics.com www.googletagmanager.com https://fonts.gstatic.com https://ds0labvtt9av.cloudfront.net;
+        img-src 'self' blob: data: https://c.disquscdn.com https://referrer.disqus.com https://www.google-analytics.com tagmanager.google.com www.google-analytics.com www.googletagmanager.com https://fonts.gstatic.com https://ds0labvtt9av.cloudfront.net https://lh3.googleusercontent.com;
         font-src 'self';
         object-src 'none';
         base-uri 'self';

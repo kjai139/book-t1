@@ -91,7 +91,7 @@ export async function middleware(request: NextRequest) {
     //api protected
    
     //reroute out of protected
-    if (isProtectedRoute && !session?._id) {
+    if (isProtectedRoute && (!session?._id && !oauthSess?.user)) {
         
         console.log('TRIGGERE IN PROTECT ROUTE MW')
        
@@ -102,7 +102,7 @@ export async function middleware(request: NextRequest) {
     }
    
 
-    if (isLoginRoute && session?._id && !request.nextUrl.pathname.startsWith('/dashboard')) {
+    if (isLoginRoute && (session?._id || oauthSess?.user) && !request.nextUrl.pathname.startsWith('/dashboard')) {
             console.log('TRIGGER IN LOGIN ROUTE MW')
             const response = NextResponse.redirect(new URL('/dashboard', request.url))
            
