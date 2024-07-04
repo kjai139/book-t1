@@ -36,22 +36,22 @@ export default function DashboardUi ({user}:any) {
 
     return (
         
-        <>
+        <div>
         <div className="p-2">
-            <h3>Welcome, {user.name}</h3>
+            <h3 className="font-semibold">Welcome, {user.name}</h3>
             <div>
-                {!user.isVerified &&
+                {/* {!user.isVerified &&
                 <span className="text-danger flex flex-col gap-2">
                     <p>Your account has not been verified yet.</p>
                     <Button onPress={sendVerificationEmail}>Send verification email</Button>
 
                 </span>
-                }
+                } */}
             </div>
         </div>
         <UploadTabs></UploadTabs>
       
-        </>
+        </div>
         
         
         

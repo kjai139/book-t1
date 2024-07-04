@@ -13,6 +13,7 @@ interface BookmarkObj {
     chNum?: string,
     status: string,
     image: string,
+    id?:string,
 }
 
 interface SaveBookmarkBtnProps {
@@ -21,9 +22,11 @@ interface SaveBookmarkBtnProps {
     wtName: string,
     wTstatus: string,
     image: string,
+    slug?: string,
+    wtId?: string,
 }
 
-export default function SaveBookmarkBtn ({wtGenres, chNum, image, wTstatus, wtName}:SaveBookmarkBtnProps) {
+export default function SaveBookmarkBtn ({wtGenres, chNum, image, wTstatus, wtName, wtId}:SaveBookmarkBtnProps) {
     const { checkLocal, setCheckLocal } = useAuth()
     const [isMarked, setIsMarked] = useState(false)
     const [isDoneLoading, setIsDoneLoading] = useState(false)
@@ -66,7 +69,7 @@ export default function SaveBookmarkBtn ({wtGenres, chNum, image, wTstatus, wtNa
             /* console.log('bm removed:', localStorage) */
         } else {
             if (bookmarks.length < 25) {
-                bookmarks.push({ url: pathname, genres:wtGenres.map((node:any) => node.name).join(', '), name:wtName, status: wTstatus, image: image  })
+                bookmarks.push({ url: pathname, genres:wtGenres.map((node:any) => node.name).join(', '), name:wtName, status: wTstatus, image: image, id:wtId  })
                 localStorage.setItem('bookmarks', JSON.stringify(bookmarks))
                 setIsMarked(true)
                 /* console.log('bookmark added:', localStorage) */

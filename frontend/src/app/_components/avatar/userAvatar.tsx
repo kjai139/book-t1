@@ -6,13 +6,13 @@ import { useEffect } from "react";
 
 export default function UserAvatar() {
     const session = useSession()
+    const pathname = usePathname()
     console.log('session in userava', session)
 
     if (!session?.data?.user) {
         return <Avatar isDisabled name=""></Avatar>
     }
 
-    const pathname = usePathname()
 
     const dropdownAction = (key:any) => {
         if (pathname === '/dashboard') {
