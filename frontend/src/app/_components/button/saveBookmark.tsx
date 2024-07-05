@@ -4,6 +4,7 @@ import { Button } from "@nextui-org/react"
 import { FaBookmark } from "react-icons/fa"
 import { useEffect, useState } from "react"
 import { useAuth } from "@/app/_contexts/authContext"
+import { useSession } from "next-auth/react"
 
 
 interface BookmarkObj {
@@ -33,25 +34,31 @@ export default function SaveBookmarkBtn ({wtGenres, chNum, image, wTstatus, wtNa
     const [errorMsg, setErrorMsg] = useState('')
 
     const pathname = usePathname()
+    const session = useSession()
     
 
     useEffect(() => {
-        /* console.log('bookmarkbtn checkstate') */
-        const storedBookmarks = localStorage.getItem('bookmarks')
-        if ( storedBookmarks) {
-            const json:BookmarkObj[] = JSON.parse(storedBookmarks)
-            const isBookmarked = json.some(bm => bm.url === pathname)
+        if (session.status === 'unauthenticated') {
+            /* console.log('bookmarkbtn checkstate') */
+            const storedBookmarks = localStorage.getItem('bookmarks')
+            if ( storedBookmarks) {
+                const json:BookmarkObj[] = JSON.parse(storedBookmarks)
+                const isBookmarked = json.some(bm => bm.url === pathname)
 
-            if (isBookmarked) {
-                setIsMarked(true)
-                setIsDoneLoading(true)
+                if (isBookmarked) {
+                    setIsMarked(true)
+                    setIsDoneLoading(true)
+                } else {
+                    setIsMarked(false)
+                    setIsDoneLoading(true)
+                }
             } else {
-                setIsMarked(false)
                 setIsDoneLoading(true)
             }
-        } else {
+        } else if (session.status === 'authenticated') {
             setIsDoneLoading(true)
         }
+        
     }, [checkLocal])
 
     const toggleBm = () => {
