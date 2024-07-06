@@ -1,6 +1,8 @@
 'use server'
 
 import Wt from "./_models/wt"
+import User from "./_models/users"
+import Bookmark from './_models/bookmark'
 import { dbConnect } from "./_utils/db"
 import { verifySession } from "./_lib/dal"
 import { deleteSession } from "./_lib/session"
@@ -54,6 +56,44 @@ export async function serverLogUserOut () {
     } catch(err:any) {
         console.error(err)
         return null
+    }
+}
+
+
+export async function addBookmark(email:string, wtId: string, url:string) {
+    try {
+        await dbConnect()
+        const normalizedEmail = email.toLowerCase()
+        const user = await User.findOne({
+            email: normalizedEmail
+        })
+        if (!user) {
+            throw new Error('Could not access user from database')
+        }
+        const exisitingBM = await Bookmark.findOne({
+            userRef: user._id,
+            wtRef: wtId
+        })
+
+        if (!exisitingBM) {
+            const newBookmark = new Bookmark({
+                url: url,
+                wtRef: wtId,
+                userRef: user._id
+            })
+
+            await newBookmark.save()
+            return 'success'
+        } else {
+            const response = {
+                message: 'Bookmark already exists'
+            }
+            return JSON.stringify(response)
+        }
+
+    } catch (err) {
+        console.error(err)
+        return err
     }
 }
 

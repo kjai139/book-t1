@@ -6,7 +6,7 @@ const bookmarkSchema = new Schema({
         type:String,
         required: true,
     },
-    wtId: {
+    wtRef: {
         type:Schema.Types.ObjectId,
         ref: 'WT',
         required: true
@@ -20,7 +20,8 @@ const bookmarkSchema = new Schema({
     ],
     userRef: {
         type:Schema.Types.ObjectId,
-        
+        ref: 'User',
+        required: true
     }
 })
 

@@ -56,36 +56,42 @@ export default function SaveBookmarkBtn ({wtGenres, chNum, image, wTstatus, wtNa
                 setIsDoneLoading(true)
             }
         } else if (session.status === 'authenticated') {
+            console.log('Authenticated status loaded for bookmarks.')
             setIsDoneLoading(true)
         }
         
     }, [checkLocal])
 
     const toggleBm = () => {
-        let storedBookmarks = localStorage.getItem('bookmarks')
-        let bookmarks:BookmarkObj[] = storedBookmarks ? JSON.parse(storedBookmarks) : []
+        if (session.status === 'unauthenticated') {
+            let storedBookmarks = localStorage.getItem('bookmarks')
+            let bookmarks:BookmarkObj[] = storedBookmarks ? JSON.parse(storedBookmarks) : []
 
-        
-        const existingBm = bookmarks.findIndex(bm => bm.url === pathname)
+            
+            const existingBm = bookmarks.findIndex(bm => bm.url === pathname)
 
-        if (existingBm !== -1) {
-            /* console.log('bookmark found.', bookmarks[existingBm]) */
-            bookmarks = bookmarks.filter((_, index) => index !== existingBm)
-            localStorage.setItem('bookmarks', JSON.stringify(bookmarks))
-            setIsMarked(false)
-            /* console.log('bm removed:', localStorage) */
-        } else {
-            if (bookmarks.length < 25) {
-                bookmarks.push({ url: pathname, genres:wtGenres.map((node:any) => node.name).join(', '), name:wtName, status: wTstatus, image: image, id:wtId  })
+            if (existingBm !== -1) {
+                /* console.log('bookmark found.', bookmarks[existingBm]) */
+                bookmarks = bookmarks.filter((_, index) => index !== existingBm)
                 localStorage.setItem('bookmarks', JSON.stringify(bookmarks))
-                setIsMarked(true)
-                /* console.log('bookmark added:', localStorage) */
-                setErrorMsg('')
+                setIsMarked(false)
+                /* console.log('bm removed:', localStorage) */
             } else {
-                setErrorMsg('Your bookmarks are full, delete something and try again.')
+                if (bookmarks.length < 25) {
+                    bookmarks.push({ url: pathname, genres:wtGenres.map((node:any) => node.name).join(', '), name:wtName, status: wTstatus, image: image, id:wtId  })
+                    localStorage.setItem('bookmarks', JSON.stringify(bookmarks))
+                    setIsMarked(true)
+                    /* console.log('bookmark added:', localStorage) */
+                    setErrorMsg('')
+                } else {
+                    setErrorMsg('Your bookmarks are full, delete something and try again.')
+                }
+            
             }
-           
+        } else if (session.status === 'authenticated') {
+            console.log('BM: User is signed in')
         }
+        
         
     }
 
