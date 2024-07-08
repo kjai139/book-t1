@@ -6,7 +6,7 @@ import Bookmark from './_models/bookmark'
 import { dbConnect } from "./_utils/db"
 import { verifySession } from "./_lib/dal"
 import { deleteSession } from "./_lib/session"
-
+import { generateRandomName } from "./_utils/generateName"
 
 
 export async function AddViews (wtName:string) {
@@ -64,11 +64,30 @@ export async function addBookmark(email:string, wtId: string, url:string) {
     try {
         await dbConnect()
         const normalizedEmail = email.toLowerCase()
-        const user = await User.findOne({
+        let user = await User.findOne({
             email: normalizedEmail
         })
         if (!user) {
-            throw new Error('Could not access user from database')
+            console.log('Could not find user from database, creating account...')
+            let userName 
+            let isUnique = false
+            while (!isUnique) {
+                userName = generateRandomName()
+                let lcUsername = userName.toLowerCase()
+                let isNameTaken = await User.findOne({
+                    lcname: lcUsername
+                })
+                if (!isNameTaken) {
+                    isUnique = true
+                }
+            }
+            const newUser = new User({
+                name: userName,
+                lcname: userName!.toLowerCase()
+            })
+
+            await newUser.save()
+            user = newUser
         }
         const exisitingBM = await Bookmark.findOne({
             userRef: user._id,
