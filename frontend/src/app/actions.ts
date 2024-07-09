@@ -7,6 +7,7 @@ import { dbConnect } from "./_utils/db"
 import { verifySession } from "./_lib/dal"
 import { deleteSession } from "./_lib/session"
 import { generateRandomName } from "./_utils/generateName"
+const bcrypt = require('bcrypt')
 
 
 export async function AddViews (wtName:string) {
@@ -60,7 +61,7 @@ export async function serverLogUserOut () {
 }
 
 
-export async function addBookmark(email:string, wtId: string, url:string) {
+export async function toggleBookmark(email:string, wtId: string, url:string) {
     try {
         await dbConnect()
         const normalizedEmail = email.toLowerCase()
@@ -81,9 +82,15 @@ export async function addBookmark(email:string, wtId: string, url:string) {
                     isUnique = true
                 }
             }
+            const randomPw = generateRandomName()
+            const saltRounds = 10
+            const salt = await bcrypt.genSalt(saltRounds)
+            const hashedPw = await bcrypt.hash(randomPw, salt)
             const newUser = new User({
                 name: userName,
-                lcname: userName!.toLowerCase()
+                lcname: userName!.toLowerCase(),
+                email: email,
+                password: hashedPw
             })
 
             await newUser.save()
@@ -102,17 +109,18 @@ export async function addBookmark(email:string, wtId: string, url:string) {
             })
 
             await newBookmark.save()
-            return 'success'
+            return 'added'
         } else {
-            const response = {
-                message: 'Bookmark already exists'
-            }
-            return JSON.stringify(response)
+            await Bookmark.deleteOne({
+                _id: exisitingBM._id
+            })
+            return 'deleted'
+
         }
 
     } catch (err) {
         console.error(err)
-        return err
+        return JSON.stringify(err)
     }
 }
 

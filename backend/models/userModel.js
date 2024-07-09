@@ -37,6 +37,10 @@ const UserSchema = new Schema({
     isVerified: {
         type:Boolean,
         default: false
+    },
+    hasPwReset: {
+        type:Boolean,
+        default: true
     }
 })
 

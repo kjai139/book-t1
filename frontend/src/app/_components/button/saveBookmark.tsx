@@ -2,9 +2,10 @@
 import { usePathname, useRouter } from "next/navigation"
 import { Button } from "@nextui-org/react"
 import { FaBookmark } from "react-icons/fa"
-import { useEffect, useState } from "react"
+import { useEffect, useState, useTransition } from "react"
 import { useAuth } from "@/app/_contexts/authContext"
 import { useSession } from "next-auth/react"
+import { toggleBookmark } from "@/app/actions"
 
 
 interface BookmarkObj {
@@ -32,9 +33,44 @@ export default function SaveBookmarkBtn ({wtGenres, chNum, image, wTstatus, wtNa
     const [isMarked, setIsMarked] = useState(false)
     const [isDoneLoading, setIsDoneLoading] = useState(false)
     const [errorMsg, setErrorMsg] = useState('')
+    const [ isPending, startTransition] = useTransition()
+    const [shouldFetch, setShouldFetch] = useState(true)
 
     const pathname = usePathname()
     const session = useSession()
+
+    const checkBmStatus = async () => {
+        try {
+            const response = await fetch(`/api/bookmarks/checkStatus?wtId=${wtId}`, {
+                method: 'GET',
+
+            })
+
+            if (response.ok) {
+                const data = await response.json()
+                console.log('Response to check Bmstatus ok, ', data)
+                if (data.isBookmarked) {
+                    setIsMarked(true)
+                } else {
+                    setIsMarked(false)
+                }
+                setShouldFetch(false)
+                setIsDoneLoading(true)
+            } else {
+                setIsMarked(false)
+                console.error('Error getting status on bookmark')
+            }
+        } catch (err) {
+            console.error(err)
+        }
+    }
+
+    useEffect(() => {
+        if (shouldFetch && session.status === 'authenticated') {
+            console.log('User is logged in, checking bm status...')
+            checkBmStatus()
+        }
+    }, [session.status])
     
 
     useEffect(() => {
@@ -55,10 +91,7 @@ export default function SaveBookmarkBtn ({wtGenres, chNum, image, wTstatus, wtNa
             } else {
                 setIsDoneLoading(true)
             }
-        } else if (session.status === 'authenticated') {
-            console.log('Authenticated status loaded for bookmarks.')
-            setIsDoneLoading(true)
-        }
+        } 
         
     }, [checkLocal])
 
@@ -90,6 +123,18 @@ export default function SaveBookmarkBtn ({wtGenres, chNum, image, wTstatus, wtNa
             }
         } else if (session.status === 'authenticated') {
             console.log('BM: User is signed in')
+            const email = session.data.user!.email
+            startTransition(async () => {
+                const result = await toggleBookmark(email!, wtId!, pathname)
+                if (result === 'added') {
+                    setIsMarked(true)
+                } else if (result === 'deleted') {
+                    setIsMarked(false)
+                } else {
+                    console.log(result)
+                    setErrorMsg('An error has occured.')
+                }
+            })
         }
         
         
@@ -100,7 +145,7 @@ export default function SaveBookmarkBtn ({wtGenres, chNum, image, wTstatus, wtNa
 
     return (
         <>
-        {isDoneLoading && <Button onPress={toggleBm} startContent={<FaBookmark></FaBookmark>} variant="solid" fullWidth className={`ext-md font-semibold max-w-[350px]`} color={`${isMarked ? 'success' : 'default'}`} aria-label="Add to Bookmark">{isMarked ? 'Bookmarked' : 'Bookmark'}</Button>}
+        {isDoneLoading && <Button isDisabled={isPending} onPress={toggleBm} startContent={<FaBookmark></FaBookmark>} variant="solid" fullWidth className={`ext-md font-semibold max-w-[350px]`} color={`${isMarked ? 'success' : 'default'}`} aria-label="Add to Bookmark">{isMarked ? 'Bookmarked' : 'Bookmark'}</Button>}
         {errorMsg &&
         <span className="text-xs text-danger">{errorMsg}</span> 
         }

@@ -79,10 +79,10 @@ export async function middleware(request: NextRequest) {
     }
 
 
-    if (request.nextUrl.pathname !== request.nextUrl.pathname.toLowerCase()) {
+    if (!request.nextUrl.pathname.startsWith('/api/') && request.nextUrl.pathname !== request.nextUrl.pathname.toLowerCase()) {
     
        
-        const response = NextResponse.redirect(new URL(origin + request.nextUrl.pathname.toLowerCase()))
+        const response = NextResponse.redirect(new URL(request.nextUrl.origin + request.nextUrl.pathname.toLowerCase()))
         
         return response
             
