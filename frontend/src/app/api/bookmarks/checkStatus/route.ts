@@ -7,9 +7,21 @@ export async function GET(req:NextRequest) {
     const searchParams = req.nextUrl.searchParams
     const wtId = searchParams.get('wtId')
     if (session?.user) {
-        return NextResponse.json({
-            message: 'user is logged in'
+        const existingBookmark = await Bookmark.findOne({
+            userRef: session.user.id,
+            wtRef: wtId
         })
+
+        if (existingBookmark) {
+            return NextResponse.json({
+                isBookmarked: true
+            })
+        } else {
+            return NextResponse.json({
+                isBookmarked: false
+            })
+        }
+        
     } else {
         return NextResponse.json({
             message: 'User is not logged in'

@@ -1,7 +1,8 @@
 import NextAuth from "next-auth"
 import Google from "next-auth/providers/google"
-import users from "./app/_models/users"
-import { dbConnect } from "./app/_utils/db"
+import { getUserId } from "./app/_lib/signInCb"
+
+
 
 export const config = {
     providers: [Google({
@@ -12,19 +13,22 @@ export const config = {
         }
     })],
     callbacks: {
-        /* async signIn({user, account, profile}) {
-            try {
-                await dbConnect()
-                console.log('USER IN signin callback', user)
-                const theUser = await users.findOne({
-                    email: user.email
-                })
-                console.log('theUSER in cb', theUser)
-               return true
-            } catch (err) {
-                return false
+        async signIn({user, account, profile}) {
+            if (account?.provider === 'google') {
+                try {
+                    const userId = await getUserId(user.email)
+                    if (userId) {
+                        user._id = userId
+                        return true
+                    } else {
+                        return false
+                    }
+                } catch (err) {
+                    return false
+                }
             }
-        }, */
+        
+        },
         jwt({ token, user}) {
             if (user) {
                 token.id = user._id
