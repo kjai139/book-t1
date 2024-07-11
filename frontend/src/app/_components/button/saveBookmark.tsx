@@ -69,7 +69,26 @@ export default function SaveBookmarkBtn ({wtGenres, chNum, image, wTstatus, wtNa
         if (shouldFetch && session.status === 'authenticated') {
             console.log('User is logged in, checking bm status...')
             checkBmStatus()
-        }
+        } else if (session.status === 'unauthenticated') {
+            /* console.log('bookmarkbtn checkstate') */
+            const storedBookmarks = localStorage.getItem('bookmarks')
+            if ( storedBookmarks) {
+                const json:BookmarkObj[] = JSON.parse(storedBookmarks)
+                const isBookmarked = json.some(bm => bm.url === pathname)
+
+                if (isBookmarked) {
+                    setIsMarked(true)
+                    setIsDoneLoading(true)
+                } else {
+                    setIsMarked(false)
+                    setIsDoneLoading(true)
+                }
+            } else {
+                setIsDoneLoading(true)
+            }
+            setShouldFetch(false)
+            
+        } 
     }, [session.status])
     
 
@@ -91,6 +110,7 @@ export default function SaveBookmarkBtn ({wtGenres, chNum, image, wTstatus, wtNa
             } else {
                 setIsDoneLoading(true)
             }
+            
         } 
         
     }, [checkLocal])
@@ -123,9 +143,9 @@ export default function SaveBookmarkBtn ({wtGenres, chNum, image, wTstatus, wtNa
             }
         } else if (session.status === 'authenticated') {
             console.log('BM: User is signed in')
-            const email = session.data.user!.email
+            const userId = session.data.user!.id!
             startTransition(async () => {
-                const result = await toggleBookmark(email!, wtId!, pathname)
+                const result = await toggleBookmark(userId, wtId!, pathname)
                 if (result === 'added') {
                     setIsMarked(true)
                 } else if (result === 'deleted') {
@@ -145,7 +165,7 @@ export default function SaveBookmarkBtn ({wtGenres, chNum, image, wTstatus, wtNa
 
     return (
         <>
-        {isDoneLoading && <Button isDisabled={isPending} onPress={toggleBm} startContent={<FaBookmark></FaBookmark>} variant="solid" fullWidth className={`ext-md font-semibold max-w-[350px]`} color={`${isMarked ? 'success' : 'default'}`} aria-label="Add to Bookmark">{isMarked ? 'Bookmarked' : 'Bookmark'}</Button>}
+        <Button isDisabled={isPending || !isDoneLoading} onPress={toggleBm} startContent={<FaBookmark></FaBookmark>} variant="solid" fullWidth className={`ext-md font-semibold max-w-[350px]`} color={`${isMarked ? 'success' : 'default'}`} aria-label="Add to Bookmark">{isMarked ? 'Bookmarked' : 'Bookmark'}</Button>
         {errorMsg &&
         <span className="text-xs text-danger">{errorMsg}</span> 
         }

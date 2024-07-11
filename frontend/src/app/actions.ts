@@ -61,43 +61,14 @@ export async function serverLogUserOut () {
 }
 
 
-export async function toggleBookmark(email:string, wtId: string, url:string) {
+export async function toggleBookmark(userId:string, wtId: string, url:string) {
     try {
         await dbConnect()
-        const normalizedEmail = email.toLowerCase()
-        let user = await User.findOne({
-            email: normalizedEmail
-        })
-        if (!user) {
-            console.log('Could not find user from database, creating account...')
-            let userName 
-            let isUnique = false
-            while (!isUnique) {
-                userName = generateRandomName()
-                let lcUsername = userName.toLowerCase()
-                let isNameTaken = await User.findOne({
-                    lcname: lcUsername
-                })
-                if (!isNameTaken) {
-                    isUnique = true
-                }
-            }
-            const randomPw = generateRandomName()
-            const saltRounds = 10
-            const salt = await bcrypt.genSalt(saltRounds)
-            const hashedPw = await bcrypt.hash(randomPw, salt)
-            const newUser = new User({
-                name: userName,
-                lcname: userName!.toLowerCase(),
-                email: email,
-                password: hashedPw
-            })
-
-            await newUser.save()
-            user = newUser
+        if (!userId) {
+            throw new Error('Error finding account, please try relogging.')
         }
         const exisitingBM = await Bookmark.findOne({
-            userRef: user._id,
+            userRef: userId,
             wtRef: wtId
         })
 
@@ -105,7 +76,7 @@ export async function toggleBookmark(email:string, wtId: string, url:string) {
             const newBookmark = new Bookmark({
                 url: url,
                 wtRef: wtId,
-                userRef: user._id
+                userRef: userId
             })
 
             await newBookmark.save()
@@ -118,9 +89,9 @@ export async function toggleBookmark(email:string, wtId: string, url:string) {
 
         }
 
-    } catch (err) {
+    } catch (err:any) {
         console.error(err)
-        return JSON.stringify(err)
+        return JSON.stringify(err?.message) || 'An error has occured, please try relogging'
     }
 }
 

@@ -1,5 +1,5 @@
 
-import { Avatar, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger } from "@nextui-org/react";
+import { Avatar, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger, Link } from "@nextui-org/react";
 import { useSession, signOut } from "next-auth/react";
 import { usePathname } from "next/navigation";
 import { useEffect } from "react";
@@ -10,7 +10,18 @@ export default function UserAvatar() {
     console.log('session in userava', session)
 
     if (!session?.data?.user) {
-        return <Avatar isDisabled name=""></Avatar>
+        return (
+            <Dropdown>
+                <DropdownTrigger>
+                    <Avatar as={"button"} name=""></Avatar>
+                </DropdownTrigger>
+                <DropdownMenu aria-label="User menu actions" disabledKeys={pathname === '/login' ? ['login'] : []}>
+                    <DropdownItem href="/login" key={"login"}>
+                        Log in
+                    </DropdownItem>
+                </DropdownMenu>
+            </Dropdown>
+        )
     }
 
 
@@ -32,11 +43,11 @@ export default function UserAvatar() {
                 </Avatar>
 
             </DropdownTrigger>
-            <DropdownMenu aria-label="User menu actions" disabledKeys={["profile"]} onAction={(key) => dropdownAction(key)}>
+            <DropdownMenu aria-label="User menu actions" disabledKeys={["profile", `${pathname === '/bookmarks' ? 'bookmarks' : null}`]} onAction={(key) => dropdownAction(key)}>
                 <DropdownItem key={"profile"} textValue={`Signed in as ${session.data.user.email}`}>
                     <p>Signed in as {session.data.user.email}</p>
                 </DropdownItem>
-                <DropdownItem key={"bookmarks"}>
+                <DropdownItem key={"bookmarks"} href="/bookmarks">
                     Your bookmarks
                 </DropdownItem>
                 <DropdownItem key={"signout"} color="danger">
