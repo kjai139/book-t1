@@ -9,7 +9,9 @@ export default function UserAvatar() {
     const pathname = usePathname()
     console.log('session in userava', session)
 
-    if (!session?.data?.user) {
+    
+
+    if (session.status === 'unauthenticated') {
         return (
             <Dropdown>
                 <DropdownTrigger>
@@ -26,9 +28,9 @@ export default function UserAvatar() {
 
 
     const dropdownAction = (key:any) => {
-        if (pathname === '/dashboard') {
+        if (pathname === '/dashboard' && key === 'signout') {
             signOut({callbackUrl: '/login'})
-        } else {
+        } else if (key === 'signout') {
             signOut()
         }
     }
@@ -36,7 +38,11 @@ export default function UserAvatar() {
 
 
     return (
-        <Dropdown>
+        <>
+        {session.status === 'loading' ?
+            <Avatar name="" isDisabled></Avatar> : null
+        }
+        {session.status === 'authenticated' && session.data.user ? <Dropdown>
             <DropdownTrigger>
                 <Avatar as={"button"} src={session.data.user.image!} name={session.data.user.name!}>
 
@@ -56,6 +62,7 @@ export default function UserAvatar() {
 
             </DropdownMenu>
        
-        </Dropdown>
+        </Dropdown> : null}
+        </>
     )
 }

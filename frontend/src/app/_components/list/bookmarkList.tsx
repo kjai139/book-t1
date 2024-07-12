@@ -1,9 +1,20 @@
 
+interface BookmarkListProps {
+    bookmarks: any[] | null | undefined
+}
 
-export default function BookmarkList () {
+export default function BookmarkList ({bookmarks}:BookmarkListProps) {
     return (
-        <div>
-            
-        </div>
+        <ul>
+            {bookmarks && bookmarks.map((bm:any) => {
+                return (
+                    <li key={bm._id}>
+                        <div>
+                            {bm.wtRef.name}
+                        </div>
+                    </li>
+                )
+            })}
+        </ul>
     )
 }

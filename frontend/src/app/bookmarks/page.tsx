@@ -1,9 +1,11 @@
 import { auth } from "@/auth"
 import { dbConnect } from "../_utils/db"
 import Bookmark from "../_models/bookmark"
+import ServerError from "../_components/serverError"
+import BookmarkList from "../_components/list/bookmarkList"
 
 
-async function getUserBookmarks (userId:string) {
+async function getUserBookmarks (userId:string):Promise<any[]> {
     try {
         await dbConnect()
         const userBms = await Bookmark.find({
@@ -16,21 +18,39 @@ async function getUserBookmarks (userId:string) {
 
     } catch (err) {
         console.error(err)
-        return err
+        throw err
     }
 }
 
 
 export default async function BookmarksPage() {
-    const oauthSess = await auth()
-    if (oauthSess?.user?.id) {
-        console.log('user is logged in via oauth.')
-    } else {
-        console.log('User is not logged into via oauth.')
+    let oauthSess
+    let userBookmarks: any[] | null
+    try {
+        oauthSess = await auth()
+        if (oauthSess?.user?.id) {
+            console.log('user is logged in via oauth.')
+            userBookmarks = await getUserBookmarks(oauthSess.user.id)
+            console.log('****BOOKMARKS***', userBookmarks)
+        } else {
+            console.log('User is not logged into via oauth.')
+            userBookmarks = null
+        }
+    } catch (err) {
+        return <ServerError></ServerError>
     }
+    
     return (
         <main>
-            Bookmarks Page
+            <div className="w-full p-4">
+                <h1 className="font-semibold">Your bookmarked webtoons</h1>
+                {
+                    userBookmarks && 
+                    <BookmarkList bookmarks={userBookmarks}></BookmarkList>
+                }
+                    
+                
+            </div>
         </main>
     )
 }
