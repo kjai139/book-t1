@@ -10,7 +10,12 @@ async function getUserBookmarks (userId:string):Promise<any[]> {
         await dbConnect()
         const userBms = await Bookmark.find({
             userRef: userId
-        }).populate('wtRef')
+        }).populate({
+            path: 'wtRef',
+            populate: {
+                path: 'genres'
+            }
+        })
 
         return userBms
 
@@ -42,7 +47,7 @@ export default async function BookmarksPage() {
     
     return (
         <main>
-            <div className="w-full p-4">
+            <div className="w-full p-4 max-w-[1024px]">
                 <h1 className="font-semibold">Your bookmarked webtoons</h1>
                 {
                     userBookmarks && 
