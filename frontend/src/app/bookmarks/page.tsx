@@ -51,7 +51,7 @@ export default async function BookmarksPage() {
                 <h1 className="font-semibold">Your bookmarked webtoons</h1>
                 {
                     userBookmarks && 
-                    <BookmarkList bookmarks={userBookmarks}></BookmarkList>
+                    <BookmarkList bookmarksCopy={JSON.parse(JSON.stringify(userBookmarks))}></BookmarkList>
                 }
                     
                 

@@ -91,7 +91,26 @@ export async function toggleBookmark(userId:string, wtId: string, url:string) {
 
     } catch (err:any) {
         console.error(err)
-        return JSON.stringify(err?.message) || 'An error has occured, please try relogging'
+        throw new Error('An error has occured, please try relogging')
+    }
+}
+
+
+export async function removeBmDB(wtId:string) {
+    try {
+        await dbConnect()
+        const result = await Bookmark.deleteOne({
+            wtRef: wtId
+        })
+        if (result.deletedCount === 0) {
+            throw new Error('Bookmark ID does not exist.')
+        } else {
+            return 'ok'
+        }
+
+    } catch (err:any) {
+        console.error(err)
+        throw new Error('An error has occured, please refresh and try again.')
     }
 }
 

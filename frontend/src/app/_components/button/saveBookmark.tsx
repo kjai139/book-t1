@@ -145,15 +145,21 @@ export default function SaveBookmarkBtn ({wtGenres, chNum, image, wTstatus, wtNa
             console.log('BM: User is signed in')
             const userId = session.data.user!.id!
             startTransition(async () => {
-                const result = await toggleBookmark(userId, wtId!, pathname)
-                if (result === 'added') {
-                    setIsMarked(true)
-                } else if (result === 'deleted') {
-                    setIsMarked(false)
-                } else {
-                    console.log(result)
-                    setErrorMsg('An error has occured.')
+                try {
+                    const result = await toggleBookmark(userId, wtId!, pathname)
+                    if (result === 'added') {
+                        setIsMarked(true)
+                    } else if (result === 'deleted') {
+                        setIsMarked(false)
+                    } else {
+                        console.log(result)
+                        setErrorMsg('An error has occured.')
+                    }
+                } catch (err) {
+                    console.error(err)
+                    setErrorMsg('An unexpected error has occured. Please try again later.')
                 }
+                
             })
         }
         
