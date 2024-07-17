@@ -155,9 +155,9 @@ export default function SaveBookmarkBtn ({wtGenres, chNum, image, wTstatus, wtNa
                         console.log(result)
                         setErrorMsg('An error has occured.')
                     }
-                } catch (err) {
+                } catch (err:any) {
                     console.error(err)
-                    setErrorMsg('An unexpected error has occured. Please try again later.')
+                    setErrorMsg(err?.message ? err.message : 'An unknown error has occured')
                 }
                 
             })

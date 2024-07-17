@@ -73,6 +73,12 @@ export async function toggleBookmark(userId:string, wtId: string, url:string) {
         })
 
         if (!exisitingBM) {
+            const totalBookmarks = await Bookmark.countDocuments({
+                userRef:userId
+            })
+            if (totalBookmarks === 15) {
+                throw new Error('Reached the bookmark limit, please delete one and try again.')
+            }
             const newBookmark = new Bookmark({
                 url: url,
                 wtRef: wtId,
@@ -91,20 +97,21 @@ export async function toggleBookmark(userId:string, wtId: string, url:string) {
 
     } catch (err:any) {
         console.error(err)
-        throw new Error('An error has occured, please try relogging')
+        throw err
     }
 }
 
 
-export async function removeBmDB(wtId:string) {
+export async function removeBmDB(bmId:string) {
     try {
         await dbConnect()
         const result = await Bookmark.deleteOne({
-            wtRef: wtId
+            _id: bmId
         })
         if (result.deletedCount === 0) {
             throw new Error('Bookmark ID does not exist.')
         } else {
+            console.log(`BM ${bmId} deleted`)
             return 'ok'
         }
 
