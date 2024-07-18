@@ -1,7 +1,7 @@
 'use client'
 import NextImage from "next/image"
-import { Button, Link } from "@nextui-org/react"
-import { useState, useTransition } from "react"
+import { Button, Link, Pagination } from "@nextui-org/react"
+import { useEffect, useState, useTransition } from "react"
 import { removeBmDB } from "@/app/actions"
 import ErrorMsgModal from "../modals/errorModal"
 
@@ -11,10 +11,51 @@ interface BookmarkListProps {
 
 export default function BookmarkList ({bookmarksCopy}:BookmarkListProps) {
 
+    const sortedBm = bookmarksCopy?.sort((a,b) => {
+        if (a.wtRef.name < b.wtRef.name) {
+            return -1
+        } else if (a.wtRef.name > b.wtRef.name) {
+            return 1
+        } else {
+            return 0
+        }
+    })
+
+    const limit = 10
+    let totalPgs = 0
+    let firstPgBm 
+    if (sortedBm) {
+        totalPgs = Math.ceil(sortedBm.length / limit)
+        firstPgBm = sortedBm.slice(0, limit)
+    }
+
+    
+
 
     const [isPending, startTransition] = useTransition()
-    const [bookmarks, setBookmarks] = useState(bookmarksCopy)
-    const [errorMsg, setErrorMsg] = useState('An Error has occured')
+    const [bookmarks, setBookmarks] = useState(firstPgBm)
+    const [errorMsg, setErrorMsg] = useState('')
+    const [currentPage, setCurrentPage] = useState(0)
+    const [totalPages, setTotalPages] = useState(totalPgs)
+    const [isInitiated, setIsInitiated] = useState(false)
+
+
+    useEffect(() => {
+        if (isInitiated) {
+            console.log('totalpgs', totalPages)
+            const start = (currentPage - 1) * limit
+            const end = currentPage * limit
+            const newPgBm = sortedBm?.slice(start, end)
+            startTransition(() => {
+                console.log('setting...', start, end)
+                setBookmarks(newPgBm)
+            })
+        } else {
+            console.log('page not initiated, initiating...')
+            setIsInitiated(true)
+        }
+        
+    }, [currentPage])
 
     const removeBm = async (bmId:string) => {
         startTransition(async () => {
@@ -72,6 +113,9 @@ export default function BookmarkList ({bookmarksCopy}:BookmarkListProps) {
                 )
             })}
         </ul>
+        <Pagination total={totalPages} page={currentPage} onChange={setCurrentPage}>
+
+        </Pagination>
         </>
     )
 }

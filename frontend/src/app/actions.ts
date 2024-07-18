@@ -77,7 +77,7 @@ export async function toggleBookmark(userId:string, wtId: string, url:string) {
                 userRef:userId
             })
             if (totalBookmarks === 15) {
-                throw new Error('Reached the bookmark limit, please delete one and try again.')
+                throw new Error('Reached the bookmark limit, please delete one before trying again.')
             }
             const newBookmark = new Bookmark({
                 url: url,
