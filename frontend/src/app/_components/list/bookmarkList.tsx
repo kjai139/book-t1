@@ -4,6 +4,7 @@ import { Button, Link, Pagination } from "@nextui-org/react"
 import { useEffect, useState, useTransition } from "react"
 import { removeBmDB } from "@/app/actions"
 import ErrorMsgModal from "../modals/errorModal"
+import StarsOnly from "../rating/starsDisplayOnly"
 
 interface BookmarkListProps {
     bookmarksCopy: any[] | null | undefined
@@ -39,6 +40,12 @@ export default function BookmarkList ({bookmarksCopy}:BookmarkListProps) {
     const [totalPages, setTotalPages] = useState(totalPgs)
     const [isInitiated, setIsInitiated] = useState(false)
 
+    const scrollToTop = () => {
+        window.scrollTo({
+            top:0,
+            behavior:'instant'
+        })
+    }
 
     useEffect(() => {
         if (isInitiated) {
@@ -50,6 +57,7 @@ export default function BookmarkList ({bookmarksCopy}:BookmarkListProps) {
                 console.log('setting...', start, end)
                 setBookmarks(newPgBm)
             })
+            scrollToTop()
         } else {
             console.log('page not initiated, initiating...')
             setIsInitiated(true)
@@ -96,6 +104,9 @@ export default function BookmarkList ({bookmarksCopy}:BookmarkListProps) {
                                 <Link isDisabled={isPending} href={bm.url} color="foreground" className="font-semibold">
                                     {bm.wtRef.name}
                                 </Link>
+                                <div className="my-2">
+                                <StarsOnly rating={bm.wtRef.avgRating ? bm.wtRef.avgRating : 0}></StarsOnly>
+                                </div>
                                 <span className="text-sm flex gap-2 text-default-500 flex-wrap mt-2">
                                     {bm.wtRef.genres && bm.wtRef.genres.map((genre:any) => {
                                         return (
@@ -113,7 +124,7 @@ export default function BookmarkList ({bookmarksCopy}:BookmarkListProps) {
                 )
             })}
         </ul>
-        <Pagination total={totalPages} page={currentPage} onChange={setCurrentPage}>
+        <Pagination className="mt-4" total={totalPages} page={currentPage} onChange={setCurrentPage}>
 
         </Pagination>
         </>
