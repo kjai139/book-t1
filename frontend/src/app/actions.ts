@@ -122,4 +122,23 @@ export async function removeBmDB(bmId:string) {
 }
 
 
+export async function checkUserPriv(userId:string) {
+    try {
+        await dbConnect()
+        const existingUser = await User.findById(userId)
+        if (!existingUser) {
+            return false
+        } else {
+            if (existingUser.role !== 'Admin') {
+                return false
+            } else if (existingUser.role === 'Admin') {
+                return true
+            }
+        }
+    } catch (err:any) {
+        console.error(err)
+        throw new Error('An error has occured, please try refreshing.')
+    }
+}
+
 

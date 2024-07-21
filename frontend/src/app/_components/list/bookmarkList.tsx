@@ -90,6 +90,9 @@ export default function BookmarkList ({bookmarksCopy}:BookmarkListProps) {
             errorMsg ?
             <ErrorMsgModal message={errorMsg} setErrorMsg={setErrorMsg}></ErrorMsgModal> : null
         }
+        <Pagination className="my-4" total={totalPages} page={currentPage} showControls onChange={setCurrentPage}>
+
+        </Pagination>
         <ul>
             {bookmarks && bookmarks.map((bm:any, idx) => {
                 /* console.log('***GENRES***', bm.wtRef.genres) */
@@ -124,7 +127,7 @@ export default function BookmarkList ({bookmarksCopy}:BookmarkListProps) {
                 )
             })}
         </ul>
-        <Pagination className="mt-4" total={totalPages} page={currentPage} onChange={setCurrentPage}>
+        <Pagination showControls className="my-4" total={totalPages} page={currentPage} onChange={setCurrentPage}>
 
         </Pagination>
         </>

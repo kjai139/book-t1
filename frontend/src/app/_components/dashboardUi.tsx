@@ -1,16 +1,19 @@
 'use client'
 
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import UploadTabs from "../_components/tabs/uploadTab"
 import { useAuth } from "../_contexts/authContext"
 import { Button } from "@nextui-org/react"
 
 
+interface DashboardUiProps {
+    user: any,
+}
 
-
-export default function DashboardUi ({user}:any) {
+export default function DashboardUi ({user}:DashboardUiProps) {
 
     const { setUser } = useAuth()
+    const [userRole, setUserRole] = useState('')
 
     const sendVerificationEmail = async () => {
         try {
