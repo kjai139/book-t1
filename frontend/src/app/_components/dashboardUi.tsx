@@ -4,6 +4,7 @@ import { useEffect, useState } from "react"
 import UploadTabs from "../_components/tabs/uploadTab"
 import { useAuth } from "../_contexts/authContext"
 import { Button } from "@nextui-org/react"
+import { checkUserPriv } from "../actions"
 
 
 interface DashboardUiProps {
@@ -34,12 +35,35 @@ export default function DashboardUi ({user}:DashboardUiProps) {
 
     useEffect(() => {
         setUser(user)
+        console.log('User from dashboardUI', user)
+        const getUserPrivs = async (userId:string) => {
+            try {
+                const userPriv = await checkUserPriv(userId)
+                if (userPriv === 'Admin') {
+                    setUserRole('Admin')
+                } else if (userPriv === 'User') {
+                    setUserRole('User')
+                }
+            } catch (err:any) {
+                console.error(err)
+                setUserRole('Error')
+            }
+            
+        }
+        if (user._id) {
+            //not oauth
+            getUserPrivs(user._id)
+
+        } else if (!user._id && user.id) {
+            getUserPrivs(user.id)
+        }
+        
     }, [])
     
 
     return (
         
-        <div>
+        <div className="w-full">
         <div className="p-2">
             <h3 className="font-semibold">Welcome, {user.name}</h3>
             <div>
@@ -50,9 +74,21 @@ export default function DashboardUi ({user}:DashboardUiProps) {
 
                 </span>
                 } */}
+                <p>Role:{userRole}</p>
             </div>
         </div>
-        <UploadTabs></UploadTabs>
+        {
+            userRole === 'Admin' ?
+            <UploadTabs></UploadTabs> : null
+        }
+        {
+            userRole === 'User' ?
+            <div>
+                Dashboard coming soon.
+            </div>
+            : null
+        }
+        
       
         </div>
         

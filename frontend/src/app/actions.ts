@@ -127,17 +127,17 @@ export async function checkUserPriv(userId:string) {
         await dbConnect()
         const existingUser = await User.findById(userId)
         if (!existingUser) {
-            return false
+            throw new Error('User does not exist')
         } else {
             if (existingUser.role !== 'Admin') {
-                return false
+                return 'User'
             } else if (existingUser.role === 'Admin') {
-                return true
+                return 'Admin'
             }
         }
     } catch (err:any) {
         console.error(err)
-        throw new Error('An error has occured, please try refreshing.')
+        throw err
     }
 }
 
