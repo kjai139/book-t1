@@ -63,8 +63,8 @@ export default function DashboardUi ({user}:DashboardUiProps) {
 
     return (
         
-        <div className="w-full">
-        <div className="p-2">
+        <div className="w-full p-2">
+        <div>
             <h3 className="font-semibold">Welcome, {user.name}</h3>
             <div>
                 {/* {!user.isVerified &&
@@ -74,7 +74,7 @@ export default function DashboardUi ({user}:DashboardUiProps) {
 
                 </span>
                 } */}
-                <p>Role:{userRole}</p>
+                <p>Role: {userRole}</p>
             </div>
         </div>
         {
@@ -83,8 +83,8 @@ export default function DashboardUi ({user}:DashboardUiProps) {
         }
         {
             userRole === 'User' ?
-            <div>
-                Dashboard coming soon.
+            <div className="text-default-500 mt-4">
+                Features coming soon.
             </div>
             : null
         }
