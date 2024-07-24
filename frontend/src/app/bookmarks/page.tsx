@@ -3,6 +3,7 @@ import { dbConnect } from "../_utils/db"
 import Bookmark from "../_models/bookmark"
 import ServerError from "../_components/serverError"
 import BookmarkList from "../_components/list/bookmarkList"
+import BookmarkListLocal from "../_components/list/bookmarkListLocal"
 
 
 async function getUserBookmarks (userId:string):Promise<any[]> {
@@ -50,8 +51,9 @@ export default async function BookmarksPage() {
             <div className="w-full p-4 max-w-[1024px]">
                 <h1 className="font-semibold">Your bookmarked webtoons</h1>
                 {
-                    userBookmarks && 
-                    <BookmarkList bookmarksCopy={JSON.parse(JSON.stringify(userBookmarks))}></BookmarkList>
+                    userBookmarks ? 
+                    <BookmarkList bookmarksCopy={JSON.parse(JSON.stringify(userBookmarks))}></BookmarkList> :
+                    <BookmarkListLocal></BookmarkListLocal>
                 }
                     
                 
