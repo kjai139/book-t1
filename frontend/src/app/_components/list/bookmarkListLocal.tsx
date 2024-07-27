@@ -17,6 +17,8 @@ export default function BookmarkListLocal () {
     const [totalPages, setTotalPages] = useState<number>(0)
     const [currentPage, setCurrentPage] = useState(1)
     const [isPending, startTransition] = useTransition()
+    const [isInitiated, setIsInitiated] = useState(false)
+    const [ogBm, setogBm] = useState([])
     
 
     useEffect(() => {
@@ -24,12 +26,24 @@ export default function BookmarkListLocal () {
         if (localBookmarks) {
             const bmArr = JSON.parse(localBookmarks)
             setBookmarks(bmArr)
+            setogBm(bmArr)
             console.log('LOCAL BMS:', bmArr)
             const totalpgs = Math.ceil(bmArr.length / limit)
             setTotalPages(totalpgs)
         }
+        setIsInitiated(true)
         
     }, [])
+
+    useEffect(() => {
+        if (isInitiated) {
+            const start = (currentPage - 1) * limit
+            const end = currentPage * limit
+            startTransition(() => {
+                setBookmarks(ogBm.slice(start, end))
+            })
+        }
+    }, [currentPage])
 
     const removeBm = (key:any) => {
         let storedBookmarks = localStorage.getItem('bookmarks')
