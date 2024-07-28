@@ -49,7 +49,6 @@ export default async function BookmarksPage() {
     return (
         <main>
             <div className="w-full p-4 max-w-[1024px]">
-                <h1 className="font-semibold">Your bookmarked webtoons</h1>
                 {
                     userBookmarks ? 
                     <BookmarkList bookmarksCopy={JSON.parse(JSON.stringify(userBookmarks))}></BookmarkList> :

@@ -2,7 +2,7 @@
 
 import { useEffect, useState, useTransition } from "react"
 import ErrorMsgModal from "../modals/errorModal"
-import { Pagination, Button, Link } from "@nextui-org/react"
+import { Pagination, Button, Link, Divider } from "@nextui-org/react"
 import NextImage from "next/image"
 import { useAuth } from "@/app/_contexts/authContext"
 import StarsOnly from "../rating/starsDisplayOnly"
@@ -70,6 +70,8 @@ export default function BookmarkListLocal () {
         {
             bookmarks && totalPages > 0 ?
             <>
+            <h1 className="font-semibold text-lg">Your bookmarks</h1>
+            <Divider className="mt-2"></Divider>
             <Pagination className="my-4" total={totalPages} page={currentPage} showControls onChange={setCurrentPage}>
 
             </Pagination>
