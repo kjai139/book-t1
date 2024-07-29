@@ -42,6 +42,10 @@ export default function BookmarkListLocal () {
             startTransition(() => {
                 setBookmarks(ogBm.slice(start, end))
             })
+            window.scrollTo({
+                top:0,
+                behavior:'instant'
+            })
         }
     }, [currentPage])
 
@@ -89,10 +93,10 @@ export default function BookmarkListLocal () {
                                     <Link isDisabled={isPending} href={bm.url} color="foreground" className="font-semibold">
                                         {bm.name}
                                     </Link>
-                                    <div className="my-2">
-                                    {/* <StarsOnly rating={bm.wtRef.avgRating ? bm.wtRef.avgRating : 0}></StarsOnly> */}
-                                    </div>
-                                    <span className="text-sm flex gap-2 text-default-500 flex-wrap mt-2">
+                                    {/* <div className="my-2">
+                                    <StarsOnly rating={bm.wtRef.avgRating ? bm.wtRef.avgRating : 0}></StarsOnly>
+                                    </div> */}
+                                    <span className="text-xs sm:text-sm flex gap-2 text-default-500 flex-wrap mt-2">
                                         {bm.genres}
 
                                     </span>

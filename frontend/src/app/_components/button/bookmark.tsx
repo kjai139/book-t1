@@ -77,10 +77,8 @@ export default function BookmarkBtn () {
                             return (
                                 <li key={`sr${node.url}-${idx}`} className="flex p-2 justify-center items-center relative flex-col">
                                 <Link href={node.url} isDisabled={node.url === pathname ? true : false} isBlock className="flex w-full">
-                                <div className="relative mr-2">
-                                    <NextImage width={56} height={80} alt={`Cover of ${node.image}`} src={node.image} unoptimized style={{
-                                        objectFit: 'cover'
-                                    }}></NextImage>
+                                <div className="relative mr-2 h-auto">
+                                    <NextImage className="w-[60px] h-auto" width={0} height={0} alt={`Cover of ${node.image}`} src={node.image} unoptimized></NextImage>
                                 </div>
                                 <div className="flex flex-col flex-2 p-2 gap-1">
                                     <span className="font-semibold text-sm bm-txt">{node.name}</span>
