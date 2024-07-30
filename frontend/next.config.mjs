@@ -32,6 +32,10 @@ const nextConfig = {
                 protocol: 'https',
                 hostname:  process.env.NEXT_PUBLIC_S3_URL,
                 port: ''
+            },
+            {
+                protocol: 'https',
+                hostname: 'lh3.googleusercontent.com'
             }
         ]
     },

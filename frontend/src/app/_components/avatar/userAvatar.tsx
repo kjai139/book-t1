@@ -1,4 +1,5 @@
 
+import { useAuth } from "@/app/_contexts/authContext";
 import { Avatar, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger, Link } from "@nextui-org/react";
 import { useSession, signOut } from "next-auth/react";
 import { usePathname } from "next/navigation";
@@ -8,17 +9,19 @@ export default function UserAvatar() {
     const session = useSession()
     const pathname = usePathname()
     console.log('session in userava', session)
+    const { user } = useAuth()
+    console.log(user)
 
     
 
-    if (session.status === 'unauthenticated') {
+    if (session.status === 'unauthenticated' && !user) {
         return (
-            <Dropdown>
+            <Dropdown className="p-2">
                 <DropdownTrigger>
                     <Avatar as={"button"} name=""></Avatar>
                 </DropdownTrigger>
-                <DropdownMenu aria-label="User menu actions" disabledKeys={pathname === '/login' ? ['login'] : []}>
-                    <DropdownItem href="/login" key={"login"}>
+                <DropdownMenu aria-label="Link Actions" disabledKeys={pathname === '/login' ? ['login'] : []}>
+                    <DropdownItem href="/login" key="login">
                         Log in
                     </DropdownItem>
                 </DropdownMenu>
@@ -33,6 +36,10 @@ export default function UserAvatar() {
         } else if (key === 'signout') {
             signOut()
         }
+    }
+
+    const dropdownActionUser = (key:any) => {
+
     }
 
 
@@ -63,6 +70,32 @@ export default function UserAvatar() {
             </DropdownMenu>
        
         </Dropdown> : null}
+        {
+            user && session.status === 'unauthenticated' ?
+            <Dropdown>
+            <DropdownTrigger>
+                <Avatar as={"button"} name="">
+
+                </Avatar>
+
+            </DropdownTrigger>
+            <DropdownMenu aria-label="User menu actions" disabledKeys={["profile", `${pathname === '/bookmarks' ? 'bookmarks' : null}`]} onAction={(key) => dropdownActionUser(key)}>
+                <DropdownItem key={"profile"} textValue={`Signed in as ${user.name}`}>
+                    <p>Signed in as {user.name}</p>
+                </DropdownItem>
+                <DropdownItem key={"bookmarks"} href="/bookmarks">
+                    Your bookmarks
+                </DropdownItem>
+                <DropdownItem key={"signout"} color="danger">
+                    Log Out
+                </DropdownItem>
+
+            </DropdownMenu>
+       
+            </Dropdown> : null
+
+        }
+        
         </>
     )
 }
