@@ -11,6 +11,8 @@ import { dbConnect } from "./_utils/db"
 import { cache } from 'react'
 import dynamic from "next/dynamic"
 import RecentlyDisplayed from "./_components/grid/recentlyUpdated"
+import RecentlyUpdatedWrapper from "./_components/wrapper/recentlyUpdatedWrapper"
+import SliderWrapper from "./_components/wrapper/sliderWrapper"
 const RankingDisplay = dynamic(() => import('./_components/footer/ranking'))
 
 
@@ -148,7 +150,7 @@ export default async function Home() {
     
     <main className="flex flex-col items-center">
       <div className="w-full mw">
-        <MainDynamicSlide slideArr={updates.slider}></MainDynamicSlide>
+        <SliderWrapper></SliderWrapper>
         <div>
                 
                 <span className='text-xs text-default-500 flex p-4 justify-center gap-1'>
@@ -160,7 +162,8 @@ export default async function Home() {
           <Link href="/read" size="sm">View all</Link>
         </div>
         <Divider className="my-4"></Divider>
-        <RecentlyDisplayed updatesArr={updates}></RecentlyDisplayed>
+        {/* <RecentlyDisplayed updatesArr={updates}></RecentlyDisplayed> */}
+        <RecentlyUpdatedWrapper></RecentlyUpdatedWrapper>
        
       <div className="p-6 flex justify-end">
           
