@@ -16,10 +16,11 @@ export async function AddViews (wtName:string) {
         await dbConnect()
         await Wt.findOneAndUpdate({slug:wtName}, {
             $inc: {
-                monthlyViews: 1
+                monthlyViews: 1,
+                totalViews: 1
             }
         })
-        console.log('Monthly view updated')
+        console.log('Monthly views + total views updated')
         
         
 
