@@ -6,18 +6,15 @@ import NextImage from "next/image";
 import { MdDelete } from "react-icons/md";
 import { usePathname } from "next/navigation";
 import { useAuth } from "@/app/_contexts/authContext";
-import { useSession } from "next-auth/react";
 
 export default function BookmarkBtn () {
     const { setCheckLocal } = useAuth()
     const { isOpen, onOpen, onOpenChange } = useDisclosure()
     const [bookmarks, setBookmarks] = useState<any[]>([])
     const pathname = usePathname()
-    const session = useSession()
 
     useEffect(() => {
         if (isOpen) {
-            console.log(session)
             const storedBm = localStorage.getItem('bookmarks')
             if (storedBm) {
                 const parsedBm = JSON.parse(storedBm)
@@ -25,7 +22,7 @@ export default function BookmarkBtn () {
             } else {
                 setBookmarks([])
             }
-        }
+        } 
         
     }, [isOpen])
 

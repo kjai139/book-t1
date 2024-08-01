@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react"
 import {Navbar, NavbarBrand, NavbarContent, NavbarItem, NavbarMenuToggle, NavbarMenu, NavbarMenuItem, Link, Button, Divider, Input } from "@nextui-org/react";
 import BookmarkBtn from "./button/bookmark";
-import PbNavSearch from "./button/pbSearch";
+import { useSession } from "next-auth/react";
 import homeIcon from '../apple-icon.png'
 import NextImage from "next/image";
 import { serverLogUserOut } from "../actions";
@@ -12,6 +12,7 @@ import { ThemeSwitcher } from "./themeSwitcher";
 import { FaSearch } from "react-icons/fa";
 import SlideSearchBar from "./button/slideSearch";
 import UserAvatar from "./avatar/userAvatar";
+import { FaBookmark } from "react-icons/fa";
 
 interface MenuItems {
   name: string,
@@ -26,8 +27,9 @@ export default function MainHeaderNav () {
     const [menuItems, setMenuItems] = useState<MenuItems[]>([])
     const [errorMsg, setErrorMsg] = useState('')
     const { user, setUser } = useAuth()
-
+    const session = useSession()
     const [isSearchOpen, setIsSearchOpen] = useState(false)
+
    
    
 
@@ -116,7 +118,25 @@ export default function MainHeaderNav () {
               {/* <PbNavSearch></PbNavSearch> */}
             </NavbarItem>
             <NavbarItem>
-              <BookmarkBtn></BookmarkBtn>
+              {
+                session.status === 'authenticated' ?
+                <Button aria-label="Bookmark page icon" as={Link} href="/bookmarks" isIconOnly className="shudder data-[hover=true]:opacity-100">
+                  <FaBookmark></FaBookmark>
+                </Button>
+                 : null
+              }
+              {
+                session.status === 'loading'?
+                <Button aria-label="Loading Bookmark page icon" isIconOnly className="shudder data-[hover=true]:opacity-100" isDisabled>
+                <FaBookmark></FaBookmark>
+                </Button>
+                : null
+              }
+              {
+                session.status === 'unauthenticated' ?
+                <BookmarkBtn></BookmarkBtn> : null
+              }
+             
             </NavbarItem>
             <NavbarItem className="hidden sm:block">
             <ThemeSwitcher></ThemeSwitcher>

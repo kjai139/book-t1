@@ -63,7 +63,7 @@ export default function DashboardUi ({user}:DashboardUiProps) {
 
     return (
         
-        <div className="w-full p-2">
+        <div className="w-full p-2 mw">
         <div>
             <h3 className="font-semibold">Welcome, {user.name}</h3>
             <div>
@@ -74,7 +74,7 @@ export default function DashboardUi ({user}:DashboardUiProps) {
 
                 </span>
                 } */}
-                <p>Role: {userRole}</p>
+                {/* <p>Role: {userRole}</p> */}
             </div>
         </div>
         {
@@ -84,7 +84,7 @@ export default function DashboardUi ({user}:DashboardUiProps) {
         {
             userRole === 'User' ?
             <div className="text-default-500 mt-4">
-                Features coming soon.
+                Features coming soon. Re-save your bookmarks while logged in to keep them with the account.
             </div>
             : null
         }
