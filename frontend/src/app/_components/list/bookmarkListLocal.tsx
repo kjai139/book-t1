@@ -2,10 +2,9 @@
 
 import { useEffect, useState, useTransition } from "react"
 import ErrorMsgModal from "../modals/errorModal"
-import { Pagination, Button, Link, Divider } from "@nextui-org/react"
+import { Pagination, Button, Link, Divider, Spinner } from "@nextui-org/react"
 import NextImage from "next/image"
 import { useAuth } from "@/app/_contexts/authContext"
-import StarsOnly from "../rating/starsDisplayOnly"
 
 export default function BookmarkListLocal () {
 
@@ -67,6 +66,15 @@ export default function BookmarkListLocal () {
 
     return (
         <>
+        {!bookmarks ?
+        <div className="flex gap-4">
+            <span className="text-lg">
+            Loading...
+            </span>
+            <Spinner></Spinner>
+        </div> 
+            : null
+        }
         {
             errorMsg ?
             <ErrorMsgModal message={errorMsg} setErrorMsg={setErrorMsg}></ErrorMsgModal> : null
@@ -79,7 +87,7 @@ export default function BookmarkListLocal () {
             <Pagination className="my-4" total={totalPages} page={currentPage} showControls onChange={setCurrentPage}>
 
             </Pagination>
-            <ul>
+            <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                 {bookmarks && bookmarks.map((bm:any, idx) => {
                     console.log('li keys', bm.url)
                     return (

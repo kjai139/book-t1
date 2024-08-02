@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from "react"
+import { useEffect, useState, useTransition } from "react"
 import UploadTabs from "../_components/tabs/uploadTab"
 import { useAuth } from "../_contexts/authContext"
 import { Button } from "@nextui-org/react"
@@ -15,6 +15,7 @@ export default function DashboardUi ({user}:DashboardUiProps) {
 
     const { setUser } = useAuth()
     const [userRole, setUserRole] = useState('')
+    const [isPending, startTransition] = useTransition()
 
     const sendVerificationEmail = async () => {
         try {
@@ -38,6 +39,7 @@ export default function DashboardUi ({user}:DashboardUiProps) {
         console.log('User from dashboardUI', user)
         const getUserPrivs = async (userId:string) => {
             try {
+                
                 const userPriv = await checkUserPriv(userId)
                 if (userPriv === 'Admin') {
                     setUserRole('Admin')
@@ -52,10 +54,15 @@ export default function DashboardUi ({user}:DashboardUiProps) {
         }
         if (user._id) {
             //not oauth
-            getUserPrivs(user._id)
+            startTransition(() => {
+                getUserPrivs(user._id)
+            })
+          
 
         } else if (!user._id && user.id) {
-            getUserPrivs(user.id)
+            startTransition(() => {
+                getUserPrivs(user.id)
+            })
         }
         
     }, [])
@@ -78,6 +85,12 @@ export default function DashboardUi ({user}:DashboardUiProps) {
             </div>
         </div>
         {
+            isPending && !userRole ?
+            <div className="mt-4">
+                Loading content...
+            </div> : null
+        }
+        {
             userRole === 'Admin' ?
             <UploadTabs></UploadTabs> : null
         }
@@ -87,6 +100,12 @@ export default function DashboardUi ({user}:DashboardUiProps) {
                 Features coming soon. Re-save your bookmarks while logged in to keep them with the account.
             </div>
             : null
+        }
+        {
+            userRole === 'Error' ?
+            <div className="text-default-500 mt-4">
+                Encountered an error loading dashboard. Try refreshing and if it doesn't work, please try again later.
+            </div> : null
         }
         
       

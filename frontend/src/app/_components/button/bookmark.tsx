@@ -67,8 +67,11 @@ export default function BookmarkBtn () {
                 
                 {(onClose) => (
                     <>
-                    <ModalHeader>
+                    <ModalHeader className="flex-col">
+                        <span>
                         Saved Bookmarks - {bookmarks.length} / 25
+                        </span>
+                        <span className="text-sm text-default-500">Sign in for more.</span>
                     </ModalHeader>
                     <ModalBody>
                         <ul className="max-h-[400px] overflow-y-auto bmark-cont flex flex-col my-4">

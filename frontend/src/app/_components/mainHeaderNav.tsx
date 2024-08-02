@@ -112,7 +112,7 @@ export default function MainHeaderNav () {
     
           <NavbarContent justify="end">
             <NavbarItem className="ng">
-            <Button isIconOnly aria-label="Toggle Searchbar" onPress={() => setIsSearchOpen(prev => !prev)}>
+            <Button isDisabled={session.status === 'loading'} isIconOnly aria-label="Toggle Searchbar" onPress={() => setIsSearchOpen(prev => !prev)}>
                 <FaSearch></FaSearch>
             </Button>
               {/* <PbNavSearch></PbNavSearch> */}
