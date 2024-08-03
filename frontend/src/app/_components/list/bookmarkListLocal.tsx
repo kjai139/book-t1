@@ -5,6 +5,7 @@ import ErrorMsgModal from "../modals/errorModal"
 import { Pagination, Button, Link, Divider, Spinner } from "@nextui-org/react"
 import NextImage from "next/image"
 import { useAuth } from "@/app/_contexts/authContext"
+import ConfirmModal from "../modals/confirmModal"
 
 export default function BookmarkListLocal () {
 
@@ -18,6 +19,8 @@ export default function BookmarkListLocal () {
     const [isPending, startTransition] = useTransition()
     const [isInitiated, setIsInitiated] = useState(false)
     const [ogBm, setogBm] = useState([])
+    const [confirmId, setConfirmId] = useState('')
+    const [confirmMsg, setConfirmMsg] = useState('')
     
 
     useEffect(() => {
@@ -64,25 +67,29 @@ export default function BookmarkListLocal () {
         }
     }
 
+    const confirmRemove = (wtUrl:string, wtName:string) => {
+        const msg = `Remove ${wtName} from your bookmarks?`
+        setConfirmMsg(msg)
+        setConfirmId(wtUrl)
+        console.log('Remove button pressed for', wtUrl, wtName)
+    }
+
     return (
         <>
-        {!bookmarks ?
-        <div className="flex gap-4">
-            <span className="text-lg">
-            Loading...
-            </span>
-            <Spinner></Spinner>
-        </div> 
-            : null
+        {
+            confirmMsg ? 
+            <ConfirmModal msg={confirmMsg} setMsg={setConfirmMsg} func={() => removeBm(confirmId)}></ConfirmModal> : null
         }
         {
             errorMsg ?
             <ErrorMsgModal message={errorMsg} setErrorMsg={setErrorMsg}></ErrorMsgModal> : null
         }
         {
-            bookmarks && totalPages > 0 ?
+            bookmarks && bookmarks.length > 0 && totalPages > 0 ?
             <>
-            <h1 className="font-semibold text-lg">Your bookmarks</h1>
+            <h1 className="font-semibold text-lg">
+            Your bookmarks
+            </h1>
             <Divider className="mt-2"></Divider>
             <Pagination className="my-4" total={totalPages} page={currentPage} showControls onChange={setCurrentPage}>
 
@@ -95,7 +102,7 @@ export default function BookmarkListLocal () {
                             <div className="flex">
                                 <div className="mr-4 flex-shrink-0">
                                 <NextImage priority={idx < 3 ? true : false} className="w-[100px] h-auto" unoptimized width={0} height={0} alt={`Cover image of ${bm.name}`} src={bm.image}></NextImage>
-                                <Button onPress={() => removeBm(bm.url)} isDisabled={isPending} radius="none" className="text-foreground mt-2 font-semibold" variant="ghost" color="warning" size="sm" fullWidth>Remove</Button>
+                                <Button onPress={() => confirmRemove(bm.url, bm.name)} isDisabled={isPending} radius="none" className="text-foreground mt-2 font-semibold" variant="ghost" color="warning" size="sm" fullWidth>Remove</Button>
                                 </div>
                                 <div className="flex flex-col">
                                     <Link isDisabled={isPending} href={bm.url} color="foreground" className="font-semibold">
@@ -115,11 +122,18 @@ export default function BookmarkListLocal () {
                     )
                 })}
             </ul>
-            <Pagination showControls className="my-4" total={totalPages} page={currentPage} onChange={setCurrentPage}>
+            {
+                totalPages > currentPage ?
+                <Pagination showControls className="my-4" total={totalPages} page={currentPage} onChange={setCurrentPage}>
 
-            </Pagination> 
+            </Pagination>: null }
             </>
-        : null
+        : 
+        <div className="flex-col flex">
+            <span className="text-lg">
+                    You have no saved bookmarks. 
+            </span>
+        </div>
 
         }
         

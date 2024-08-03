@@ -7,6 +7,7 @@ import { dbConnect } from "./_utils/db"
 import { verifySession } from "./_lib/dal"
 import { deleteSession } from "./_lib/session"
 import { generateRandomName } from "./_utils/generateName"
+import { revalidatePath } from "next/cache"
 const bcrypt = require('bcrypt')
 
 
@@ -87,14 +88,17 @@ export async function toggleBookmark(userId:string, wtId: string, url:string) {
             })
 
             await newBookmark.save()
+            revalidatePath('/bookmarks')
             return 'added'
         } else {
             await Bookmark.deleteOne({
                 _id: exisitingBM._id
             })
+            revalidatePath('/bookmarks')
             return 'deleted'
 
         }
+        
 
     } catch (err:any) {
         console.error(err)
@@ -113,6 +117,7 @@ export async function removeBmDB(bmId:string) {
             throw new Error('Bookmark ID does not exist.')
         } else {
             console.log(`BM ${bmId} deleted`)
+            revalidatePath('/bookmarks')
             return 'ok'
         }
 

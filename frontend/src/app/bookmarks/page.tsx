@@ -4,9 +4,11 @@ import Bookmark from "../_models/bookmark"
 import ServerError from "../_components/serverError"
 import BookmarkList from "../_components/list/bookmarkList"
 import BookmarkListLocal from "../_components/list/bookmarkListLocal"
+import { cache } from "react"
 
 
-async function getUserBookmarks (userId:string):Promise<any[]> {
+
+async function getUserBookmarks(userId:string):Promise<any[]> {
     try {
         await dbConnect()
         const userBms = await Bookmark.find({
@@ -27,6 +29,28 @@ async function getUserBookmarks (userId:string):Promise<any[]> {
         throw err
     }
 }
+
+const getUserBookmarksCached = cache(async (userId:string) => {
+    try {
+        await dbConnect()
+        const userBms = await Bookmark.find({
+            userRef: userId
+        }).populate({
+            path: 'wtRef',
+            populate: {
+                path: 'genres'
+            }
+        })
+
+        return userBms
+
+        /* return JSON.parse(JSON.stringify(userBms)) */
+
+    } catch (err) {
+        console.error(err)
+        throw err
+    }
+})
 
 
 export default async function BookmarksPage() {
@@ -50,7 +74,7 @@ export default async function BookmarksPage() {
         <main>
             <div className="w-full p-4 max-w-[1024px]">
                 {
-                    userBookmarks ? 
+                    oauthSess && oauthSess.user ? 
                     <BookmarkList bookmarksCopy={JSON.parse(JSON.stringify(userBookmarks))}></BookmarkList> :
                     <BookmarkListLocal></BookmarkListLocal>
                 }

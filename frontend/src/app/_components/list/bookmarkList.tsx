@@ -106,7 +106,7 @@ export default function BookmarkList ({bookmarksCopy}:BookmarkListProps) {
             <ErrorMsgModal message={errorMsg} setErrorMsg={setErrorMsg}></ErrorMsgModal> : null
         }
         {
-            bookmarks && totalPages > 0 ? 
+            bookmarks && bookmarks.length > 0 && totalPages > 0 ? 
              <>
              <h1 className="font-semibold text-lg">Your bookmarks</h1>
              <Divider className="mt-2"></Divider>
@@ -147,10 +147,20 @@ export default function BookmarkList ({bookmarksCopy}:BookmarkListProps) {
                     )
                 })}
             </ul>
+            { totalPages > currentPage ?
             <Pagination showControls className="my-4" total={totalPages} page={currentPage} onChange={setCurrentPage}>
 
-            </Pagination>
-             </> : null
+            </Pagination> : null}
+             </> :
+            <div className="flex-col flex">
+                <span className="text-lg">
+                    You have no saved bookmarks. 
+                </span>
+                
+                <span className="text-default-500 mt-4">
+                    If this is your first time signing in, you have to re-save your bookmarks to have them linked to your email.
+                </span>
+            </div>
         }
         
         </>

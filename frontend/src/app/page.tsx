@@ -18,7 +18,7 @@ const RankingDisplay = dynamic(() => import('./_components/footer/ranking'))
 
 export const revalidate = 3600
 
-const GetHomeUpdates = cache(async () => {
+/* const GetHomeUpdates = cache(async () => {
     await dbConnect()
     const sevendaysAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000)
 
@@ -116,12 +116,12 @@ const GetHomeUpdates = cache(async () => {
     }
 
     
-})
+}) */
 
 
 
 export default async function Home() {
-  const updates = await GetHomeUpdates()
+  /* const updates = await GetHomeUpdates()
  
   updates.updates = updates.updates.map((node:any) => {
     const updatedChapters = node.chapters.map((chapter:any) => {
@@ -140,7 +140,7 @@ export default async function Home() {
       ...node,
       chapters: updatedChapters
     }
-  })
+  }) */
 
  
   

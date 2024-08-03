@@ -60,7 +60,7 @@ export default function BookmarkBtn () {
         <Button aria-label="Open bookmarks" isIconOnly onClick={onOpen} className="shudder data-[hover=true]:opacity-100">
             <FaBookmark></FaBookmark>
         </Button>
-        <Modal isOpen={isOpen} onOpenChange={onOpenChange} classNames={{
+        <Modal disableAnimation isOpen={isOpen} onOpenChange={onOpenChange} classNames={{
             body: 'px-2 sm:px-6'
         }}>
             <ModalContent>

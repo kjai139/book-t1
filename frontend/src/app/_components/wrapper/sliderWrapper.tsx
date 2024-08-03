@@ -3,8 +3,7 @@ import { cache } from "react"
 import Wt from "@/app/_models/wt"
 import MainDynamicSlide from "../slider/mainSlider"
 
-export const revalidate = 14400
-//4 hrs
+
 
 const GetSliderData = cache(async () => {
     await dbConnect()

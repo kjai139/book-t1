@@ -5,8 +5,8 @@ import { useSession, signOut } from "next-auth/react";
 import { usePathname } from "next/navigation";
 import { useEffect } from "react";
 
-export default function UserAvatar() {
-    const session = useSession()
+export default function UserAvatar({session}:any) {
+    
     const pathname = usePathname()
     console.log('session in userava', session)
     const { user } = useAuth()
@@ -20,9 +20,12 @@ export default function UserAvatar() {
                 <DropdownTrigger>
                     <Avatar as={"button"} name=""></Avatar>
                 </DropdownTrigger>
-                <DropdownMenu aria-label="Link Actions" disabledKeys={pathname === '/login' ? ['login'] : []}>
-                    <DropdownItem href="/login" key="login">
+                <DropdownMenu aria-label="Link Actions" disabledKeys={[`${pathname}`]}>
+                    <DropdownItem href="/login" key="/login">
                         Log in
+                    </DropdownItem>
+                    <DropdownItem href="/bookmarks" key='/bookmarks'>
+                        Your bookmarks
                     </DropdownItem>
                 </DropdownMenu>
             </Dropdown>

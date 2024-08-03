@@ -23,8 +23,22 @@ interface MenuItems {
 
 export default function MainHeaderNav () {
 
+    const publicMenu = [
+      {
+        name: 'Home',
+        type: 'link',
+        url: '/'
+
+      },
+      {
+        name: 'View Webtoons',
+        type: 'link',
+        url: '/read'
+      }
+    ]
+
     const [isMenuOpen, setIsMenuOpen] = useState(false)
-    const [menuItems, setMenuItems] = useState<MenuItems[]>([])
+    const [menuItems, setMenuItems] = useState<MenuItems[]>(publicMenu)
     const [errorMsg, setErrorMsg] = useState('')
     const { user, setUser } = useAuth()
     const session = useSession()
@@ -57,33 +71,22 @@ export default function MainHeaderNav () {
       }
     ]
 
-    const publicMenu = [
-      {
-        name: 'Home',
-        type: 'link',
-        url: '/'
-
-      },
-      {
-        name: 'View Webtoons',
-        type: 'link',
-        url: '/read'
-      }
-    ]
+    
 
     
 
-      useEffect(() => {
+      /* useEffect(() => {
       
           if (user) {
             setMenuItems(loggedInMenu)
           } else {
             setMenuItems(publicMenu)
           }
+        
           
       
         
-      }, [user])
+      }, []) */
 
 
   
@@ -142,7 +145,7 @@ export default function MainHeaderNav () {
             <ThemeSwitcher></ThemeSwitcher>
             </NavbarItem>
             <NavbarItem>
-              <UserAvatar></UserAvatar>
+              <UserAvatar session={session}></UserAvatar>
             </NavbarItem>
            
           </NavbarContent>

@@ -36,7 +36,7 @@ export default function ConfirmModal({msg, setMsg, func}:ConfirmModalProps) {
 
     
     return (
-        <Modal isOpen={isOpen} onOpenChange={handleOpenChange}>
+        <Modal disableAnimation isOpen={isOpen} onOpenChange={handleOpenChange}>
             <ModalContent>
                 {
                     (onClose) => (

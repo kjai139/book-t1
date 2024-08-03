@@ -6,7 +6,6 @@ import { cache } from "react"
 import { formatDateDMY } from "@/app/_utils/dates"
 
 
-export const revalidate = 3600
 
 const GetRecentlyUpdated = cache(async () => {
     await dbConnect()

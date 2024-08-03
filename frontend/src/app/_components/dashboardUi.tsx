@@ -97,7 +97,7 @@ export default function DashboardUi ({user}:DashboardUiProps) {
         {
             userRole === 'User' ?
             <div className="text-default-500 mt-4">
-                Features coming soon. Re-save your bookmarks while logged in to keep them with the account.
+                Features coming soon. For now, you can re-save your bookmarks if you wish to have them linked to your email.
             </div>
             : null
         }
