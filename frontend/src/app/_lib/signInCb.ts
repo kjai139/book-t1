@@ -1,4 +1,4 @@
-
+/* 
 import mongoose from "mongoose";
 import { dbConnect } from "../_utils/db";
 const Schema = mongoose.Schema
@@ -95,4 +95,4 @@ export async function getUserId (email:string) {
         console.error(err)
         return false
     }
-}
+} */

@@ -1,7 +1,7 @@
 import NextAuth from "next-auth"
 import Google from "next-auth/providers/google"
-import { getUserId } from "./app/_lib/signInCb"
 import type { NextAuthConfig } from "next-auth"
+
 
 
 
@@ -16,7 +16,7 @@ export const config = {
     callbacks: {
         async signIn({user, account}:any) {
             if (account?.provider === 'google') {
-                try {
+                /* try {
                     const userId = await getUserId(user.email)
                     if (userId) {
                         user._id = userId
@@ -26,19 +26,27 @@ export const config = {
                     }
                 } catch (err) {
                     return false
-                }
+                } */
+               return true
             } else {
                 return false
             }
         
         },
-        jwt({ token, user}:any) {
-            if (user) {
+        async jwt({ token, user, trigger, session}:any) {
+            console.log('JWT CALLBACK INVOKED', trigger)
+            /* if (user) {
                 token.id = user._id
+            }
+            return token */
+            if (trigger === "update" && session?.user?.id) {
+                console.log(session, '****FROM JWT CB*****')
+                token.id = session.user.id
             }
             return token
         },
-        session({session, token}:any) {
+        async session({session, token}:any) {
+            console.log('SESSION CB INVOKED')
             session.user.id = token.id
             return session
         },

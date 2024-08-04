@@ -8,6 +8,7 @@ import { verifySession } from "./_lib/dal"
 import { deleteSession } from "./_lib/session"
 import { generateRandomName } from "./_utils/generateName"
 import { revalidatePath } from "next/cache"
+import { auth } from "@/auth"
 const bcrypt = require('bcrypt')
 
 
@@ -127,8 +128,7 @@ export async function removeBmDB(bmId:string) {
     }
 }
 
-
-export async function checkUserPriv(userId:string) {
+export async function checkUserPrivId(userId:string) {
     try {
         await dbConnect()
         const existingUser = await User.findById(userId)
@@ -136,9 +136,18 @@ export async function checkUserPriv(userId:string) {
             throw new Error('User does not exist')
         } else {
             if (existingUser.role !== 'Admin') {
-                return 'User'
+                const response = {
+                    userId: existingUser._id,
+                    role:'User'
+                }
+                return JSON.parse(JSON.stringify(response))
+                // doing this ensure that there's no fucntions or non immutable properties are not present
             } else if (existingUser.role === 'Admin') {
-                return 'Admin'
+                const response = {
+                    userId: existingUser._id,
+                    role:'Admin'
+                }
+                return JSON.parse(JSON.stringify(response))
             }
         }
     } catch (err:any) {
@@ -147,4 +156,111 @@ export async function checkUserPriv(userId:string) {
     }
 }
 
+
+export async function checkUserPriv(userEmail:string) {
+    try {
+        await dbConnect()
+        const session = await auth()
+        const existingUser = await User.findOne({
+            email: userEmail
+        })
+        if (!existingUser) {
+            console.log('Could not find user email from database, creating account...')
+            let userName 
+            let isUnique = false
+            while (!isUnique) {
+                userName = generateRandomName()
+                let lcUsername = userName.toLowerCase()
+                let isNameTaken = await User.findOne({
+                    lcname: lcUsername
+                })
+                if (!isNameTaken) {
+                    isUnique = true
+                }
+            }
+            const randomPw = generateRandomName() + 'temp'
+            const saltRounds = 10
+            const salt = await bcrypt.genSalt(saltRounds)
+            const hashedPw = await bcrypt.hash(randomPw, salt)
+            const newUser = new User({
+                name: userName,
+                lcname: userName!.toLowerCase(),
+                email: userEmail,
+                password: hashedPw
+            })
+
+            await newUser.save()
+            const response = {
+                userId: newUser._id,
+                role:'User'
+            }
+            return JSON.parse(JSON.stringify(response))
+        } else {
+            if (existingUser.role !== 'Admin') {
+                console.log('SESSION FROM SA', session)
+                const response = {
+                    userId: existingUser._id,
+                    role:'User'
+                }
+                return JSON.parse(JSON.stringify(response))
+                // doing this ensure that there's no fucntions or non immutable properties are not present
+            } else if (existingUser.role === 'Admin') {
+                const response = {
+                    userId: existingUser._id,
+                    role:'Admin'
+                }
+                return JSON.parse(JSON.stringify(response))
+            }
+        }
+    } catch (err:any) {
+        console.error(err)
+        throw err
+    }
+}
+
+
+export async function serverGetUserId (email:string) {
+    try {
+        await dbConnect()
+        const normalizedEmail = email.toLowerCase()
+        const existingUser = await User.findOne({
+            email: normalizedEmail
+        })
+     
+
+        if (existingUser) {
+            return existingUser._id
+        } else {
+            console.log('Could not find user from database, creating account...')
+            let userName 
+            let isUnique = false
+            while (!isUnique) {
+                userName = generateRandomName()
+                let lcUsername = userName.toLowerCase()
+                let isNameTaken = await User.findOne({
+                    lcname: lcUsername
+                })
+                if (!isNameTaken) {
+                    isUnique = true
+                }
+            }
+            const randomPw = generateRandomName() + 'temp'
+            const saltRounds = 10
+            const salt = await bcrypt.genSalt(saltRounds)
+            const hashedPw = await bcrypt.hash(randomPw, salt)
+            const newUser = new User({
+                name: userName,
+                lcname: userName!.toLowerCase(),
+                email: email,
+                password: hashedPw
+            })
+
+            await newUser.save()
+            return newUser._id
+        }
+    } catch (err) {
+        console.error(err)
+        return false
+    }
+}
 

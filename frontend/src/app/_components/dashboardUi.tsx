@@ -4,7 +4,8 @@ import { useEffect, useState, useTransition } from "react"
 import UploadTabs from "../_components/tabs/uploadTab"
 import { useAuth } from "../_contexts/authContext"
 import { Button } from "@nextui-org/react"
-import { checkUserPriv } from "../actions"
+import { checkUserPriv, checkUserPrivId } from "../actions"
+import { useSession } from "next-auth/react"
 
 
 interface DashboardUiProps {
@@ -16,6 +17,8 @@ export default function DashboardUi ({user}:DashboardUiProps) {
     const { setUser } = useAuth()
     const [userRole, setUserRole] = useState('')
     const [isPending, startTransition] = useTransition()
+    const [ userId, setUserId] = useState('')
+    const { update } = useSession()
 
     const sendVerificationEmail = async () => {
         try {
@@ -33,39 +36,74 @@ export default function DashboardUi ({user}:DashboardUiProps) {
             console.log(err)
         }
     }
+    const getUserPrivs = async (userEmail:string) => {
+        try {
+            
+            const userPriv = await checkUserPriv(userEmail)
+            console.log(userPriv)
+            if (userPriv.role === 'Admin') {
+                setUserRole('Admin')
+            } else if (userPriv.role === 'User') {
+                setUserRole('User')
+                setUserId(userPriv.userId)
+                
+            }
+            
+        } catch (err:any) {
+            console.error(err)
+            setUserRole('Error')
+        }
+        
+    }
+
+    const getUserPrivId = async (userId: string) => {
+        try {
+            const result = await checkUserPrivId(userId)
+            if (result.role === 'Admin') {
+                setUserRole('Admin')
+            } else if (result.role === 'User') {
+                setUserRole('User')
+                
+                
+            }
+        } catch (err:any) {
+            console.error(err)
+            setUserRole('Error')
+        }
+        
+    }
+
 
     useEffect(() => {
         setUser(user)
         console.log('User from dashboardUI', user)
-        const getUserPrivs = async (userId:string) => {
-            try {
-                
-                const userPriv = await checkUserPriv(userId)
-                if (userPriv === 'Admin') {
-                    setUserRole('Admin')
-                } else if (userPriv === 'User') {
-                    setUserRole('User')
-                }
-            } catch (err:any) {
-                console.error(err)
-                setUserRole('Error')
-            }
-            
-        }
+        
         if (user._id) {
             //not oauth
+             
             startTransition(() => {
-                getUserPrivs(user._id)
+                getUserPrivId(user._id)
             })
           
 
-        } else if (!user._id && user.id) {
+        } else if (!user._id && user.email) {
             startTransition(() => {
-                getUserPrivs(user.id)
+                getUserPrivs(user.email)
             })
         }
         
     }, [])
+
+    useEffect(() => {
+        if (userId && userId !== user.id) {
+            update({
+                user: {
+                    ...user,
+                    id: userId
+                }
+            })
+        }
+    }, [userId])
     
 
     return (
