@@ -2,7 +2,7 @@
 
 import { useEffect, useState, useTransition } from "react"
 import ErrorMsgModal from "../modals/errorModal"
-import { Pagination, Button, Link, Divider, Spinner } from "@nextui-org/react"
+import { Pagination, Button, Link, Divider } from "@nextui-org/react"
 import NextImage from "next/image"
 import { useAuth } from "@/app/_contexts/authContext"
 import ConfirmModal from "../modals/confirmModal"
@@ -24,6 +24,7 @@ export default function BookmarkListLocal () {
     
 
     useEffect(() => {
+        
         const localBookmarks = localStorage.getItem('bookmarks')
         if (localBookmarks) {
             const bmArr = JSON.parse(localBookmarks)
@@ -34,6 +35,7 @@ export default function BookmarkListLocal () {
             setTotalPages(totalpgs)
         }
         setIsInitiated(true)
+        
         
     }, [])
 
@@ -123,17 +125,20 @@ export default function BookmarkListLocal () {
                 })}
             </ul>
             {
-                totalPages > currentPage ?
+                bookmarks && bookmarks.length >= 4 ?
                 <Pagination showControls className="my-4" total={totalPages} page={currentPage} onChange={setCurrentPage}>
 
             </Pagination>: null }
             </>
-        : 
+        : null
+        }
+        { bookmarks && bookmarks.length === 0 ?
         <div className="flex-col flex">
             <span className="text-lg">
                     You have no saved bookmarks. 
             </span>
         </div>
+        : null
 
         }
         

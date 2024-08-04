@@ -72,7 +72,7 @@ export default function DashboardUi ({user}:DashboardUiProps) {
         
         <div className="w-full p-2 mw">
         <div>
-            <h3 className="font-semibold">Welcome, {user.name}</h3>
+            <h3 className="font-semibold">Hello, {user.name}</h3>
             <div>
                 {/* {!user.isVerified &&
                 <span className="text-danger flex flex-col gap-2">
@@ -85,7 +85,7 @@ export default function DashboardUi ({user}:DashboardUiProps) {
             </div>
         </div>
         {
-            isPending && !userRole ?
+            !userRole ?
             <div className="mt-4">
                 Loading content...
             </div> : null

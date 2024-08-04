@@ -1,7 +1,7 @@
 import NextAuth from "next-auth"
 import Google from "next-auth/providers/google"
 import { getUserId } from "./app/_lib/signInCb"
-
+import type { NextAuthConfig } from "next-auth"
 
 
 
@@ -14,7 +14,7 @@ export const config = {
         }
     })],
     callbacks: {
-        async signIn({user, account, profile}) {
+        async signIn({user, account}:any) {
             if (account?.provider === 'google') {
                 try {
                     const userId = await getUserId(user.email)
@@ -27,20 +27,22 @@ export const config = {
                 } catch (err) {
                     return false
                 }
+            } else {
+                return false
             }
         
         },
-        jwt({ token, user}) {
+        jwt({ token, user}:any) {
             if (user) {
                 token.id = user._id
             }
             return token
         },
-        session({session, token}) {
+        session({session, token}:any) {
             session.user.id = token.id
             return session
         },
     }
-}
+} satisfies NextAuthConfig
 
 export const { handlers, signIn, signOut, auth } = NextAuth(config)

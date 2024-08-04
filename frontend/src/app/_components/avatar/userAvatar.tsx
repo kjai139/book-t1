@@ -4,12 +4,13 @@ import { Avatar, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger, Link } f
 import { useSession, signOut } from "next-auth/react";
 import { usePathname } from "next/navigation";
 import { useEffect } from "react";
+import { serverLogUserOut } from "@/app/actions";
 
 export default function UserAvatar({session}:any) {
     
     const pathname = usePathname()
     console.log('session in userava', session)
-    const { user } = useAuth()
+    const { user, setUser } = useAuth()
     console.log(user)
 
     
@@ -41,8 +42,19 @@ export default function UserAvatar({session}:any) {
         }
     }
 
-    const dropdownActionUser = (key:any) => {
+    const logUserOut = async () => {
+        const isLogOutSuccessful = await serverLogUserOut()
+        if (isLogOutSuccessful) {
+          setUser(null)
+        } else {
+          console.error('Encountered an error trying to logout.')
+        }
+      }
 
+    const dropdownActionUser = (key:any) => {
+        if (key === 'signout') {
+           logUserOut()
+        }
     }
 
 

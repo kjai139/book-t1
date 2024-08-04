@@ -1,6 +1,6 @@
 'use client'
 import NextImage from "next/image"
-import { Button, Link, Pagination, Divider, Spinner } from "@nextui-org/react"
+import { Button, Link, Pagination, Divider } from "@nextui-org/react"
 import { useEffect, useState, useTransition } from "react"
 import { removeBmDB } from "@/app/actions"
 import ErrorMsgModal from "../modals/errorModal"
@@ -147,7 +147,7 @@ export default function BookmarkList ({bookmarksCopy}:BookmarkListProps) {
                     )
                 })}
             </ul>
-            { totalPages > currentPage ?
+            { bookmarks.length >= 4 ?
             <Pagination showControls className="my-4" total={totalPages} page={currentPage} onChange={setCurrentPage}>
 
             </Pagination> : null}

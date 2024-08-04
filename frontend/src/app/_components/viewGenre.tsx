@@ -133,9 +133,13 @@ export default function ViewGenreWt ({wtsArr, totalPg, genreName}:ViewGenreWtPro
                 </Link>
                 
                 </span>
-                <span className={`my-[5px] ${isDisabled || isLoading ? 'brightness-50' : ''}`}>
+                <span className={`my-[5px] flex gap-2 ${isDisabled || isLoading ? 'brightness-50' : ''}`}>
                 <StarsOnly rating={node.book.avgRating ? node.book.avgRating : 0}></StarsOnly>
+                <span className="text-foreground font-semibold text-xs">
+                {node.book.avgRating ? node.book.avgRating : ''}
                 </span>
+                </span>
+                
                 
                 
                 <div className="ch-btns gap-1">
