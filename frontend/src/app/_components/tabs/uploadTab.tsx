@@ -222,7 +222,7 @@ export default function UploadTabs () {
                     </div>
             </div>
             </Tab>
-            <Tab key={'WTC'} title="WTC">
+            {/* <Tab key={'WTC'} title="WTC">
                 <div>
                     <div>
                         <div className='flex flex-col gap-4'>
@@ -245,7 +245,7 @@ export default function UploadTabs () {
                     </div>
                 </div>
 
-            </Tab>
+            </Tab> */}
 
         </Tabs>
         </div>

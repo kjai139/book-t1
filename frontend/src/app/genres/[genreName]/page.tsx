@@ -1,5 +1,4 @@
 import ViewGenreWt from "@/app/_components/viewGenre"
-import apiUrl from "@/app/_utils/apiEndpoint"
 import { Divider } from "@nextui-org/react"
 import { notFound } from "next/navigation"
 import Genre from "@/app/_models/genre"

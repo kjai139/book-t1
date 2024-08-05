@@ -191,10 +191,11 @@ export default function ViewallWt ({allGenres}:ViewAllWtProps) {
                 <HotIcon level={node.book.isHot}></HotIcon>
                 : null
                 }
+                
+                </span>
                 {node.book?.isTitleNew !== false ?
                 <NewIcon></NewIcon> : null
                 }
-                </span>
                 
                 </div>
                 </Link>

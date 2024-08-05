@@ -96,7 +96,7 @@ export default function ViewGenreWt ({wtsArr, totalPg, genreName}:ViewGenreWtPro
             <span className="text-xs text-default-500 px-2 sm:text-base">
                         Page: {curPg} / {totalPages}
             </span>
-            <div className="cards-cont gap-4 lg:gap-6 p-2 relative">
+            <div className="cards-cont gap-4 lg:gap-6 p-0 relative">
             {isLoading && <div className="overlay-g"></div>}
             {updates && updates.wts.map((node:any, idx:number) => {
             
@@ -116,11 +116,11 @@ export default function ViewGenreWt ({wtsArr, totalPg, genreName}:ViewGenreWtPro
                 <HotIcon level={node.book.isHot}></HotIcon>
                 : null
                 }
+            
+                </span>
                 {node.book?.isTitleNew !== false ?
                 <NewIcon></NewIcon> : null
                 }
-                </span>
-                
               
                 </div>
                 </Link>
@@ -133,9 +133,13 @@ export default function ViewGenreWt ({wtsArr, totalPg, genreName}:ViewGenreWtPro
                 </Link>
                 
                 </span>
-                <span className={`my-[5px] ${isDisabled || isLoading ? 'brightness-50' : ''}`}>
+                <span className={`my-[5px] flex gap-2 ${isDisabled || isLoading ? 'brightness-50' : ''}`}>
                 <StarsOnly rating={node.book.avgRating ? node.book.avgRating : 0}></StarsOnly>
+                <span className="text-foreground font-semibold text-xs">
+                {node.book.avgRating ? node.book.avgRating : ''}
                 </span>
+                </span>
+                
                 
                 
                 <div className="ch-btns gap-1">

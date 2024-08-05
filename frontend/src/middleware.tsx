@@ -3,6 +3,7 @@ import { Ratelimit } from "@upstash/ratelimit"
 import { Redis } from "@upstash/redis"
 import { cookies } from "next/headers"
 import { decrypt } from "./app/_lib/session"
+import { auth } from "./auth"
 
 const redis = new Redis({
     url: `${process.env.UPSTASH_REDIS_REST_URL}`,
@@ -65,14 +66,23 @@ export async function middleware(request: NextRequest) {
 
     const cookie = cookies().get('session')?.value
     const session = await decrypt(cookie)
+    const oauthSess = await auth()
 
-    
+    if (!oauthSess?.user && !session?._id) {
+        console.log('User is not logged in')
+    } else {
+        if (oauthSess?.user) {
+            console.log('User is logged in via oauth', oauthSess)
+        } else if (session?._id) {
+            console.log('User is logged in via user/pw', session)
+        }
+    }
 
 
-    if (request.nextUrl.pathname !== request.nextUrl.pathname.toLowerCase()) {
+    if (!request.nextUrl.pathname.startsWith('/api/') && request.nextUrl.pathname !== request.nextUrl.pathname.toLowerCase()) {
     
        
-        const response = NextResponse.redirect(new URL(origin + request.nextUrl.pathname.toLowerCase()))
+        const response = NextResponse.redirect(new URL(request.nextUrl.origin + request.nextUrl.pathname.toLowerCase()))
         
         return response
             
@@ -81,7 +91,7 @@ export async function middleware(request: NextRequest) {
     //api protected
    
     //reroute out of protected
-    if (isProtectedRoute && !session?._id) {
+    if (isProtectedRoute && (!session?._id && !oauthSess?.user)) {
         
         console.log('TRIGGERE IN PROTECT ROUTE MW')
        
@@ -92,7 +102,7 @@ export async function middleware(request: NextRequest) {
     }
    
 
-    if (isLoginRoute && session?._id && !request.nextUrl.pathname.startsWith('/dashboard')) {
+    if (isLoginRoute && (session?._id || oauthSess?.user) && !request.nextUrl.pathname.startsWith('/dashboard')) {
             console.log('TRIGGER IN LOGIN ROUTE MW')
             const response = NextResponse.redirect(new URL('/dashboard', request.url))
            

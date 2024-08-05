@@ -94,8 +94,8 @@ export async function POST(req:NextRequest) {
             new: true
         })
         if (!updatedParentWT.slug) {
-            const removeCommaStr = updatedParentWT.name.replace(/,/g, '')
-            updatedParentWT.slug = removeCommaStr.toLowerCase().replace(/\s+/g, '-') 
+            const removeCommaStr = updatedParentWT.name.replace(/,/g, '').replace(/:/g, '') 
+            updatedParentWT.slug = removeCommaStr.toLowerCase().replace(/\s+/g, '-')
             await updatedParentWT.save()
         }
         await refreshSession()

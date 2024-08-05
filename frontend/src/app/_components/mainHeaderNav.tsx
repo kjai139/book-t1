@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react"
 import {Navbar, NavbarBrand, NavbarContent, NavbarItem, NavbarMenuToggle, NavbarMenu, NavbarMenuItem, Link, Button, Divider, Input } from "@nextui-org/react";
 import BookmarkBtn from "./button/bookmark";
-import PbNavSearch from "./button/pbSearch";
+import { useSession } from "next-auth/react";
 import homeIcon from '../apple-icon.png'
 import NextImage from "next/image";
 import { serverLogUserOut } from "../actions";
@@ -11,6 +11,8 @@ import { useAuth } from "../_contexts/authContext";
 import { ThemeSwitcher } from "./themeSwitcher";
 import { FaSearch } from "react-icons/fa";
 import SlideSearchBar from "./button/slideSearch";
+import UserAvatar from "./avatar/userAvatar";
+import { FaBookmark } from "react-icons/fa";
 
 interface MenuItems {
   name: string,
@@ -21,12 +23,27 @@ interface MenuItems {
 
 export default function MainHeaderNav () {
 
+    const publicMenu = [
+      {
+        name: 'Home',
+        type: 'link',
+        url: '/'
+
+      },
+      {
+        name: 'View Webtoons',
+        type: 'link',
+        url: '/read'
+      }
+    ]
+
     const [isMenuOpen, setIsMenuOpen] = useState(false)
-    const [menuItems, setMenuItems] = useState<MenuItems[]>([])
+    const [menuItems, setMenuItems] = useState<MenuItems[]>(publicMenu)
     const [errorMsg, setErrorMsg] = useState('')
     const { user, setUser } = useAuth()
-
+    const session = useSession()
     const [isSearchOpen, setIsSearchOpen] = useState(false)
+
    
    
 
@@ -54,33 +71,22 @@ export default function MainHeaderNav () {
       }
     ]
 
-    const publicMenu = [
-      {
-        name: 'Home',
-        type: 'link',
-        url: '/'
-
-      },
-      {
-        name: 'View Webtoons',
-        type: 'link',
-        url: '/read'
-      }
-    ]
+    
 
     
 
-      useEffect(() => {
+      /* useEffect(() => {
       
           if (user) {
             setMenuItems(loggedInMenu)
           } else {
             setMenuItems(publicMenu)
           }
+        
           
       
         
-      }, [user])
+      }, []) */
 
 
   
@@ -109,16 +115,37 @@ export default function MainHeaderNav () {
     
           <NavbarContent justify="end">
             <NavbarItem className="ng">
-            <Button isIconOnly aria-label="Toggle Searchbar" onPress={() => setIsSearchOpen(prev => !prev)}>
+            <Button isDisabled={session.status === 'loading'} isIconOnly aria-label="Toggle Searchbar" onPress={() => setIsSearchOpen(prev => !prev)}>
                 <FaSearch></FaSearch>
             </Button>
               {/* <PbNavSearch></PbNavSearch> */}
             </NavbarItem>
             <NavbarItem>
-              <BookmarkBtn></BookmarkBtn>
+              {
+                session.status === 'authenticated' ?
+                <Button aria-label="Bookmark page icon" as={Link} href="/bookmarks" isIconOnly className="shudder data-[hover=true]:opacity-100">
+                  <FaBookmark></FaBookmark>
+                </Button>
+                 : null
+              }
+              {
+                session.status === 'loading'?
+                <Button aria-label="Loading Bookmark page icon" isIconOnly className="shudder data-[hover=true]:opacity-100" isDisabled>
+                <FaBookmark></FaBookmark>
+                </Button>
+                : null
+              }
+              {
+                session.status === 'unauthenticated' ?
+                <BookmarkBtn></BookmarkBtn> : null
+              }
+             
             </NavbarItem>
             <NavbarItem className="hidden sm:block">
             <ThemeSwitcher></ThemeSwitcher>
+            </NavbarItem>
+            <NavbarItem>
+              <UserAvatar session={session}></UserAvatar>
             </NavbarItem>
            
           </NavbarContent>

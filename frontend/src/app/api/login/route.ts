@@ -6,7 +6,7 @@ import { createSession } from "@/app/_lib/session"
 import { dbConnect } from "@/app/_utils/db"
 
 let userSchema = object({
-    username: string().required().max(15),
+    username: string().required().max(15).matches(/^[a-zA-Z0-9_]+$/, 'No funny characters'),
     password: string().required()
 })
 

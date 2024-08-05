@@ -28,11 +28,14 @@ export default function RecentlyDisplayed({updatesArr}:RecentlyDisplayedProps){
     const [isClickDisabled, setIsClickDisabled] = useState(false)
 
     const getPage = () => {
+        setIsClickDisabled(true)
         const startIndex = (curPage - 1 ) * wtPerPage
         const endIndex = startIndex + wtPerPage
         console.log('idx', startIndex, endIndex)
         setDisplayingContent(updatesArr.updates.slice(startIndex, endIndex)) 
-        
+        setTimeout(() => {
+          setIsClickDisabled(false)
+        }, 750)
     }
 
     const getNext = () => {
@@ -70,6 +73,10 @@ export default function RecentlyDisplayed({updatesArr}:RecentlyDisplayedProps){
     return (
         <>
         <div ref={ref}></div>
+        <div className="flex justify-end p-2">
+          <Button size="sm" aria-label="Previous button for recently updated" radius="none" onPress={getPrev} isDisabled={curPage === 1} className="flex-1 sm:max-w-[60px]"><FcPrevious size={16} color="#4098D7" /></Button>
+          <Button size="sm" aria-label="Next button for recently updated" className="flex-1 sm:max-w-[60px]" radius="none" onPress={getNext} isDisabled={curPage === totalPages}><FcNext size={16} color="#4098D7"></FcNext></Button>
+        </div>
         <div className="cards-cont gap-4 lg:gap-6 p-2">
       
         {displayingContent && displayingContent.map((node:any, idx:any) => {
@@ -90,11 +97,11 @@ export default function RecentlyDisplayed({updatesArr}:RecentlyDisplayedProps){
                 <HotIcon level={node.book.isHot}></HotIcon>
                 : null
                 }
+                
+                </span>
                 {node.book?.isTitleNew !== false ?
                 <NewIcon></NewIcon> : null
                 }
-                </span>
-               
               </div>
               </Link>
               
