@@ -1,8 +1,10 @@
 import { auth } from "@/auth";
 import { NextRequest, NextResponse } from "next/server";
 import Bookmark from "@/app/_models/bookmark";
+import { dbConnect } from "@/app/_utils/db";
 
 export async function GET(req:NextRequest) {
+    await dbConnect()
     const session = await auth()
     const searchParams = req.nextUrl.searchParams
     const wtId = searchParams.get('wtId')
