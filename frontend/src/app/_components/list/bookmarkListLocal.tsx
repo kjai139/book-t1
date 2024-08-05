@@ -33,6 +33,8 @@ export default function BookmarkListLocal () {
             console.log('LOCAL BMS:', bmArr)
             const totalpgs = Math.ceil(bmArr.length / limit)
             setTotalPages(totalpgs)
+        } else {
+            setBookmarks([])
         }
         setIsInitiated(true)
         

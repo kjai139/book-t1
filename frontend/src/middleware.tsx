@@ -52,13 +52,13 @@ export async function middleware(request: NextRequest) {
     }
     
     if (!success) {
-        if (request.nextUrl.pathname.startsWith('/api')){
+        if (request.nextUrl.pathname.startsWith('/api') && !request.nextUrl.pathname.startsWith('/api/auth/')){
             return NextResponse.json({
                 message: 'Too many requests'
             }, {
                 status: 429
             })
-        } else {
+        } else if (!request.nextUrl.pathname.startsWith('/api/auth/')) {
             return NextResponse.redirect(new URL('/blocked', request.url))
         }
         
