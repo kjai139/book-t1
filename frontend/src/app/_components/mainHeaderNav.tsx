@@ -57,7 +57,7 @@ export default function MainHeaderNav () {
       }
     }
 
-    const loggedInMenu = [
+    /* const loggedInMenu = [
       {
         name: 'Dashboard',
         type: 'link',
@@ -69,7 +69,11 @@ export default function MainHeaderNav () {
         func: logUserOut
 
       }
-    ]
+    ] */
+
+      
+
+
 
     
 

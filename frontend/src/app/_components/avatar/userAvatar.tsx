@@ -3,7 +3,6 @@ import { useAuth } from "@/app/_contexts/authContext";
 import { Avatar, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger, Link } from "@nextui-org/react";
 import { useSession, signOut } from "next-auth/react";
 import { usePathname } from "next/navigation";
-import { useEffect } from "react";
 import { serverLogUserOut } from "@/app/actions";
 
 export default function UserAvatar({session}:any) {
@@ -12,8 +11,6 @@ export default function UserAvatar({session}:any) {
     console.log('session in userava', session)
     const { user, setUser } = useAuth()
     console.log(user)
-
-    
 
     if (session.status === 'unauthenticated' && !user) {
         return (

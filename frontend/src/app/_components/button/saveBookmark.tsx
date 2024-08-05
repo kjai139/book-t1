@@ -1,5 +1,5 @@
 'use client'
-import { usePathname, useRouter } from "next/navigation"
+import { usePathname } from "next/navigation"
 import { Button } from "@nextui-org/react"
 import { FaBookmark } from "react-icons/fa"
 import { useEffect, useState, useTransition } from "react"
@@ -153,11 +153,11 @@ export default function SaveBookmarkBtn ({wtGenres, chNum, image, wTstatus, wtNa
                         setIsMarked(false)
                     } else {
                         console.log(result)
-                        setErrorMsg('An error has occured.')
+                        setErrorMsg('An unknown error has occured. Please try relogging')
                     }
                 } catch (err:any) {
                     console.error(err)
-                    setErrorMsg(err?.message ? err.message : 'An unknown error has occured')
+                    setErrorMsg('A server error has occured, please try relogging.')
                 }
                 
             })

@@ -3,7 +3,6 @@
 import { useEffect, useState, useTransition } from "react"
 import UploadTabs from "../_components/tabs/uploadTab"
 import { useAuth } from "../_contexts/authContext"
-import { Button } from "@nextui-org/react"
 import { checkUserPriv, checkUserPrivId } from "../actions"
 import { useSession } from "next-auth/react"
 
@@ -19,23 +18,24 @@ export default function DashboardUi ({user}:DashboardUiProps) {
     const [isPending, startTransition] = useTransition()
     const [ userId, setUserId] = useState('')
     const { update } = useSession()
+    
 
-    const sendVerificationEmail = async () => {
+    /* const sendVerificationEmail = async () => {
         try {
-           /*  const response = await fetch(`${apiUrl}/api/user/verify/send` , {
+            const response = await fetch(`${apiUrl}/api/user/verify/send` , {
                 method: 'POST',
                 credentials: 'include'
             })
             if (response.ok) {
                 const json = await response.json()
                 console.log(json)
-            } */
+            }
             console.log('feature disabled at the moment.')
 
         } catch (err) {
             console.log(err)
         }
-    }
+    } */
     const getUserPrivs = async (userEmail:string) => {
         try {
             
@@ -143,7 +143,7 @@ export default function DashboardUi ({user}:DashboardUiProps) {
         {
             userRole === 'Error' ?
             <div className="text-default-500 mt-4">
-                Encountered an error loading dashboard. Try refreshing and if it doesn't work, please try again later.
+                Encountered a server error loading dashboard. Please try refreshing the page and if it doesn't work, please try again later.
             </div> : null
         }
         
