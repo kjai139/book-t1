@@ -13,14 +13,14 @@ const redis = new Redis({
 
 const ratelimit = new Ratelimit({
     redis: redis,
-    limiter: Ratelimit.slidingWindow(7, '10 s')
+    limiter: Ratelimit.slidingWindow(10, '10 s')
 })
 
 
 export const config = {
     matcher: [
         {
-            source: '/((?!_next/static|_next/image|favicon.ico|blocked).*)',
+            source: '/((?!_next/static|_next/image|favicon.ico|blocked|api/auth).*)',
             missing: [
                 {
                     type: 'header', key: 'next-router-prefetch'

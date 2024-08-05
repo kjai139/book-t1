@@ -160,7 +160,7 @@ export async function checkUserPrivId(userId:string) {
 export async function checkUserPriv(userEmail:string) {
     try {
         await dbConnect()
-        const session = await auth()
+        /* const session = await auth() */
         const existingUser = await User.findOne({
             email: userEmail
         })
@@ -197,7 +197,7 @@ export async function checkUserPriv(userEmail:string) {
             return JSON.parse(JSON.stringify(response))
         } else {
             if (existingUser.role !== 'Admin') {
-                console.log('SESSION FROM SA', session)
+                /* console.log('SESSION FROM SA', session) */
                 const response = {
                     userId: existingUser._id,
                     role:'User'

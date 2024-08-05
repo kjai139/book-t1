@@ -45,9 +45,10 @@ export default function DashboardUi ({user}:DashboardUiProps) {
                 setUserRole('Admin')
             } else if (userPriv.role === 'User') {
                 setUserRole('User')
-                setUserId(userPriv.userId)
+                
                 
             }
+            setUserId(userPriv.userId)
             
         } catch (err:any) {
             console.error(err)

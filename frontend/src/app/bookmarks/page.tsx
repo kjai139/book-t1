@@ -4,7 +4,7 @@ import Bookmark from "../_models/bookmark"
 import ServerError from "../_components/serverError"
 import BookmarkList from "../_components/list/bookmarkList"
 import BookmarkListLocal from "../_components/list/bookmarkListLocal"
-import { cache } from "react"
+import Genre from "../_models/genre"
 
 
 
@@ -16,7 +16,8 @@ async function getUserBookmarks(userId:string):Promise<any[]> {
         }).populate({
             path: 'wtRef',
             populate: {
-                path: 'genres'
+                path: 'genres',
+                model: Genre
             }
         })
 
@@ -30,27 +31,6 @@ async function getUserBookmarks(userId:string):Promise<any[]> {
     }
 }
 
-const getUserBookmarksCached = cache(async (userId:string) => {
-    try {
-        await dbConnect()
-        const userBms = await Bookmark.find({
-            userRef: userId
-        }).populate({
-            path: 'wtRef',
-            populate: {
-                path: 'genres'
-            }
-        })
-
-        return userBms
-
-        /* return JSON.parse(JSON.stringify(userBms)) */
-
-    } catch (err) {
-        console.error(err)
-        throw err
-    }
-})
 
 
 export default async function BookmarksPage() {

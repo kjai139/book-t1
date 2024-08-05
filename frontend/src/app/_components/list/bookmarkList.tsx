@@ -13,34 +13,15 @@ interface BookmarkListProps {
 
 export default function BookmarkList ({bookmarksCopy}:BookmarkListProps) {
 
-    const sortedBm = bookmarksCopy?.sort((a,b) => {
-        if (a.wtRef.name < b.wtRef.name) {
-            return -1
-        } else if (a.wtRef.name > b.wtRef.name) {
-            return 1
-        } else {
-            return 0
-        }
-    })
-
-    const limit = 10
-    let totalPgs = 0
-    let firstPgBm 
-    if (sortedBm) {
-        totalPgs = Math.ceil(sortedBm.length / limit)
-        firstPgBm = sortedBm.slice(0, limit)
-    }
-
-    
-
 
     const [isPending, startTransition] = useTransition()
-    const [bookmarks, setBookmarks] = useState(firstPgBm)
+    const [bookmarks, setBookmarks] = useState<any[]>()
     const [errorMsg, setErrorMsg] = useState('')
-    const [currentPage, setCurrentPage] = useState(0)
-    const [totalPages, setTotalPages] = useState(totalPgs)
+    const [currentPage, setCurrentPage] = useState(1)
+    const [totalPages, setTotalPages] = useState(0)
     const [isInitiated, setIsInitiated] = useState(false)
-
+    const [ogBm, setOgBm] = useState<any[]>([])
+    const limit = 10
     const [confirmMsg, setConfirmMsg] = useState('')
     const [confirmId, setConfirmId] = useState('')
 
@@ -52,11 +33,40 @@ export default function BookmarkList ({bookmarksCopy}:BookmarkListProps) {
     }
 
     useEffect(() => {
-        if (isInitiated) {
+        if (bookmarksCopy && bookmarksCopy.length > 0) {
+            const sortedBm = bookmarksCopy.sort((a,b) => {
+                if (a.wtRef.name < b.wtRef.name) {
+                    return -1
+                } else if (a.wtRef.name > b.wtRef.name) {
+                    return 1
+                } else {
+                    return 0
+                }
+            })
+            const totalpgs = Math.ceil(sortedBm.length / limit)
+            const firstPgBm = sortedBm.slice(0, limit)
+            setOgBm(sortedBm)
+            setBookmarks(firstPgBm)
+            setTotalPages(totalpgs)
+
+        } else {
+            setBookmarks([])
+            setOgBm([])
+        }
+        
+    
+    }, [])
+
+    
+
+    useEffect(() => {
+        if (isInitiated && ogBm.length > 0) {
             console.log('totalpgs', totalPages)
+            console.log('curpg', currentPage)
             const start = (currentPage - 1) * limit
             const end = currentPage * limit
-            const newPgBm = sortedBm?.slice(start, end)
+            const newPgBm = ogBm?.slice(start, end)
+            
             startTransition(() => {
                 console.log('setting...', start, end)
                 setBookmarks(newPgBm)
@@ -67,7 +77,7 @@ export default function BookmarkList ({bookmarksCopy}:BookmarkListProps) {
             setIsInitiated(true)
         }
         
-    }, [currentPage])
+    }, [currentPage, ogBm])
 
     const removeBm = async (bmId:string) => {
         startTransition(async () => {
@@ -76,7 +86,17 @@ export default function BookmarkList ({bookmarksCopy}:BookmarkListProps) {
                 console.log('Result:', result)
                 if (result === 'ok') {
                     console.log(`Bookmark ${bmId} removed`)
-                    setBookmarks((prev) => prev?.filter(bm => bm._id !== bmId))
+                    if (bookmarks && bookmarks.length === 1 && currentPage > 1) {
+                        setOgBm((prev) => prev?.filter(bm => bm._id !== bmId))
+                        setCurrentPage((prev) => prev - 1)
+                        setTotalPages((prev => prev - 1))
+                    } else {
+                        setOgBm((prev) => prev?.filter(bm => bm._id !== bmId))
+                        /* setBookmarks((prev) => prev?.filter(bm => bm._id !== bmId)) */
+                        const totalPgs = Math.ceil((ogBm.length - 1)/ limit)
+                        setTotalPages(totalPgs)
+                    }
+                    
                 } else {
                     setErrorMsg('An error has occured')
                 }
@@ -89,7 +109,7 @@ export default function BookmarkList ({bookmarksCopy}:BookmarkListProps) {
     }
 
     const confirmRemove = (wtId:string, wtName:string) => {
-        const msg = `Remove ${wtName} from your bookmarks?`
+        const msg = `Remove "${wtName}" from your bookmarks?`
         setConfirmMsg(msg)
         setConfirmId(wtId)
         console.log('Remove button pressed for', wtId, wtName)

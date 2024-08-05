@@ -18,7 +18,16 @@ export default function BookmarkBtn () {
             const storedBm = localStorage.getItem('bookmarks')
             if (storedBm) {
                 const parsedBm = JSON.parse(storedBm)
-                setBookmarks(parsedBm)
+                const sortedBm = parsedBm.sort((a:any,b:any) => {
+                    if (a.name < b.name) {
+                        return -1
+                    } else if (a.name > b.name) {
+                        return 1
+                    } else {
+                        return 0
+                    }
+                })
+                setBookmarks(sortedBm)
             } else {
                 setBookmarks([])
             }

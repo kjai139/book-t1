@@ -18,7 +18,7 @@ export default function BookmarkListLocal () {
     const [currentPage, setCurrentPage] = useState(1)
     const [isPending, startTransition] = useTransition()
     const [isInitiated, setIsInitiated] = useState(false)
-    const [ogBm, setogBm] = useState([])
+    const [ogBm, setogBm] = useState<any[]>([])
     const [confirmId, setConfirmId] = useState('')
     const [confirmMsg, setConfirmMsg] = useState('')
     
@@ -28,9 +28,20 @@ export default function BookmarkListLocal () {
         const localBookmarks = localStorage.getItem('bookmarks')
         if (localBookmarks) {
             const bmArr = JSON.parse(localBookmarks)
-            setBookmarks(bmArr)
-            setogBm(bmArr)
-            console.log('LOCAL BMS:', bmArr)
+            const sortedBm = bmArr.sort((a:any,b:any) => {
+                if (a.name < b.name) {
+                    return -1
+                } else if (a.name > b.name) {
+                    return 1
+                } else {
+                    return 0
+                }
+            })
+            
+            setogBm(sortedBm)
+            console.log('LOCAL sortedOgBm:', sortedBm)
+            const firstPgBm = sortedBm.slice(0, limit)
+            setBookmarks(firstPgBm)
             const totalpgs = Math.ceil(bmArr.length / limit)
             setTotalPages(totalpgs)
         } else {
@@ -42,7 +53,7 @@ export default function BookmarkListLocal () {
     }, [])
 
     useEffect(() => {
-        if (isInitiated) {
+        if (isInitiated && ogBm.length > 0) {
             const start = (currentPage - 1) * limit
             const end = currentPage * limit
             startTransition(() => {
@@ -53,7 +64,7 @@ export default function BookmarkListLocal () {
                 behavior:'instant'
             })
         }
-    }, [currentPage])
+    }, [currentPage, ogBm])
 
     const removeBm = (key:any) => {
         let storedBookmarks = localStorage.getItem('bookmarks')
@@ -65,14 +76,25 @@ export default function BookmarkListLocal () {
                 const updatedBm = parsedBookmarks.filter((_:any, index:any) => index !== existingBm)
                 localStorage.setItem('bookmarks', JSON.stringify(updatedBm))
                 console.log('bm removed:', localStorage)
-                setBookmarks(prevArr => prevArr!.filter(item => item.url !== key))
+                if (bookmarks && bookmarks.length === 1 && currentPage > 1) {
+                    setogBm(prevArr => prevArr!.filter(item => item.url !== key))
+                    setCurrentPage((prev) => prev - 1)
+                    setTotalPages((prev => prev - 1))
+                } else {
+                    /* setBookmarks(prevArr => prevArr!.filter(item => item.url !== key)) */
+                    setogBm(prevArr => prevArr!.filter(item => item.url !== key))
+                    const totalpgs = Math.ceil((ogBm.length - 1) / limit)
+                    console.log('new total pg', totalpgs)
+                    setTotalPages(totalpgs)
+                }
+                
                 setCheckLocal((prev) => !prev)
             }
         }
     }
 
     const confirmRemove = (wtUrl:string, wtName:string) => {
-        const msg = `Remove ${wtName} from your bookmarks?`
+        const msg = `Remove "${wtName}" from your bookmarks?`
         setConfirmMsg(msg)
         setConfirmId(wtUrl)
         console.log('Remove button pressed for', wtUrl, wtName)
