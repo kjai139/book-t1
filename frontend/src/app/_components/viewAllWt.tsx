@@ -11,6 +11,7 @@ import SortByRadio from "./radio/sortByRadio"
 import HotIcon from "./icons/hotIcon"
 import NewIcon from "./icons/newIcon"
 import { useInView } from "./observer/useInView"
+import { useRouter } from "next/navigation"
 
 interface ViewAllWtProps {
     allGenres: any[]
@@ -34,7 +35,7 @@ export default function ViewallWt ({allGenres}:ViewAllWtProps) {
     
     const [isInView, ref] = useInView()
     const [isDisabled, setIsDisabled] = useState(false)
-   
+    const router = useRouter()
     //for errors
 
 
@@ -60,6 +61,9 @@ export default function ViewallWt ({allGenres}:ViewAllWtProps) {
                 
                 
             } else {
+                if (response.status === 429) {
+                    router.push('/blocked')
+                }
                 const data = await response.json()
                 console.log(data)
             }

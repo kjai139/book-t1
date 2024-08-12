@@ -13,7 +13,7 @@ const redis = new Redis({
 
 const ratelimit = new Ratelimit({
     redis: redis,
-    limiter: Ratelimit.slidingWindow(10, '10 s')
+    limiter: Ratelimit.slidingWindow(8, '10 s')
 })
 
 
@@ -36,9 +36,9 @@ export const config = {
 
 export async function middleware(request: NextRequest) {
 
-    const ip = request.ip ?? '127.0.0.1'
-    const { success, limit, remaining } = await ratelimit.limit(ip)
-    console.log(`status:${success}, limit:${limit}, remaining:${remaining}`)
+    /* const ip = request.ip ?? '127.0.0.1'
+    const { success, limit, remaining } = await ratelimit.limit(ip) */
+    
     const protectedRoutes = ['/dashboard']
     const loginRoutes = ['/login']
     
@@ -50,8 +50,25 @@ export async function middleware(request: NextRequest) {
     if (request.nextUrl.pathname.startsWith('/api/cron/') || request.nextUrl.pathname.startsWith('/serverError')) {
         return NextResponse.next()
     }
+
+    if (request.nextUrl.pathname.startsWith('/api') && !request.nextUrl.pathname.startsWith('/api/auth/') && !request.nextUrl.pathname.startsWith('/api/cron') && !request.nextUrl.pathname.startsWith('/serverError') && !request.nextUrl.pathname.startsWith('/api/auth/') ){
+        const ip = request.ip ?? '127.0.0.1'
+        const { success, limit, remaining } = await ratelimit.limit(ip)
+        console.log(`status:${success}, limit:${limit}, remaining:${remaining}`)
+        
+        if (!success) {
+            return NextResponse.json({
+                message: 'Too many requests'
+            }, {
+                status: 429
+            })
+        } else {
+            return NextResponse.next()
+        }
+        
+    } 
     
-    if (!success) {
+    /* if (!success) {
         if (request.nextUrl.pathname.startsWith('/api') && !request.nextUrl.pathname.startsWith('/api/auth/')){
             return NextResponse.json({
                 message: 'Too many requests'
@@ -62,7 +79,7 @@ export async function middleware(request: NextRequest) {
             return NextResponse.redirect(new URL('/blocked', request.url))
         }
         
-    }
+    } */
 
     const cookie = cookies().get('session')?.value
     const session = await decrypt(cookie)

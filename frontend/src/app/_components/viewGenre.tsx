@@ -8,6 +8,8 @@ import { useEffect, useState } from "react";
 import HotIcon from "./icons/hotIcon";
 import NewIcon from "./icons/newIcon";
 import { useInView } from "./observer/useInView";
+import { useRouter } from "next/navigation";
+import { Button } from "@nextui-org/react";
 
 
 interface ViewGenreWtProps {
@@ -28,6 +30,7 @@ export default function ViewGenreWt ({wtsArr, totalPg, genreName}:ViewGenreWtPro
     const [isLoading, setIsLoading] = useState(false)
     const [isInView, ref] = useInView()
     const [isDisabled, setIsDisabled] = useState(false)
+    const router = useRouter()
 
     const getPage = async () => {
         setIsLoading(true)
@@ -49,6 +52,8 @@ export default function ViewGenreWt ({wtsArr, totalPg, genreName}:ViewGenreWtPro
                 setUpdates(json)
                 setTotalPages(json.totalPages)
                 
+            } else if (response.status === 429) {
+                router.push('/blocked')
             }
             setIsLoading(false)
             setIsDisabled(false)
@@ -93,9 +98,16 @@ export default function ViewGenreWt ({wtsArr, totalPg, genreName}:ViewGenreWtPro
         <div ref={ref}></div>
         <div className="flex flex-col gap-6">
             <SortByRadio isDisabled={isDisabled || isLoading} value={sortBy} setValue={setSortBy}></SortByRadio>
+            <div className="flex justify-between">
             <span className="text-xs text-default-500 px-2 sm:text-base">
                         Page: {curPg} / {totalPages}
             </span>
+            <div className="flex mr-2">
+                        <Button isIconOnly onPress={() => setCurPg((prev) => prev - 1)} className="mr-4" isDisabled={curPg === 1 || isDisabled || isLoading}>{`<`}</Button>
+                        <Button isIconOnly onPress={() => setCurPg((prev) => prev + 1)} isDisabled={curPg === totalPages || isDisabled || isLoading}>{`>`}</Button>
+                        
+            </div> 
+            </div>
             <div className="cards-cont gap-4 lg:gap-6 p-0 relative">
             {isLoading && <div className="overlay-g"></div>}
             {updates && updates.wts.map((node:any, idx:number) => {
