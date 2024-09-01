@@ -133,7 +133,7 @@ export default function SlideSearchBar ({isSearchOpen, setIsSearchOpen}:SlideSea
           ]
         }}></Input>
         {result &&
-                <ul className="flex flex-col max-h-[400px] overflow-auto search-cont absolute w-full bg-content3 mt-2">
+                <ul className="flex flex-col max-h-[400px] overflow-auto search-cont absolute w-full bg-content3">
                     {result.map((node:any) => {
                         const genres = node.genres.map((node:any) => node.name).join(', ')
 

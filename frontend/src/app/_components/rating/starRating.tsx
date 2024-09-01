@@ -159,7 +159,7 @@ export default function Rating ({wtId}:RatingProps) {
                 {isDoneLoading && hasUserVoted && 
                 <span className="text-xs text-default-500 italic py-1 px-2">You have already rated this a {userRating}.</span>}
                 {isDoneLoading && !hasUserVoted && !didUserJustVote &&
-                <span className="sm:text-sm text-xs text-default-500 italic py-1 px-2">Give it a rating!</span>
+                <span className="sm:text-sm text-xs text-foreground italic py-1 px-2">Give it a rating!</span>
                 }
                 {didUserJustVote &&
                 <span className="sm:text-sm text-xs italic py-2 px-2 text-warning">Thanks for your rating! Please consider leaving a review in the comments below.</span>

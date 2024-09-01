@@ -13,6 +13,7 @@ import DisqusComments from "@/app/_components/comments/disqus";
 import dynamic from "next/dynamic";
 import { unstable_noStore } from "next/cache";
 import ServerError from "@/app/_components/serverError";
+import NextImage from "next/image";
 
 
 
@@ -161,14 +162,22 @@ export default async function WtPage({params}:any) {
         <div className="lg:max-w-[750px] bg-content1 p-2 lg:bg-inherit flex flex-col gap-4 my-0 w-full">
       
             
-            <span className="my-4">
-            
-                <h3 className="text-center w-full text-lg font-semibold lg:text-2xl sm:text-xl">{wt.wt.name}</h3>
+            <span className="mt-4 mb-2 relative">
+                <div className="absolute top-[-30px] w-full">
+                    <NextImage src={wt.wt.image} alt="background image" className="bgp" unoptimized priority width={0} height={0} style={{
+                        width:'100%',
+                        height:'auto',
+                        maxHeight:'400px',
+                        objectFit:'cover',
+                        objectPosition: 'top',
+                    }}></NextImage>
+                </div>
+                <h3 className="text-center w-full text-xl font-bold lg:text-2xl sm:text-xl relative z-10">{wt.wt.name}</h3>
             </span>
             
             <div className="items-center flex flex-col gap-8">
                 {/* <BreadCrumbs wtUrl={wt.wt.name}></BreadCrumbs> */}
-                <div className="flex flex-col w-full sm:flex-row sm:gap-4 gap-4 p-1">
+                <div className="flex flex-col w-full sm:flex-row sm:gap-4 gap-4 p-1 z-10">
                 <div className="flex flex-col gap-4 justify-between items-center">
                 <Image src={wt.wt.image} loading="eager" alt={`Cover image of ${wt.wt.name}`} className="p-2 w-full max-w-[350px] sm:max-w-[240px] sm:shadow"></Image>
                 <SaveBookmarkBtn image={wt.wt.image} wTstatus={wt.wt.status} wtId={wt.wt._id} wtName={wt.wt.name} wtGenres={wt.wt.genres}></SaveBookmarkBtn>
@@ -184,7 +193,7 @@ export default async function WtPage({params}:any) {
                     <div className="flex w-full">
                         <Rating wtId={wt.wt._id}></Rating>
                     </div>
-                    <span className="text-sm text-default-500 whitespace-pre-line p-2 mt-4">
+                    <span className="text-sm text-foreground whitespace-pre-line p-2 mt-4">
                         <p>{wt.wt.about}</p>
                     </span>
                     </div>

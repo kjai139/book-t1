@@ -442,6 +442,14 @@ html {
   top:5px;
 }
 
+.bgp {
+  filter: brightness(.4) contrast(90%) blur(10px);
+}
+
+.lTheme .bgp {
+  display: none;
+}
+
 
 
 
