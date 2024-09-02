@@ -159,7 +159,7 @@ export default async function WtPage({params}:any) {
             <div className="flex flex-col lg:flex-row max-w-[1024px] gap-4 pt-0 w-full lg:gap-1">
                 
             
-        <div className="lg:max-w-[750px] bg-content1 p-2 lg:bg-inherit flex flex-col gap-4 my-0 w-full relative overflow-hidden">
+        <div className="lg:max-w-[750px] bg-content1 lg:bg-inherit flex flex-col gap-4 my-0 w-full relative overflow-hidden">
                 <div className="absolute top-0 lg:hidden" style={{
                     width:'5000%'
                 }}>
@@ -177,7 +177,7 @@ export default async function WtPage({params}:any) {
                 <h3 className="text-center w-full text-xl font-bold lg:text-2xl sm:text-xl relative z-10">{wt.wt.name}</h3>
             </span>
             
-            <div className="items-center flex flex-col gap-8">
+            <div className="items-center flex flex-col gap-8 p-2">
                 {/* <BreadCrumbs wtUrl={wt.wt.name}></BreadCrumbs> */}
                 <div className="flex flex-col w-full sm:flex-row sm:gap-4 gap-4 p-1 z-10">
                 <div className="flex flex-col gap-4 justify-between items-center">
