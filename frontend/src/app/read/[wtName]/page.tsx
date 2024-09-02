@@ -159,11 +159,10 @@ export default async function WtPage({params}:any) {
             <div className="flex flex-col lg:flex-row max-w-[1024px] gap-4 pt-0 w-full lg:gap-1">
                 
             
-        <div className="lg:max-w-[750px] bg-content1 p-2 lg:bg-inherit flex flex-col gap-4 my-0 w-full">
-      
-            
-            <span className="mt-4 mb-2 relative">
-                <div className="absolute top-[-30px] w-full">
+        <div className="lg:max-w-[750px] bg-content1 p-2 lg:bg-inherit flex flex-col gap-4 my-0 w-full relative overflow-hidden">
+                <div className="absolute top-0 lg:hidden" style={{
+                    width:'5000%'
+                }}>
                     <NextImage src={wt.wt.image} alt="background image" className="bgp" unoptimized priority width={0} height={0} style={{
                         width:'100%',
                         height:'auto',
@@ -172,6 +171,9 @@ export default async function WtPage({params}:any) {
                         objectPosition: 'top',
                     }}></NextImage>
                 </div>
+            
+            <span className="mt-4 mb-2 relative">
+                
                 <h3 className="text-center w-full text-xl font-bold lg:text-2xl sm:text-xl relative z-10">{wt.wt.name}</h3>
             </span>
             
