@@ -4,6 +4,7 @@ import { Redis } from "@upstash/redis"
 import { cookies } from "next/headers"
 import { decrypt } from "./app/_lib/session"
 import { auth } from "./auth"
+import { randomHash } from "./app/_utils/version"
 
 const redis = new Redis({
     url: `${process.env.UPSTASH_REDIS_REST_URL}`,
@@ -66,7 +67,17 @@ export async function middleware(request: NextRequest) {
             return NextResponse.next()
         }
         
-    } 
+    }
+    
+    if (request.nextUrl.pathname.startsWith('/read/')) {
+        const wtName = request.nextUrl.pathname.split('/read/')[1]
+
+        if (wtName.length > 0 && !wtName.includes(randomHash)) {
+            return NextResponse.redirect(new URL('/not-found', request.nextUrl))
+        } else {
+            return NextResponse.next()
+        }
+    }
     
     /* if (!success) {
         if (request.nextUrl.pathname.startsWith('/api') && !request.nextUrl.pathname.startsWith('/api/auth/')){

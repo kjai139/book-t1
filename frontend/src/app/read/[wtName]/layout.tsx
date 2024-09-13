@@ -2,6 +2,7 @@ import { dbConnect } from "@/app/_utils/db"
 import Wt from "@/app/_models/wt"
 import { randomHash } from "@/app/_utils/version"
 
+
 export async function generateStaticParams() {
     try {
         await dbConnect()

@@ -9,14 +9,17 @@ import { deleteSession } from "./_lib/session"
 import { generateRandomName } from "./_utils/generateName"
 import { revalidatePath } from "next/cache"
 import { auth } from "@/auth"
+import { randomHash } from "./_utils/version"
 const bcrypt = require('bcrypt')
 
 
 export async function AddViews (wtName:string) {
     
     try {
+        
+        const slug = wtName.split(randomHash)[0]
         await dbConnect()
-        await Wt.findOneAndUpdate({slug:wtName}, {
+        await Wt.findOneAndUpdate({slug:slug}, {
             $inc: {
                 monthlyViews: 1,
                 totalViews: 1

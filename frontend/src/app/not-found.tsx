@@ -10,7 +10,7 @@ export default async function NotFound() {
             <h2 className="font-bold text-danger sm:text-3xl">404 - Page Not Found</h2>
             <p className="sm:text-lg">The page you're looking for does not exist.</p>
 
-            <Link href="/">
+            <Link href="/" className="mt-8">
                 Take me back Home
             </Link>
         </div>
