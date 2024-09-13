@@ -14,6 +14,7 @@ import dynamic from "next/dynamic";
 import { unstable_noStore } from "next/cache";
 import ServerError from "@/app/_components/serverError";
 import NextImage from "next/image";
+import { randomHash } from "@/app/_utils/version";
 
 
 
@@ -23,9 +24,11 @@ const SideRankingDisplay = dynamic(() => import('@/app/_components/sidebar/sideR
 
 async function getWts (params:any) {
     console.log('PARAMS IN getWTS:', params)
+    
     try {
+        const slug = params.wtName.split(randomHash)[0]
         await dbConnect()
-        const wt = await Wt.findOne({slug:params.wtName}).populate({ path:'genres', model: Genre, options: { sort:{name: 'asc'}} })
+        const wt = await Wt.findOne({slug:slug}).populate({ path:'genres', model: Genre, options: { sort:{name: 'asc'}} })
 
 
         const totalCh = await Wtc.find({wtRef: wt._id}).sort({chapterNumber: -1})
@@ -52,7 +55,8 @@ async function getWts (params:any) {
 async function getChapterList(params:any) {
     unstable_noStore()
     try {
-        const wt = await Wt.findOne({slug:params.wtName})
+        const slug = params.wtName.split(randomHash)[0]
+        const wt = await Wt.findOne({slug:slug})
         const totalCh = await Wtc.find({wtRef: wt._id}).sort({chapterNumber: -1})
 
         const json = {
@@ -70,8 +74,9 @@ export async function generateMetadata({params}:any) {
     
     /* console.log('GENERATE META PARAM', params) */
     try {
+        const slug = params.wtName.split(randomHash)[0]
         await dbConnect()
-        const wt = await Wt.findOne({slug: params.wtName})
+        const wt = await Wt.findOne({slug: slug})
        
         return {
             title: `Read ${wt.name}`,
@@ -174,13 +179,13 @@ export default async function WtPage({params}:any) {
             
             <span className="mt-4 mb-2 relative">
                 
-                <h3 className="text-center w-full text-xl font-bold lg:text-2xl sm:text-xl relative z-10">{wt.wt.name}</h3>
+                <h3 className="text-center w-full text-xl font-bold lg:text-2xl sm:text-xl relative z-10 px-4">{wt.wt.name}</h3>
             </span>
             
             <div className="items-center flex flex-col gap-8 p-2">
                 {/* <BreadCrumbs wtUrl={wt.wt.name}></BreadCrumbs> */}
                 <div className="flex flex-col w-full sm:flex-row sm:gap-4 gap-4 p-1 z-10">
-                <div className="flex flex-col gap-4 justify-between items-center">
+                <div className="flex flex-col gap-4 justify-between items-center min-h-[280px]">
                 <Image src={wt.wt.image} loading="eager" alt={`Cover image of ${wt.wt.name}`} className="p-2 w-full max-w-[350px] sm:max-w-[240px] sm:shadow"></Image>
                 <SaveBookmarkBtn image={wt.wt.image} wTstatus={wt.wt.status} wtId={wt.wt._id} wtName={wt.wt.name} wtGenres={wt.wt.genres}></SaveBookmarkBtn>
                 </div>

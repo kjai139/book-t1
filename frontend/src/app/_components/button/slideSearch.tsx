@@ -2,6 +2,7 @@ import { Input, Link, Spinner } from "@nextui-org/react"
 import { useCallback, useState, useMemo, useRef, useEffect } from "react"
 import NextImage from "next/image"
 import { usePathname } from "next/navigation"
+import { randomHash } from "@/app/_utils/version"
 
 interface SlideSearchBarProps {
     isSearchOpen: boolean,
@@ -139,7 +140,7 @@ export default function SlideSearchBar ({isSearchOpen, setIsSearchOpen}:SlideSea
 
                         return (
                             <li key={`sr${node._id}`} className="flex p-2 justify-center items-center">
-                            <Link href={`/read/${node.slug}`} className="w-full flex-1" isBlock isDisabled={pathname === `/read/${node.slug}`}>
+                            <Link href={`/read/${node.slug}${randomHash}`} className="w-full flex-1" isBlock isDisabled={pathname === `/read/${node.slug}`}>
                             <div className="relative w-[50px] h-[75px]">
                                 <NextImage fill alt={`Cover of ${node.image}`} src={node.image} sizes="(max-width:400px) 10vw, (max-width:1200) 5vw, 5vw" style={{
                                     objectFit:'cover'

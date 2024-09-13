@@ -6,12 +6,14 @@ import NextImage from "next/image";
 import { MdDelete } from "react-icons/md";
 import { usePathname } from "next/navigation";
 import { useAuth } from "@/app/_contexts/authContext";
+import { randomHash } from "@/app/_utils/version";
 
 export default function BookmarkBtn () {
     const { setCheckLocal } = useAuth()
     const { isOpen, onOpen, onOpenChange } = useDisclosure()
     const [bookmarks, setBookmarks] = useState<any[]>([])
     const pathname = usePathname()
+    const hashlessPathname = pathname.split(randomHash)[0]
 
     useEffect(() => {
         if (isOpen) {
@@ -87,7 +89,7 @@ export default function BookmarkBtn () {
                         {bookmarks && bookmarks.length > 0 ? bookmarks.map((node, idx) => {
                             return (
                                 <li key={`sr${node.url}-${idx}`} className="flex p-2 justify-center items-center relative flex-col">
-                                <Link href={node.url} isDisabled={node.url === pathname ? true : false} isBlock className="flex w-full">
+                                <Link href={`${node.url}${randomHash}`} isDisabled={node.url === pathname ? true : false} isBlock className="flex w-full">
                                 <div className="relative mr-2 h-auto">
                                     <NextImage className="w-[60px] h-auto" width={0} height={0} alt={`Cover of ${node.image}`} src={node.image} unoptimized></NextImage>
                                 </div>

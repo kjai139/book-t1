@@ -1,5 +1,6 @@
 import { dbConnect } from "@/app/_utils/db"
 import Wt from "@/app/_models/wt"
+import { randomHash } from "@/app/_utils/version"
 
 export async function generateStaticParams() {
     try {
@@ -9,13 +10,14 @@ export async function generateStaticParams() {
             console.log('No wt found in generate static wt params')
             return null
         }
+       
 
     
         return allWt.map((wt:any) => {
             
             return (
                 {
-                    wtName: wt.slug,
+                    wtName: `${wt.slug}${randomHash}`,
                 }
             )
         })

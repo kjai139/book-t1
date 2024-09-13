@@ -6,6 +6,7 @@ import { useEffect, useState, useTransition } from "react"
 import { useAuth } from "@/app/_contexts/authContext"
 import { useSession } from "next-auth/react"
 import { toggleBookmark } from "@/app/actions"
+import { randomHash } from "@/app/_utils/version"
 
 
 interface BookmarkObj {
@@ -37,6 +38,7 @@ export default function SaveBookmarkBtn ({wtGenres, chNum, image, wTstatus, wtNa
     const [shouldFetch, setShouldFetch] = useState(true)
 
     const pathname = usePathname()
+    const hashlessPath = pathname.split(randomHash)[0]
     const session = useSession()
 
     const checkBmStatus = async () => {
@@ -74,7 +76,7 @@ export default function SaveBookmarkBtn ({wtGenres, chNum, image, wTstatus, wtNa
             const storedBookmarks = localStorage.getItem('bookmarks')
             if ( storedBookmarks) {
                 const json:BookmarkObj[] = JSON.parse(storedBookmarks)
-                const isBookmarked = json.some(bm => bm.url === pathname)
+                const isBookmarked = json.some(bm => bm.url === hashlessPath)
 
                 if (isBookmarked) {
                     setIsMarked(true)
@@ -98,7 +100,7 @@ export default function SaveBookmarkBtn ({wtGenres, chNum, image, wTstatus, wtNa
             const storedBookmarks = localStorage.getItem('bookmarks')
             if ( storedBookmarks) {
                 const json:BookmarkObj[] = JSON.parse(storedBookmarks)
-                const isBookmarked = json.some(bm => bm.url === pathname)
+                const isBookmarked = json.some(bm => bm.url === pathname || bm.url === hashlessPath)
 
                 if (isBookmarked) {
                     setIsMarked(true)
@@ -121,15 +123,18 @@ export default function SaveBookmarkBtn ({wtGenres, chNum, image, wTstatus, wtNa
             let bookmarks:BookmarkObj[] = storedBookmarks ? JSON.parse(storedBookmarks) : []
 
             
-            const existingBm = bookmarks.findIndex(bm => bm.url === pathname)
+            const existingBm = bookmarks.findIndex(bm => bm.url === hashlessPath || bm.url === pathname)
+            console.log('HASHLESS', hashlessPath, 'path', pathname)
+            console.log(existingBm, 'EXISTING BM IDX')
 
             if (existingBm !== -1) {
-                /* console.log('bookmark found.', bookmarks[existingBm]) */
+                console.log('bookmark found.', bookmarks[existingBm])
                 bookmarks = bookmarks.filter((_, index) => index !== existingBm)
                 localStorage.setItem('bookmarks', JSON.stringify(bookmarks))
                 setIsMarked(false)
                 /* console.log('bm removed:', localStorage) */
             } else {
+                console.log('BOOKMARK NOT FOUND')
                 if (bookmarks.length < 25) {
                     bookmarks.push({ url: pathname, genres:wtGenres.map((node:any) => node.name).join(', '), name:wtName, status: wTstatus, image: image, id:wtId  })
                     localStorage.setItem('bookmarks', JSON.stringify(bookmarks))

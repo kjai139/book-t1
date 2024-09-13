@@ -42,7 +42,7 @@ export default function ConfirmModal({msg, setMsg, func}:ConfirmModalProps) {
                     (onClose) => (
                         <>
                         <ModalBody>
-                            <span>
+                            <span className="p-4">
                                 {msg}
                             </span>
                         </ModalBody>

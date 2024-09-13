@@ -6,6 +6,7 @@ import { removeBmDB } from "@/app/actions"
 import ErrorMsgModal from "../modals/errorModal"
 import StarsOnly from "../rating/starsDisplayOnly"
 import ConfirmModal from "../modals/confirmModal"
+import { randomHash } from "@/app/_utils/version"
 
 interface BookmarkListProps {
     bookmarksCopy: any[] | null | undefined
@@ -144,7 +145,7 @@ export default function BookmarkList ({bookmarksCopy}:BookmarkListProps) {
                                 <Button onPress={() => confirmRemove(bm._id, bm.wtRef.name)} isDisabled={isPending} radius="none" className="text-foreground mt-2 font-semibold" variant="ghost" color="warning" size="sm" fullWidth>Remove</Button>
                                 </div>
                                 <div className="flex flex-col">
-                                    <Link isDisabled={isPending} href={bm.url} color="foreground" className="font-semibold">
+                                    <Link isDisabled={isPending} href={`${bm.url}${randomHash}`} color="foreground" className="font-semibold">
                                         {bm.wtRef.name}
                                     </Link>
                                     <div className="my-2">

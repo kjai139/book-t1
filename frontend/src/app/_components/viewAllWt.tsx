@@ -12,6 +12,7 @@ import HotIcon from "./icons/hotIcon"
 import NewIcon from "./icons/newIcon"
 import { useInView } from "./observer/useInView"
 import { useRouter } from "next/navigation"
+import { randomHash } from "../_utils/version"
 
 interface ViewAllWtProps {
     allGenres: any[]
@@ -184,7 +185,7 @@ export default function ViewallWt ({allGenres}:ViewAllWtProps) {
             return (
             <div key={`${node.book._id}-qry`} className="cg">
             
-                <Link href={`/read/${slug}`} isDisabled={isDisabled || isLoading}>
+                <Link href={`/read/${slug}${randomHash}`} isDisabled={isDisabled || isLoading}>
                 <div className="relative w-full min-h-[200px] overflow-hidden">
                 
                 <NextImage src={node.book.image} alt={`Cover image of ${node.book.image}`} unoptimized blurDataURL={node.book.image} placeholder="blur" fill sizes="(max-width:600px) 40vw, (max-width:1200px) 20vw" className="home-c object-cover rounded">
@@ -207,7 +208,7 @@ export default function ViewallWt ({allGenres}:ViewAllWtProps) {
                 
                 
                 <span className="card-txt">
-                <Link href={`/read/${slug}`} isDisabled={isDisabled || isLoading} color="foreground">
+                <Link href={`/read/${slug}${randomHash}`} isDisabled={isDisabled || isLoading} color="foreground">
                 {node.book.name}
                 </Link>
                 
@@ -224,7 +225,7 @@ export default function ViewallWt ({allGenres}:ViewAllWtProps) {
                 {node.chapters.map((node:any) => {
                     return (
                     <div key={`${node._id}-qry`}>
-                   <Link isDisabled={isDisabled || isLoading} color="foreground" href={`/read/${slug}/${node.chapterNumber}`} className="flex gap-1 items-center" isBlock>
+                   <Link isDisabled={isDisabled || isLoading} color="foreground" href={`/read/${slug}${randomHash}/${node.chapterNumber}`} className="flex gap-1 items-center" isBlock>
                   <span className="text-sm sm:text-sm py-1">{`Chapter ${node.chapterNumber}`}</span>
                   
                   {formatDateDMY(node.releasedAt) === 'New' ?

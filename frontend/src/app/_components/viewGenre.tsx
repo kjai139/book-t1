@@ -10,6 +10,7 @@ import NewIcon from "./icons/newIcon";
 import { useInView } from "./observer/useInView";
 import { useRouter } from "next/navigation";
 import { Button } from "@nextui-org/react";
+import { randomHash } from "../_utils/version";
 
 
 interface ViewGenreWtProps {
@@ -116,7 +117,7 @@ export default function ViewGenreWt ({wtsArr, totalPg, genreName}:ViewGenreWtPro
             return (
             <div key={`${node.book._id}-g`} className="cg">
             
-                <Link href={`/read/${slug}`} isDisabled={isDisabled || isLoading}>
+                <Link href={`/read/${slug}${randomHash}`} isDisabled={isDisabled || isLoading}>
                 <div className="relative w-full min-h-[200px] overflow-hidden">
                 
               
@@ -140,7 +141,7 @@ export default function ViewGenreWt ({wtsArr, totalPg, genreName}:ViewGenreWtPro
                 
                 
                 <span className="card-txt">
-                <Link href={`/read/${slug}`} color="foreground" isDisabled={isDisabled || isLoading}>
+                <Link href={`/read/${slug}${randomHash}`} color="foreground" isDisabled={isDisabled || isLoading}>
                 {node.book.name}
                 </Link>
                 
@@ -158,7 +159,7 @@ export default function ViewGenreWt ({wtsArr, totalPg, genreName}:ViewGenreWtPro
                 {node.chapters.map((node:any) => {
                     return (
                     <div key={`${node._id}-gch`}>
-                    <Link color="foreground" isDisabled={isDisabled || isLoading} href={`/read/${slug}/${node.chapterNumber}`} isBlock className="flex gap-1 items-center">
+                    <Link color="foreground" isDisabled={isDisabled || isLoading} href={`/read/${slug}${randomHash}/${node.chapterNumber}`} isBlock className="flex gap-1 items-center">
                     <span className="text-sm py-1">{`Chapter ${node.chapterNumber}`}</span>
                     
                     {formatDateDMY(node.releasedAt) === 'New' ?

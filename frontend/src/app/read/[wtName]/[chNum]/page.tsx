@@ -13,6 +13,7 @@ import DisqusComments from "@/app/_components/comments/disqus";
 import ServerError from "@/app/_components/serverError";
 import ChSelectDynamicWrapper from "@/app/_components/select/selectdWrap";
 import BotChSelectDynamicWrap from "@/app/_components/select/botChSelectWrap";
+import { randomHash } from "@/app/_utils/version";
 
 export async function generateStaticParams({
     params: { wtName }
@@ -20,9 +21,10 @@ export async function generateStaticParams({
     params:{wtName:string}
 }) {
     try {
+        const slug = wtName.split(randomHash)[0]
         await dbConnect()
         /* console.log('PARAMS IN WT PAGE GENERATESTATIC', wtName) */
-        const wt = await Wt.findOne({slug: wtName })
+        const wt = await Wt.findOne({slug: slug })
         if (!wt) {
             return null
         } else {
@@ -51,7 +53,8 @@ export async function generateStaticParams({
 export async function generateMetadata ({params}:any, parent:ResolvingMetadata) {
 
     try {
-        const wt = await Wt.findOne({slug: params.wtName})
+        const slug = params.wtName.split(randomHash)[0]
+        const wt = await Wt.findOne({slug: slug})
         return {
             title: `${wt.name} Chapter ${params.chNum}`,
             description: `Read Manhwa/Manga/Manhua - ${wt?.altName},${wt.name} Chapter ${params.chNum}`,
@@ -70,8 +73,8 @@ export async function generateMetadata ({params}:any, parent:ResolvingMetadata) 
 
 async function getChContent (params:any) {
     try {
-       
-        const wt = await Wt.findOne({slug: params.wtName })
+        const slug = params.wtName.split(randomHash)[0]
+        const wt = await Wt.findOne({slug: slug })
         if (!wt) {
             console.log('wt not found in get content')
             return null

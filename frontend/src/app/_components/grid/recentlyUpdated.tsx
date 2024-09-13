@@ -8,6 +8,7 @@ import StarsOnly from "../rating/starsDisplayOnly"
 import { useEffect, useState } from "react"
 import { FcNext, FcPrevious } from "react-icons/fc"
 import { useInView } from "../observer/useInView"
+import { randomHash } from "@/app/_utils/version"
 
 interface RecentlyDisplayedProps {
     updatesArr: any
@@ -85,7 +86,7 @@ export default function RecentlyDisplayed({updatesArr}:RecentlyDisplayedProps){
           return (
             <div key={node.book._id} className="cg">
              
-              <Link href={`/read/${node.book.slug}`} isDisabled={isClickDisabled}>
+              <Link href={`/read/${node.book.slug}${randomHash}`} isDisabled={isClickDisabled}>
               <div className="relative w-full min-h-[200px] overflow-hidden">
                 
                
@@ -108,7 +109,7 @@ export default function RecentlyDisplayed({updatesArr}:RecentlyDisplayedProps){
                 
               
               <span className="card-txt">
-              <Link href={`/read/${node.book.slug}`} isDisabled={isClickDisabled} color="foreground">
+              <Link href={`/read/${node.book.slug}${randomHash}`} isDisabled={isClickDisabled} color="foreground">
               {node.book.name}
               </Link>
               
@@ -125,7 +126,7 @@ export default function RecentlyDisplayed({updatesArr}:RecentlyDisplayedProps){
                 {node.chapters.map((node:any) => {
                   return (
                     <div key={node._id}>
-                    <Link color="foreground" isDisabled={isClickDisabled} href={`/read/${slug}/${node.chapterNumber}`} className="ch-links flex gap-1 items-center" isBlock>
+                    <Link color="foreground" isDisabled={isClickDisabled} href={`/read/${slug}${randomHash}/${node.chapterNumber}`} className="ch-links flex gap-1 items-center" isBlock>
                     <span className="text-sm py-1">{`Chapter ${node.chapterNumber}`}</span>
                     
                     {node.releasedAt === 'New' ?
@@ -155,8 +156,8 @@ export default function RecentlyDisplayed({updatesArr}:RecentlyDisplayedProps){
         {totalPages > 1 ?
                 <div className="flex justify-end p-2">
                  
-                 <Button aria-label="Previous button for recently updated" radius="none" onPress={getPrev} isDisabled={curPage === 1} className="flex-1 sm:max-w-[60px]"><FcPrevious color="#4098D7" /></Button>
-                 <Button aria-label="Next button for recently updated" className="flex-1 sm:max-w-[60px]" radius="none" onPress={getNext} isDisabled={curPage === totalPages}><FcNext color="#4098D7"></FcNext></Button>
+                 <Button size="sm" aria-label="Previous button for recently updated" radius="none" onPress={getPrev} isDisabled={curPage === 1} className="flex-1 sm:max-w-[60px]"><FcPrevious color="#4098D7" /></Button>
+                 <Button size="sm" aria-label="Next button for recently updated" className="flex-1 sm:max-w-[60px]" radius="none" onPress={getNext} isDisabled={curPage === totalPages}><FcNext color="#4098D7"></FcNext></Button>
                  
                  
                  </div> : null

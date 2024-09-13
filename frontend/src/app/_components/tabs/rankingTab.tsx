@@ -3,6 +3,7 @@
 import { FaChessKing, FaChessQueen, FaChessRook } from "react-icons/fa"
 import { Link, Tab, Tabs, Divider } from "@nextui-org/react"
 import NextImage from "next/image"
+import { randomHash } from "@/app/_utils/version"
 
 interface RankingTabsProps {
     rankings:any[any],
@@ -45,7 +46,7 @@ export default function RankingTabs ({rankings}:RankingTabsProps) {
                                 {idx + 1}
                             </span>
                         </div>
-                        <Link href={`/read/${wt.slug}`} className="flex w-[80%] rank-details items-center" color="foreground">
+                        <Link href={`/read/${wt.slug}${randomHash}`} className="flex w-[80%] rank-details items-center" color="foreground">
                         
                         <div className="relative w-full h-[80px]">
                             <NextImage src={wt.image} alt={`Cover image of ${wt.name} at rank ${idx}`} fill sizes="(max-width:600px) 15vw, (max-width:1200px) 10vw, 10vw" className="rounded object-cover"
@@ -93,7 +94,7 @@ export default function RankingTabs ({rankings}:RankingTabsProps) {
                                 {idx + 1}
                             </span>
                         </div>
-                        <Link href={`/read/${wt.slug}`} className="flex w-[80%] rank-details items-center" color="foreground">
+                        <Link href={`/read/${wt.slug}${randomHash}`} className="flex w-[80%] rank-details items-center" color="foreground">
                         
                         <div className="relative w-full h-[80px]">
                             <NextImage src={wt.image} alt={`Cover image of ${wt.name} at rank ${idx}`} fill sizes="(max-width:600px) 15vw, (max-width:1200px) 10vw, 10vw" className="rounded object-cover"

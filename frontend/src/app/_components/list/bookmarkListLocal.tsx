@@ -6,6 +6,7 @@ import { Pagination, Button, Link, Divider } from "@nextui-org/react"
 import NextImage from "next/image"
 import { useAuth } from "@/app/_contexts/authContext"
 import ConfirmModal from "../modals/confirmModal"
+import { randomHash } from "@/app/_utils/version"
 
 export default function BookmarkListLocal () {
 
@@ -131,7 +132,7 @@ export default function BookmarkListLocal () {
                                 <Button onPress={() => confirmRemove(bm.url, bm.name)} isDisabled={isPending} radius="none" className="text-foreground mt-2 font-semibold" variant="ghost" color="warning" size="sm" fullWidth>Remove</Button>
                                 </div>
                                 <div className="flex flex-col">
-                                    <Link isDisabled={isPending} href={bm.url} color="foreground" className="font-semibold">
+                                    <Link isDisabled={isPending} href={`${bm.url}${randomHash}`} color="foreground" className="font-semibold">
                                         {bm.name}
                                     </Link>
                                     {/* <div className="my-2">

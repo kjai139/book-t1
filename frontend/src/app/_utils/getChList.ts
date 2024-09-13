@@ -7,8 +7,9 @@ import { dbConnect } from "./db"
 export async function getChList (params:any) {
     unstable_noStore()
     try {
+        const slug = params.wtName.split('-527')[0]
         await dbConnect()
-        const wt = await Wt.findOne({slug: params.wtName })
+        const wt = await Wt.findOne({slug: slug })
         
         const allWtc = await Wtc.find({wtRef: wt._id}).sort({
             chapterNumber: -1

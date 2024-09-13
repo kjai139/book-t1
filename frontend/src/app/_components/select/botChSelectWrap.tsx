@@ -2,6 +2,7 @@
 import ChSelect from "./chSelect"
 import { Button, Link } from "@nextui-org/react"
 import { getChList, getNext, getPrev } from "@/app/_utils/getChList"
+import { GrStatusInfo } from "react-icons/gr"
 
 export default async function BotChSelectDynamicWrap ({params}: {params: any}) {
 
@@ -17,10 +18,10 @@ export default async function BotChSelectDynamicWrap ({params}: {params: any}) {
                     {
                         chList.chList[chList.chList.length - 1].chapterNumber < Number(params.chNum) ?
                         <Button as={Link} href={`/read/${params.wtName}/${getPrev(params.chNum)}`} size="sm" className="text-default-500 font-semibold">
-                            {`< Prev`}
+                            <span className="px-2">{`< Prev`}</span>
                         </Button> :
                         <Button as={Link} href="#" isDisabled size="sm" className="text-default-500 font-semibold">
-                        {`< Prev`}
+                        <span className="px-2">{`< Prev`}</span>
                     </Button> 
 
                         
@@ -29,10 +30,10 @@ export default async function BotChSelectDynamicWrap ({params}: {params: any}) {
                     {
                         chList.chList[0].chapterNumber > Number(params.chNum) ?
                         <Button as={Link} href={`/read/${params.wtName}/${getNext(params.chNum)}`} size="sm" className="text-default-500 font-semibold">
-                            {`Next >`}
+                            <span className="px-2">{`Next >`}</span>
                         </Button>  :
-                        <Button as={Link} href="#" isDisabled size="sm" className="text-default-500 font-semibold">
-                        {`Next >`}
+                        <Button as={Link} variant="light" isIconOnly href={`/read/${params.wtName}`} aria-label="back to index page" size="sm" className="font-semibold" color="primary">
+                        <GrStatusInfo size={24}></GrStatusInfo>
                         </Button> 
 
                     }

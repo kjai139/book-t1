@@ -9,6 +9,7 @@ interface BreadcrumbsProps {
 
 
 export default function BreadCrumbs ({wtUrl, wtcUrl}:BreadcrumbsProps) {
+    const slug = wtUrl?.split('-527')[0]
 
     return (
         <Breadcrumbs size="md" className="bc px-4" itemClasses={{
@@ -18,7 +19,7 @@ export default function BreadCrumbs ({wtUrl, wtcUrl}:BreadcrumbsProps) {
         <BreadcrumbItem href="/read">read</BreadcrumbItem>
         {
             wtUrl && 
-            <BreadcrumbItem href={`/read/${wtUrl}`}>{wtUrl}</BreadcrumbItem> 
+            <BreadcrumbItem href={`/read/${wtUrl}`}>{slug}</BreadcrumbItem> 
         }
         {
             wtcUrl &&
