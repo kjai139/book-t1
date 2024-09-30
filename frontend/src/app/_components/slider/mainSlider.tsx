@@ -8,6 +8,7 @@ import { Button, Link } from '@nextui-org/react'
 import StarsOnly from '../rating/starsDisplayOnly'
 import { GoDotFill } from 'react-icons/go'
 import { FaPlay } from 'react-icons/fa'
+import { randomHash } from '@/app/_utils/version'
 
 
 interface MainDynamicSlideProps {
@@ -189,7 +190,7 @@ export default function MainDynamicSlide ({slideArr}:MainDynamicSlideProps) {
                                     </p>
                                 </span>
                                 <div className='pb-2 mt-2 flex justify-center sm:mt-8 sm:pr-4 sm:justify-end'>
-                                <Button variant='solid' color='default' size='sm' radius='full' aria-label={`Read ${slide.name}`} as={Link} href={`/read/${slide.slug}`} className=' lg:w-[200px] lg:h-[55px] font-semibold lg:text-base' startContent={<FaPlay></FaPlay>}>Start Reading</Button>
+                                <Button variant='solid' color='default' size='sm' radius='full' aria-label={`Read ${slide.name}`} as={Link} href={`/read/${slide.slug}${randomHash}`} className=' lg:w-[200px] lg:h-[55px] font-semibold lg:text-base' startContent={<FaPlay></FaPlay>}>Start Reading</Button>
                                 </div>
                                 </div>
                             </div>
