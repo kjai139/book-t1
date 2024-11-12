@@ -17,15 +17,10 @@ export const dbConnect = async () => {
     
     try {
         if (cached.conn) {
-            console.log('Existing db connection found.')
+            console.log('Db connection found.')
             console.log('total amount of connections:', mongoose.connections.length)
             return cached.conn
-        } /* else {
-            cached.conn = await mongoose.connect(MONGO_DB)
-            console.log('New Db conn connected.')
-            console.log('total amount of connections:', mongoose.connections.length)
-            return cached.conn
-        } */
+        }
         if (!cached.promise) {
             
             cached.promise = mongoose.connect(MONGO_DB).then(mongoose => {

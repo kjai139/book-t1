@@ -1,13 +1,13 @@
 
-import { unstable_noStore } from "next/cache"
 import Wt from "../_models/wt"
 import Wtc from "../_models/wtChapter"
 import { dbConnect } from "./db"
+import { randomHash } from "./version"
 
 export async function getChList (params:any) {
-    unstable_noStore()
+    
     try {
-        const slug = params.wtName.split('-527')[0]
+        const slug = params.wtName.split(randomHash)[0]
         await dbConnect()
         const wt = await Wt.findOne({slug: slug })
         

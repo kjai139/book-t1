@@ -1,11 +1,23 @@
-import NextAuth from "next-auth"
+import NextAuth, { type DefaultSession } from "next-auth"
 import Google from "next-auth/providers/google"
-import type { NextAuthConfig } from "next-auth"
+
+import connectToMongoose from '@/app/_utils/mongoose'
+
+declare module "next-auth" {
+    interface Session {
+        user: {
+            currencyAmt: number
+        } & DefaultSession['user'];
+
+        expires: string;
+        error?: string,
+        errorMessage?: string
+
+    }
+}
 
 
-
-
-export const config = {
+export const { handlers, signIn, signOut, auth } = NextAuth({
     providers: [Google({
         authorization: {
             params: {
@@ -13,44 +25,74 @@ export const config = {
             }
         }
     })],
+    cookies: {
+        sessionToken: {
+            name: '52wt-session-token'
+        }
+    },
     callbacks: {
-        async signIn({user, account}:any) {
-            if (account?.provider === 'google') {
-                /* try {
-                    const userId = await getUserId(user.email)
-                    if (userId) {
-                        user._id = userId
-                        return true
-                    } else {
-                        return false
+        async jwt({ token, account, profile, user }) {
+            try {
+                const isEdge = process.env.NEXT_RUNTIME === 'edge'
+                if (isEdge) {
+                    console.log('[JWT CALLBACK] RUNTIME = ', process.env.NEXT_RUNTIME, 'Returning Token...')
+                    return token
+                } else {
+                    console.log('[JWT CALLBACK] RUNTIME = ', process.env.NEXT_RUNTIME)
+                    const users = (await import("./app/_models/users")).default
+                    await connectToMongoose()
+                    if (user) {
+                        if (!profile || !profile.email) {
+                            console.log('token', token)
+                            console.log('account', account)
+                            console.log('profile', profile)
+                            console.log('user', user)
+                            throw new Error('User does not have an email in profile')
+                        }
+                        const existingUser = await users.findOne({
+                            email: profile.email
+                        })
+
+                        if (!existingUser) {
+                            console.log('User does not exist')
+                            const newUser = await users.create({
+                                email: profile.email
+                            })
+
+                            console.log('NEW USER CREATED:', newUser)
+
+                            token.id = newUser._id
+                        } else {
+                            console.log('User already exists : ', existingUser)
+                            token.id = existingUser._id
+                        }
                     }
-                } catch (err) {
-                    return false
-                } */
-               return true
-            } else {
-                return false
+
+                    return token
+                }
+                
+
+            } catch (err) {
+                console.error(err)
+                token.dbError = true
+                return token
             }
-        
         },
-        async jwt({ token, user, trigger, session}:any) {
-            console.log('JWT CALLBACK INVOKED', trigger)
-            /* if (user) {
-                token.id = user._id
-            }
-            return token */
-            if (trigger === "update" && session?.user?.id) {
-                console.log(session, '****FROM JWT CB*****')
-                token.id = session.user.id
-            }
-            return token
-        },
-        async session({session, token}:any) {
+        async session({ session, token }: any) {
             console.log('SESSION CB INVOKED')
-            session.user.id = token.id
+            if (token.id) {
+                session.user.id = token.id.toString()
+
+            }
+            if (token?.dbError) {
+                return {
+                    ...session,
+                    error: true,
+                    errorMessage: 'Database connection issue, please try relogging / try again later.'
+                }
+            }
             return session
         },
     }
-} satisfies NextAuthConfig
+})
 
-export const { handlers, signIn, signOut, auth } = NextAuth(config)
