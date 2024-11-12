@@ -3,6 +3,7 @@
 import Wt from "./_models/wt"
 import User from "./_models/users"
 import Bookmark from './_models/bookmark'
+import Rating from './_models/rating'
 import { dbConnect } from "./_utils/db"
 import { verifySession } from "./_lib/dal"
 import { deleteSession } from "./_lib/session"
@@ -10,34 +11,35 @@ import { generateRandomName } from "./_utils/generateName"
 import { revalidatePath } from "next/cache"
 import { auth } from "@/auth"
 import { randomHash } from "./_utils/version"
+import { RateWtUserDetails } from "./_components/rating/starRating"
 const bcrypt = require('bcrypt')
 
 
-export async function AddViews (wtName:string) {
-    
+export async function AddViews(wtName: string) {
+
     try {
-        
+
         const slug = wtName.split(randomHash)[0]
         await dbConnect()
-        await Wt.findOneAndUpdate({slug:slug}, {
+        await Wt.findOneAndUpdate({ slug: slug }, {
             $inc: {
                 monthlyViews: 1,
                 totalViews: 1
             }
         })
         console.log('Monthly views + total views updated')
-        
-        
 
-    } catch (err:any) {
+
+
+    } catch (err: any) {
         console.log('Error in inc views serv action', err)
-        
+
     }
-   
+
 }
 
 
-export async function serverVerifyJwt () {
+export async function serverVerifyJwt() {
     try {
         const session = await verifySession()
         if (!session) {
@@ -48,26 +50,26 @@ export async function serverVerifyJwt () {
 
         return session
 
-    } catch (err:any) {
+    } catch (err: any) {
         console.log('SERV ACTION:JWT unauthorized.')
         return null
     }
 }
 
-export async function serverLogUserOut () {
+export async function serverLogUserOut() {
     try {
         deleteSession()
         return {
             message: 'You have logged out successfully.'
         }
-    } catch(err:any) {
+    } catch (err: any) {
         console.error(err)
         return null
     }
 }
 
 
-export async function toggleBookmark(userId:string, wtId: string, url:string) {
+export async function toggleBookmark(userId: string, wtId: string, url: string) {
     try {
         await dbConnect()
         if (!userId) {
@@ -80,7 +82,7 @@ export async function toggleBookmark(userId:string, wtId: string, url:string) {
 
         if (!exisitingBM) {
             const totalBookmarks = await Bookmark.countDocuments({
-                userRef:userId
+                userRef: userId
             })
             if (totalBookmarks === 15) {
                 throw new Error('Reached the bookmark limit, please delete one before trying again.')
@@ -102,16 +104,16 @@ export async function toggleBookmark(userId:string, wtId: string, url:string) {
             return 'deleted'
 
         }
-        
 
-    } catch (err:any) {
+
+    } catch (err: any) {
         console.error(err)
         throw err
     }
 }
 
 
-export async function removeBmDB(bmId:string) {
+export async function removeBmDB(bmId: string) {
     try {
         await dbConnect()
         const result = await Bookmark.deleteOne({
@@ -125,13 +127,13 @@ export async function removeBmDB(bmId:string) {
             return 'ok'
         }
 
-    } catch (err:any) {
+    } catch (err: any) {
         console.error(err)
         throw new Error('An error has occured, please refresh and try again.')
     }
 }
 
-export async function checkUserPrivId(userId:string) {
+export async function checkUserPrivId(userId: string) {
     try {
         await dbConnect()
         const existingUser = await User.findById(userId)
@@ -141,26 +143,26 @@ export async function checkUserPrivId(userId:string) {
             if (existingUser.role !== 'Admin') {
                 const response = {
                     userId: existingUser._id,
-                    role:'User'
+                    role: 'User'
                 }
                 return JSON.parse(JSON.stringify(response))
                 // doing this ensure that there's no fucntions or non immutable properties are not present
             } else if (existingUser.role === 'Admin') {
                 const response = {
                     userId: existingUser._id,
-                    role:'Admin'
+                    role: 'Admin'
                 }
                 return JSON.parse(JSON.stringify(response))
             }
         }
-    } catch (err:any) {
+    } catch (err: any) {
         console.error(err)
         throw err
     }
 }
 
 
-export async function checkUserPriv(userEmail:string) {
+export async function checkUserPriv(userEmail: string) {
     try {
         await dbConnect()
         /* const session = await auth() */
@@ -169,7 +171,7 @@ export async function checkUserPriv(userEmail:string) {
         })
         if (!existingUser) {
             console.log('Could not find user email from database, creating account...')
-            let userName 
+            let userName
             let isUnique = false
             while (!isUnique) {
                 userName = generateRandomName()
@@ -195,7 +197,7 @@ export async function checkUserPriv(userEmail:string) {
             await newUser.save()
             const response = {
                 userId: newUser._id,
-                role:'User'
+                role: 'User'
             }
             return JSON.parse(JSON.stringify(response))
         } else {
@@ -203,39 +205,39 @@ export async function checkUserPriv(userEmail:string) {
                 /* console.log('SESSION FROM SA', session) */
                 const response = {
                     userId: existingUser._id,
-                    role:'User'
+                    role: 'User'
                 }
                 return JSON.parse(JSON.stringify(response))
                 // doing this ensure that there's no fucntions or non immutable properties are not present
             } else if (existingUser.role === 'Admin') {
                 const response = {
                     userId: existingUser._id,
-                    role:'Admin'
+                    role: 'Admin'
                 }
                 return JSON.parse(JSON.stringify(response))
             }
         }
-    } catch (err:any) {
+    } catch (err: any) {
         console.error(err)
         throw err
     }
 }
 
 
-export async function serverGetUserId (email:string) {
+export async function serverGetUserId(email: string) {
     try {
         await dbConnect()
         const normalizedEmail = email.toLowerCase()
         const existingUser = await User.findOne({
             email: normalizedEmail
         })
-     
+
 
         if (existingUser) {
             return existingUser._id
         } else {
             console.log('Could not find user from database, creating account...')
-            let userName 
+            let userName
             let isUnique = false
             while (!isUnique) {
                 userName = generateRandomName()
@@ -267,3 +269,61 @@ export async function serverGetUserId (email:string) {
     }
 }
 
+
+export async function rateWtSa(userDetails: RateWtUserDetails) {
+    try {
+        const session = await auth()
+        const wtId = userDetails.wtId
+        const rating = userDetails.rating
+        const tempId = userDetails.tempId
+        await dbConnect()
+
+        if (session?.user.id) {
+            const hasUserRated = await Rating.findOne({
+                wtRef: wtId,
+                userRef: session.user.id
+            })
+
+            if (hasUserRated) {
+                return 'alreadyVoted'
+            } else {
+                const newRating = new Rating({
+                    wtRef: wtId,
+                    userRef: session.user.id,
+                    rating: Number(rating),
+                    ratedBy: session.user.id
+                })
+
+                await newRating.save()
+                console.log('[rateWt SA] New rating saved by userId', session.user.id)
+                return 'success'
+
+            }
+        } else {
+            //user is on tempId
+            const hasUserRated = await Rating.findOne({ wtRef: wtId, ratedBy: tempId })
+
+            if (hasUserRated) {
+                return 'alreadyVoted'
+            } else {
+                const newRating = new Rating({
+                    wtRef: wtId,
+                    ratedBy: tempId,
+                    rating: Number(rating)
+                })
+
+                await newRating.save()
+                console.log('[rateWt SA] New rating saved by tempId', tempId)
+                return 'success'
+            }
+        }
+
+
+    } catch (err: any) {
+        console.error(err)
+        return false
+    }
+
+
+
+}

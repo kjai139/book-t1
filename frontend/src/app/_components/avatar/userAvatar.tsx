@@ -68,7 +68,7 @@ export default function UserAvatar({session}:any) {
                 </Avatar>
 
             </DropdownTrigger>
-            <DropdownMenu aria-label="User menu actions" disabledKeys={["profile", `${pathname === '/bookmarks' ? 'bookmarks' : null}`]} onAction={(key) => dropdownAction(key)}>
+            <DropdownMenu aria-label="User menu actions" disabledKeys={["profile", `${pathname === '/bookmarks' ? 'bookmarks' : null}`]} onAction={(key) => dropdownAction(key)} className="max-w-[280px] sm:max-w-max">
                 <DropdownItem key={"profile"} textValue={`Signed in as ${session.data.user.email}`}>
                     <p>Signed in as {session.data.user.email}</p>
                 </DropdownItem>

@@ -22,6 +22,10 @@ const RatingSchema = new Schema({
     createdAt: {
         type:Date,
         default: Date.now
+    },
+    userRef: {
+        type:Schema.Types.ObjectId,
+        ref:'User'
     }
 })
 

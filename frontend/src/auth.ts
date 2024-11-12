@@ -1,7 +1,7 @@
 import NextAuth, { type DefaultSession } from "next-auth"
 import Google from "next-auth/providers/google"
-
-import connectToMongoose from '@/app/_utils/mongoose'
+import { dbConnect } from "./app/_utils/db";
+import { generateRandomName } from "./app/_utils/generateName";
 
 declare module "next-auth" {
     interface Session {
@@ -40,7 +40,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
                 } else {
                     console.log('[JWT CALLBACK] RUNTIME = ', process.env.NEXT_RUNTIME)
                     const users = (await import("./app/_models/users")).default
-                    await connectToMongoose()
+                    await dbConnect()
                     if (user) {
                         if (!profile || !profile.email) {
                             console.log('token', token)
@@ -54,12 +54,29 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
                         })
 
                         if (!existingUser) {
-                            console.log('User does not exist')
+                            console.log('[JWT CALLBACK] User does not exist')
+                            let isUnique
+                            let userName
+                            let lcUsername
+                            const dateStr = Date.now()
+                            while (!isUnique) {
+                                userName = generateRandomName()
+                                lcUsername = userName.toLowerCase()
+                                let isNameTaken = await users.findOne({
+                                    lcname: lcUsername
+                                })
+                                if (!isNameTaken) {
+                                    isUnique = true
+                                }
+                            }
                             const newUser = await users.create({
-                                email: profile.email
+                                email: profile.email,
+                                lcname: lcUsername,
+                                name: userName,
+                                password: `temp${dateStr}`
                             })
 
-                            console.log('NEW USER CREATED:', newUser)
+                            console.log('[JWT CALLBACK]NEW USER CREATED:', newUser)
 
                             token.id = newUser._id
                         } else {

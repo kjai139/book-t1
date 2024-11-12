@@ -186,7 +186,7 @@ export default async function WtPage({ params }: any) {
                         {/* <BreadCrumbs wtUrl={wt.wt.name}></BreadCrumbs> */}
                         <div className="flex flex-col w-full sm:flex-row sm:gap-4 gap-4 p-1 z-10">
                             <div className="flex flex-col gap-4 justify-between items-center">
-                                <Image src={wt.wt.image} loading="eager" alt={`Cover image of ${wt.wt.name}`} className="p-2 w-full max-w-[350px] sm:max-w-[240px] sm:shadow aspect-4/3"></Image>
+                                <Image width={300} height='100%' src={wt.wt.image} loading="eager" alt={`Cover image of ${wt.wt.name}`} className="p-2 w-full max-w-[350px] sm:max-w-[240px] sm:shadow"></Image>
                                 <SaveBookmarkBtn image={wt.wt.image} wTstatus={wt.wt.status} wtId={wt.wt._id} wtName={wt.wt.name} wtGenres={wt.wt.genres}></SaveBookmarkBtn>
                             </div>
 
