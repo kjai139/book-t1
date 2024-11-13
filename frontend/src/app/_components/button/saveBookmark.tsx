@@ -6,7 +6,7 @@ import { useEffect, useState, useTransition } from "react"
 import { useAuth } from "@/app/_contexts/authContext"
 import { useSession } from "next-auth/react"
 import { toggleBookmark } from "@/app/actions"
-import { randomHash } from "@/app/_utils/version"
+import { getHref, randomHash } from "@/app/_utils/version"
 
 
 interface BookmarkObj {
@@ -76,7 +76,7 @@ export default function SaveBookmarkBtn ({wtGenres, chNum, image, wTstatus, wtNa
             const storedBookmarks = localStorage.getItem('bookmarks')
             if ( storedBookmarks) {
                 const json:BookmarkObj[] = JSON.parse(storedBookmarks)
-                const isBookmarked = json.some(bm => bm.url === hashlessPath)
+                const isBookmarked = json.some(bm => getHref(bm.url) === pathname)
 
                 if (isBookmarked) {
                     setIsMarked(true)
@@ -100,7 +100,7 @@ export default function SaveBookmarkBtn ({wtGenres, chNum, image, wTstatus, wtNa
             const storedBookmarks = localStorage.getItem('bookmarks')
             if ( storedBookmarks) {
                 const json:BookmarkObj[] = JSON.parse(storedBookmarks)
-                const isBookmarked = json.some(bm => bm.url === pathname || bm.url === hashlessPath)
+                const isBookmarked = json.some(bm => getHref(bm.url) === pathname || bm.url === hashlessPath)
 
                 if (isBookmarked) {
                     setIsMarked(true)
@@ -123,7 +123,7 @@ export default function SaveBookmarkBtn ({wtGenres, chNum, image, wTstatus, wtNa
             let bookmarks:BookmarkObj[] = storedBookmarks ? JSON.parse(storedBookmarks) : []
 
             
-            const existingBm = bookmarks.findIndex(bm => bm.url === hashlessPath || bm.url === pathname)
+            const existingBm = bookmarks.findIndex(bm => bm.url === hashlessPath || getHref(bm.url) === pathname)
             console.log('HASHLESS', hashlessPath, 'path', pathname)
             console.log(existingBm, 'EXISTING BM IDX')
 
@@ -176,7 +176,7 @@ export default function SaveBookmarkBtn ({wtGenres, chNum, image, wTstatus, wtNa
 
     return (
         <>
-        <Button isDisabled={isPending || !isDoneLoading} onPress={toggleBm} startContent={<FaBookmark></FaBookmark>} variant="solid" fullWidth className={`ext-md font-semibold max-w-[350px]`} color={`${isMarked ? 'success' : 'default'}`} aria-label="Add to Bookmark">{isMarked ? 'Bookmarked' : 'Bookmark'}</Button>
+        <Button isDisabled={isPending || !isDoneLoading} onPress={toggleBm} startContent={<FaBookmark></FaBookmark>} variant="solid" fullWidth className={`ext-md font-semibold max-w-[300px]`} color={`${isMarked ? 'success' : 'default'}`} aria-label="Add to Bookmark">{isMarked ? 'Bookmarked' : 'Bookmark'}</Button>
         {errorMsg &&
         <span className="text-xs text-danger">{errorMsg}</span> 
         }

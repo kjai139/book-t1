@@ -201,6 +201,7 @@ export async function checkUserPriv(userEmail: string) {
             }
             return JSON.parse(JSON.stringify(response))
         } else {
+            console.log('[Dashboard] User found in database, checking priv...')
             if (existingUser.role !== 'Admin') {
                 /* console.log('SESSION FROM SA', session) */
                 const response = {

@@ -52,7 +52,7 @@ export default async function BookmarksPage() {
     
     return (
         <main>
-            <div className="w-full p-4 max-w-[1024px]">
+            <div className="w-full p-8 max-w-[1024px]">
                 {
                     oauthSess && oauthSess.user ? 
                     <BookmarkList bookmarksCopy={JSON.parse(JSON.stringify(userBookmarks))}></BookmarkList> :

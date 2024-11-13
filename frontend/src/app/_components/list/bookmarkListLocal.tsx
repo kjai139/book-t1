@@ -6,7 +6,7 @@ import { Pagination, Button, Link, Divider } from "@nextui-org/react"
 import NextImage from "next/image"
 import { useAuth } from "@/app/_contexts/authContext"
 import ConfirmModal from "../modals/confirmModal"
-import { randomHash } from "@/app/_utils/version"
+import { getHref, hashV, randomHash } from "@/app/_utils/version"
 
 export default function BookmarkListLocal () {
 
@@ -121,18 +121,23 @@ export default function BookmarkListLocal () {
             <Pagination className="my-4" total={totalPages} page={currentPage} showControls onChange={setCurrentPage}>
 
             </Pagination>
-            <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+            <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2 mb-8">
                 {bookmarks && bookmarks.map((bm:any, idx) => {
-                    console.log('li keys', bm.url)
+                    const linkHref = getHref(bm.url)
+                    
+                    
                     return (
                         <li key={`bmlocal-${bm.url}`} className="mt-4">
                             <div className="flex">
                                 <div className="mr-4 flex-shrink-0">
-                                <NextImage priority={idx < 3 ? true : false} className="w-[100px] h-auto" unoptimized width={0} height={0} alt={`Cover image of ${bm.name}`} src={bm.image}></NextImage>
+                                <NextImage priority={idx < 3 ? true : false} className="w-[100px] h-auto" unoptimized width={0} height={0} alt={`Cover image of ${bm.name}`} src={bm.image} style={{
+                                    height:'auto',
+                                    width:'100px'
+                                }}></NextImage>
                                 <Button onPress={() => confirmRemove(bm.url, bm.name)} isDisabled={isPending} radius="none" className="text-foreground mt-2 font-semibold" variant="ghost" color="warning" size="sm" fullWidth>Remove</Button>
                                 </div>
                                 <div className="flex flex-col">
-                                    <Link isDisabled={isPending} href={`${bm.url}${randomHash}`} color="foreground" className="font-semibold">
+                                    <Link isDisabled={isPending} href={linkHref} color="foreground" className="font-semibold">
                                         {bm.name}
                                     </Link>
                                     {/* <div className="my-2">
