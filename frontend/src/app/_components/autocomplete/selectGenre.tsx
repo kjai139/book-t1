@@ -1,6 +1,5 @@
 'use client'
 
-import apiUrl from "@/app/_utils/apiEndpoint";
 import {Autocomplete, AutocompleteItem} from "@nextui-org/react";
 import { useEffect, useState } from "react";
 
@@ -12,7 +11,7 @@ export default function SelectGenre ({value, setValue}:any) {
 
     const getGenres = async () => {
         try {
-            const response = await fetch(`${apiUrl}/api/genres/get`, {
+            const response = await fetch(`/api/genres/get`, {
                 method: 'GET',
                 cache: 'no-cache',
 

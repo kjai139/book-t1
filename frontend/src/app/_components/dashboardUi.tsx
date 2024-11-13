@@ -3,7 +3,7 @@
 import { useEffect, useState, useTransition } from "react"
 import UploadTabs from "../_components/tabs/uploadTab"
 import { useAuth } from "../_contexts/authContext"
-import { checkUserPriv, checkUserPrivId } from "../actions"
+import { checkUserPrivOauth, checkUserPrivId } from "../actions"
 import { useSession } from "next-auth/react"
 
 
@@ -17,12 +17,12 @@ export default function DashboardUi ({user}:DashboardUiProps) {
     const [userRole, setUserRole] = useState('')
     const [isPending, startTransition] = useTransition()
     const [ userId, setUserId] = useState('')
-    const { update } = useSession()
+    const { data: session, update } = useSession()
     
 
     /* const sendVerificationEmail = async () => {
         try {
-            const response = await fetch(`${apiUrl}/api/user/verify/send` , {
+            const response = await fetch(`/api/user/verify/send` , {
                 method: 'POST',
                 credentials: 'include'
             })
@@ -36,10 +36,10 @@ export default function DashboardUi ({user}:DashboardUiProps) {
             console.log(err)
         }
     } */
-    const getUserPrivs = async (userEmail:string) => {
+    const getUserPrivsOauth = async () => {
         try {
             
-            const userPriv = await checkUserPriv(userEmail)
+            const userPriv = await checkUserPrivOauth()
             console.log(userPriv)
             if (userPriv.role === 'Admin') {
                 setUserRole('Admin')
@@ -49,6 +49,9 @@ export default function DashboardUi ({user}:DashboardUiProps) {
                 
             }
             setUserId(userPriv.userId)
+          
+
+            
             
         } catch (err:any) {
             console.error(err)
@@ -77,30 +80,32 @@ export default function DashboardUi ({user}:DashboardUiProps) {
 
     useEffect(() => {
         setUser(user)
-        console.log('User from dashboardUI', user)
+        console.log('[DashboardUI]', user)
         
-        if (user._id) {
-            //not oauth
-             
+        if (user && user._id) {
+            //not oauth 
             startTransition(() => {
                 getUserPrivId(user._id)
             })
           
 
-        } else if (!user._id && user.email) {
+        } else if (!user) {
+            //oauth
             startTransition(() => {
-                getUserPrivs(user.email)
+                getUserPrivsOauth()
             })
         }
         
     }, [])
 
     useEffect(() => {
-        if (userId && userId !== user.id) {
+        if (userId && session) {
+            console.log('[DashboardUI UE] Updating session with userId...')
             update({
                 user: {
-                    ...user,
+                    ...session.user,
                     id: userId
+
                 }
             })
         }
@@ -111,8 +116,10 @@ export default function DashboardUi ({user}:DashboardUiProps) {
         
         <div className="w-full p-2 mw">
         <div>
-            <h3 className="font-semibold">Hello, {user.name}</h3>
+            {user && user.name ? <h3 className="font-semibold">Hello, {user.name}</h3> : null}
+            {session && session.user.name ? <h3 className="font-semibold">Hello, {session.user.name}</h3> : null }
             <div>
+            
                 {/* {!user.isVerified &&
                 <span className="text-danger flex flex-col gap-2">
                     <p>Your account has not been verified yet.</p>

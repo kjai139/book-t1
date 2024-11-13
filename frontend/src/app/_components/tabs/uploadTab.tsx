@@ -3,7 +3,6 @@ import {Tabs, Tab, Input, Button, Textarea} from '@nextui-org/react'
 import { useEffect, useState } from 'react'
 import SelectWtcTitle from '../autocomplete/selectTitle'
 import ImageUploader from '../dropzones/imageUploader'
-import apiUrl from '@/app/_utils/apiEndpoint'
 import SelectGenres from '../checkboxes/selectGenres'
 import SelectWtStatus from '../autocomplete/selectStatus'
 

@@ -3,7 +3,6 @@
 
 import { createContext, useContext, useState } from "react";
 import { AuthContextType, AuthProviderProps } from "../_interfaces/auth.interface";
-import apiUrl from "../_utils/apiEndpoint";
 import User from "../_interfaces/user.interface";
 import { usePathname, useRouter } from "next/navigation";
 
@@ -22,7 +21,7 @@ export function AuthProvider ({children}:AuthProviderProps) {
         
             
             try {
-                const response = await fetch(`${apiUrl}/api/auth/check`, {
+                const response = await fetch(`/api/auth/check`, {
                     method: 'GET',
                     credentials: 'include',
                     cache: 'no-cache',
@@ -58,7 +57,7 @@ export function AuthProvider ({children}:AuthProviderProps) {
     //migrated to server action
     const logUserOut = async () => {
         try {
-            const response = await fetch(`${apiUrl}/api/user/logout`, {
+            const response = await fetch(`/api/user/logout`, {
                 method: 'POST',
                 credentials: 'include',
                 cache: 'no-cache'

@@ -1,7 +1,5 @@
 import NextAuth, { type DefaultSession } from "next-auth"
 import Google from "next-auth/providers/google"
-import { dbConnect } from "./app/_utils/db";
-import { generateRandomName } from "./app/_utils/generateName";
 
 declare module "next-auth" {
     interface Session {
@@ -16,8 +14,57 @@ declare module "next-auth" {
     }
 }
 
+/* async function handleNodeOnlyLogic(token:any, account:any, profile:any, user:any) {
+    console.log('[JWT CALLBACK] RUNTIME = Node');
+    const users = (await import("./app/_models/users")).default;
+    await dbConnect();
+    if (user) {
+        if (!profile || !profile.email) {
+            console.log('token', token)
+            console.log('account', account)
+            console.log('profile', profile)
+            console.log('user', user)
+            throw new Error('User does not have an email in profile')
+        }
+        const existingUser = await users.findOne({
+            email: profile.email
+        })
 
-export const { handlers, signIn, signOut, auth } = NextAuth({
+        if (!existingUser) {
+            console.log('[JWT CALLBACK] User does not exist')
+            let isUnique
+            let userName
+            let lcUsername
+            const dateStr = Date.now()
+            while (!isUnique) {
+                userName = generateRandomName()
+                lcUsername = userName.toLowerCase()
+                let isNameTaken = await users.findOne({
+                    lcname: lcUsername
+                })
+                if (!isNameTaken) {
+                    isUnique = true
+                }
+            }
+            const newUser = await users.create({
+                email: profile.email,
+                lcname: lcUsername,
+                name: userName,
+                password: `temp${dateStr}`
+            })
+
+            console.log('[JWT CALLBACK]NEW USER CREATED:', newUser)
+
+            token.id = newUser._id
+        } else {
+            console.log('User already exists : ', existingUser)
+            token.id = existingUser._id
+        }
+    return token;
+} */
+
+
+export const { handlers, signIn, signOut, auth, unstable_update } = NextAuth({
     providers: [Google({
         authorization: {
             params: {
@@ -31,62 +78,25 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         }
     },
     callbacks: {
-        async jwt({ token, account, profile, user }) {
+        async jwt({ token, account, profile, user, trigger, session }) {
             try {
                 const isEdge = process.env.NEXT_RUNTIME === 'edge'
-                if (isEdge) {
+                /* if (isEdge) {
                     console.log('[JWT CALLBACK] RUNTIME = ', process.env.NEXT_RUNTIME, 'Returning Token...')
                     return token
                 } else {
                     console.log('[JWT CALLBACK] RUNTIME = ', process.env.NEXT_RUNTIME)
-                    const users = (await import("./app/_models/users")).default
-                    await dbConnect()
-                    if (user) {
-                        if (!profile || !profile.email) {
-                            console.log('token', token)
-                            console.log('account', account)
-                            console.log('profile', profile)
-                            console.log('user', user)
-                            throw new Error('User does not have an email in profile')
-                        }
-                        const existingUser = await users.findOne({
-                            email: profile.email
-                        })
-
-                        if (!existingUser) {
-                            console.log('[JWT CALLBACK] User does not exist')
-                            let isUnique
-                            let userName
-                            let lcUsername
-                            const dateStr = Date.now()
-                            while (!isUnique) {
-                                userName = generateRandomName()
-                                lcUsername = userName.toLowerCase()
-                                let isNameTaken = await users.findOne({
-                                    lcname: lcUsername
-                                })
-                                if (!isNameTaken) {
-                                    isUnique = true
-                                }
-                            }
-                            const newUser = await users.create({
-                                email: profile.email,
-                                lcname: lcUsername,
-                                name: userName,
-                                password: `temp${dateStr}`
-                            })
-
-                            console.log('[JWT CALLBACK]NEW USER CREATED:', newUser)
-
-                            token.id = newUser._id
-                        } else {
-                            console.log('User already exists : ', existingUser)
-                            token.id = existingUser._id
-                        }
-                    }
-
                     return token
+                } */
+
+                if (trigger === 'update') {
+                    token.id = session.user.id
+                    console.log(`[JWT CALLBACK] token.id = ${session.user.id}`)
                 }
+
+                return token
+
+                
                 
 
             } catch (err) {

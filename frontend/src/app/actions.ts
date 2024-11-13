@@ -9,7 +9,7 @@ import { verifySession } from "./_lib/dal"
 import { deleteSession } from "./_lib/session"
 import { generateRandomName } from "./_utils/generateName"
 import { revalidatePath } from "next/cache"
-import { auth } from "@/auth"
+import { auth, unstable_update } from "@/auth"
 import { randomHash } from "./_utils/version"
 import { RateWtUserDetails } from "./_components/rating/starRating"
 const bcrypt = require('bcrypt')
@@ -134,6 +134,7 @@ export async function removeBmDB(bmId: string) {
 }
 
 export async function checkUserPrivId(userId: string) {
+    //for non oauth log in
     try {
         await dbConnect()
         const existingUser = await User.findById(userId)
@@ -162,12 +163,18 @@ export async function checkUserPrivId(userId: string) {
 }
 
 
-export async function checkUserPriv(userEmail: string) {
+export async function checkUserPrivOauth() {
+    //oauth only
     try {
+        const oauth = await auth()
+        if (!oauth) {
+            console.log('[checkUserPriv SA] User is not logged in via oauth.')
+            return null
+        }
         await dbConnect()
         /* const session = await auth() */
         const existingUser = await User.findOne({
-            email: userEmail
+            email: oauth.user.email
         })
         if (!existingUser) {
             console.log('Could not find user email from database, creating account...')
@@ -190,7 +197,7 @@ export async function checkUserPriv(userEmail: string) {
             const newUser = new User({
                 name: userName,
                 lcname: userName!.toLowerCase(),
-                email: userEmail,
+                email: oauth.user.email,
                 password: hashedPw
             })
 
@@ -199,6 +206,7 @@ export async function checkUserPriv(userEmail: string) {
                 userId: newUser._id,
                 role: 'User'
             }
+            
             return JSON.parse(JSON.stringify(response))
         } else {
             console.log('[Dashboard] User found in database, checking priv...')
@@ -208,6 +216,7 @@ export async function checkUserPriv(userEmail: string) {
                     userId: existingUser._id,
                     role: 'User'
                 }
+                
                 return JSON.parse(JSON.stringify(response))
                 // doing this ensure that there's no fucntions or non immutable properties are not present
             } else if (existingUser.role === 'Admin') {
@@ -215,6 +224,8 @@ export async function checkUserPriv(userEmail: string) {
                     userId: existingUser._id,
                     role: 'Admin'
                 }
+                
+                
                 return JSON.parse(JSON.stringify(response))
             }
         }

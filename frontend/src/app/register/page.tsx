@@ -3,7 +3,6 @@ import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useForm } from 'react-hook-form'
 import { useRouter } from 'next/navigation'
-import apiUrl from '../_utils/apiEndpoint'
 import { useEffect, useState } from 'react'
 import ResultModal from '../_components/modals/resultModal'
 import { Link } from '@nextui-org/react'
@@ -35,7 +34,7 @@ export default function RegisterPage () {
 
     const onSubmit = async (data:any) => {
         try {
-            const response = await fetch(`${apiUrl}/api/user/create`, {
+            const response = await fetch(`/api/user/create`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

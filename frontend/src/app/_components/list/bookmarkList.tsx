@@ -186,7 +186,7 @@ export default function BookmarkList({ bookmarksCopy }: BookmarkListProps) {
                     null
             }
             {
-                bookmarks && bookmarks.length === 0 && isInitiated ?
+                totalPages === 0 && isInitiated ?
                 <div className="flex-col flex">
                 <span className="text-lg">
                     You have no saved bookmarks.

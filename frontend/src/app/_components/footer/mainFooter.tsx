@@ -1,4 +1,4 @@
-import apiUrl from "@/app/_utils/apiEndpoint";
+
 import { Divider, Link } from "@nextui-org/react";
 import SiteData from "@/app/_models/siteData"
 

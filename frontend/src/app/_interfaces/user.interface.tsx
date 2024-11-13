@@ -6,6 +6,7 @@ export default interface User {
     lcname?: string,
     role?: string,
     image?: string,
+    email?:string,
     bio?: string,
     isVerified?: boolean
 }
