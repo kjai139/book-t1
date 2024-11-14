@@ -15,6 +15,8 @@ import ChSelectDynamicWrapper from "@/app/_components/select/selectdWrap";
 import BotChSelectDynamicWrap from "@/app/_components/select/botChSelectWrap";
 import { randomHash } from "@/app/_utils/version";
 
+
+
 export async function generateStaticParams({
     params: { wtName }
 }:{

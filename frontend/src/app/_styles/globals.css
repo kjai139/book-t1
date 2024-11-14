@@ -401,7 +401,11 @@ html {
 .qlabel {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
-  gap:.55rem;
+  gap:1.2rem;
+}
+
+.nextUImgwrap {
+  max-width: 100% !important;
 }
 
 

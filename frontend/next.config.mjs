@@ -9,7 +9,7 @@ const cspHeader = `
         default-src 'self' https://www.google-analytics.com https://c.disquscdn.com https://disqus.com https://www.googletagmanager.com 'unsafe-inline' tagmanager.google.com;
         connect-src https://links.services.disqus.com 'self' localhost:3000 https://www.google-analytics.com;
         frame-src https://disqus.com https://www.google-analytics.com www.google-analytics.com;
-        script-src 'self' ${process.env.NODE_ENV === "production" ? ''  : `'unsafe-eval'` } https://c.disquscdn.com https://52webtoons-com.disqus.com 'unsafe-inline' tagmanager.google.com https://www.googletagmanager.com https://www.google-analytics.com tagmanager.google.com;
+        script-src 'self' ${process.env.NODE_ENV === "production" ? '' : `'unsafe-eval'`} https://c.disquscdn.com https://52webtoons-com.disqus.com 'unsafe-inline' tagmanager.google.com https://www.googletagmanager.com https://www.google-analytics.com tagmanager.google.com;
         style-src 'self' 'unsafe-inline' https://c.disquscdn.com https://www.googletagmanager.com https://fonts.googleapis.com;
         img-src 'self' blob: data: https://c.disquscdn.com https://referrer.disqus.com https://www.google-analytics.com tagmanager.google.com www.google-analytics.com www.googletagmanager.com https://fonts.gstatic.com https://ds0labvtt9av.cloudfront.net https://lh3.googleusercontent.com;
         font-src 'self';
@@ -30,7 +30,7 @@ const nextConfig = {
             },
             {
                 protocol: 'https',
-                hostname:  process.env.NEXT_PUBLIC_S3_URL,
+                hostname: process.env.NEXT_PUBLIC_S3_URL,
                 port: ''
             },
             {
@@ -41,21 +41,21 @@ const nextConfig = {
     },
     compiler: {
         removeConsole:
-        process.env.NODE_ENV === 'production' ? {
-            exclude: ['error']
-        } : false,
+            process.env.NODE_ENV === 'production' ? {
+                exclude: ['error']
+            } : false,
     },
     async headers() {
         return [
             {
                 source: '/(.*)',
                 headers: [
-                  {
-                    key: 'Content-Security-Policy',
-                    value: cspHeader.replace(/\n/g, ''),
-                  },
+                    {
+                        key: 'Content-Security-Policy',
+                        value: cspHeader.replace(/\n/g, ''),
+                    },
                 ],
-              },
+            }
         ]
     }
 };

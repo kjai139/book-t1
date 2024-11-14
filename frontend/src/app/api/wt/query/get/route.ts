@@ -3,6 +3,9 @@ import mongoose from "mongoose";
 import { dbConnect } from "@/app/_utils/db";
 import Wt from "@/app/_models/wt";
 import Wtc from "@/app/_models/wtChapter";
+import { netiflyCache } from "@/app/_lib/netiflyCache";
+
+
 
 
 export async function GET(req:NextRequest) {
@@ -126,11 +129,13 @@ export async function GET(req:NextRequest) {
 
         
 
-        return NextResponse.json({
+        const response =  NextResponse.json({
             wts: updates,
             totalPages: totalPages,
             totalWt: totalWt
         })
+        response.headers.set('Netlify-CDN-Cache-Control', netiflyCache)
+        return response
 
     } catch (err:any) {
         return NextResponse.json({

@@ -6,6 +6,7 @@ import SelectStatusCheckbox from "./checkboxes/selectStatus"
 import { Button, Divider, Link, Pagination } from "@nextui-org/react"
 import { formatDateDMY } from "../_utils/dates"
 import NextImage from "next/image"
+import { GrSort } from "react-icons/gr";
 import StarsOnly from "./rating/starsDisplayOnly"
 import SortByRadio from "./radio/sortByRadio"
 import HotIcon from "./icons/hotIcon"
@@ -13,6 +14,7 @@ import NewIcon from "./icons/newIcon"
 import { useInView } from "./observer/useInView"
 import { useRouter } from "next/navigation"
 import { randomHash } from "../_utils/version"
+import NextUiImg from "./Img/nextUiImg"
 
 interface ViewAllWtProps {
     allGenres: any[]
@@ -44,12 +46,9 @@ export default function ViewallWt ({allGenres}:ViewAllWtProps) {
         setIsLoading(true)
         setIsDisabled(true)
         try {
-            const response = await fetch(`/api/wt/query/get?genres=${encodeURIComponent(JSON.stringify(genres))}&status=${encodeURIComponent(JSON.stringify(status))}&order=${sortBy}&page=${curPg}`, {
-                next: {
-                    revalidate: 900,
-                    tags: ['updateContent']
-                }
-            })
+            const response = await fetch(`/api/wt/query/get?genres=${encodeURIComponent(JSON.stringify(genres))}&status=${encodeURIComponent(JSON.stringify(status))}&order=${sortBy}&page=${curPg}`)
+
+            //setting {next revalidate here} doesnt work because it's only for server side
 
             if (response.ok) {
                 const data = await response.json()
@@ -130,13 +129,13 @@ export default function ViewallWt ({allGenres}:ViewAllWtProps) {
     return (
         <div className="p-2 flex flex-col gap-6 relative">
             
-            <div className="flex flex-col gap-4 p-2">
+            <div className="flex flex-col gap-4 p-1">
            
             <SelectGenres isDisabled={isDisabled} value={genres} setValue={setGenres} allGenres={allGenres}></SelectGenres>
             <SelectStatusCheckbox isDisabled={isDisabled} value={status} setValue={setStatus}></SelectStatusCheckbox>
             <SortByRadio isDisabled={isDisabled} value={sortBy} setValue={setSortBy}></SortByRadio>
-            <div className="justify-end flex">
-            <Button  color="primary" size="sm" onPress={filterSearch} isLoading={isLoading}>Filter</Button>
+            <div className="justify-end flex mt-8">
+            <Button endContent={<GrSort></GrSort>} radius="sm"  color="primary" size="md" onPress={filterSearch} isLoading={isLoading}>Filter</Button>
             </div>
             <Divider className="mt-4"></Divider>
             <div className="justify-start flex flex-col" ref={ref}>
@@ -188,10 +187,13 @@ export default function ViewallWt ({allGenres}:ViewAllWtProps) {
                 <Link href={`/read/${slug}${randomHash}`} isDisabled={isDisabled || isLoading}>
                 <div className="relative w-full min-h-[200px] overflow-hidden">
                 
-                <NextImage src={node.book.image} alt={`Cover image of ${node.book.image}`} unoptimized blurDataURL={node.book.image} placeholder="blur" fill sizes="(max-width:600px) 40vw, (max-width:1200px) 20vw" className="home-c object-cover rounded">
+                {/* <NextImage src={node.book.image} alt={`Cover image of ${node.book.image}`} unoptimized blurDataURL={node.book.image} placeholder="blur" fill sizes="(max-width:600px) 40vw, (max-width:1200px) 20vw" className="home-c object-cover rounded">
 
-                </NextImage>
-                <span className="flex absolute top-1 left-1 gap-1 items-center">
+                </NextImage> */}
+                <NextUiImg url={node.book.image} altName={node.book.name}>
+
+                </NextUiImg>
+                <span className="hIwrap flex absolute top-1 left-1 gap-1 items-center">
                 {node.book?.isHot !== 'No' ? 
                 <HotIcon level={node.book.isHot}></HotIcon>
                 : null

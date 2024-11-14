@@ -7,9 +7,13 @@ export async function GET(req:NextRequest) {
         await dbConnect()
         const allWt = await Wt.find().sort({name: 1})
         
-        return NextResponse.json({
+        
+        const response = NextResponse.json({
             allWt: allWt
         })
+        response.headers.set('Netlify-CDN-Cache-Control', 'public, max-age=120, stale-while-revalidate=120')
+
+        return response
 
     } catch (err:any) {
         return NextResponse.json({

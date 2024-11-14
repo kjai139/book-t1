@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import Wt from "@/app/_models/wt";
 import Genre from "@/app/_models/genre";
 import { dbConnect } from "@/app/_utils/db";
+import { netiflySearchCache } from "@/app/_lib/netiflyCache";
 
 export async function GET(req:NextRequest) {
     const name:any = req.nextUrl.searchParams.get('name')
@@ -28,9 +29,12 @@ export async function GET(req:NextRequest) {
             }
         }).populate({ path:'genres', model: Genre})
 
-        return NextResponse.json({
+        const response = NextResponse.json({
             results: results
         })
+
+        response.headers.set('Netlify-CDN-Cache-Control', netiflySearchCache)
+        return response
     
         
     } catch (err:any) {

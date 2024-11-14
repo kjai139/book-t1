@@ -20,7 +20,7 @@ import { randomHash } from "@/app/_utils/version";
 
 const SideRankingDisplay = dynamic(() => import('@/app/_components/sidebar/sideRankings'))
 
-
+export const revalidate = 300
 
 async function getWts(params: any) {
     console.log('PARAMS IN getWTS:', params)
@@ -190,7 +190,7 @@ export default async function WtPage({ params }: any) {
                                 <SaveBookmarkBtn image={wt.wt.image} wTstatus={wt.wt.status} wtId={wt.wt._id} wtName={wt.wt.name} wtGenres={wt.wt.genres}></SaveBookmarkBtn>
                             </div>
 
-                            <div className="flex flex-col justify-between gap-4 flex-1">
+                            <div className="flex flex-col justify-between gap-4 flex-1 mt-8">
                                 <div className="flex flex-col">
 
                                     <h4 className="p-2 text-sm">

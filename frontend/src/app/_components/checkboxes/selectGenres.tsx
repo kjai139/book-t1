@@ -10,11 +10,12 @@ export default function SelectGenres ({value, setValue, allGenres, isDisabled}:a
 
 
     return (
-       <div className="flex w-full flex-col gap-2">
+       <div className="flex w-full flex-col">
              { allGenres &&
              <>
              <CheckboxGroup
              label="By Genres"
+             className="gap-4"
              color="primary"
              value={value}
              isDisabled={isDisabled}

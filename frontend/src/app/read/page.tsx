@@ -6,6 +6,8 @@ import Genre from "../_models/genre";
 import ServerError from "../_components/serverError";
 
 
+export const revalidate = 120
+
 async function getSearchProps() {
     try {
         await dbConnect()
