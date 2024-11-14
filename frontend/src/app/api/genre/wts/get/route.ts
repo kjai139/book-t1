@@ -133,6 +133,7 @@ export async function GET(req: NextRequest) {
         })
 
         response.headers.set('Netlify-CDN-Cache-Control', netiflyCache)
+        response.headers.set('Netlify-Vary', 'query=slug|page|sort')
         return response
 
     } catch (err:any) {

@@ -34,6 +34,7 @@ export async function GET(req:NextRequest) {
         })
 
         response.headers.set('Netlify-CDN-Cache-Control', netiflySearchCache)
+        response.headers.set('Netlify-Vary', 'query=name')
         return response
     
         

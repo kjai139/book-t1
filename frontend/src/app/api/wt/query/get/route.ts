@@ -135,6 +135,7 @@ export async function GET(req:NextRequest) {
             totalWt: totalWt
         })
         response.headers.set('Netlify-CDN-Cache-Control', netiflyCache)
+        response.headers.set('Netlify-Vary', 'query=genres|status|order|page')
         return response
 
     } catch (err:any) {
