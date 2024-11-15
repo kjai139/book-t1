@@ -4,7 +4,6 @@ import { ThemeSwitcher } from "../themeSwitcher"
 import { Button, Link } from "@nextui-org/react"
 import { getChList, getNext, getPrev } from "@/app/_utils/getChList"
 import { GrStatusInfo } from "react-icons/gr"
-import { GrFormPreviousLink } from "react-icons/gr";
 
 export default async function ChSelectDynamicWrapper ({params}:{params: any}) {
     

@@ -1,10 +1,11 @@
 
+import { cache } from "react"
 import Wt from "../_models/wt"
 import Wtc from "../_models/wtChapter"
 import { dbConnect } from "./db"
 import { randomHash } from "./version"
 
-export async function getChList (params:any) {
+export const getChList = cache( async (params:any) => {
     
     try {
         const slug = params.wtName.split(randomHash)[0]
@@ -29,7 +30,7 @@ export async function getChList (params:any) {
     }
     
     
-}
+})
 
 export const getPrev = (num:string) => {
     const prevNum = Number(num) - 1

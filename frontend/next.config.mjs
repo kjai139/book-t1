@@ -55,6 +55,24 @@ const nextConfig = {
                         value: cspHeader.replace(/\n/g, ''),
                     },
                 ],
+            },
+            {
+                source: '/read/(.*)',
+                headers: [
+                    {
+                        key: 'Netlify-CDN-Cache-Control',
+                        value: 'public, max-age=3600, stale-while-revalidate=120'
+                    }
+                ]
+            },
+            {
+                source: '/',
+                headers: [
+                    {
+                        key: 'Netlify-CDN-Cache-Control',
+                        value: 'public, max-age=3600, stale-while-revalidate=120'
+                    }
+                ]
             }
         ]
     }
