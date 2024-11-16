@@ -11,7 +11,7 @@ import Wt from "@/app/_models/wt";
 import Wtc from "@/app/_models/wtChapter";
 import DisqusComments from "@/app/_components/comments/disqus";
 import dynamic from "next/dynamic";
-import { unstable_noStore } from "next/cache";
+
 import ServerError from "@/app/_components/serverError";
 import NextImage from "next/image";
 import { randomHash } from "@/app/_utils/version";
@@ -20,7 +20,6 @@ import { randomHash } from "@/app/_utils/version";
 
 const SideRankingDisplay = dynamic(() => import('@/app/_components/sidebar/sideRankings'))
 
-export const revalidate = 300
 
 async function getWts(params: any) {
     console.log('PARAMS IN getWTS:', params)
@@ -52,7 +51,7 @@ async function getWts(params: any) {
 
 }
 
-async function getChapterList(params: any) {
+/* async function getChapterList(params: any) {
     unstable_noStore()
     try {
         const slug = params.wtName.split(randomHash)[0]
@@ -68,7 +67,7 @@ async function getChapterList(params: any) {
         console.error(err)
         throw new Error('Error fetching chList')
     }
-}
+} */
 
 export async function generateMetadata({ params }: any) {
 
@@ -98,25 +97,25 @@ export async function generateMetadata({ params }: any) {
 
 
 export default async function WtPage({ params }: any) {
-    /* const wt = await getWts(params) */
-    let wt: any
+    const wt = await getWts(params)
+    /* let wt: any */
     let chList: any
-    const wtPromise = getWts(params)
-    const chListPromise = getChapterList(params)
+    /* const wt = getWts(params) */
+    /* const chListPromise = getChapterList(params)
     try {
 
         [wt, chList] = await Promise.all([wtPromise, chListPromise])
 
     } catch (err) {
         return <ServerError></ServerError>
-    }
+    } */
     /* const [wt, chList] = await Promise.all([wtPromise, chListPromise]) */
 
     /* console.log('RANKINGS: IN WTPAGE', rankings) */
 
     /* console.log('WTPAGE wt:', wt) */
     if (!wt) {
-        notFound()
+        return <ServerError></ServerError>
     }
 
 
@@ -249,7 +248,7 @@ export default async function WtPage({ params }: any) {
                             <h3 className="font-semibold">{`Chapters for ${wt.wt.name}`}</h3>
                             <Divider className="mt-4"></Divider>
                         </div>
-                        <ChList chs={chList.totalCh} curSlug={params.wtName}></ChList>
+                        <ChList wtId={wt.wt._id} curSlug={params.wtName}></ChList>
 
 
 

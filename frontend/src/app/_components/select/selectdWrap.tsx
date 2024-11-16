@@ -4,9 +4,10 @@ import { ThemeSwitcher } from "../themeSwitcher"
 import { Button, Link } from "@nextui-org/react"
 import { getChList, getNext, getPrev } from "@/app/_utils/getChList"
 import { GrStatusInfo } from "react-icons/gr"
+import { unstable_noStore } from "next/cache"
 
 export default async function ChSelectDynamicWrapper ({params}:{params: any}) {
-    
+    unstable_noStore()
     const chList = await getChList(params)
     const btnVariant = 'solid'
     const btnSize = 'sm'

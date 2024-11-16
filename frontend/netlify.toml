@@ -1,9 +1,1 @@
-[[headers]]
-  for = "/"
-  [headers.values]
-    Netlify-CDN-Cache-Control = "public, max-age=14400, stale-while-revalidate=120"
 
-[[headers]]
-  for = "/read/*/*"
-  [headers.values]
-    Netlify-CDN-Cache-Control = "public, max-age=14400, must-revalidate"

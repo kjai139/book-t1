@@ -2,26 +2,47 @@
 
 import { Link } from "@nextui-org/react"
 import { formatDateDMY } from "@/app/_utils/dates"
-
+import { randomHash } from "@/app/_utils/version"
+import Wt from "@/app/_models/wt"
+import Wtc from "@/app/_models/wtChapter"
+import { unstable_noStore } from "next/cache"
 
 
 interface ChListProps{
-    chs: [],
+    /* chs: [], */
     curSlug: string,
+    wtId:string
 }
 
 
+async function getChapterList(wtId:string) {
+    try {
+        /* const slug = wtName.split(randomHash)[0]
+        const wt = await Wt.findOne({ slug: slug }) */
+        const totalCh = await Wtc.find({ wtRef: wtId }).sort({ chapterNumber: -1 })
+
+        const json = {
+            totalCh: totalCh
+        }
+
+        return JSON.parse(JSON.stringify(json))
+    } catch (err) {
+        console.error(err)
+        throw new Error('Error fetching chList')
+    }
+}
 
 
-export default function ChList ({chs, curSlug}:ChListProps) {
+export default async function ChList ({wtId, curSlug}:ChListProps) {
    
-
-
+    unstable_noStore()
+    const chs = await getChapterList(wtId)
+    
 
     return (
         <div className="flex flex-col chList-cont max-h-[300px] overflow-y-auto w-full max-w-[630px] mb-4">
             <ul className="grid grid-cols-1 gap-2 auto-rows-auto px-2">
-                {chs && chs.map((ch:any) => {
+                {chs && chs.totalCh && chs.totalCh.map((ch:any) => {
                     return (
                         <li key={ch._id} aria-label={`Chapter ${ch.chapterNumber}`}>
                             <div>
