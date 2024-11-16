@@ -16,7 +16,7 @@ import BotChSelectDynamicWrap from "@/app/_components/select/botChSelectWrap";
 import { randomHash } from "@/app/_utils/version";
 
 
-export const revalidate = 300
+export const revalidate = 0
 
 
 export async function generateStaticParams({
