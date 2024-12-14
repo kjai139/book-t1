@@ -24,7 +24,7 @@ export async function generateStaticParams() {
         })
 
     } catch (err) {
-        console.error(err)
+        console.error('[generateStatic wtName] Error', err)
         return []
     }
    

@@ -26,7 +26,7 @@ export async function generateStaticParams({
     try {
         const slug = wtName.split(randomHash)[0]
         await dbConnect()
-        /* console.log('PARAMS IN WT PAGE GENERATESTATIC', wtName) */
+        console.log('PARAMS IN WT PAGE GENERATESTATIC', wtName)
         const wt = await Wt.findOne({slug: slug })
         if (!wt) {
             return null
