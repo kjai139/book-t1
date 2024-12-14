@@ -4,7 +4,7 @@ import Wtc from "@/app/_models/wtChapter"
 import { dbConnect } from "@/app/_utils/db"
 import { cache } from "react"
 import { formatDateDMY } from "@/app/_utils/dates"
-
+import { unstable_noStore } from "next/cache"
 
 
 const GetRecentlyUpdated = cache(async () => {
@@ -108,6 +108,7 @@ const GetRecentlyUpdated = cache(async () => {
 })
 
 export default async function RecentlyUpdatedWrapper () {
+    unstable_noStore()
     const updates = await GetRecentlyUpdated()
  
     updates.updates = updates.updates.map((node:any) => {

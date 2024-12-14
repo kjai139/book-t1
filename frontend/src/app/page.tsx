@@ -7,7 +7,7 @@ import SliderWrapper from "./_components/wrapper/sliderWrapper"
 const RankingDisplay = dynamic(() => import('./_components/footer/ranking'))
 
 
-export const revalidate = 300
+
 
 
 export default async function Home() {
