@@ -55,6 +55,15 @@ const nextConfig = {
                         value: cspHeader.replace(/\n/g, ''),
                     },
                 ],
+            },
+            {
+                source: '/',
+                headers: [
+                    {
+                        key:'Cache-Control',
+                        value: 'public, max-age=600, stale-while-revalidate=120'
+                    }
+                ]
             }
             
         ]

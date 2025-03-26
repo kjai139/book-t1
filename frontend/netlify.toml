@@ -1,5 +1,0 @@
-[[headers]]
-    for = "/"
-    [headers.values]
-        Netlify-CDN-Cache-Control = "public, max-age=600, stale-while-revalidate=120"
-        Cache-Control = "public, max-age=0, must-revalidate, no-store"
