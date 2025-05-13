@@ -64,6 +64,15 @@ const nextConfig = {
                         value: 'public, max-age=600'
                     }
                 ]
+            },
+            {
+                source: '/read/:wtName/:chNum',
+                headers: [
+                    {
+                        key:'Cache-Control',
+                        value: 'public, max-age=2592000'
+                    }
+                ]
             }
             
         ]
